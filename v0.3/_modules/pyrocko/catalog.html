@@ -157,7 +157,7 @@
 
         <span class="n">ipage</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">while</span> <span class="k">True</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;http://geofon.gfz-potsdam.de/db/eqinfo.php?&#39;</span> <span class="o">+</span> <span class="s">&#39;&amp;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;http://geofon.gfz-potsdam.de/eqinfo/list.php?&#39;</span> <span class="o">+</span> <span class="s">&#39;&amp;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
                 <span class="s">&#39;page=%i&#39;</span> <span class="o">%</span> <span class="n">ipage</span><span class="p">,</span>
                 <span class="s">&#39;datemin=%s&#39;</span> <span class="o">%</span> <span class="n">dmin</span><span class="p">,</span>
                 <span class="s">&#39;datemax=%s&#39;</span> <span class="o">%</span> <span class="n">dmax</span><span class="p">,</span>
@@ -188,26 +188,31 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;In Geofon.get_event(&quot;%s&quot;)&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://geofon.gfz-potsdam.de/db/eqpage.php?id=%s&#39;</span> <span class="o">%</span> <span class="n">name</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://geofon.gfz-potsdam.de/eqinfo/event.php?id=%s&#39;</span> <span class="o">%</span> <span class="n">name</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Opening URL: %s&#39;</span> <span class="o">%</span> <span class="n">url</span><span class="p">)</span>
             <span class="n">page</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Received page (%i bytes)&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">page</span><span class="p">))</span>
 
-            <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_event_page</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
-            <span class="n">ev</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span>
-                <span class="n">lat</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;epicenter&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
-                <span class="n">lon</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;epicenter&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
-                <span class="n">time</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;time&#39;</span><span class="p">],</span>
-                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-                <span class="n">depth</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;depth&#39;</span><span class="p">],</span>
-                <span class="n">magnitude</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;magnitude&#39;</span><span class="p">],</span>
-                <span class="n">region</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;region&#39;</span><span class="p">],</span>
-                <span class="n">catalog</span><span class="o">=</span><span class="s">&#39;GEOFON&#39;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_event_page</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;have_moment_tensor&#39;</span><span class="p">]:</span>
-                <span class="n">ev</span><span class="o">.</span><span class="n">moment_tensor</span> <span class="o">=</span> <span class="k">True</span>
+                <span class="n">ev</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span>
+                    <span class="n">lat</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;epicenter&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">lon</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;epicenter&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">time</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;time&#39;</span><span class="p">],</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">depth</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;depth&#39;</span><span class="p">],</span>
+                    <span class="n">magnitude</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;magnitude&#39;</span><span class="p">],</span>
+                    <span class="n">region</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;region&#39;</span><span class="p">],</span>
+                    <span class="n">catalog</span><span class="o">=</span><span class="s">&#39;GEOFON&#39;</span><span class="p">)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">ev</span>
+                <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;have_moment_tensor&#39;</span><span class="p">]:</span>
+                    <span class="n">ev</span><span class="o">.</span><span class="n">moment_tensor</span> <span class="o">=</span> <span class="k">True</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">ev</span>
+
+            <span class="k">except</span> <span class="n">NotFound</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">NotFound</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>  <span class="c"># reraise with url</span>
 
         <span class="n">ev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
 
@@ -346,6 +351,10 @@
                         <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">wanted_map</span><span class="p">[</span><span class="n">k</span><span class="p">](</span><span class="n">v</span><span class="p">)</span>
 
         <span class="n">d</span><span class="p">[</span><span class="s">&#39;have_moment_tensor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;Moment tensor solution&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">wanted_map</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">NotFound</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">d</span></div>
 
@@ -671,12 +680,15 @@
 
 
 <div class="viewcode-block" id="NotFound"><a class="viewcode-back" href="../../reference_catalog.html#pyrocko.catalog.NotFound">[docs]</a><span class="k">class</span> <span class="nc">NotFound</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
         <span class="ne">Exception</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_url</span> <span class="o">=</span> <span class="n">url</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">&#39;No results for request %s&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_url</span></div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_url</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&#39;No results for request %s&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_url</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&#39;No results for request&#39;</span></div>
 
 
 <div class="viewcode-block" id="ws_request"><a class="viewcode-back" href="../../reference_catalog.html#pyrocko.catalog.ws_request">[docs]</a><span class="k">def</span> <span class="nf">ws_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="k">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>

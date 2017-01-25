@@ -819,6 +819,12 @@
 
 
 <div class="viewcode-block" id="positive_region"><a class="viewcode-back" href="../../reference_orthodrome.html#pyrocko.orthodrome.positive_region">[docs]</a><span class="k">def</span> <span class="nf">positive_region</span><span class="p">(</span><span class="n">region</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Normalize parameterization of a rectangular geographical region.</span>
+
+<span class="sd">    :param region: ``(west, east, south, north)``</span>
+<span class="sd">    :returns: ``(west, east, south, north)``, where ``west &lt;= east`` and</span>
+<span class="sd">        where ``west`` and ``east`` are in the range ``[-180., 180.+360.[``</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">west</span><span class="p">,</span> <span class="n">east</span><span class="p">,</span> <span class="n">south</span><span class="p">,</span> <span class="n">north</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">region</span><span class="p">]</span>
 
     <span class="k">assert</span> <span class="o">-</span><span class="mf">180.</span> <span class="o">-</span> <span class="mf">360.</span> <span class="o">&lt;=</span> <span class="n">west</span> <span class="o">&lt;</span> <span class="mf">180.</span>
@@ -836,12 +842,48 @@
     <span class="k">return</span> <span class="p">(</span><span class="n">west</span><span class="p">,</span> <span class="n">east</span><span class="p">,</span> <span class="n">south</span><span class="p">,</span> <span class="n">north</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="points_in_region"><a class="viewcode-back" href="../../reference_orthodrome.html#pyrocko.orthodrome.points_in_region">[docs]</a><span class="k">def</span> <span class="nf">points_in_region</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">region</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Check what points are contained in a rectangular geographical region.</span>
+
+<span class="sd">    :param p: NumPy array of shape ``(N, 2)`` where each row is a</span>
+<span class="sd">        ``(lat, lon)`` pair [deg]</span>
+<span class="sd">    :param region: ``(west, east, south, north)`` [deg]</span>
+<span class="sd">    :returns: NumPy array of shape ``(N)``, type ``bool``</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">w</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">positive_region</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">num</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span>
+        <span class="n">num</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">s</span> <span class="o">&lt;=</span> <span class="n">p</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">),</span>
+        <span class="n">num</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span>
+            <span class="n">num</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">w</span> <span class="o">&lt;=</span> <span class="n">p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">e</span><span class="p">),</span>
+            <span class="n">num</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">w</span><span class="o">-</span><span class="mf">360.</span> <span class="o">&lt;=</span> <span class="n">p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">e</span><span class="o">-</span><span class="mf">360.</span><span class="p">)))</span></div>
+
+
+<div class="viewcode-block" id="point_in_region"><a class="viewcode-back" href="../../reference_orthodrome.html#pyrocko.orthodrome.point_in_region">[docs]</a><span class="k">def</span> <span class="nf">point_in_region</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">region</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Check if a point is contained in a rectangular geographical region.</span>
+
+<span class="sd">    :param p: ``(lat, lon)`` [deg]</span>
+<span class="sd">    :param region: ``(west, east, south, north)`` [deg]</span>
+<span class="sd">    :returns: ``bool``</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">w</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">positive_region</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">num</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span>
+        <span class="n">num</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">s</span> <span class="o">&lt;=</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">),</span>
+        <span class="n">num</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span>
+            <span class="n">num</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">w</span> <span class="o">&lt;=</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">e</span><span class="p">),</span>
+            <span class="n">num</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">w</span><span class="o">-</span><span class="mf">360.</span> <span class="o">&lt;=</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">e</span><span class="o">-</span><span class="mf">360.</span><span class="p">)))</span></div>
+
+
 <div class="viewcode-block" id="radius_to_region"><a class="viewcode-back" href="../../reference_orthodrome.html#pyrocko.orthodrome.radius_to_region">[docs]</a><span class="k">def</span> <span class="nf">radius_to_region</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">radius</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    :param lat:</span>
-<span class="sd">    :param lon:</span>
-<span class="sd">    :param radius:</span>
-<span class="sd">    :return:</span>
+<span class="sd">    Get a rectangular region which fully contains a given circular region.</span>
+
+<span class="sd">    :param lat,lon: center of circular region [deg]</span>
+<span class="sd">    :param radius: radius of circular region [m]</span>
+<span class="sd">    :return: rectangular region as ``(east, west, south, north)`` [deg]</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">radius_deg</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">m2d</span>
     <span class="k">if</span> <span class="n">radius_deg</span> <span class="o">&lt;</span> <span class="mf">45.</span><span class="p">:</span>

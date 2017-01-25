@@ -301,6 +301,8 @@ two cases the final state of the filter is returned instead of
 times. If allow_upsample_max is set to a value larger than 1,
 intermediate upsampling steps are allowed, in order to increase the
 number of possible downsampling ratios.</p>
+<p>If the requested ratio is not supported, an exception of type
+<a class="reference internal" href="reference_util.html#pyrocko.util.UnavailableDecimation" title="pyrocko.util.UnavailableDecimation"><code class="xref py py-exc docutils literal"><span class="pre">pyrocko.util.UnavailableDecimation</span></code></a> is raised.</p>
 </dd></dl>
 
 <dl class="method">
@@ -889,6 +891,30 @@ values.</li>
 </dd></dl>
 
 <dl class="function">
+<dt id="pyrocko.trace.rotate_to_lqt">
+<code class="descname">rotate_to_lqt</code><span class="sig-paren">(</span><em>traces</em>, <em>backazimuth</em>, <em>incidence</em>, <em>in_channels</em>, <em>out_channels=('L'</em>, <em>'Q'</em>, <em>'T')</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrocko/trace.html#rotate_to_lqt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.rotate_to_lqt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate traces from ZNE to LQT system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>traces</strong> &#8211; list of traces in arbitrary order</li>
+<li><strong>backazimuth</strong> &#8211; backazimuth in degrees clockwise from north</li>
+<li><strong>incidence</strong> &#8211; incidence angle in degrees from vertical</li>
+<li><strong>in_channels</strong> &#8211; input channel names</li>
+<li><strong>out_channels</strong> &#8211; output channel names (default: (&#8216;L&#8217;, &#8216;Q&#8217;, &#8216;T&#8217;))</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of transformed traces</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="pyrocko.trace.project">
 <code class="descname">project</code><span class="sig-paren">(</span><em>traces</em>, <em>matrix</em>, <em>in_channels</em>, <em>out_channels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrocko/trace.html#project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Affine transform of three-component traces.</p>
@@ -1113,8 +1139,7 @@ function.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>respfile</strong> &#8211; response file or directory containing response files in
-evalresp format</li>
+<li><strong>respfile</strong> &#8211; response file in evalresp format</li>
 <li><strong>trace</strong> &#8211; trace for which the response is to be extracted from the file</li>
 <li><strong>target</strong> &#8211; <code class="docutils literal"><span class="pre">'dis'</span></code> for displacement or <code class="docutils literal"><span class="pre">'vel'</span></code> for velocity</li>
 </ul>

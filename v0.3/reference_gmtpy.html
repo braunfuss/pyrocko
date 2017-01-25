@@ -29,6 +29,7 @@
           href="_static/opensearch.xml"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="The tectonics Module" href="reference_tectonics.html" />
     <link rel="prev" title="The plot Module" href="reference_plot.html" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <link rel="shortcut icon" type="image/png" href="_static/favicon.png" />
@@ -722,7 +723,7 @@ counted from zero.</p>
 
 <dl class="class">
 <dt id="pyrocko.gmtpy.GMT">
-<em class="property">class </em><code class="descname">GMT</code><span class="sig-paren">(</span><em>config=None</em>, <em>kontinue=None</em>, <em>version='newest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrocko/gmtpy.html#GMT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.gmtpy.GMT" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">GMT</code><span class="sig-paren">(</span><em>config=None</em>, <em>kontinue=None</em>, <em>version='newest'</em>, <em>config_papersize=None</em>, <em>eps_mode=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrocko/gmtpy.html#GMT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.gmtpy.GMT" title="Permalink to this definition">¶</a></dt>
 <dd><p>A thin wrapper to GMT command execution.</p>
 <p>A dict <code class="docutils literal"><span class="pre">config</span></code> may be given to override some of the default GMT
 parameters. The <code class="docutils literal"><span class="pre">version</span></code> argument may be used to select a specific GMT
@@ -860,15 +861,19 @@ option to the command.</td>
 
 <dl class="method">
 <dt id="pyrocko.gmtpy.GMT.save">
-<code class="descname">save</code><span class="sig-paren">(</span><em>filename=None</em>, <em>bbox=None</em>, <em>raster_dpi=150</em>, <em>raster_antialias=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrocko/gmtpy.html#GMT.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.gmtpy.GMT.save" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save</code><span class="sig-paren">(</span><em>filename=None</em>, <em>bbox=None</em>, <em>resolution=150</em>, <em>oversample=2.0</em>, <em>width=None</em>, <em>height=None</em>, <em>size=None</em>, <em>crop_eps_mode=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrocko/gmtpy.html#GMT.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.gmtpy.GMT.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Finish and save figure as PDF, PS or PPM file.</p>
 <p>If filename ends with <code class="docutils literal"><span class="pre">'.pdf'</span></code> a PDF file is created by piping the
-GMT output through <strong class="program">epstopdf</strong>.</p>
-<p>If filename ends with <code class="docutils literal"><span class="pre">'.ppm'</span></code> a PPM file is created by running
-<strong class="program">epstopdf</strong> and <strong class="program">pdftoppm</strong>. <code class="docutils literal"><span class="pre">raster_dpi</span></code>
-specifies the resolution, which is passed to <strong class="program">pdftoppm</strong>.</p>
-<p>The bounding box is set according to the values given in
-<code class="docutils literal"><span class="pre">bbox</span></code>.</p>
+GMT output through <strong class="program">gmtpy-epstopdf</strong>.</p>
+<p>If filename ends with <code class="docutils literal"><span class="pre">'.png'</span></code> a PNG file is created by running
+<strong class="program">gmtpy-epstopdf</strong>, <strong class="program">pdftocairo</strong> and
+<strong class="program">convert</strong>. <code class="docutils literal"><span class="pre">resolution</span></code> specifies the resolution in DPI for
+raster file formats. Rasterization is done at a higher resolution if
+<code class="docutils literal"><span class="pre">oversample</span></code> is set to a value higher than one. The output image size
+can also be controlled by setting <code class="docutils literal"><span class="pre">width</span></code>, <code class="docutils literal"><span class="pre">height</span></code> or <code class="docutils literal"><span class="pre">size</span></code>
+instead of <code class="docutils literal"><span class="pre">resolution</span></code>. When <code class="docutils literal"><span class="pre">size</span></code> is given, the image is scaled
+so that <code class="docutils literal"><span class="pre">max(width,</span> <span class="pre">height)</span> <span class="pre">==</span> <span class="pre">size</span></code>.</p>
+<p>The bounding box is set according to the values given in <code class="docutils literal"><span class="pre">bbox</span></code>.</p>
 </dd></dl>
 
 <dl class="method">
@@ -932,6 +937,9 @@ instance is returned. The top-level layout can be accessed by calling
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="reference_tectonics.html" title="The tectonics Module"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="reference_plot.html" title="The plot Module"
              accesskey="P">previous</a> |</li>

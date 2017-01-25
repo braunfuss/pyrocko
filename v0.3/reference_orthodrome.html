@@ -622,23 +622,78 @@ e &amp;= D_{AB} \cdot \sin( \frac{\pi }{180} \varphi_{                          
 <dl class="function">
 <dt id="pyrocko.orthodrome.positive_region">
 <code class="descname">positive_region</code><span class="sig-paren">(</span><em>region</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrocko/orthodrome.html#positive_region"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.positive_region" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Normalize parameterization of a rectangular geographical region.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>region</strong> &#8211; <code class="docutils literal"><span class="pre">(west,</span> <span class="pre">east,</span> <span class="pre">south,</span> <span class="pre">north)</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">(west,</span> <span class="pre">east,</span> <span class="pre">south,</span> <span class="pre">north)</span></code>, where <code class="docutils literal"><span class="pre">west</span> <span class="pre">&lt;=</span> <span class="pre">east</span></code> and
+where <code class="docutils literal"><span class="pre">west</span></code> and <code class="docutils literal"><span class="pre">east</span></code> are in the range <code class="docutils literal"><span class="pre">[-180.,</span> <span class="pre">180.+360.[</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
-<dt id="pyrocko.orthodrome.radius_to_region">
-<code class="descname">radius_to_region</code><span class="sig-paren">(</span><em>lat</em>, <em>lon</em>, <em>radius</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrocko/orthodrome.html#radius_to_region"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.radius_to_region" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dt id="pyrocko.orthodrome.points_in_region">
+<code class="descname">points_in_region</code><span class="sig-paren">(</span><em>p</em>, <em>region</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrocko/orthodrome.html#points_in_region"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.points_in_region" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check what points are contained in a rectangular geographical region.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>lat</strong> &#8211; </li>
-<li><strong>lon</strong> &#8211; </li>
-<li><strong>radius</strong> &#8211; </li>
+<li><strong>p</strong> &#8211; NumPy array of shape <code class="docutils literal"><span class="pre">(N,</span> <span class="pre">2)</span></code> where each row is a
+<code class="docutils literal"><span class="pre">(lat,</span> <span class="pre">lon)</span></code> pair [deg]</li>
+<li><strong>region</strong> &#8211; <code class="docutils literal"><span class="pre">(west,</span> <span class="pre">east,</span> <span class="pre">south,</span> <span class="pre">north)</span></code> [deg]</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">NumPy array of shape <code class="docutils literal"><span class="pre">(N)</span></code>, type <code class="docutils literal"><span class="pre">bool</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.point_in_region">
+<code class="descname">point_in_region</code><span class="sig-paren">(</span><em>p</em>, <em>region</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrocko/orthodrome.html#point_in_region"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.point_in_region" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a point is contained in a rectangular geographical region.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>p</strong> &#8211; <code class="docutils literal"><span class="pre">(lat,</span> <span class="pre">lon)</span></code> [deg]</li>
+<li><strong>region</strong> &#8211; <code class="docutils literal"><span class="pre">(west,</span> <span class="pre">east,</span> <span class="pre">south,</span> <span class="pre">north)</span></code> [deg]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">bool</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.radius_to_region">
+<code class="descname">radius_to_region</code><span class="sig-paren">(</span><em>lat</em>, <em>lon</em>, <em>radius</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrocko/orthodrome.html#radius_to_region"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.radius_to_region" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a rectangular region which fully contains a given circular region.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>lat</strong><strong>,</strong><strong>lon</strong> &#8211; center of circular region [deg]</li>
+<li><strong>radius</strong> &#8211; radius of circular region [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">rectangular region as <code class="docutils literal"><span class="pre">(east,</span> <span class="pre">west,</span> <span class="pre">south,</span> <span class="pre">north)</span></code> [deg]</p>
 </td>
 </tr>
 </tbody>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fomosto backends &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Library" href="library.html" />
+    <link rel="prev" title="Fomosto tutorial" href="apps_fomosto_tutorial.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="apps.html" >Contained applications</a> &#187;</li>
+          <li><a href="apps_fomosto.html" accesskey="U">Fomosto</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fomosto-backends">
+<h1>Fomosto backends<a class="headerlink" href="#fomosto-backends" title="Permalink to this headline">¶</a></h1>
+<p>The Fomosto tool relies on external programs to do the actual numerical work of
+Green&#8217;s function computation. We refer to these programs (together with the
+code to communicate between Fomosto and the external programs) as <em>backends</em>.
+Several such backends exist and this document should give some
+hints on which one to use under what circumstances.</p>
+<div class="section" id="the-ahfullgreen-backend">
+<h2>The <code class="docutils literal"><span class="pre">ahfullgreen</span></code> backend<a class="headerlink" href="#the-ahfullgreen-backend" title="Permalink to this headline">¶</a></h2>
+<p>This backend can be used to evaluate the elastodynamic response of a
+homogeneous fullspace. Analytical solutions, given e.g. in <a class="reference internal" href="#akirichards2002" id="id1">[AkiRichards2002]</a>,
+are evaluated in the frequency domain and transformed into time domain via FFT.
+It is possible to use single force and moment tensor excitations. The solutions
+include near, intermediate, and far field contributions, including also the
+static end value in the near field.</p>
+<p>With its limitation to a homogeneous full space this backend is probably only
+useful for some special case applications, e.g. in mining seismology, to gain
+theoretical understanding, and for testing purposes.</p>
+<p>This backend is included in Pyrocko and no external programs are needed.</p>
+<p>To initialize a Green&#8217;s function store for <code class="docutils literal"><span class="pre">ahfullgreen</span></code>, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto init ahfullgreen my_ahfullgreen_gfs
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-qseis-backend">
+<h2>The <code class="docutils literal"><span class="pre">qseis</span></code> backend<a class="headerlink" href="#the-qseis-backend" title="Permalink to this headline">¶</a></h2>
+<p>QSEIS is a code to calculate synthetic seismograms based on a layered
+viscoelastic half-space model. It has been written by Rongjiang Wang
+<a class="reference internal" href="#wang1999" id="id2">[Wang1999]</a>. It uses the orthonormal propagator algorithm, a numerically more
+stable alternative to the reflectivity method. QSEIS uses many state-of-the-art
+techniques to supress time-domain aliasing problems and numerical phases.
+Synthetic seismograms at up to teleseismic distances can be computed by using
+the earth flattening transformation (with some restrictions). Different shallow
+structures can be defined for source and receiver site (body-wave phases only).</p>
+<p>Use this backend for local and regional setups, or when different source and
+receiver structures should be considered. It can also be used to compute single
+force excitation Green&#8217;s functions.</p>
+<p>The current version of QSEIS is <code class="docutils literal"><span class="pre">2006a</span></code> (at the time of writing, 2017-01-25),
+and can be downloaded from <a class="reference external" href="https://github.com/pyrocko/fomosto-qseis">https://github.com/pyrocko/fomosto-qseis</a> .</p>
+<p>After downloading and installing, to initialize a Green&#8217;s function store
+to be built with QSEIS, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto init qseis.2006a my_qseis_gfs
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-qssp-backend">
+<h2>The <code class="docutils literal"><span class="pre">qssp</span></code> backend<a class="headerlink" href="#the-qssp-backend" title="Permalink to this headline">¶</a></h2>
+<p>QSSP is a code to calculate complete synthetic seismograms of a layered,
+self-gravitating spherical Earth using the normal mode theory. It has been
+written by Rongjiang Wang <a class="reference internal" href="#wang2017" id="id3">[Wang2017]</a>. It uses a hybrid algorithm with
+numerical integration at low frequencies and orthonormal propagator algorithm
+at high frequencies and uses state-of-the-art techniques to supress time- and
+space-domain aliasing problems and numerical phases.</p>
+<p>This backend is the choice when global seismograms at very low (first
+eigenmodes) or very high frequencies (4 Hz has been tested) are desired, when
+core phases are involved or when the coupling of earth and atmosphere is of
+interest.</p>
+<p>The current version of QSSP is <code class="docutils literal"><span class="pre">2010</span></code> (at the time of writing, 2017-01-25),
+and can be downloaded from <a class="reference external" href="https://github.com/pyrocko/fomosto-qssp">https://github.com/pyrocko/fomosto-qssp</a> .</p>
+<p>After downloading and installing, to initialize a Green&#8217;s function store
+to be built with QSSP, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto init qssp.2010 my_qssp_gfs
+</pre></div>
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<table class="docutils citation" frame="void" id="akirichards2002" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[AkiRichards2002]</a></td><td>Aki, Keiiti, and Paul G. Richards. Quantitative
+seismology. Vol. 1. 2002.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="wang1999" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[Wang1999]</a></td><td>Wang, R., (1999), A simple orthonormalization method for stable
+and efficient computation of Green&#8217;s functions, Bulletin of the
+Seismological Society of America, 89(3), 733-741.0</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="wang2017" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[Wang2017]</a></td><td>Wang, R. et al. (submitted), Complete synthetic seismograms
+based on a spherical self-gravitating Earth model with an
+atmosphere-ocean-mantle-core structure</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="library.html" title="Library"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="apps_fomosto_tutorial.html" title="Fomosto tutorial"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

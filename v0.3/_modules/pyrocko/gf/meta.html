@@ -70,6 +70,8 @@
 <span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">cake</span><span class="p">,</span> <span class="n">orthodrome</span><span class="p">,</span> <span class="n">spit</span><span class="p">,</span> <span class="n">moment_tensor</span>
 <span class="kn">from</span> <span class="nn">pyrocko.config</span> <span class="k">import</span> <span class="n">config</span>
 
+<span class="kn">from</span> <span class="nn">pyrocko.gf</span> <span class="k">import</span> <span class="n">store_ext</span>
+
 <span class="n">guts_prefix</span> <span class="o">=</span> <span class="s">&#39;pf&#39;</span>
 
 <span class="n">d2r</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.</span>
@@ -624,6 +626,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_latlon</span> <span class="o">=</span> <span class="n">elat</span><span class="p">,</span> <span class="n">elon</span>  <span class="c"># unchanged</span></div>
 
 
+<span class="k">class</span> <span class="nc">MultiLocation</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+    <span class="n">coords5</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+
+
 <div class="viewcode-block" id="Receiver"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.Receiver">[docs]</a><span class="k">class</span> <span class="nc">Receiver</span><span class="p">(</span><span class="n">Location</span><span class="p">):</span>
     <span class="n">codes</span> <span class="o">=</span> <span class="n">Tuple</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
         <span class="mi">3</span><span class="p">,</span> <span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">(),</span>
@@ -788,7 +794,6 @@
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Compute distances to receiver for all contained points.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">same_origin</span><span class="p">(</span><span class="n">receiver</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">num</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">north_shifts</span> <span class="o">-</span> <span class="n">receiver</span><span class="o">.</span><span class="n">north_shift</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span>
                             <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">east_shifts</span> <span class="o">-</span> <span class="n">receiver</span><span class="o">.</span><span class="n">east_shift</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
@@ -815,6 +820,24 @@
             <span class="n">north_shift</span> <span class="o">=</span> <span class="n">east_shift</span> <span class="o">=</span> <span class="mf">0.0</span>
 
         <span class="k">return</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">north_shift</span><span class="p">,</span> <span class="n">east_shift</span>
+
+    <span class="k">def</span> <span class="nf">coords5</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">xs</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">nelements</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lats</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">lons</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+            <span class="n">xs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lats</span>
+            <span class="n">xs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lons</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">xs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lat</span>
+            <span class="n">xs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lon</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">north_shifts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">east_shifts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+            <span class="n">xs</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">north_shifts</span>
+            <span class="n">xs</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">east_shifts</span>
+
+        <span class="n">xs</span><span class="p">[:,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">depths</span>
+
+        <span class="k">return</span> <span class="n">xs</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">nelements</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1141,6 +1164,7 @@
 
         <span class="n">m6s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">m6s</span>
         <span class="n">n</span> <span class="o">=</span> <span class="n">m6s</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">rep</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">repeat</span>
 
         <span class="k">if</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s">&#39;elastic18&#39;</span><span class="p">:</span>
             <span class="n">w_n</span> <span class="o">=</span> <span class="n">m6s</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
@@ -1168,7 +1192,6 @@
             <span class="n">f5</span> <span class="o">=</span> <span class="n">m6s</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">sa</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m6s</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">ca</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">m6s</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="n">s2a</span>
 
             <span class="n">cat</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">concatenate</span>
-            <span class="n">rep</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">repeat</span>
 
             <span class="k">if</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s">&#39;elastic8&#39;</span><span class="p">:</span>
                 <span class="n">w_n</span> <span class="o">=</span> <span class="n">cat</span><span class="p">((</span><span class="n">cb</span><span class="o">*</span><span class="n">f0</span><span class="p">,</span> <span class="n">cb</span><span class="o">*</span><span class="n">f1</span><span class="p">,</span> <span class="n">cb</span><span class="o">*</span><span class="n">f2</span><span class="p">,</span> <span class="o">-</span><span class="n">sb</span><span class="o">*</span><span class="n">f3</span><span class="p">,</span> <span class="o">-</span><span class="n">sb</span><span class="o">*</span><span class="n">f4</span><span class="p">))</span>
@@ -1546,6 +1569,17 @@
 
         <span class="k">return</span> <span class="n">out</span>
 
+    <span class="k">def</span> <span class="nf">make_sum_params2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">multi_location</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">delays</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">times</span>
+
+        <span class="n">source_coords</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">coords5</span><span class="p">()</span>
+        <span class="n">receiver_coords</span> <span class="o">=</span> <span class="n">multi_location</span><span class="o">.</span><span class="n">coords5</span>
+
+        <span class="k">return</span> <span class="n">store_ext</span><span class="o">.</span><span class="n">make_sum_params</span><span class="p">(</span>
+            <span class="n">source</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">source_coords</span><span class="p">,</span> <span class="n">receiver_coords</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_scheme</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">short_type</span><span class="p">)</span>
+        
+
     <span class="k">def</span> <span class="nf">short_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="bp">NotImplemented</span><span class="p">(</span><span class="s">&#39;should be implemented in subclass&#39;</span><span class="p">)</span>
 
@@ -1748,6 +1782,8 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">depths</span><span class="p">,</span> <span class="n">nc</span><span class="o">/</span><span class="n">n</span><span class="p">),</span>
                 <span class="n">num</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">dists</span><span class="p">,</span> <span class="n">nc</span><span class="o">/</span><span class="n">n</span><span class="p">),</span>
                 <span class="n">icomponents</span><span class="p">)</span>
+
+        
 
     <span class="k">def</span> <span class="nf">make_indexing_args1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">receiver</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span> <span class="n">source</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="n">receiver</span><span class="p">))</span>

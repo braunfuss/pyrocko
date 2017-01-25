@@ -60,6 +60,7 @@
 <span class="kn">import</span> <span class="nn">calendar</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">copy</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
 
@@ -1365,7 +1366,19 @@
     <span class="k">return</span> <span class="n">FDSNStationXML</span><span class="p">(</span>
         <span class="n">source</span><span class="o">=</span><span class="s">&#39;created from table input&#39;</span><span class="p">,</span>
         <span class="n">created</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span>
-        <span class="n">network_list</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">networks</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+        <span class="n">network_list</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">networks</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">code</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">primitive_merge</span><span class="p">(</span><span class="n">sxs</span><span class="p">):</span>
+    <span class="n">networks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">sx</span> <span class="ow">in</span> <span class="n">sxs</span><span class="p">:</span>
+        <span class="n">networks</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">sx</span><span class="o">.</span><span class="n">network_list</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">FDSNStationXML</span><span class="p">(</span>
+        <span class="n">source</span><span class="o">=</span><span class="s">&#39;merged from different sources&#39;</span><span class="p">,</span>
+        <span class="n">created</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span>
+        <span class="n">network_list</span><span class="o">=</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span>
+            <span class="nb">sorted</span><span class="p">(</span><span class="n">networks</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">code</span><span class="p">)))</span>
 </pre></div>
 
           </div>

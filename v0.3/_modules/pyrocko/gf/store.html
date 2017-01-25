@@ -309,7 +309,7 @@
             <span class="k">raise</span> <span class="n">CannotCreate</span><span class="p">(</span><span class="s">&#39;file %s already exists&#39;</span> <span class="o">%</span> <span class="n">fn</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">BaseStore</span><span class="p">:</span>
+<span class="k">class</span> <span class="nc">BaseStore</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">index_fn_</span><span class="p">(</span><span class="n">store_dir</span><span class="p">):</span>
@@ -351,6 +351,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_f_index</span> <span class="o">=</span> <span class="k">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_f_data</span> <span class="o">=</span> <span class="k">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_end_values</span> <span class="o">=</span> <span class="k">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cstore</span> <span class="o">=</span> <span class="k">None</span>
 
     <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">index_fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_fn</span><span class="p">()</span>
@@ -370,12 +371,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
             <span class="k">raise</span> <span class="n">CannotOpen</span><span class="p">(</span><span class="s">&#39;cannot open gf store: %s&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_dir</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s">&#39;r&#39;</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">cstore</span> <span class="o">=</span> <span class="n">store_ext</span><span class="o">.</span><span class="n">store_init</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_f_index</span><span class="o">.</span><span class="n">fileno</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f_data</span><span class="o">.</span><span class="n">fileno</span><span class="p">())</span>
-            <span class="k">except</span> <span class="n">store_ext</span><span class="o">.</span><span class="n">StoreExtError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">StoreError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cstore</span> <span class="o">=</span> <span class="n">store_ext</span><span class="o">.</span><span class="n">store_init</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_f_index</span><span class="o">.</span><span class="n">fileno</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f_data</span><span class="o">.</span><span class="n">fileno</span><span class="p">())</span>
+        <span class="k">except</span> <span class="n">store_ext</span><span class="o">.</span><span class="n">StoreExtError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">StoreError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
         <span class="k">while</span> <span class="k">True</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
@@ -1166,6 +1166,17 @@
             <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_decimated_store_dir</span><span class="p">(</span><span class="n">decimate</span><span class="p">)):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_decimated</span><span class="p">[</span><span class="n">decimate</span><span class="p">]</span> <span class="o">=</span> <span class="k">None</span>
 
+    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f_index</span><span class="p">:</span>
+            <span class="n">BaseStore</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span>
+
+            <span class="n">mscheme</span> <span class="o">=</span> <span class="s">&#39;type_&#39;</span> <span class="o">+</span> <span class="n">c</span><span class="o">.</span><span class="n">short_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="n">store_ext</span><span class="o">.</span><span class="n">store_mapping_init</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cstore</span><span class="p">,</span> <span class="n">mscheme</span><span class="p">,</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">mins</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">maxs</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">deltas</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">ns</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">uint64</span><span class="p">),</span>
+                <span class="n">c</span><span class="o">.</span><span class="n">ncomponents</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">save_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">make_backup</span><span class="o">=</span><span class="k">False</span><span class="p">):</span>
         <span class="n">config_fn</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">store_dir</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">make_backup</span><span class="p">:</span>
@@ -1767,6 +1778,25 @@
         <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="k">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">)</span>
         <span class="k">for</span> <span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span> <span class="ow">in</span> \
                 <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">make_sum_params</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">receiver</span><span class="p">):</span>
+
+            <span class="k">if</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
+                <span class="n">gval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sum_statics</span><span class="p">(</span>
+                    <span class="n">args</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span>
+                    <span class="n">interpolation</span><span class="o">=</span><span class="n">interpolation</span><span class="p">,</span>
+                    <span class="n">optimization</span><span class="o">=</span><span class="n">optimization</span><span class="p">)</span>
+
+                <span class="n">out</span><span class="p">[</span><span class="n">components</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">component</span><span class="p">)]</span> <span class="o">=</span> <span class="n">gval</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">statics2</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">multi_location</span><span class="p">,</span> <span class="n">components</span><span class="p">,</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest_neighbor&#39;</span><span class="p">,</span> <span class="n">optimization</span><span class="o">=</span><span class="s">&#39;enable&#39;</span><span class="p">):</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="k">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span> <span class="ow">in</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">make_sum_params2</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">multi_location</span><span class="p">):</span>
 
             <span class="k">if</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
                 <span class="n">gval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sum_statics</span><span class="p">(</span>

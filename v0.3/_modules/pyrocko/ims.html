@@ -2533,10 +2533,10 @@
     <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="iload_fh"><a class="viewcode-back" href="../../reference_ims.html#pyrocko.ims.iload_fh">[docs]</a><span class="k">def</span> <span class="nf">iload_fh</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+<div class="viewcode-block" id="iload_fh"><a class="viewcode-back" href="../../reference_ims.html#pyrocko.ims.iload_fh">[docs]</a><span class="k">def</span> <span class="nf">iload_fh</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Load IMS/GSE2 records from open file handle.&#39;&#39;&#39;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
             <span class="k">yield</span> <span class="n">section</span>
 
@@ -2544,12 +2544,12 @@
         <span class="k">raise</span> <span class="n">FileLoadError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="iload_string"><a class="viewcode-back" href="../../reference_ims.html#pyrocko.ims.iload_string">[docs]</a><span class="k">def</span> <span class="nf">iload_string</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<div class="viewcode-block" id="iload_string"><a class="viewcode-back" href="../../reference_ims.html#pyrocko.ims.iload_string">[docs]</a><span class="k">def</span> <span class="nf">iload_string</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Read IMS/GSE2 sections from string.&#39;&#39;&#39;</span>
 
     <span class="kn">from</span> <span class="nn">cStringIO</span> <span class="k">import</span> <span class="n">StringIO</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">iload_fh</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">iload_fh</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <span class="n">iload_filename</span><span class="p">,</span> <span class="n">iload_dirname</span><span class="p">,</span> <span class="n">iload_glob</span><span class="p">,</span> <span class="n">iload</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">make_iload_family</span><span class="p">(</span>
