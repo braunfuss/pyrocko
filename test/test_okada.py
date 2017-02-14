@@ -8,10 +8,9 @@ benchmark = Benchmark()
 
 class TestOkada(unittest.TestCase):
 
-    @benchmark
     def test_okada(self):
-        nstations = 2000
-        nmodels = 10  # noqa
+        nstations = 800**2
+        nmodels = 1  # noqa
 
         stations = num.zeros((nstations, 2))
         stations[:, 0] = (num.random.rand(nstations)-.5) * 20 * 2
@@ -32,11 +31,15 @@ class TestOkada(unittest.TestCase):
         nu = 1.2512
 
         @benchmark
-        def run():
-            return okada_ext.disloc(models, stations, nu)
-        res = run()
+        def run_okada(nthreads):
+            return okada_ext.disloc(models, stations, nu, nthreads)
+
+        r = run_okada(12)
+
+        # self.plot_disloc(stations, r)
+
+    def tearDown(self):
         print benchmark
-        self.plot_disloc(stations, res)
 
     @staticmethod
     def plot_disloc(stations, result):

@@ -465,7 +465,8 @@ setup(
         Extension(
             'okada_ext',
             include_dirs=[numpy.get_include()],
-            extra_compile_args=['-Wextra'],
+            extra_compile_args=['-Wextra'] + omp_arg,
+            extra_link_args=[] + omp_lib,
             sources=[pjoin('src', 'ext', 'okada.c')])
     ],
 
