@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyrocko.gf.targets &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pyrocko.gf.targets</h1><div class="highlight"><pre>
+<span class="c">#!/bin/python</span>
+<span class="c"># encoding=utf8</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">from</span> <span class="nn">pyrocko.gf</span> <span class="k">import</span> <span class="n">meta</span>
+<span class="kn">from</span> <span class="nn">pyrocko.guts</span> <span class="k">import</span> <span class="n">Timestamp</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Object</span><span class="p">,</span> <span class="n">StringChoice</span>
+<span class="kn">from</span> <span class="nn">pyrocko.guts_array</span> <span class="k">import</span> <span class="n">Array</span>
+<span class="kn">from</span> <span class="nn">pyrocko.gf.meta</span> <span class="k">import</span> <span class="n">InterpolationMethod</span>
+
+<span class="n">d2r</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.</span>
+
+
+<span class="k">class</span> <span class="nc">BadTarget</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<div class="viewcode-block" id="Filter"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.targets.Filter">[docs]</a><span class="k">class</span> <span class="nc">Filter</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="OptimizationMethod"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.targets.OptimizationMethod">[docs]</a><span class="k">class</span> <span class="nc">OptimizationMethod</span><span class="p">(</span><span class="n">StringChoice</span><span class="p">):</span>
+    <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;enable&#39;</span><span class="p">,</span> <span class="s">&#39;disable&#39;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Target"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.targets.Target">[docs]</a><span class="k">class</span> <span class="nc">Target</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">Receiver</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A seismogram computation request for a single component, including</span>
+<span class="sd">    its post-processing parmeters.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">quantity</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">QuantityType</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Measurement quantity type (e.g. &quot;displacement&quot;, &quot;pressure&quot;, ...)&#39;</span>
+             <span class="s">&#39;If not given, it is guessed from the channel code.&#39;</span><span class="p">)</span>
+
+    <span class="n">codes</span> <span class="o">=</span> <span class="n">Tuple</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="mi">4</span><span class="p">,</span> <span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">(),</span> <span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;STA&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;Z&#39;</span><span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;network, station, location and channel codes to be set on &#39;</span>
+             <span class="s">&#39;the response trace.&#39;</span><span class="p">)</span>
+
+    <span class="n">elevation</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;station surface elevation in [m]&#39;</span><span class="p">)</span>
+
+    <span class="n">store_id</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">StringID</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;ID of Green</span><span class="se">\&#39;</span><span class="s">s function store to use for the computation. &#39;</span>
+             <span class="s">&#39;If not given, the processor may use a system default.&#39;</span><span class="p">)</span>
+
+    <span class="n">sample_rate</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;sample rate to produce. &#39;</span>
+             <span class="s">&#39;If not given the GF store</span><span class="se">\&#39;</span><span class="s">s default sample rate is used. &#39;</span>
+             <span class="s">&#39;GF store specific restrictions may apply.&#39;</span><span class="p">)</span>
+
+    <span class="n">interpolation</span> <span class="o">=</span> <span class="n">InterpolationMethod</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="s">&#39;nearest_neighbor&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Interpolation method between Green</span><span class="se">\&#39;</span><span class="s">s functions. Supported are&#39;</span>
+             <span class="s">&#39; ``nearest_neighbor`` and ``multilinear``&#39;</span><span class="p">)</span>
+
+    <span class="n">optimization</span> <span class="o">=</span> <span class="n">OptimizationMethod</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="s">&#39;enable&#39;</span><span class="p">,</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;disable/enable optimizations in weight-delay-and-sum operation&#39;</span><span class="p">)</span>
+
+    <span class="n">tmin</span> <span class="o">=</span> <span class="n">Timestamp</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;time of first sample to request in [s]. &#39;</span>
+             <span class="s">&#39;If not given, it is determined from the Green</span><span class="se">\&#39;</span><span class="s">s functions.&#39;</span><span class="p">)</span>
+
+    <span class="n">tmax</span> <span class="o">=</span> <span class="n">Timestamp</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;time of last sample to request in [s]. &#39;</span>
+             <span class="s">&#39;If not given, it is determined from the Green</span><span class="se">\&#39;</span><span class="s">s functions.&#39;</span><span class="p">)</span>
+
+    <span class="n">azimuth</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;azimuth of sensor component in [deg], clockwise from north. &#39;</span>
+             <span class="s">&#39;If not given, it is guessed from the channel code.&#39;</span><span class="p">)</span>
+
+    <span class="n">dip</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;dip of sensor component in [deg], &#39;</span>
+             <span class="s">&#39;measured downward from horizontal. &#39;</span>
+             <span class="s">&#39;If not given, it is guessed from the channel code.&#39;</span><span class="p">)</span>
+
+    <span class="nb">filter</span> <span class="o">=</span> <span class="n">Filter</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;frequency response filter.&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">base_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_rate</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">interpolation</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">optimization</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tmin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmax</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">elevation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">north_shift</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">east_shift</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lon</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">effective_quantity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span>
+
+        <span class="c"># guess from channel code</span>
+        <span class="n">cha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cha</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="c"># use most common SEED conventions here, however units have to be</span>
+            <span class="c"># guessed, because they are not uniquely defined by the conventions</span>
+            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="s">&#39;HL&#39;</span><span class="p">:</span>  <span class="c"># high gain, low gain seismometer</span>
+                <span class="k">return</span> <span class="s">&#39;velocity&#39;</span>
+            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;N&#39;</span><span class="p">:</span>   <span class="c"># accelerometer</span>
+                <span class="k">return</span> <span class="s">&#39;acceleration&#39;</span>
+            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;D&#39;</span><span class="p">:</span>   <span class="c"># hydrophone, barometer, ...</span>
+                <span class="k">return</span> <span class="s">&#39;pressure&#39;</span>
+            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;A&#39;</span><span class="p">:</span>   <span class="c"># tiltmeter</span>
+                <span class="k">return</span> <span class="s">&#39;tilt&#39;</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">cha</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;U&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s">&#39;displacement&#39;</span>
+            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;V&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s">&#39;velocity&#39;</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">cha</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cha</span> <span class="ow">in</span> <span class="s">&#39;NEZ&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s">&#39;displacement&#39;</span>
+            <span class="k">if</span> <span class="n">cha</span> <span class="o">==</span> <span class="s">&#39;P&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s">&#39;pressure&#39;</span>
+
+        <span class="k">raise</span> <span class="n">BadTarget</span><span class="p">(</span><span class="s">&#39;cannot guess measurement quantity type from channel &#39;</span>
+                        <span class="s">&#39;code &quot;%s&quot;&#39;</span> <span class="o">%</span> <span class="n">cha</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">receiver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="p">):</span>
+        <span class="n">rec</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">Receiver</span><span class="p">(</span><span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">Receiver</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">inamevals</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">rec</span>
+
+    <span class="k">def</span> <span class="nf">component_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">cha</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&#39; &#39;</span>
+
+    <span class="k">def</span> <span class="nf">effective_azimuth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">azimuth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">azimuth</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_code</span><span class="p">()</span> <span class="ow">in</span> <span class="s">&#39;NEZ&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s">&#39;N&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span> <span class="s">&#39;E&#39;</span><span class="p">:</span> <span class="mf">90.</span><span class="p">,</span> <span class="s">&#39;Z&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">component_code</span><span class="p">()]</span>
+
+        <span class="k">raise</span> <span class="n">BadTarget</span><span class="p">(</span><span class="s">&#39;cannot determine sensor component azimuth for &#39;</span>
+                        <span class="s">&#39;%s.%s.%s.%s&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">codes</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">effective_dip</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dip</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_code</span><span class="p">()</span> <span class="ow">in</span> <span class="s">&#39;NEZ&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s">&#39;N&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span> <span class="s">&#39;E&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span> <span class="s">&#39;Z&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">90.</span><span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">component_code</span><span class="p">()]</span>
+
+        <span class="k">raise</span> <span class="n">BadTarget</span><span class="p">(</span><span class="s">&#39;cannot determine sensor component dip&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_sin_cos_factors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">azi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effective_azimuth</span><span class="p">()</span>
+        <span class="n">dip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effective_dip</span><span class="p">()</span>
+        <span class="n">sa</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">azi</span><span class="o">*</span><span class="n">d2r</span><span class="p">)</span>
+        <span class="n">ca</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">azi</span><span class="o">*</span><span class="n">d2r</span><span class="p">)</span>
+        <span class="n">sd</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">dip</span><span class="o">*</span><span class="n">d2r</span><span class="p">)</span>
+        <span class="n">cd</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">dip</span><span class="o">*</span><span class="n">d2r</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sa</span><span class="p">,</span> <span class="n">ca</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">cd</span>
+
+    <span class="k">def</span> <span class="nf">get_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+
+    <span class="k">def</span> <span class="nf">post_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">tr</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">meta</span><span class="o">.</span><span class="n">Result</span><span class="p">(</span><span class="n">trace</span><span class="o">=</span><span class="n">tr</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="StaticTarget"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.targets.StaticTarget">[docs]</a><span class="k">class</span> <span class="nc">StaticTarget</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">MultiLocation</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A computation request for a spatial multi-location target of</span>
+<span class="sd">    static/geodetic quantities.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">quantity</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">QuantityType</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s">&#39;displacement&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Measurement quantity type, for now only `displacement` is&#39;</span>
+             <span class="s">&#39;supported.&#39;</span><span class="p">)</span>
+
+    <span class="n">interpolation</span> <span class="o">=</span> <span class="n">InterpolationMethod</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="s">&#39;nearest_neighbor&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Interpolation method between Green</span><span class="se">\&#39;</span><span class="s">s functions. Supported are&#39;</span>
+             <span class="s">&#39; ``nearest_neighbor`` and ``multilinear``&#39;</span><span class="p">)</span>
+
+    <span class="n">tsnapshot</span> <span class="o">=</span> <span class="n">Timestamp</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;time of the desired snapshot in [s], &#39;</span>
+             <span class="s">&#39;If not given, the first sample is taken. If the desired sample&#39;</span>
+             <span class="s">&#39; exceeds the length of the Green</span><span class="se">\&#39;</span><span class="s">s function store,&#39;</span>
+             <span class="s">&#39; the last sample is taken.&#39;</span><span class="p">)</span>
+
+    <span class="n">store_id</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">StringID</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;ID of Green</span><span class="se">\&#39;</span><span class="s">s function store to use for the computation. &#39;</span>
+             <span class="s">&#39;If not given, the processor may use a system default.&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">base_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">coords5</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tsnapshot</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">interpolation</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ntargets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Number of targets held by instance. &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ncoords</span>
+
+<div class="viewcode-block" id="StaticTarget.get_targets"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.targets.StaticTarget.get_targets">[docs]</a>    <span class="k">def</span> <span class="nf">get_targets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Discretizes the multilocation target into a list of</span>
+<span class="sd">        :class:`Target:`</span>
+
+<span class="sd">        :returns: class:`Target`</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ntargets</span><span class="p">):</span>
+            <span class="n">targets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">Target</span><span class="p">(</span>
+                    <span class="n">lat</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coords5</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="n">lon</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coords5</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                    <span class="n">north_shift</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coords5</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                    <span class="n">east_shift</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coords5</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                    <span class="n">elevation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">coords5</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">4</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">targets</span></div>
+
+    <span class="k">def</span> <span class="nf">post_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">statics</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">meta</span><span class="o">.</span><span class="n">StaticResult</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">statics</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SatelliteTarget"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.targets.SatelliteTarget">[docs]</a><span class="k">class</span> <span class="nc">SatelliteTarget</span><span class="p">(</span><span class="n">StaticTarget</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    A computation request for a spatial multi-location target of</span>
+<span class="sd">    static/geodetic quantities measured from a satellite instrument.</span>
+<span class="sd">    The line of sight angles are provided and projecting</span>
+<span class="sd">    post-processing is applied.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Horizontal angle towards satellite</span><span class="se">\&#39;</span><span class="s">s line of sight in radians.&#39;</span>
+             <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">        .. note::</span><span class="se">\n\n</span><span class="s">&#39;</span>
+             <span class="s">&#39;            :math:`0` is **east** and&#39;</span>
+             <span class="s">&#39; :math:`</span><span class="se">\\</span><span class="s">frac{</span><span class="se">\\</span><span class="s">pi}{2}` is **north**.</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Theta is look vector elevation angle towards satellite from&#39;</span>
+             <span class="s">&#39; horizon in radians. Matrix of theta towards satellite’s&#39;</span>
+             <span class="s">&#39; line of sight.&#39;</span>
+             <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">        .. note::</span><span class="se">\n\n</span><span class="s">&#39;</span>
+             <span class="s">&#39;            :math:`-</span><span class="se">\\</span><span class="s">frac{</span><span class="se">\\</span><span class="s">pi}{2}` is **down** and&#39;</span>
+             <span class="s">&#39; :math:`</span><span class="se">\\</span><span class="s">frac{</span><span class="se">\\</span><span class="s">pi}{2}` is **up**.</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+    <span class="n">_los_factors</span> <span class="o">=</span> <span class="k">None</span>
+
+    <span class="k">def</span> <span class="nf">get_los_factors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phi</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lats</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s">&#39;LOS angles inconsistent with provided&#39;</span>
+                                 <span class="s">&#39; coordinate shape.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_los_factors</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_los_factors</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_los_factors</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_los_factors</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">num</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phi</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_los_factors</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">num</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phi</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_los_factors</span></div>
+</pre></div>
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

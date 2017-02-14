@@ -209,7 +209,15 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="o">*</span><span class="mi">7</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="s">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="s">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">to_trace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">sta</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">cha</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">trace</span>
+        <span class="k">return</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span>
+            <span class="n">net</span><span class="p">,</span> <span class="n">sta</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">cha</span><span class="p">,</span>
+            <span class="n">ydata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">deltat</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">deltat</span><span class="p">,</span>
+            <span class="n">tmin</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">itmin</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">deltat</span><span class="p">)</span></div>
 
 
 <span class="k">class</span> <span class="nc">GFValue</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -437,10 +445,9 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sum</span><span class="p">(</span><span class="n">irecords</span><span class="p">,</span> <span class="n">delays</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">itmin</span><span class="p">,</span> <span class="n">nsamples</span><span class="p">,</span> <span class="n">decimate</span><span class="p">,</span>
                          <span class="n">implementation</span><span class="p">,</span> <span class="n">optimization</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">sum_statics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">irecords</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">implementation</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
-                    <span class="n">optimization</span><span class="o">=</span><span class="s">&#39;enable&#39;</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sum_statics</span><span class="p">(</span><span class="n">irecords</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">implementation</span><span class="p">,</span>
-                                 <span class="n">optimization</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">sum_statics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">irecords</span><span class="p">,</span> <span class="n">delays</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">it</span><span class="p">,</span> <span class="n">ntargets</span><span class="p">,</span> <span class="n">nthreads</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sum_statics</span><span class="p">(</span><span class="n">irecords</span><span class="p">,</span> <span class="n">delays</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">it</span><span class="p">,</span> <span class="n">ntargets</span><span class="p">,</span>
+                                 <span class="n">nthreads</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">irecord_format</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">zfmt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nrecords</span><span class="p">)</span>
@@ -642,7 +649,12 @@
         <span class="n">deltat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_deltat</span> <span class="o">*</span> <span class="n">decimate</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">irecords</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Zero</span>
+            <span class="k">if</span> <span class="k">None</span> <span class="ow">in</span> <span class="p">(</span><span class="n">itmin</span><span class="p">,</span> <span class="n">nsamples</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">Zero</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">GFTrace</span><span class="p">(</span>
+                    <span class="n">num</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nsamples</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">gf_dtype</span><span class="p">),</span> <span class="n">itmin</span><span class="p">,</span>
+                    <span class="n">deltat</span><span class="p">,</span> <span class="n">is_zero</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">irecords</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">delays</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">irecords</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
@@ -725,10 +737,15 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f_index</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">irecords</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Zero</span>
-
         <span class="n">deltat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_deltat</span> <span class="o">*</span> <span class="n">decimate</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">irecords</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="k">None</span> <span class="ow">in</span> <span class="p">(</span><span class="n">itmin</span><span class="p">,</span> <span class="n">nsamples</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">Zero</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">GFTrace</span><span class="p">(</span>
+                    <span class="n">num</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nsamples</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">gf_dtype</span><span class="p">),</span> <span class="n">itmin</span><span class="p">,</span>
+                    <span class="n">deltat</span><span class="p">,</span> <span class="n">is_zero</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
         <span class="n">datas</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">itmins</span> <span class="o">=</span> <span class="p">[]</span>
@@ -898,7 +915,8 @@
 
         <span class="k">return</span> <span class="n">tr</span>
 
-    <span class="k">def</span> <span class="nf">_sum_statics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">irecords</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">implementation</span><span class="p">,</span> <span class="n">optimization</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_sum_static_python</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">irecords</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">implementation</span><span class="p">,</span>
+                           <span class="n">optimization</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f_index</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
@@ -922,6 +940,14 @@
         <span class="n">val</span><span class="o">.</span><span class="n">t_stack</span> <span class="o">=</span> <span class="n">t2</span> <span class="o">-</span> <span class="n">t1</span>
 
         <span class="k">return</span> <span class="n">val</span>
+
+    <span class="k">def</span> <span class="nf">_sum_statics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">irecords</span><span class="p">,</span> <span class="n">delays</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">it</span><span class="p">,</span> <span class="n">ntargets</span><span class="p">,</span>
+                     <span class="n">nthreads</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f_index</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">store_ext</span><span class="o">.</span><span class="n">store_sum_static</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cstore</span><span class="p">,</span> <span class="n">irecords</span><span class="p">,</span> <span class="n">delays</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">it</span><span class="p">,</span> <span class="n">ntargets</span><span class="p">,</span> <span class="n">nthreads</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_load_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_memmap</span><span class="p">:</span>
@@ -1365,22 +1391,6 @@
         <span class="n">tr</span><span class="o">.</span><span class="n">deltat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">deltat</span> <span class="o">*</span> <span class="n">decimate</span>
         <span class="k">return</span> <span class="n">tr</span></div>
 
-    <span class="k">def</span> <span class="nf">sum_statics</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span>
-            <span class="n">decimate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest_neighbor&#39;</span><span class="p">,</span> <span class="n">implementation</span><span class="o">=</span><span class="s">&#39;c&#39;</span><span class="p">,</span>
-            <span class="n">optimization</span><span class="o">=</span><span class="s">&#39;enable&#39;</span><span class="p">):</span>
-
-        <span class="k">if</span> <span class="n">interpolation</span> <span class="o">==</span> <span class="s">&#39;nearest_neighbor&#39;</span><span class="p">:</span>
-            <span class="n">irecords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">irecords</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="n">interpolation</span> <span class="o">==</span> <span class="s">&#39;multilinear&#39;</span>
-            <span class="n">irecords</span><span class="p">,</span> <span class="n">ip_weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">vicinities</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
-            <span class="n">neach</span> <span class="o">=</span> <span class="n">irecords</span><span class="o">.</span><span class="n">size</span> <span class="o">/</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
-            <span class="n">weights</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">neach</span><span class="p">)</span> <span class="o">*</span> <span class="n">ip_weights</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sum_statics</span><span class="p">(</span>
-            <span class="n">irecords</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">implementation</span><span class="p">,</span> <span class="n">optimization</span><span class="p">)</span>
-
 <div class="viewcode-block" id="Store.make_decimated"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.store.Store.make_decimated">[docs]</a>    <span class="k">def</span> <span class="nf">make_decimated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decimate</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="k">False</span><span class="p">,</span>
                        <span class="n">show_progress</span><span class="o">=</span><span class="k">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1771,46 +1781,48 @@
             <span class="n">util</span><span class="o">.</span><span class="n">ensuredirs</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
             <span class="n">ip</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">statics</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">receiver</span><span class="p">,</span> <span class="n">components</span><span class="p">,</span>
-            <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest_neighbor&#39;</span><span class="p">,</span> <span class="n">optimization</span><span class="o">=</span><span class="s">&#39;enable&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">statics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">multi_location</span><span class="p">,</span> <span class="n">itsnapshot</span><span class="p">,</span> <span class="n">components</span><span class="p">,</span>
+                <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest_neighbor&#39;</span><span class="p">,</span> <span class="n">nthreads</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f_index</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
 
-        <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="k">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">)</span>
-        <span class="k">for</span> <span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span> <span class="ow">in</span> \
-                <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">make_sum_params</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">receiver</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">ntargets</span> <span class="o">=</span> <span class="n">multi_location</span><span class="o">.</span><span class="n">ntargets</span>
+        <span class="n">source_terms</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">get_source_terms</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">component_scheme</span><span class="p">)</span>
+        <span class="n">delays</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">scheme_desc</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">component_scheme_to_description</span><span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">component_scheme</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
-                <span class="n">gval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sum_statics</span><span class="p">(</span>
-                    <span class="n">args</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span>
-                    <span class="n">interpolation</span><span class="o">=</span><span class="n">interpolation</span><span class="p">,</span>
-                    <span class="n">optimization</span><span class="o">=</span><span class="n">optimization</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ntargets</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">StoreError</span><span class="p">(</span><span class="s">&#39;MultiLocation.coords5 is empty&#39;</span><span class="p">)</span>
 
-                <span class="n">out</span><span class="p">[</span><span class="n">components</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">component</span><span class="p">)]</span> <span class="o">=</span> <span class="n">gval</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">sum_params</span> <span class="o">=</span> <span class="n">store_ext</span><span class="o">.</span><span class="n">make_sum_params</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cstore</span><span class="p">,</span>
+            <span class="n">source</span><span class="o">.</span><span class="n">coords5</span><span class="p">(),</span>
+            <span class="n">source_terms</span><span class="p">,</span>
+            <span class="n">multi_location</span><span class="o">.</span><span class="n">coords5</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">component_scheme</span><span class="p">,</span>
+            <span class="n">interpolation</span><span class="p">,</span>
+            <span class="n">nthreads</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">icomp</span><span class="p">,</span> <span class="n">comp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">scheme_desc</span><span class="o">.</span><span class="n">provided_components</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">comp</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">weights</span><span class="p">,</span> <span class="n">irecords</span> <span class="o">=</span> <span class="n">sum_params</span><span class="p">[</span><span class="n">icomp</span><span class="p">]</span>
+            <span class="n">out</span><span class="p">[</span><span class="n">comp</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sum_statics</span><span class="p">(</span>
+                <span class="n">irecords</span><span class="p">,</span>
+                <span class="n">delays</span><span class="p">,</span>
+                <span class="n">weights</span><span class="p">,</span>
+                <span class="n">itsnapshot</span><span class="p">,</span>
+                <span class="n">ntargets</span><span class="p">,</span>
+                <span class="n">nthreads</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">out</span>
 
-    <span class="k">def</span> <span class="nf">statics2</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">multi_location</span><span class="p">,</span> <span class="n">components</span><span class="p">,</span>
-            <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest_neighbor&#39;</span><span class="p">,</span> <span class="n">optimization</span><span class="o">=</span><span class="s">&#39;enable&#39;</span><span class="p">):</span>
-
-        <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="k">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span> <span class="ow">in</span> \
-                <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">make_sum_params2</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">multi_location</span><span class="p">):</span>
-
-            <span class="k">if</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
-                <span class="n">gval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sum_statics</span><span class="p">(</span>
-                    <span class="n">args</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span>
-                    <span class="n">interpolation</span><span class="o">=</span><span class="n">interpolation</span><span class="p">,</span>
-                    <span class="n">optimization</span><span class="o">=</span><span class="n">optimization</span><span class="p">)</span>
-
-                <span class="n">out</span><span class="p">[</span><span class="n">components</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">component</span><span class="p">)]</span> <span class="o">=</span> <span class="n">gval</span><span class="o">.</span><span class="n">value</span>
-
-        <span class="k">return</span> <span class="n">out</span>
-
-    <span class="k">def</span> <span class="nf">seismogram</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">receiver</span><span class="p">,</span> <span class="n">components</span><span class="p">,</span> <span class="n">deltat</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
-                   <span class="n">itmin</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">nsamples</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
-                   <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest_neighbor&#39;</span><span class="p">,</span> <span class="n">optimization</span><span class="o">=</span><span class="s">&#39;enable&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">seismogram_old</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">receiver</span><span class="p">,</span> <span class="n">components</span><span class="p">,</span> <span class="n">deltat</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
+            <span class="n">itmin</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">nsamples</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest_neighbor&#39;</span><span class="p">,</span>
+            <span class="n">optimization</span><span class="o">=</span><span class="s">&#39;enable&#39;</span><span class="p">):</span>
 
         <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -1834,6 +1846,66 @@
                                <span class="n">optimization</span><span class="o">=</span><span class="n">optimization</span><span class="p">)</span>
 
                 <span class="n">out</span><span class="p">[</span><span class="n">component</span><span class="p">]</span> <span class="o">=</span> <span class="n">gtr</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">seismogram</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">receiver</span><span class="p">,</span> <span class="n">components</span><span class="p">,</span> <span class="n">deltat</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
+                   <span class="n">itmin</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">nsamples</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
+                   <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest_neighbor&#39;</span><span class="p">,</span>
+                   <span class="n">optimization</span><span class="o">=</span><span class="s">&#39;enable&#39;</span><span class="p">,</span> <span class="n">nthreads</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span>
+
+        <span class="k">if</span> <span class="n">deltat</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
+            <span class="n">decimate</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">decimate</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">deltat</span><span class="o">/</span><span class="n">config</span><span class="o">.</span><span class="n">deltat</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">deltat</span> <span class="o">/</span> <span class="p">(</span><span class="n">decimate</span> <span class="o">*</span> <span class="n">config</span><span class="o">.</span><span class="n">deltat</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.001</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">StoreError</span><span class="p">(</span>
+                    <span class="s">&#39;unavailable decimation ratio target.deltat / store.deltat&#39;</span>
+                    <span class="s">&#39; = %g / %g&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">deltat</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">deltat</span><span class="p">))</span>
+
+        <span class="n">store</span><span class="p">,</span> <span class="n">decimate_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_decimated_store</span><span class="p">(</span><span class="n">decimate</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">store</span><span class="o">.</span><span class="n">_f_index</span><span class="p">:</span>
+            <span class="n">store</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+
+        <span class="n">scheme</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">component_scheme</span>
+        <span class="n">scheme_desc</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">component_scheme_to_description</span><span class="p">[</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">component_scheme</span><span class="p">]</span>
+
+        <span class="n">source_coords_arr</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">coords5</span><span class="p">()</span>
+        <span class="n">source_terms</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">get_source_terms</span><span class="p">(</span><span class="n">scheme</span><span class="p">)</span>
+        <span class="n">receiver_coords_arr</span> <span class="o">=</span> <span class="n">receiver</span><span class="o">.</span><span class="n">coords5</span><span class="p">[</span><span class="n">num</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="n">store_ext</span><span class="o">.</span><span class="n">make_sum_params</span><span class="p">(</span>
+            <span class="n">store</span><span class="o">.</span><span class="n">cstore</span><span class="p">,</span>
+            <span class="n">source_coords_arr</span><span class="p">,</span>
+            <span class="n">source_terms</span><span class="p">,</span>
+            <span class="n">receiver_coords_arr</span><span class="p">,</span>
+            <span class="n">scheme</span><span class="p">,</span>
+            <span class="n">interpolation</span><span class="p">,</span> <span class="n">nthreads</span><span class="p">)</span>
+
+        <span class="n">provided_components</span> <span class="o">=</span> <span class="n">scheme_desc</span><span class="o">.</span><span class="n">provided_components</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">icomp</span><span class="p">,</span> <span class="n">comp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">provided_components</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
+                <span class="n">weights</span><span class="p">,</span> <span class="n">irecords</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">icomp</span><span class="p">]</span>
+
+                <span class="n">neach</span> <span class="o">=</span> <span class="n">irecords</span><span class="o">.</span><span class="n">size</span> <span class="o">/</span> <span class="n">source</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">size</span>
+                <span class="n">delays</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">neach</span><span class="p">)</span>
+
+                <span class="n">tr</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">_sum</span><span class="p">(</span>
+                    <span class="n">irecords</span><span class="p">,</span> <span class="n">delays</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">itmin</span><span class="p">,</span> <span class="n">nsamples</span><span class="p">,</span> <span class="n">decimate_</span><span class="p">,</span>
+                    <span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="n">optimization</span><span class="p">)</span>
+
+                <span class="c"># to prevent problems with rounding errors (BaseStore saves</span>
+                <span class="c"># deltat as a 4-byte floating point value, value from YAML</span>
+                <span class="c"># config is more accurate)</span>
+                <span class="n">tr</span><span class="o">.</span><span class="n">deltat</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">deltat</span> <span class="o">*</span> <span class="n">decimate</span>
+
+                <span class="n">out</span><span class="p">[</span><span class="n">comp</span><span class="p">]</span> <span class="o">=</span> <span class="n">tr</span>
 
         <span class="k">return</span> <span class="n">out</span></div>
 

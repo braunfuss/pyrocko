@@ -1008,6 +1008,11 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&#39;File already in pile: %s&#39;</span> <span class="o">%</span> <span class="n">file</span><span class="o">.</span><span class="n">abspath</span><span class="p">)</span>
             <span class="k">return</span>
 
+        <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">deltatmin</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&#39;Sampling rate of all traces are zero in file: %s&#39;</span> <span class="o">%</span>
+                        <span class="n">file</span><span class="o">.</span><span class="n">abspath</span><span class="p">)</span>
+            <span class="k">return</span>
+
         <span class="n">subpile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
         <span class="n">subpile</span><span class="o">.</span><span class="n">add_file</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">abspath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>

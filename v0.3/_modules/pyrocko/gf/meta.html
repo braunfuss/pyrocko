@@ -54,23 +54,23 @@
           <div class="body" role="main">
             
   <h1>Source code for pyrocko.gf.meta</h1><div class="highlight"><pre>
-
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">fnmatch</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
 <span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="k">import</span> <span class="n">interp1d</span>
 
 <span class="kn">from</span> <span class="nn">pyrocko.guts</span> <span class="k">import</span> <span class="n">Object</span><span class="p">,</span> <span class="n">SObject</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">StringChoice</span><span class="p">,</span> \
     <span class="n">StringPattern</span><span class="p">,</span> <span class="n">Unicode</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">Int</span><span class="p">,</span> <span class="n">TBase</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> \
-    <span class="n">Timestamp</span><span class="p">,</span> <span class="n">Tuple</span>
+    <span class="n">Timestamp</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">pyrocko.guts</span> <span class="k">import</span> <span class="n">dump</span><span class="p">,</span> <span class="n">load</span>  <span class="c"># noqa</span>
-
+<span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">trace</span>
 <span class="kn">from</span> <span class="nn">pyrocko.guts_array</span> <span class="k">import</span> <span class="n">literal</span><span class="p">,</span> <span class="n">Array</span>
 <span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">cake</span><span class="p">,</span> <span class="n">orthodrome</span><span class="p">,</span> <span class="n">spit</span><span class="p">,</span> <span class="n">moment_tensor</span>
 <span class="kn">from</span> <span class="nn">pyrocko.config</span> <span class="k">import</span> <span class="n">config</span>
 
-<span class="kn">from</span> <span class="nn">pyrocko.gf</span> <span class="k">import</span> <span class="n">store_ext</span>
 
 <span class="n">guts_prefix</span> <span class="o">=</span> <span class="s">&#39;pf&#39;</span>
 
@@ -78,6 +78,171 @@
 <span class="n">r2d</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">d2r</span>
 <span class="n">km</span> <span class="o">=</span> <span class="mf">1000.</span>
 <span class="n">vicinity_eps</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">5</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;pyrocko.gf.meta&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="InterpolationMethod"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.InterpolationMethod">[docs]</a><span class="k">class</span> <span class="nc">InterpolationMethod</span><span class="p">(</span><span class="n">StringChoice</span><span class="p">):</span>
+    <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;nearest_neighbor&#39;</span><span class="p">,</span> <span class="s">&#39;multilinear&#39;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="SeismosizerTrace"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.SeismosizerTrace">[docs]</a><span class="k">class</span> <span class="nc">SeismosizerTrace</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+
+    <span class="n">codes</span> <span class="o">=</span> <span class="n">Tuple</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="mi">4</span><span class="p">,</span> <span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">(),</span>
+        <span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;STA&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;Z&#39;</span><span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;network, station, location and channel codes&#39;</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,),</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+        <span class="n">serialize_as</span><span class="o">=</span><span class="s">&#39;base64&#39;</span><span class="p">,</span>
+        <span class="n">serialize_dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s">&#39;&lt;f4&#39;</span><span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;numpy array with data samples&#39;</span><span class="p">)</span>
+
+    <span class="n">deltat</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;sampling interval [s]&#39;</span><span class="p">)</span>
+
+    <span class="n">tmin</span> <span class="o">=</span> <span class="n">Timestamp</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;time of first sample as a system timestamp [s]&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">pyrocko_trace</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codes</span>
+        <span class="k">return</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+                           <span class="n">ydata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+                           <span class="n">deltat</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">deltat</span><span class="p">,</span>
+                           <span class="n">tmin</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tmin</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_pyrocko_trace</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">tr</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">codes</span><span class="o">=</span><span class="n">tr</span><span class="o">.</span><span class="n">nslc_id</span><span class="p">,</span>
+            <span class="n">tmin</span><span class="o">=</span><span class="n">tr</span><span class="o">.</span><span class="n">tmin</span><span class="p">,</span>
+            <span class="n">deltat</span><span class="o">=</span><span class="n">tr</span><span class="o">.</span><span class="n">deltat</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">get_ydata</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+        <span class="n">d</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="o">**</span><span class="n">d</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SeismosizerResult"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.SeismosizerResult">[docs]</a><span class="k">class</span> <span class="nc">SeismosizerResult</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+    <span class="n">n_records_stacked</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="n">t_stack</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Result"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Result">[docs]</a><span class="k">class</span> <span class="nc">Result</span><span class="p">(</span><span class="n">SeismosizerResult</span><span class="p">):</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">SeismosizerTrace</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="n">n_shared_stacking</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="n">t_optimize</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="StaticResult"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.StaticResult">[docs]</a><span class="k">class</span> <span class="nc">StaticResult</span><span class="p">(</span><span class="n">SeismosizerResult</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">Dict</span><span class="o">.</span><span class="n">T</span><span class="p">()</span></div>
+
+
+<span class="k">class</span> <span class="nc">ComponentSchemeDescription</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
+    <span class="n">source_terms</span> <span class="o">=</span> <span class="n">List</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">())</span>
+    <span class="n">ncomponents</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
+    <span class="n">provided_components</span> <span class="o">=</span> <span class="n">List</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">())</span>
+
+
+<span class="n">component_scheme_descriptions</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">ComponentSchemeDescription</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s">&#39;elastic2&#39;</span><span class="p">,</span>
+        <span class="n">source_terms</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;m0&#39;</span><span class="p">],</span>
+        <span class="n">ncomponents</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">provided_components</span><span class="o">=</span><span class="p">[</span>
+            <span class="s">&#39;displacement.n&#39;</span><span class="p">,</span> <span class="s">&#39;displacement.e&#39;</span><span class="p">,</span> <span class="s">&#39;displacement.d&#39;</span><span class="p">]),</span>
+    <span class="n">ComponentSchemeDescription</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s">&#39;elastic8&#39;</span><span class="p">,</span>
+        <span class="n">source_terms</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;mnn&#39;</span><span class="p">,</span> <span class="s">&#39;mee&#39;</span><span class="p">,</span> <span class="s">&#39;mdd&#39;</span><span class="p">,</span> <span class="s">&#39;mne&#39;</span><span class="p">,</span> <span class="s">&#39;mnd&#39;</span><span class="p">,</span> <span class="s">&#39;med&#39;</span><span class="p">],</span>
+        <span class="n">ncomponents</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">provided_components</span><span class="o">=</span><span class="p">[</span>
+            <span class="s">&#39;displacement.n&#39;</span><span class="p">,</span> <span class="s">&#39;displacement.e&#39;</span><span class="p">,</span> <span class="s">&#39;displacement.d&#39;</span><span class="p">]),</span>
+    <span class="n">ComponentSchemeDescription</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s">&#39;elastic10&#39;</span><span class="p">,</span>
+        <span class="n">source_terms</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;mnn&#39;</span><span class="p">,</span> <span class="s">&#39;mee&#39;</span><span class="p">,</span> <span class="s">&#39;mdd&#39;</span><span class="p">,</span> <span class="s">&#39;mne&#39;</span><span class="p">,</span> <span class="s">&#39;mnd&#39;</span><span class="p">,</span> <span class="s">&#39;med&#39;</span><span class="p">],</span>
+        <span class="n">ncomponents</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">provided_components</span><span class="o">=</span><span class="p">[</span>
+            <span class="s">&#39;displacement.n&#39;</span><span class="p">,</span> <span class="s">&#39;displacement.e&#39;</span><span class="p">,</span> <span class="s">&#39;displacement.d&#39;</span><span class="p">]),</span>
+    <span class="n">ComponentSchemeDescription</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s">&#39;elastic18&#39;</span><span class="p">,</span>
+        <span class="n">source_terms</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;mnn&#39;</span><span class="p">,</span> <span class="s">&#39;mee&#39;</span><span class="p">,</span> <span class="s">&#39;mdd&#39;</span><span class="p">,</span> <span class="s">&#39;mne&#39;</span><span class="p">,</span> <span class="s">&#39;mnd&#39;</span><span class="p">,</span> <span class="s">&#39;med&#39;</span><span class="p">],</span>
+        <span class="n">ncomponents</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span>
+        <span class="n">provided_components</span><span class="o">=</span><span class="p">[</span>
+            <span class="s">&#39;displacement.n&#39;</span><span class="p">,</span> <span class="s">&#39;displacement.e&#39;</span><span class="p">,</span> <span class="s">&#39;displacement.d&#39;</span><span class="p">]),</span>
+    <span class="n">ComponentSchemeDescription</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s">&#39;elastic5&#39;</span><span class="p">,</span>
+        <span class="n">source_terms</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;fn&#39;</span><span class="p">,</span> <span class="s">&#39;fe&#39;</span><span class="p">,</span> <span class="s">&#39;fd&#39;</span><span class="p">],</span>
+        <span class="n">ncomponents</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">provided_components</span><span class="o">=</span><span class="p">[</span>
+            <span class="s">&#39;displacement.n&#39;</span><span class="p">,</span> <span class="s">&#39;displacement.e&#39;</span><span class="p">,</span> <span class="s">&#39;displacement.d&#39;</span><span class="p">]),</span>
+    <span class="n">ComponentSchemeDescription</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s">&#39;poroelastic10&#39;</span><span class="p">,</span>
+        <span class="n">source_terms</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;pore_pressure&#39;</span><span class="p">],</span>
+        <span class="n">ncomponents</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">provided_components</span><span class="o">=</span><span class="p">[</span>
+            <span class="s">&#39;displacement.n&#39;</span><span class="p">,</span> <span class="s">&#39;displacement.e&#39;</span><span class="p">,</span> <span class="s">&#39;displacement.d&#39;</span><span class="p">,</span>
+            <span class="s">&#39;vertical_tilt.n&#39;</span><span class="p">,</span> <span class="s">&#39;vertical_tilt.e&#39;</span><span class="p">,</span>
+            <span class="s">&#39;pore_pressure&#39;</span><span class="p">,</span>
+            <span class="s">&#39;darcy_velocity.n&#39;</span><span class="p">,</span> <span class="s">&#39;darcy_velocity.e&#39;</span><span class="p">,</span> <span class="s">&#39;darcy_velocity.d&#39;</span><span class="p">])]</span>
+
+
+<span class="c"># new names?</span>
+<span class="c"># &#39;mt_to_displacement_1d&#39;</span>
+<span class="c"># &#39;mt_to_displacement_1d_ff_only&#39;</span>
+<span class="c"># &#39;mt_to_gravity_1d&#39;</span>
+<span class="c"># &#39;mt_to_stress_1d&#39;</span>
+<span class="c"># &#39;explosion_to_displacement_1d&#39;</span>
+<span class="c"># &#39;sf_to_displacement_1d&#39;</span>
+<span class="c"># &#39;mt_to_displacement_3d&#39;</span>
+<span class="c"># &#39;mt_to_gravity_3d&#39;</span>
+<span class="c"># &#39;mt_to_stress_3d&#39;</span>
+<span class="c"># &#39;pore_pressure_to_displacement_1d&#39;</span>
+<span class="c"># &#39;pore_pressure_to_vertical_tilt_1d&#39;</span>
+<span class="c"># &#39;pore_pressure_to_pore_pressure_1d&#39;</span>
+<span class="c"># &#39;pore_pressure_to_darcy_velocity_1d&#39;</span>
+
+
+<span class="n">component_schemes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">component_scheme_descriptions</span><span class="p">]</span>
+<span class="n">component_scheme_to_description</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">component_scheme_descriptions</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ComponentScheme"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.ComponentScheme">[docs]</a><span class="k">class</span> <span class="nc">ComponentScheme</span><span class="p">(</span><span class="n">StringChoice</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Different Green&#39;s Function component schemes are available:</span>
+
+<span class="sd">    ================= =========================================================</span>
+<span class="sd">    \                 Description</span>
+<span class="sd">    ================= =========================================================</span>
+<span class="sd">    ``elastic10``     Elastodynamic for</span>
+<span class="sd">                      :py:class:`~pyrocko.gf.meta.ConfigTypeA` and</span>
+<span class="sd">                      :py:class:`~pyrocko.gf.meta.ConfigTypeB` stores, MT</span>
+<span class="sd">                      sources only</span>
+<span class="sd">    ``elastic8``      Elastodynamic for far-field only</span>
+<span class="sd">                      :py:class:`~pyrocko.gf.meta.ConfigTypeA` and</span>
+<span class="sd">                      :py:class:`~pyrocko.gf.meta.ConfigTypeB` stores,</span>
+<span class="sd">                      MT sources only</span>
+<span class="sd">    ``elastic2``      Elastodynamic for</span>
+<span class="sd">                      :py:class:`~pyrocko.gf.meta.ConfigTypeA` and</span>
+<span class="sd">                      :py:class:`~pyrocko.gf.meta.ConfigTypeB` stores, purely</span>
+<span class="sd">                      isotropic sources only</span>
+<span class="sd">    ``elastic5``      Elastodynamic for</span>
+<span class="sd">                      :py:class:`~pyrocko.gf.meta.ConfigTypeA`</span>
+<span class="sd">                      and :py:class:`~pyrocko.gf.meta.ConfigTypeB` stores, SF</span>
+<span class="sd">                      sources only</span>
+<span class="sd">    ``elastic18``     Elastodynamic for</span>
+<span class="sd">                      :py:class:`~pyrocko.gf.meta.ConfigTypeC` stores, MT</span>
+<span class="sd">                      sources only</span>
+<span class="sd">    ``poroelastic10`` Poroelastic for :py:class:`~pyrocko.gf.meta.ConfigTypeA`</span>
+<span class="sd">                      and :py:class:`~pyrocko.gf.meta.ConfigTypeB` stores</span>
+<span class="sd">    ================= =========================================================</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">choices</span> <span class="o">=</span> <span class="n">component_schemes</span></div>
 
 
 <span class="k">def</span> <span class="nf">latlondepth_to_carthesian</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">depth</span><span class="p">):</span>
@@ -88,7 +253,7 @@
     <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
 
 
-<div class="viewcode-block" id="Earthmodel1D"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.Earthmodel1D">[docs]</a><span class="k">class</span> <span class="nc">Earthmodel1D</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+<div class="viewcode-block" id="Earthmodel1D"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Earthmodel1D">[docs]</a><span class="k">class</span> <span class="nc">Earthmodel1D</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
     <span class="n">dummy_for</span> <span class="o">=</span> <span class="n">cake</span><span class="o">.</span><span class="n">LayeredModel</span>
 
     <span class="k">class</span> <span class="nc">__T</span><span class="p">(</span><span class="n">TBase</span><span class="p">):</span>
@@ -103,11 +268,11 @@
             <span class="k">return</span> <span class="n">literal</span><span class="p">(</span><span class="n">cake</span><span class="o">.</span><span class="n">write_nd_model_str</span><span class="p">(</span><span class="n">val</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="StringID"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.StringID">[docs]</a><span class="k">class</span> <span class="nc">StringID</span><span class="p">(</span><span class="n">StringPattern</span><span class="p">):</span>
+<div class="viewcode-block" id="StringID"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.StringID">[docs]</a><span class="k">class</span> <span class="nc">StringID</span><span class="p">(</span><span class="n">StringPattern</span><span class="p">):</span>
     <span class="n">pattern</span> <span class="o">=</span> <span class="s">r&#39;^[A-Za-z][A-Za-z0-9._]{0,64}$&#39;</span></div>
 
 
-<div class="viewcode-block" id="ScopeType"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.ScopeType">[docs]</a><span class="k">class</span> <span class="nc">ScopeType</span><span class="p">(</span><span class="n">StringChoice</span><span class="p">):</span>
+<div class="viewcode-block" id="ScopeType"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.ScopeType">[docs]</a><span class="k">class</span> <span class="nc">ScopeType</span><span class="p">(</span><span class="n">StringChoice</span><span class="p">):</span>
     <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span>
         <span class="s">&#39;global&#39;</span><span class="p">,</span>
         <span class="s">&#39;regional&#39;</span><span class="p">,</span>
@@ -125,7 +290,7 @@
     <span class="p">]</span>
 
 
-<div class="viewcode-block" id="NearfieldTermsType"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.NearfieldTermsType">[docs]</a><span class="k">class</span> <span class="nc">NearfieldTermsType</span><span class="p">(</span><span class="n">StringChoice</span><span class="p">):</span>
+<div class="viewcode-block" id="NearfieldTermsType"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.NearfieldTermsType">[docs]</a><span class="k">class</span> <span class="nc">NearfieldTermsType</span><span class="p">(</span><span class="n">StringChoice</span><span class="p">):</span>
     <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span>
         <span class="s">&#39;complete&#39;</span><span class="p">,</span>
         <span class="s">&#39;incomplete&#39;</span><span class="p">,</span>
@@ -145,7 +310,7 @@
         <span class="s">&#39;vertical_tilt&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="Reference"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.Reference">[docs]</a><span class="k">class</span> <span class="nc">Reference</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+<div class="viewcode-block" id="Reference"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Reference">[docs]</a><span class="k">class</span> <span class="nc">Reference</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">StringID</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
     <span class="nb">type</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
     <span class="n">title</span> <span class="o">=</span> <span class="n">Unicode</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
@@ -223,7 +388,7 @@
     <span class="n">_ppat</span> <span class="o">+</span> <span class="s">r&#39;))?(&#39;</span> <span class="o">+</span> <span class="n">_fpat</span> <span class="o">+</span> <span class="s">&#39;S?)?$&#39;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="PhaseSelect"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.PhaseSelect">[docs]</a><span class="k">class</span> <span class="nc">PhaseSelect</span><span class="p">(</span><span class="n">StringChoice</span><span class="p">):</span>
+<div class="viewcode-block" id="PhaseSelect"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.PhaseSelect">[docs]</a><span class="k">class</span> <span class="nc">PhaseSelect</span><span class="p">(</span><span class="n">StringChoice</span><span class="p">):</span>
     <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;first&#39;</span><span class="p">,</span> <span class="s">&#39;last&#39;</span><span class="p">]</span></div>
 
 
@@ -231,7 +396,7 @@
     <span class="k">pass</span>
 
 
-<div class="viewcode-block" id="Timing"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.Timing">[docs]</a><span class="k">class</span> <span class="nc">Timing</span><span class="p">(</span><span class="n">SObject</span><span class="p">):</span>
+<div class="viewcode-block" id="Timing"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Timing">[docs]</a><span class="k">class</span> <span class="nc">Timing</span><span class="p">(</span><span class="n">SObject</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Definition of a time instant relative to one or more named phase arrivals</span>
 
@@ -404,7 +569,7 @@
     <span class="k">return</span> <span class="n">defs</span>
 
 
-<div class="viewcode-block" id="TPDef"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.TPDef">[docs]</a><span class="k">class</span> <span class="nc">TPDef</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+<div class="viewcode-block" id="TPDef"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.TPDef">[docs]</a><span class="k">class</span> <span class="nc">TPDef</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Maps an arrival phase identifier to an arrival phase definition.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -449,7 +614,7 @@
             <span class="k">return</span> <span class="s">&#39;out of bounds%s&#39;</span> <span class="o">%</span> <span class="n">scontext</span>
 
 
-<div class="viewcode-block" id="Location"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.Location">[docs]</a><span class="k">class</span> <span class="nc">Location</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+<div class="viewcode-block" id="Location"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Location">[docs]</a><span class="k">class</span> <span class="nc">Location</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Geographical location.</span>
 
@@ -526,14 +691,14 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">effective_latlon</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Location.same_origin"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.Location.same_origin">[docs]</a>    <span class="k">def</span> <span class="nf">same_origin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="Location.same_origin"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Location.same_origin">[docs]</a>    <span class="k">def</span> <span class="nf">same_origin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Check whether other location object has the same reference location.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lat</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">lat</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">lon</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">lon</span></div>
 
-<div class="viewcode-block" id="Location.distance_to"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.Location.distance_to">[docs]</a>    <span class="k">def</span> <span class="nf">distance_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="Location.distance_to"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Location.distance_to">[docs]</a>    <span class="k">def</span> <span class="nf">distance_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Compute surface distance [m] to other location object.</span>
 
@@ -557,7 +722,7 @@
             <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">orthodrome</span><span class="o">.</span><span class="n">distance_accurate50m_numpy</span><span class="p">(</span>
                 <span class="n">slat</span><span class="p">,</span> <span class="n">slon</span><span class="p">,</span> <span class="n">rlat</span><span class="p">,</span> <span class="n">rlon</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="Location.distance_3d_to"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.Location.distance_3d_to">[docs]</a>    <span class="k">def</span> <span class="nf">distance_3d_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="Location.distance_3d_to"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Location.distance_3d_to">[docs]</a>    <span class="k">def</span> <span class="nf">distance_3d_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Compute 3D distance [m] to other location object.</span>
 
@@ -590,7 +755,7 @@
 
             <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">sx</span><span class="o">-</span><span class="n">rx</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">sy</span><span class="o">-</span><span class="n">ry</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">sz</span><span class="o">-</span><span class="n">rz</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Location.azibazi_to"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.Location.azibazi_to">[docs]</a>    <span class="k">def</span> <span class="nf">azibazi_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="Location.azibazi_to"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Location.azibazi_to">[docs]</a>    <span class="k">def</span> <span class="nf">azibazi_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Compute azimuth and backazimuth to and from other location object.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -609,8 +774,8 @@
                 <span class="n">rlat</span><span class="p">,</span> <span class="n">rlon</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">effective_latlon</span>
             <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
                 <span class="n">rlat</span><span class="p">,</span> <span class="n">rlon</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">lon</span>
-            <span class="n">azi</span> <span class="o">=</span> <span class="n">orthodrome</span><span class="o">.</span><span class="n">azimuth_numpy</span><span class="p">(</span><span class="n">slat</span><span class="p">,</span> <span class="n">slon</span><span class="p">,</span> <span class="n">rlat</span><span class="p">,</span> <span class="n">rlon</span><span class="p">)</span>
-            <span class="n">bazi</span> <span class="o">=</span> <span class="n">orthodrome</span><span class="o">.</span><span class="n">azimuth_numpy</span><span class="p">(</span><span class="n">rlat</span><span class="p">,</span> <span class="n">rlon</span><span class="p">,</span> <span class="n">slat</span><span class="p">,</span> <span class="n">slon</span><span class="p">)</span>
+
+            <span class="n">azi</span><span class="p">,</span> <span class="n">bazi</span> <span class="o">=</span> <span class="n">orthodrome</span><span class="o">.</span><span class="n">azibazi_numpy</span><span class="p">(</span><span class="n">slat</span><span class="p">,</span> <span class="n">slon</span><span class="p">,</span> <span class="n">rlat</span><span class="p">,</span> <span class="n">rlon</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">azi</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">bazi</span><span class="p">)</span></div>
 
@@ -623,14 +788,63 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">lon</span> <span class="o">=</span> <span class="n">lon</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">north_shift</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">east_shift</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_latlon</span> <span class="o">=</span> <span class="n">elat</span><span class="p">,</span> <span class="n">elon</span>  <span class="c"># unchanged</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_latlon</span> <span class="o">=</span> <span class="n">elat</span><span class="p">,</span> <span class="n">elon</span>  <span class="c"># unchanged</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">coords5</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">num</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">north_shift</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">east_shift</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">])</span></div>
 
 
 <span class="k">class</span> <span class="nc">MultiLocation</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
-    <span class="n">coords5</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+
+    <span class="n">lats</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Latitudes of targets.&#39;</span><span class="p">)</span>
+    <span class="n">lons</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Longitude of targets.&#39;</span><span class="p">)</span>
+    <span class="n">north_shifts</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;North shifts of targets.&#39;</span><span class="p">)</span>
+    <span class="n">east_shifts</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;East shifts of targets.&#39;</span><span class="p">)</span>
+    <span class="n">elevation</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Elevations of targets.&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_coords5</span> <span class="o">=</span> <span class="k">None</span>
+        <span class="n">Object</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">coords5</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coords5</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coords5</span>
+        <span class="n">props</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">lats</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lons</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">north_shifts</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">east_shifts</span><span class="p">,</span>
+                 <span class="bp">self</span><span class="o">.</span><span class="n">elevation</span><span class="p">]</span>
+        <span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">size</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">props</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sizes</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s">&#39;Empty StaticTarget&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">num</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s">&#39;Inconsistent coordinate sizes.&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_coords5</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">sizes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">5</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">props</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_coords5</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coords5</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ncoords</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords5</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coords5</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
 
-<div class="viewcode-block" id="Receiver"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.Receiver">[docs]</a><span class="k">class</span> <span class="nc">Receiver</span><span class="p">(</span><span class="n">Location</span><span class="p">):</span>
+<div class="viewcode-block" id="Receiver"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Receiver">[docs]</a><span class="k">class</span> <span class="nc">Receiver</span><span class="p">(</span><span class="n">Location</span><span class="p">):</span>
     <span class="n">codes</span> <span class="o">=</span> <span class="n">Tuple</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
         <span class="mi">3</span><span class="p">,</span> <span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">(),</span>
         <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
@@ -661,7 +875,11 @@
     <span class="k">pass</span>
 
 
-<div class="viewcode-block" id="DiscretizedSource"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.DiscretizedSource">[docs]</a><span class="k">class</span> <span class="nc">DiscretizedSource</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">InvalidNComponents</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">DiscretizedSource</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Base class for discretized sources.</span>
 
 <span class="sd">    To compute synthetic seismograms, the parameterized source models (see of</span>
@@ -693,7 +911,7 @@
     <span class="n">depths</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="DiscretizedSource.check_scheme"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.DiscretizedSource.check_scheme">[docs]</a>    <span class="k">def</span> <span class="nf">check_scheme</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">scheme</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">check_scheme</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">scheme</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Check if given GF component scheme is supported by the class.</span>
 
@@ -701,19 +919,10 @@
 <span class="sd">        supported by this discretized source class.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="k">if</span> <span class="n">scheme</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">_provided_schemes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">scheme</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">provided_schemes</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">UnavailableScheme</span><span class="p">(</span>
                 <span class="s">&#39;source type &quot;%s&quot; does not support GF component scheme &quot;%s&quot;&#39;</span> <span class="o">%</span>
-                <span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">scheme</span><span class="p">))</span></div>
-
-    <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="DiscretizedSource.provided_components"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.DiscretizedSource.provided_components">[docs]</a>    <span class="k">def</span> <span class="nf">provided_components</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">scheme</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Get list of components which are provided for given scheme.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-
-        <span class="n">cls</span><span class="o">.</span><span class="n">check_scheme</span><span class="p">(</span><span class="n">scheme</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">_provided_components</span></div>
+                <span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">scheme</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">Object</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -726,10 +935,16 @@
 
         <span class="n">Object</span><span class="o">.</span><span class="n">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">get_source_terms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scheme</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="bp">NotImplemented</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">make_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">receiver</span><span class="p">,</span> <span class="n">scheme</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="bp">NotImplemented</span><span class="p">()</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">effective_latlons</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Property holding the offset-corrected lats and lons of all points.</span>
+<span class="sd">        Property holding the offest-corrected lats and lons of all points.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_latlons</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
@@ -763,16 +978,16 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">num</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DiscretizedSource.same_origin"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.DiscretizedSource.same_origin">[docs]</a>    <span class="k">def</span> <span class="nf">same_origin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">receiver</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">same_origin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">receiver</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Check if receiver has same reference point.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="k">return</span> <span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">==</span> <span class="n">receiver</span><span class="o">.</span><span class="n">lat</span> <span class="ow">and</span>
                 <span class="n">g</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">==</span> <span class="n">receiver</span><span class="o">.</span><span class="n">lon</span> <span class="ow">and</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">lats</span> <span class="ow">is</span> <span class="k">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">lons</span> <span class="ow">is</span> <span class="k">None</span><span class="p">)</span></div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lats</span> <span class="ow">is</span> <span class="k">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">lons</span> <span class="ow">is</span> <span class="k">None</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DiscretizedSource.azibazis_to"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.DiscretizedSource.azibazis_to">[docs]</a>    <span class="k">def</span> <span class="nf">azibazis_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">receiver</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">azibazis_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">receiver</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Compute azimuths and backaziumuths to/from receiver, for all contained</span>
 <span class="sd">        points.</span>
@@ -788,9 +1003,9 @@
             <span class="n">azis</span> <span class="o">=</span> <span class="n">orthodrome</span><span class="o">.</span><span class="n">azimuth_numpy</span><span class="p">(</span><span class="n">slats</span><span class="p">,</span> <span class="n">slons</span><span class="p">,</span> <span class="n">rlat</span><span class="p">,</span> <span class="n">rlon</span><span class="p">)</span>
             <span class="n">bazis</span> <span class="o">=</span> <span class="n">orthodrome</span><span class="o">.</span><span class="n">azimuth_numpy</span><span class="p">(</span><span class="n">rlat</span><span class="p">,</span> <span class="n">rlon</span><span class="p">,</span> <span class="n">slats</span><span class="p">,</span> <span class="n">slons</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">azis</span><span class="p">,</span> <span class="n">bazis</span></div>
+        <span class="k">return</span> <span class="n">azis</span><span class="p">,</span> <span class="n">bazis</span>
 
-<div class="viewcode-block" id="DiscretizedSource.distances_to"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.DiscretizedSource.distances_to">[docs]</a>    <span class="k">def</span> <span class="nf">distances_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">receiver</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">distances_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">receiver</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Compute distances to receiver for all contained points.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -802,7 +1017,7 @@
             <span class="n">slats</span><span class="p">,</span> <span class="n">slons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effective_latlons</span>
             <span class="n">rlat</span><span class="p">,</span> <span class="n">rlon</span> <span class="o">=</span> <span class="n">receiver</span><span class="o">.</span><span class="n">effective_latlon</span>
             <span class="k">return</span> <span class="n">orthodrome</span><span class="o">.</span><span class="n">distance_accurate50m_numpy</span><span class="p">(</span><span class="n">slats</span><span class="p">,</span> <span class="n">slons</span><span class="p">,</span>
-                                                         <span class="n">rlat</span><span class="p">,</span> <span class="n">rlon</span><span class="p">)</span></div>
+                                                         <span class="n">rlat</span><span class="p">,</span> <span class="n">rlon</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">element_coords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lats</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">lons</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
@@ -828,8 +1043,8 @@
             <span class="n">xs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lats</span>
             <span class="n">xs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lons</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">xs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lat</span>
-            <span class="n">xs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lon</span>
+            <span class="n">xs</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+            <span class="n">xs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">north_shifts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">east_shifts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="n">xs</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">north_shifts</span>
@@ -844,7 +1059,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">size</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="DiscretizedSource.combine"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.DiscretizedSource.combine">[docs]</a>    <span class="k">def</span> <span class="nf">combine</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">sources</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">combine</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">sources</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Combine several discretized source models.</span>
 
@@ -894,7 +1109,7 @@
         <span class="k">return</span> <span class="n">cls</span><span class="p">(</span>
             <span class="n">times</span><span class="o">=</span><span class="n">times</span><span class="p">,</span> <span class="n">lat</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span> <span class="n">lats</span><span class="o">=</span><span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="o">=</span><span class="n">lons</span><span class="p">,</span>
             <span class="n">north_shifts</span><span class="o">=</span><span class="n">north_shifts</span><span class="p">,</span> <span class="n">east_shifts</span><span class="o">=</span><span class="n">east_shifts</span><span class="p">,</span>
-            <span class="n">depths</span><span class="o">=</span><span class="n">depths</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+            <span class="n">depths</span><span class="o">=</span><span class="n">depths</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">centroid_position</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">moments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">moments</span><span class="p">()</span>
@@ -930,23 +1145,28 @@
         <span class="n">depth</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">depths</span><span class="o">*</span><span class="n">w</span><span class="p">)</span>
         <span class="n">time</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">times</span><span class="o">*</span><span class="n">w</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
-                     <span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">north_shift</span><span class="p">,</span> <span class="n">east_shift</span><span class="p">,</span> <span class="n">depth</span><span class="p">))</span></div>
+                     <span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">north_shift</span><span class="p">,</span> <span class="n">east_shift</span><span class="p">,</span> <span class="n">depth</span><span class="p">))</span>
 
 
-<div class="viewcode-block" id="DiscretizedExplosionSource"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.DiscretizedExplosionSource">[docs]</a><span class="k">class</span> <span class="nc">DiscretizedExplosionSource</span><span class="p">(</span><span class="n">DiscretizedSource</span><span class="p">):</span>
+<div class="viewcode-block" id="DiscretizedExplosionSource"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.DiscretizedExplosionSource">[docs]</a><span class="k">class</span> <span class="nc">DiscretizedExplosionSource</span><span class="p">(</span><span class="n">DiscretizedSource</span><span class="p">):</span>
     <span class="n">m0s</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
 
-    <span class="n">_provided_components</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s">&#39;displacement.n&#39;</span><span class="p">,</span>
-        <span class="s">&#39;displacement.e&#39;</span><span class="p">,</span>
-        <span class="s">&#39;displacement.d&#39;</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">_provided_schemes</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">provided_schemes</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s">&#39;elastic2&#39;</span><span class="p">,</span>
         <span class="s">&#39;elastic8&#39;</span><span class="p">,</span>
         <span class="s">&#39;elastic10&#39;</span><span class="p">,</span>
     <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_source_terms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scheme</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_scheme</span><span class="p">(</span><span class="n">scheme</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s">&#39;elastic2&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">m0s</span><span class="p">[:,</span> <span class="n">num</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="n">scheme</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;elastic8&#39;</span><span class="p">,</span> <span class="s">&#39;elastic10&#39;</span><span class="p">):</span>
+            <span class="n">m6s</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">m0s</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+            <span class="n">m6s</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">m0s</span><span class="p">[:,</span> <span class="n">num</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">m6s</span>
 
     <span class="k">def</span> <span class="nf">make_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">receiver</span><span class="p">,</span> <span class="n">scheme</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_scheme</span><span class="p">(</span><span class="n">scheme</span><span class="p">)</span>
@@ -1029,7 +1249,7 @@
             <span class="n">moment</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m0s</span><span class="p">)))</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="DiscretizedExplosionSource.combine"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.DiscretizedExplosionSource.combine">[docs]</a>    <span class="k">def</span> <span class="nf">combine</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">sources</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DiscretizedExplosionSource.combine"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.DiscretizedExplosionSource.combine">[docs]</a>    <span class="k">def</span> <span class="nf">combine</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">sources</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Combine several discretized source models.</span>
 
@@ -1046,20 +1266,17 @@
                                                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
 
 
-<span class="k">class</span> <span class="nc">DiscretizedSFSource</span><span class="p">(</span><span class="n">DiscretizedSource</span><span class="p">):</span>
+<div class="viewcode-block" id="DiscretizedSFSource"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.DiscretizedSFSource">[docs]</a><span class="k">class</span> <span class="nc">DiscretizedSFSource</span><span class="p">(</span><span class="n">DiscretizedSource</span><span class="p">):</span>
     <span class="n">forces</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
 
-    <span class="n">_provided_components</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s">&#39;displacement.n&#39;</span><span class="p">,</span>
-        <span class="s">&#39;displacement.e&#39;</span><span class="p">,</span>
-        <span class="s">&#39;displacement.d&#39;</span><span class="p">,</span>
+    <span class="n">provided_schemes</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s">&#39;elastic5&#39;</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">_provided_schemes</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s">&#39;elastic5&#39;</span><span class="p">,</span>
-        <span class="s">&#39;elastic13&#39;</span><span class="p">,</span>
-        <span class="s">&#39;elastic15&#39;</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">get_source_terms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scheme</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_scheme</span><span class="p">(</span><span class="n">scheme</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span>
 
     <span class="k">def</span> <span class="nf">make_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">receiver</span><span class="p">,</span> <span class="n">scheme</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_scheme</span><span class="p">(</span><span class="n">scheme</span><span class="p">)</span>
@@ -1085,12 +1302,6 @@
         <span class="k">if</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s">&#39;elastic5&#39;</span><span class="p">:</span>
             <span class="n">ioff</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s">&#39;elastic13&#39;</span><span class="p">:</span>
-            <span class="n">ioff</span> <span class="o">=</span> <span class="mi">8</span>
-
-        <span class="k">elif</span> <span class="n">scheme</span> <span class="o">==</span> <span class="s">&#39;elastic15&#39;</span><span class="p">:</span>
-            <span class="n">ioff</span> <span class="o">=</span> <span class="mi">10</span>
-
         <span class="n">cat</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">concatenate</span>
         <span class="n">rep</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">repeat</span>
 
@@ -1108,7 +1319,7 @@
         <span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">combine</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">sources</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DiscretizedSFSource.combine"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.DiscretizedSFSource.combine">[docs]</a>    <span class="k">def</span> <span class="nf">combine</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">sources</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Combine several discretized source models.</span>
 
@@ -1121,7 +1332,7 @@
         <span class="k">if</span> <span class="s">&#39;forces&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;forces&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">forces</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sources</span><span class="p">])</span>
 
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">DiscretizedSFSource</span><span class="p">,</span> <span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">sources</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">DiscretizedSFSource</span><span class="p">,</span> <span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">sources</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">moments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">num</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -1141,23 +1352,23 @@
             <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
             <span class="n">fn</span><span class="o">=</span><span class="n">fn</span><span class="p">,</span>
             <span class="n">fe</span><span class="o">=</span><span class="n">fe</span><span class="p">,</span>
-            <span class="n">fd</span><span class="o">=</span><span class="n">fd</span><span class="p">)</span>
+            <span class="n">fd</span><span class="o">=</span><span class="n">fd</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="DiscretizedMTSource"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.DiscretizedMTSource">[docs]</a><span class="k">class</span> <span class="nc">DiscretizedMTSource</span><span class="p">(</span><span class="n">DiscretizedSource</span><span class="p">):</span>
-    <span class="n">m6s</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+<div class="viewcode-block" id="DiscretizedMTSource"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.DiscretizedMTSource">[docs]</a><span class="k">class</span> <span class="nc">DiscretizedMTSource</span><span class="p">(</span><span class="n">DiscretizedSource</span><span class="p">):</span>
+    <span class="n">m6s</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;rows with (m_nn, m_ee, m_dd, m_ne, m_nd, m_ed)&#39;</span><span class="p">)</span>
 
-    <span class="n">_provided_components</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s">&#39;displacement.n&#39;</span><span class="p">,</span>
-        <span class="s">&#39;displacement.e&#39;</span><span class="p">,</span>
-        <span class="s">&#39;displacement.d&#39;</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">_provided_schemes</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">provided_schemes</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s">&#39;elastic8&#39;</span><span class="p">,</span>
         <span class="s">&#39;elastic10&#39;</span><span class="p">,</span>
         <span class="s">&#39;elastic18&#39;</span><span class="p">,</span>
     <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_source_terms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scheme</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_scheme</span><span class="p">(</span><span class="n">scheme</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">m6s</span>
 
     <span class="k">def</span> <span class="nf">make_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">receiver</span><span class="p">,</span> <span class="n">scheme</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_scheme</span><span class="p">(</span><span class="n">scheme</span><span class="p">)</span>
@@ -1259,7 +1470,7 @@
             <span class="n">m6</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m6s</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="DiscretizedMTSource.combine"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.DiscretizedMTSource.combine">[docs]</a>    <span class="k">def</span> <span class="nf">combine</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">sources</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DiscretizedMTSource.combine"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.DiscretizedMTSource.combine">[docs]</a>    <span class="k">def</span> <span class="nf">combine</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">sources</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Combine several discretized source models.</span>
 
@@ -1275,24 +1486,16 @@
         <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">DiscretizedMTSource</span><span class="p">,</span> <span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">sources</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
 
 
-<span class="k">class</span> <span class="nc">DiscretizedPorePressureSource</span><span class="p">(</span><span class="n">DiscretizedSource</span><span class="p">):</span>
+<div class="viewcode-block" id="DiscretizedPorePressureSource"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.DiscretizedPorePressureSource">[docs]</a><span class="k">class</span> <span class="nc">DiscretizedPorePressureSource</span><span class="p">(</span><span class="n">DiscretizedSource</span><span class="p">):</span>
     <span class="n">pp</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
 
-    <span class="n">_provided_components</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s">&#39;displacement.n&#39;</span><span class="p">,</span>
-        <span class="s">&#39;displacement.e&#39;</span><span class="p">,</span>
-        <span class="s">&#39;displacement.d&#39;</span><span class="p">,</span>
-        <span class="s">&#39;vertical_tilt.n&#39;</span><span class="p">,</span>
-        <span class="s">&#39;vertical_tilt.e&#39;</span><span class="p">,</span>
-        <span class="s">&#39;pore_pressure&#39;</span><span class="p">,</span>
-        <span class="s">&#39;darcy_velocity.n&#39;</span><span class="p">,</span>
-        <span class="s">&#39;darcy_velocity.e&#39;</span><span class="p">,</span>
-        <span class="s">&#39;darcy_velocity.d&#39;</span><span class="p">,</span>
-    <span class="p">)</span>
-
-    <span class="n">_provided_schemes</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">provided_schemes</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s">&#39;poroelastic10&#39;</span><span class="p">,</span>
     <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_source_terms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scheme</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_scheme</span><span class="p">(</span><span class="n">scheme</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pp</span><span class="p">[:,</span> <span class="n">num</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">make_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">receiver</span><span class="p">,</span> <span class="n">scheme</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_scheme</span><span class="p">(</span><span class="n">scheme</span><span class="p">)</span>
@@ -1357,7 +1560,7 @@
             <span class="n">pp</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pp</span><span class="p">)))</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">combine</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">sources</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DiscretizedPorePressureSource.combine"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.DiscretizedPorePressureSource.combine">[docs]</a>    <span class="k">def</span> <span class="nf">combine</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">sources</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Combine several discretized source models.</span>
 
@@ -1371,72 +1574,27 @@
             <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;pp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">pp</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sources</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">DiscretizedPorePressureSource</span><span class="p">,</span> <span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">sources</span><span class="p">,</span>
-                                                                 <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                                                                 <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="ComponentSchemes"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.ComponentSchemes">[docs]</a><span class="k">class</span> <span class="nc">ComponentSchemes</span><span class="p">(</span><span class="n">StringChoice</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Different Green&#39;s Function component schemes are available:</span>
-
-<span class="sd">    ================= =========================================================</span>
-<span class="sd">    \                 Description</span>
-<span class="sd">    ================= =========================================================</span>
-<span class="sd">    ``elastic10``     Elastodynamic for :py:class:`pyrocko.gf.meta.ConfigTypeA`</span>
-<span class="sd">                      and :py:class:`pyrocko.gf.meta.ConfigTypeB` stores, MT</span>
-<span class="sd">                      sources only</span>
-<span class="sd">    ``elastic8``      Elastodynamic for far-field only</span>
-<span class="sd">                      :py:class:`pyrocko.gf.meta.ConfigTypeA` and</span>
-<span class="sd">                      :py:class:`pyrocko.gf.meta.ConfigTypeB` stores,</span>
-<span class="sd">                      MT sources only</span>
-<span class="sd">    ``elastic2``      Elastodynamic for :py:class:`pyrocko.gf.meta.ConfigTypeA`</span>
-<span class="sd">                      and :py:class:`pyrocko.gf.meta.ConfigTypeB` stores,</span>
-<span class="sd">                      purely isotropic sources only</span>
-<span class="sd">    ``elastic5``      Elastodynamic for :py:class:`pyrocko.gf.meta.ConfigTypeA`</span>
-<span class="sd">                      and :py:class:`pyrocko.gf.meta.ConfigTypeB` stores, SF</span>
-<span class="sd">                      sources only</span>
-<span class="sd">    ``elastic15``     Elastodynamic for :py:class:`pyrocko.gf.meta.ConfigTypeA`</span>
-<span class="sd">                      and :py:class:`pyrocko.gf.meta.ConfigTypeB` stores, MT</span>
-<span class="sd">                      and SF sources</span>
-<span class="sd">    ``elastic13``     Elastodynamic for far-field only</span>
-<span class="sd">                      :py:class:`pyrocko.gf.meta.ConfigTypeA` and</span>
-<span class="sd">                      :py:class:`pyrocko.gf.meta.ConfigTypeB` stores, MT and SF</span>
-<span class="sd">                      sources</span>
-<span class="sd">    ``elastic18``     Elastodynamic for :py:class:`pyrocko.gf.meta.ConfigTypeC`</span>
-<span class="sd">                      stores, MT sources only</span>
-<span class="sd">    ``poroelastic10`` Poroelastic for :py:class:`pyrocko.gf.meta.ConfigTypeA`</span>
-<span class="sd">                      and :py:class:`pyrocko.gf.meta.ConfigTypeB` stores</span>
-<span class="sd">    ================= =========================================================</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-
-    <span class="n">choices</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s">&#39;elastic10&#39;</span><span class="p">,</span>  <span class="c"># nf + ff</span>
-        <span class="s">&#39;elastic8&#39;</span><span class="p">,</span>   <span class="c"># ff</span>
-        <span class="s">&#39;elastic2&#39;</span><span class="p">,</span>   <span class="c"># explosions</span>
-        <span class="s">&#39;elastic5&#39;</span><span class="p">,</span>   <span class="c"># sf</span>
-        <span class="s">&#39;elastic13&#39;</span><span class="p">,</span>  <span class="c"># ff + sf</span>
-        <span class="s">&#39;elastic15&#39;</span><span class="p">,</span>  <span class="c"># nf + ff + sf</span>
-        <span class="s">&#39;elastic18&#39;</span><span class="p">,</span>  <span class="c"># 3d</span>
-        <span class="s">&#39;poroelastic10&#39;</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Region"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.Region">[docs]</a><span class="k">class</span> <span class="nc">Region</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+<div class="viewcode-block" id="Region"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Region">[docs]</a><span class="k">class</span> <span class="nc">Region</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="RectangularRegion"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.RectangularRegion">[docs]</a><span class="k">class</span> <span class="nc">RectangularRegion</span><span class="p">(</span><span class="n">Region</span><span class="p">):</span>
+<div class="viewcode-block" id="RectangularRegion"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.RectangularRegion">[docs]</a><span class="k">class</span> <span class="nc">RectangularRegion</span><span class="p">(</span><span class="n">Region</span><span class="p">):</span>
     <span class="n">lat_min</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
     <span class="n">lat_max</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
     <span class="n">lon_min</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
     <span class="n">lon_max</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="CircularRegion"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.CircularRegion">[docs]</a><span class="k">class</span> <span class="nc">CircularRegion</span><span class="p">(</span><span class="n">Region</span><span class="p">):</span>
+<div class="viewcode-block" id="CircularRegion"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.CircularRegion">[docs]</a><span class="k">class</span> <span class="nc">CircularRegion</span><span class="p">(</span><span class="n">Region</span><span class="p">):</span>
     <span class="n">lat</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
     <span class="n">lon</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
     <span class="n">radius</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="Config"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.Config">[docs]</a><span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+<div class="viewcode-block" id="Config"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Config">[docs]</a><span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Green&#39;s function store meta information.</span>
 
@@ -1491,10 +1649,10 @@
     <span class="n">frequency_min</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="n">frequency_max</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="n">sample_rate</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-    <span class="n">ncomponents</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">factor</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-    <span class="n">component_scheme</span> <span class="o">=</span> <span class="n">ComponentSchemes</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s">&#39;elastic10&#39;</span><span class="p">)</span>
+    <span class="n">component_scheme</span> <span class="o">=</span> <span class="n">ComponentScheme</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s">&#39;elastic10&#39;</span><span class="p">)</span>
     <span class="n">tabulated_phases</span> <span class="o">=</span> <span class="n">List</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">TPDef</span><span class="o">.</span><span class="n">T</span><span class="p">())</span>
+    <span class="n">ncomponents</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_do_auto_updates</span> <span class="o">=</span> <span class="k">False</span>
@@ -1505,6 +1663,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">regularize</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_do_auto_updates</span> <span class="o">=</span> <span class="k">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">check_ncomponents</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ncomponents</span> <span class="o">=</span> <span class="n">component_scheme_to_description</span><span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">component_scheme</span><span class="p">]</span><span class="o">.</span><span class="n">ncomponents</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ncomponents</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ncomponents</span> <span class="o">=</span> <span class="n">ncomponents</span>
+        <span class="k">elif</span> <span class="n">ncomponents</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ncomponents</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InvalidNComponents</span><span class="p">(</span>
+                <span class="s">&#39;ncomponents=%i incompatible with component_scheme=&quot;%s&quot;&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ncomponents</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_scheme</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">Object</span><span class="o">.</span><span class="n">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
@@ -1517,6 +1686,7 @@
             <span class="k">pass</span>
 
     <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_ncomponents</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_make_index_functions</span><span class="p">()</span>
 
@@ -1554,7 +1724,10 @@
         <span class="n">arrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">nditer_outer</span><span class="p">(</span><span class="n">arrs</span><span class="p">[:</span><span class="n">level</span><span class="p">])</span>
 
-    <span class="k">def</span> <span class="nf">make_sum_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">receiver</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">make_sum_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">receiver</span><span class="p">,</span> <span class="n">implementation</span><span class="o">=</span><span class="s">&#39;c&#39;</span><span class="p">,</span>
+                        <span class="n">nthreads</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">implementation</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;python&#39;</span><span class="p">]</span>
+
         <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">delays</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">times</span>
         <span class="k">for</span> <span class="n">comp</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">icomponents</span> <span class="ow">in</span> <span class="n">source</span><span class="o">.</span><span class="n">make_weights</span><span class="p">(</span>
@@ -1569,21 +1742,10 @@
 
         <span class="k">return</span> <span class="n">out</span>
 
-    <span class="k">def</span> <span class="nf">make_sum_params2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">multi_location</span><span class="p">):</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">delays</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">times</span>
-
-        <span class="n">source_coords</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">coords5</span><span class="p">()</span>
-        <span class="n">receiver_coords</span> <span class="o">=</span> <span class="n">multi_location</span><span class="o">.</span><span class="n">coords5</span>
-
-        <span class="k">return</span> <span class="n">store_ext</span><span class="o">.</span><span class="n">make_sum_params</span><span class="p">(</span>
-            <span class="n">source</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">source_coords</span><span class="p">,</span> <span class="n">receiver_coords</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_scheme</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">short_type</span><span class="p">)</span>
-        
-
     <span class="k">def</span> <span class="nf">short_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="bp">NotImplemented</span><span class="p">(</span><span class="s">&#39;should be implemented in subclass&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Config.get_shear_moduli"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.Config.get_shear_moduli">[docs]</a>    <span class="k">def</span> <span class="nf">get_shear_moduli</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span>
+<div class="viewcode-block" id="Config.get_shear_moduli"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Config.get_shear_moduli">[docs]</a>    <span class="k">def</span> <span class="nf">get_shear_moduli</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span>
                          <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest_neighbor&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Get shear moduli at given points from contained velocity model.</span>
@@ -1626,7 +1788,7 @@
         <span class="k">return</span> <span class="n">shear_moduli_interpolator</span><span class="p">(</span><span class="n">points</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span></div></div>
 
 
-<div class="viewcode-block" id="ConfigTypeA"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.ConfigTypeA">[docs]</a><span class="k">class</span> <span class="nc">ConfigTypeA</span><span class="p">(</span><span class="n">Config</span><span class="p">):</span>
+<div class="viewcode-block" id="ConfigTypeA"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.ConfigTypeA">[docs]</a><span class="k">class</span> <span class="nc">ConfigTypeA</span><span class="p">(</span><span class="n">Config</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Cylindrical symmetry, 1D earth model, single receiver depth</span>
 
@@ -1647,6 +1809,9 @@
     <span class="n">distance_delta</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
 
     <span class="n">short_type</span> <span class="o">=</span> <span class="s">&#39;A&#39;</span>
+
+    <span class="n">provided_schemes</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s">&#39;elastic2&#39;</span><span class="p">,</span> <span class="s">&#39;elastic5&#39;</span><span class="p">,</span> <span class="s">&#39;elastic8&#39;</span><span class="p">,</span> <span class="s">&#39;elastic10&#39;</span><span class="p">,</span> <span class="s">&#39;poroelastic10&#39;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">get_surface_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -1783,8 +1948,6 @@
                 <span class="n">num</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">dists</span><span class="p">,</span> <span class="n">nc</span><span class="o">/</span><span class="n">n</span><span class="p">),</span>
                 <span class="n">icomponents</span><span class="p">)</span>
 
-        
-
     <span class="k">def</span> <span class="nf">make_indexing_args1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">receiver</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span> <span class="n">source</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="n">receiver</span><span class="p">))</span>
 
@@ -1799,7 +1962,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">distance_delta</span><span class="o">/</span><span class="n">km</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ConfigTypeB"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.ConfigTypeB">[docs]</a><span class="k">class</span> <span class="nc">ConfigTypeB</span><span class="p">(</span><span class="n">Config</span><span class="p">):</span>
+<div class="viewcode-block" id="ConfigTypeB"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.ConfigTypeB">[docs]</a><span class="k">class</span> <span class="nc">ConfigTypeB</span><span class="p">(</span><span class="n">Config</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Cylindrical symmetry, 1D earth model, variable receiver depth</span>
 
@@ -1821,6 +1984,9 @@
     <span class="n">distance_delta</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
 
     <span class="n">short_type</span> <span class="o">=</span> <span class="s">&#39;B&#39;</span>
+
+    <span class="n">provided_schemes</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s">&#39;elastic2&#39;</span><span class="p">,</span> <span class="s">&#39;elastic5&#39;</span><span class="p">,</span> <span class="s">&#39;elastic8&#39;</span><span class="p">,</span> <span class="s">&#39;elastic10&#39;</span><span class="p">,</span> <span class="s">&#39;poroelastic10&#39;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">get_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
@@ -2012,7 +2178,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">distance_delta</span><span class="o">/</span><span class="n">km</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ConfigTypeC"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.ConfigTypeC">[docs]</a><span class="k">class</span> <span class="nc">ConfigTypeC</span><span class="p">(</span><span class="n">Config</span><span class="p">):</span>
+<div class="viewcode-block" id="ConfigTypeC"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.ConfigTypeC">[docs]</a><span class="k">class</span> <span class="nc">ConfigTypeC</span><span class="p">(</span><span class="n">Config</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    No symmetrical constraints but fixed receiver positions.</span>
 
@@ -2036,6 +2202,8 @@
     <span class="n">source_north_shift_delta</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
 
     <span class="n">short_type</span> <span class="o">=</span> <span class="s">&#39;C&#39;</span>
+
+    <span class="n">provided_schemes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;elastic18&#39;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">get_surface_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="n">ireceiver</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">source_east_shift</span><span class="p">,</span> <span class="n">source_north_shift</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">args</span>
@@ -2294,11 +2462,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">source_north_shift_delta</span><span class="o">/</span><span class="n">km</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Weighting"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.Weighting">[docs]</a><span class="k">class</span> <span class="nc">Weighting</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+<div class="viewcode-block" id="Weighting"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Weighting">[docs]</a><span class="k">class</span> <span class="nc">Weighting</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
     <span class="n">factor</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Taper"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.Taper">[docs]</a><span class="k">class</span> <span class="nc">Taper</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+<div class="viewcode-block" id="Taper"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Taper">[docs]</a><span class="k">class</span> <span class="nc">Taper</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
     <span class="n">tmin</span> <span class="o">=</span> <span class="n">Timing</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
     <span class="n">tmax</span> <span class="o">=</span> <span class="n">Timing</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
     <span class="n">tfade</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
@@ -2308,7 +2476,7 @@
         <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="SimplePattern"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.SimplePattern">[docs]</a><span class="k">class</span> <span class="nc">SimplePattern</span><span class="p">(</span><span class="n">SObject</span><span class="p">):</span>
+<div class="viewcode-block" id="SimplePattern"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.SimplePattern">[docs]</a><span class="k">class</span> <span class="nc">SimplePattern</span><span class="p">(</span><span class="n">SObject</span><span class="p">):</span>
 
     <span class="n">_pool</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -2333,19 +2501,19 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">regex</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="WaveformType"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.WaveformType">[docs]</a><span class="k">class</span> <span class="nc">WaveformType</span><span class="p">(</span><span class="n">StringChoice</span><span class="p">):</span>
+<div class="viewcode-block" id="WaveformType"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.WaveformType">[docs]</a><span class="k">class</span> <span class="nc">WaveformType</span><span class="p">(</span><span class="n">StringChoice</span><span class="p">):</span>
     <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;dis&#39;</span><span class="p">,</span> <span class="s">&#39;vel&#39;</span><span class="p">,</span> <span class="s">&#39;acc&#39;</span><span class="p">,</span>
                <span class="s">&#39;amp_spec_dis&#39;</span><span class="p">,</span> <span class="s">&#39;amp_spec_vel&#39;</span><span class="p">,</span> <span class="s">&#39;amp_spec_acc&#39;</span><span class="p">,</span>
                <span class="s">&#39;envelope_dis&#39;</span><span class="p">,</span> <span class="s">&#39;envelope_vel&#39;</span><span class="p">,</span> <span class="s">&#39;envelope_acc&#39;</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="ChannelSelection"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.ChannelSelection">[docs]</a><span class="k">class</span> <span class="nc">ChannelSelection</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+<div class="viewcode-block" id="ChannelSelection"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.ChannelSelection">[docs]</a><span class="k">class</span> <span class="nc">ChannelSelection</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
     <span class="n">pattern</span> <span class="o">=</span> <span class="n">SimplePattern</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="n">min_sample_rate</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="n">max_sample_rate</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="StationSelection"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.StationSelection">[docs]</a><span class="k">class</span> <span class="nc">StationSelection</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+<div class="viewcode-block" id="StationSelection"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.StationSelection">[docs]</a><span class="k">class</span> <span class="nc">StationSelection</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
     <span class="n">includes</span> <span class="o">=</span> <span class="n">SimplePattern</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
     <span class="n">excludes</span> <span class="o">=</span> <span class="n">SimplePattern</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
     <span class="n">distance_min</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
@@ -2354,7 +2522,7 @@
     <span class="n">azimuth_max</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="WaveformSelection"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.meta.WaveformSelection">[docs]</a><span class="k">class</span> <span class="nc">WaveformSelection</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+<div class="viewcode-block" id="WaveformSelection"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.WaveformSelection">[docs]</a><span class="k">class</span> <span class="nc">WaveformSelection</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
     <span class="n">channel_selection</span> <span class="o">=</span> <span class="n">ChannelSelection</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="n">station_selection</span> <span class="o">=</span> <span class="n">StationSelection</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="n">taper</span> <span class="o">=</span> <span class="n">Taper</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
@@ -2485,6 +2653,15 @@
     <span class="k">return</span> <span class="n">a</span>
 
 
+<span class="n">config_type_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ConfigTypeA</span><span class="p">,</span> <span class="n">ConfigTypeB</span><span class="p">,</span> <span class="n">ConfigTypeC</span><span class="p">]</span>
+
+<span class="n">discretized_source_classes</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">DiscretizedExplosionSource</span><span class="p">,</span>
+    <span class="n">DiscretizedSFSource</span><span class="p">,</span>
+    <span class="n">DiscretizedMTSource</span><span class="p">,</span>
+    <span class="n">DiscretizedPorePressureSource</span><span class="p">]</span>
+
+
 <span class="n">__all__</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;</span>
 <span class="s">Earthmodel1D</span>
 <span class="s">StringID</span>
@@ -2502,14 +2679,12 @@
 <span class="s">OutOfBounds</span>
 <span class="s">Location</span>
 <span class="s">Receiver</span>
-<span class="s">DiscretizedSource</span>
-<span class="s">DiscretizedExplosionSource</span>
-<span class="s">DiscretizedMTSource</span>
-<span class="s">ComponentSchemes</span>
+<span class="s">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span>
+    <span class="n">S</span><span class="o">.</span><span class="n">__name__</span> <span class="k">for</span> <span class="n">S</span> <span class="ow">in</span> <span class="n">discretized_source_classes</span> <span class="o">+</span> <span class="n">config_type_classes</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;&#39;&#39;</span>
+<span class="s">ComponentScheme</span>
+<span class="s">component_scheme_to_description</span>
+<span class="s">component_schemes</span>
 <span class="s">Config</span>
-<span class="s">ConfigTypeA</span>
-<span class="s">ConfigTypeB</span>
-<span class="s">ConfigTypeC</span>
 <span class="s">GridSpecError</span>
 <span class="s">Weighting</span>
 <span class="s">Taper</span>
@@ -2521,6 +2696,14 @@
 <span class="s">nditer_outer</span>
 <span class="s">dump</span>
 <span class="s">load</span>
+<span class="s">discretized_source_classes</span>
+<span class="s">config_type_classes</span>
+<span class="s">UnavailableScheme</span>
+<span class="s">InterpolationMethod</span>
+<span class="s">SeismosizerTrace</span>
+<span class="s">SeismosizerResult</span>
+<span class="s">Result</span>
+<span class="s">StaticResult</span>
 <span class="s">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 </pre></div>
 

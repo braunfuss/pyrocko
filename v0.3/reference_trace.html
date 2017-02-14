@@ -977,7 +977,7 @@ evaluates the discrete equivalent of</p>
 <div class="math">
 <p><img src="_images/math/aa8bfd4c15d285e27a2fd4709bd7f6cc0d8e5854.svg" alt="c(t) = \int_{-\infty}^{\infty} a^{\ast}(\tau) b(t+\tau) d\tau"/></p>
 </div><p>where the star denotes complex conjugate. Note, that the arguments here are
-swapped when compared with the <code class="xref py py-func docutils literal"><span class="pre">numpy.correlate()</span></code> function,
+swapped when compared with the <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.correlate.html#numpy.correlate" title="(in NumPy v1.12)"><code class="xref py py-func docutils literal"><span class="pre">numpy.correlate()</span></code></a> function,
 which is internally called. This function should be safe even with older
 versions of NumPy, where the correlate function has some problems.</p>
 <p>A trace containing the cross correlation coefficients is returned. The time
@@ -1318,13 +1318,13 @@ function.</li>
 <dl class="gattribute">
 <dt id="pyrocko.trace.SampledResponse.frequencies">
 <em class="property">♦ </em><code class="descname">frequencies</code><a class="headerlink" href="#pyrocko.trace.SampledResponse.frequencies" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
 </dd></dl>
 
 <dl class="gattribute">
 <dt id="pyrocko.trace.SampledResponse.values">
 <em class="property">♦ </em><code class="descname">values</code><a class="headerlink" href="#pyrocko.trace.SampledResponse.values" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
 </dd></dl>
 
 <dl class="gattribute">
@@ -1419,7 +1419,7 @@ function.</li>
 <dt id="pyrocko.trace.AnalogFilterResponse">
 <em class="property">class </em><code class="descname">AnalogFilterResponse</code><span class="sig-paren">(</span><em>b</em>, <em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrocko/trace.html#AnalogFilterResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.AnalogFilterResponse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Frequency response of an analog filter.</p>
-<p>(see <code class="xref py py-func docutils literal"><span class="pre">scipy.signal.freqs()</span></code>).</p>
+<p>(see <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.freqs.html#scipy.signal.freqs" title="(in SciPy v0.18.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.signal.freqs()</span></code></a>).</p>
 <dl class="gattribute">
 <dt id="pyrocko.trace.AnalogFilterResponse.b">
 <em class="property">♦ </em><code class="descname">b</code><a class="headerlink" href="#pyrocko.trace.AnalogFilterResponse.b" title="Permalink to this definition">¶</a></dt>
@@ -1455,7 +1455,7 @@ function.</li>
 <dl class="function">
 <dt id="pyrocko.trace.numpy_correlate_fixed">
 <code class="descname">numpy_correlate_fixed</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>mode='valid'</em>, <em>use_fft=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrocko/trace.html#numpy_correlate_fixed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.numpy_correlate_fixed" title="Permalink to this definition">¶</a></dt>
-<dd><p>Call <code class="xref py py-func docutils literal"><span class="pre">numpy.correlate()</span></code> with fixes.</p>
+<dd><p>Call <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.correlate.html#numpy.correlate" title="(in NumPy v1.12)"><code class="xref py py-func docutils literal"><span class="pre">numpy.correlate()</span></code></a> with fixes.</p>
 <blockquote>
 <div>c[k] = sum_i a[i+k] * conj(b[i])</div></blockquote>
 <p>Note that the result produced by newer numpy.correlate is always flipped
@@ -1466,13 +1466,13 @@ assumed for the output).</p>
 <dl class="function">
 <dt id="pyrocko.trace.numpy_correlate_emulate">
 <code class="descname">numpy_correlate_emulate</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>mode='valid'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrocko/trace.html#numpy_correlate_emulate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.numpy_correlate_emulate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Slow version of <code class="xref py py-func docutils literal"><span class="pre">numpy.correlate()</span></code> for comparison.</p>
+<dd><p>Slow version of <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.correlate.html#numpy.correlate" title="(in NumPy v1.12)"><code class="xref py py-func docutils literal"><span class="pre">numpy.correlate()</span></code></a> for comparison.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="pyrocko.trace.numpy_correlate_lag_range">
 <code class="descname">numpy_correlate_lag_range</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>mode='valid'</em>, <em>use_fft=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrocko/trace.html#numpy_correlate_lag_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.numpy_correlate_lag_range" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get range of lags for which <code class="xref py py-func docutils literal"><span class="pre">numpy.correlate()</span></code> produces values.</p>
+<dd><p>Get range of lags for which <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.correlate.html#numpy.correlate" title="(in NumPy v1.12)"><code class="xref py py-func docutils literal"><span class="pre">numpy.correlate()</span></code></a> produces values.</p>
 </dd></dl>
 
 <dl class="function">
@@ -1510,7 +1510,7 @@ assumed for the output).</p>
 </tbody>
 </table>
 <p>A biased estimate of the autocorrelation is used. The Yule-Walker equations
-are solved by <code class="xref py py-func docutils literal"><span class="pre">numpy.linalg.inv()</span></code> instead of Levinson-Durbin
+are solved by <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.inv.html#numpy.linalg.inv" title="(in NumPy v1.12)"><code class="xref py py-func docutils literal"><span class="pre">numpy.linalg.inv()</span></code></a> instead of Levinson-Durbin
 recursion which is normally used.</p>
 </dd></dl>
 
@@ -1532,7 +1532,7 @@ recursion which is normally used.</p>
 <code class="descname">co_lfilter</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyrocko/trace.html#co_lfilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.co_lfilter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Successively filter broken continuous trace data (coroutine).</p>
 <p>Create coroutine which takes <a class="reference internal" href="#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a> objects, filters their data
-through <code class="xref py py-func docutils literal"><span class="pre">scipy.signal.lfilter()</span></code> and sends new <a class="reference internal" href="#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a>
+through <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.lfilter.html#scipy.signal.lfilter" title="(in SciPy v0.18.1)"><code class="xref py py-func docutils literal"><span class="pre">scipy.signal.lfilter()</span></code></a> and sends new <a class="reference internal" href="#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a>
 objects containing the filtered data to target. This is useful, if one
 wants to filter a long continuous time series, which is split into many
 successive traces without producing filter artifacts at trace boundaries.</p>

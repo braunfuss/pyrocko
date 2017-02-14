@@ -64,7 +64,7 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
 
-<span class="kn">from</span> <span class="nn">pyrocko.guts</span> <span class="k">import</span> <span class="n">Object</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">StringChoice</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> \
+<span class="kn">from</span> <span class="nn">pyrocko.guts</span> <span class="k">import</span> <span class="n">Object</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">StringChoice</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> \
     <span class="n">Timestamp</span><span class="p">,</span> <span class="n">Int</span><span class="p">,</span> <span class="n">SObject</span><span class="p">,</span> <span class="n">ArgumentError</span><span class="p">,</span> <span class="n">Dict</span>
 
 <span class="kn">from</span> <span class="nn">pyrocko.guts_array</span> <span class="k">import</span> <span class="n">Array</span>
@@ -73,13 +73,14 @@
 <span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">trace</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">parimap</span><span class="p">,</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">pyrocko.gf</span> <span class="k">import</span> <span class="n">meta</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="n">ws</span>
 <span class="kn">from</span> <span class="nn">pyrocko.orthodrome</span> <span class="k">import</span> <span class="n">ne_to_latlon</span>
+<span class="kn">from</span> <span class="nn">.targets</span> <span class="k">import</span> <span class="n">Target</span><span class="p">,</span> <span class="n">StaticTarget</span><span class="p">,</span> <span class="n">SatelliteTarget</span>
 <span class="kn">import</span> <span class="nn">pyrocko.config</span>
 
 <span class="n">pjoin</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span>
 
 <span class="n">guts_prefix</span> <span class="o">=</span> <span class="s">&#39;pf&#39;</span>
 
-<span class="n">d2r</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">180.</span>
+<span class="n">d2r</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;pyrocko.gf.seismosizer&#39;</span><span class="p">)</span>
 
@@ -115,18 +116,6 @@
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&#39;no GF store with id &quot;%s&quot; found.&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_id</span>
-
-
-<div class="viewcode-block" id="Filter"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Filter">[docs]</a><span class="k">class</span> <span class="nc">Filter</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
-    <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="InterpolationMethod"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.InterpolationMethod">[docs]</a><span class="k">class</span> <span class="nc">InterpolationMethod</span><span class="p">(</span><span class="n">StringChoice</span><span class="p">):</span>
-    <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;nearest_neighbor&#39;</span><span class="p">,</span> <span class="s">&#39;multilinear&#39;</span><span class="p">]</span></div>
-
-
-<div class="viewcode-block" id="OptimizationMethod"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.OptimizationMethod">[docs]</a><span class="k">class</span> <span class="nc">OptimizationMethod</span><span class="p">(</span><span class="n">StringChoice</span><span class="p">):</span>
-    <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;enable&#39;</span><span class="p">,</span> <span class="s">&#39;disable&#39;</span><span class="p">]</span></div>
 
 
 <span class="k">def</span> <span class="nf">ufloat</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
@@ -530,46 +519,6 @@
 
     <span class="k">def</span> <span class="nf">shorthand</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&#39;; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">)</span>
-
-
-<div class="viewcode-block" id="SeismosizerTrace"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.SeismosizerTrace">[docs]</a><span class="k">class</span> <span class="nc">SeismosizerTrace</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
-
-    <span class="n">codes</span> <span class="o">=</span> <span class="n">Tuple</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="mi">4</span><span class="p">,</span> <span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">(),</span>
-        <span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;STA&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;Z&#39;</span><span class="p">),</span>
-        <span class="n">help</span><span class="o">=</span><span class="s">&#39;network, station, location and channel codes&#39;</span><span class="p">)</span>
-
-    <span class="n">data</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,),</span>
-        <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
-        <span class="n">serialize_as</span><span class="o">=</span><span class="s">&#39;base64&#39;</span><span class="p">,</span>
-        <span class="n">serialize_dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s">&#39;&lt;f4&#39;</span><span class="p">),</span>
-        <span class="n">help</span><span class="o">=</span><span class="s">&#39;numpy array with data samples&#39;</span><span class="p">)</span>
-
-    <span class="n">deltat</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s">&#39;sampling interval [s]&#39;</span><span class="p">)</span>
-
-    <span class="n">tmin</span> <span class="o">=</span> <span class="n">Timestamp</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s">&#39;time of first sample as a system timestamp [s]&#39;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">pyrocko_trace</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codes</span>
-        <span class="k">return</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
-                           <span class="n">ydata</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-                           <span class="n">deltat</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">deltat</span><span class="p">,</span>
-                           <span class="n">tmin</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tmin</span><span class="p">)</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_pyrocko_trace</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">tr</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-            <span class="n">codes</span><span class="o">=</span><span class="n">tr</span><span class="o">.</span><span class="n">nslc_id</span><span class="p">,</span>
-            <span class="n">tmin</span><span class="o">=</span><span class="n">tr</span><span class="o">.</span><span class="n">tmin</span><span class="p">,</span>
-            <span class="n">deltat</span><span class="o">=</span><span class="n">tr</span><span class="o">.</span><span class="n">deltat</span><span class="p">,</span>
-            <span class="n">data</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">get_ydata</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
-        <span class="n">d</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="o">**</span><span class="n">d</span><span class="p">)</span></div>
 
 
 <span class="k">class</span> <span class="nc">Cloneable</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1041,7 +990,8 @@
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">provided_components</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">component_scheme</span><span class="p">):</span>
         <span class="n">cls</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">discretized_source_class</span>
-        <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">provided_components</span><span class="p">(</span><span class="n">component_scheme</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">meta</span><span class="o">.</span><span class="n">component_scheme_to_description</span><span class="p">[</span><span class="n">component_scheme</span><span class="p">]</span>\
+            <span class="o">.</span><span class="n">provided_components</span>
 
     <span class="k">def</span> <span class="nf">pyrocko_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effective_latlon</span>
@@ -1471,6 +1421,11 @@
         <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s">&#39;Slip on the rectangular source area [m]&#39;</span><span class="p">)</span>
 
+    <span class="n">interpolation</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">InterpolationMethod</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s">&#39;nearest_neighbor&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Shear moduli interpolation technique to discretize slip&#39;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">base_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">DCSource</span><span class="o">.</span><span class="n">base_key</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
@@ -1480,7 +1435,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">slip</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">discretize_basesource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">discretize_basesource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nucleation_x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="n">nucx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nucleation_x</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span>
@@ -1505,7 +1460,7 @@
             <span class="n">shear_moduli</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get_shear_moduli</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span>
                 <span class="n">points</span><span class="o">=</span><span class="n">points2</span><span class="p">,</span>
-                <span class="n">interpolation</span><span class="o">=</span><span class="n">target</span><span class="o">.</span><span class="n">interpolation</span><span class="p">)</span>
+                <span class="n">interpolation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">interpolation</span><span class="p">)</span>
 
             <span class="n">amplitudes</span> <span class="o">*=</span> <span class="n">dl</span> <span class="o">*</span> <span class="n">dw</span> <span class="o">*</span> <span class="n">shear_moduli</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">slip</span>
 
@@ -1972,160 +1927,6 @@
             <span class="n">pp</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Target"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Target">[docs]</a><span class="k">class</span> <span class="nc">Target</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">Receiver</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    A single channel of a computation request including post-processing params.</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-
-    <span class="n">quantity</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">QuantityType</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Measurement quantity type (e.g. &quot;displacement&quot;, &quot;pressure&quot;, ...)&#39;</span>
-             <span class="s">&#39;If not given, it is guessed from the channel code.&#39;</span><span class="p">)</span>
-
-    <span class="n">codes</span> <span class="o">=</span> <span class="n">Tuple</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="mi">4</span><span class="p">,</span> <span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">(),</span> <span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;STA&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;Z&#39;</span><span class="p">),</span>
-        <span class="n">help</span><span class="o">=</span><span class="s">&#39;network, station, location and channel codes to be set on &#39;</span>
-             <span class="s">&#39;the response trace.&#39;</span><span class="p">)</span>
-
-    <span class="n">elevation</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s">&#39;station surface elevation in [m]&#39;</span><span class="p">)</span>
-
-    <span class="n">store_id</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">StringID</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s">&#39;ID of Green</span><span class="se">\&#39;</span><span class="s">s function store to use for the computation. &#39;</span>
-             <span class="s">&#39;If not given, the processor may use a system default.&#39;</span><span class="p">)</span>
-
-    <span class="n">sample_rate</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s">&#39;sample rate to produce. &#39;</span>
-             <span class="s">&#39;If not given the GF store</span><span class="se">\&#39;</span><span class="s">s default sample rate is used.&#39;</span>
-             <span class="s">&#39;GF store specific restrictions may apply.&#39;</span><span class="p">)</span>
-
-    <span class="n">interpolation</span> <span class="o">=</span> <span class="n">InterpolationMethod</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">default</span><span class="o">=</span><span class="s">&#39;nearest_neighbor&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s">&#39;interpolation method to use&#39;</span><span class="p">)</span>
-
-    <span class="n">optimization</span> <span class="o">=</span> <span class="n">OptimizationMethod</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">default</span><span class="o">=</span><span class="s">&#39;enable&#39;</span><span class="p">,</span>
-        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s">&#39;disable/enable optimizations in weight-delay-and-sum operation&#39;</span><span class="p">)</span>
-
-    <span class="n">tmin</span> <span class="o">=</span> <span class="n">Timestamp</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s">&#39;time of first sample to request in [s]. &#39;</span>
-             <span class="s">&#39;If not given, it is determined from the Green</span><span class="se">\&#39;</span><span class="s">s functions.&#39;</span><span class="p">)</span>
-
-    <span class="n">tmax</span> <span class="o">=</span> <span class="n">Timestamp</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s">&#39;time of last sample to request in [s]. &#39;</span>
-             <span class="s">&#39;If not given, it is determined from the Green</span><span class="se">\&#39;</span><span class="s">s functions.&#39;</span><span class="p">)</span>
-
-    <span class="n">azimuth</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s">&#39;azimuth of sensor component in [deg], clockwise from north. &#39;</span>
-             <span class="s">&#39;If not given, it is guessed from the channel code.&#39;</span><span class="p">)</span>
-
-    <span class="n">dip</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s">&#39;dip of sensor component in [deg], &#39;</span>
-             <span class="s">&#39;measured downward from horizontal. &#39;</span>
-             <span class="s">&#39;If not given, it is guessed from the channel code.&#39;</span><span class="p">)</span>
-
-    <span class="nb">filter</span> <span class="o">=</span> <span class="n">Filter</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s">&#39;frequency response filter.&#39;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">base_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_rate</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">interpolation</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">optimization</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">tmin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmax</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">elevation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">north_shift</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">east_shift</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lon</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">effective_quantity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span>
-
-        <span class="c"># guess from channel code</span>
-        <span class="n">cha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cha</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="c"># use most common SEED conventions here, however units have to be</span>
-            <span class="c"># guessed, because they are not uniquely defined by the conventions</span>
-            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="s">&#39;HL&#39;</span><span class="p">:</span>  <span class="c"># high gain, low gain seismometer</span>
-                <span class="k">return</span> <span class="s">&#39;velocity&#39;</span>
-            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;N&#39;</span><span class="p">:</span>   <span class="c"># accelerometer</span>
-                <span class="k">return</span> <span class="s">&#39;acceleration&#39;</span>
-            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;D&#39;</span><span class="p">:</span>   <span class="c"># hydrophone, barometer, ...</span>
-                <span class="k">return</span> <span class="s">&#39;pressure&#39;</span>
-            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;A&#39;</span><span class="p">:</span>   <span class="c"># tiltmeter</span>
-                <span class="k">return</span> <span class="s">&#39;tilt&#39;</span>
-        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">cha</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;U&#39;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="s">&#39;displacement&#39;</span>
-            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;V&#39;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="s">&#39;velocity&#39;</span>
-        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">cha</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">cha</span> <span class="ow">in</span> <span class="s">&#39;NEZ&#39;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="s">&#39;displacement&#39;</span>
-            <span class="k">if</span> <span class="n">cha</span> <span class="o">==</span> <span class="s">&#39;P&#39;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="s">&#39;pressure&#39;</span>
-
-        <span class="k">raise</span> <span class="n">BadRequest</span><span class="p">(</span><span class="s">&#39;cannot guess measurement quantity type from channel &#39;</span>
-                         <span class="s">&#39;code &quot;%s&quot;&#39;</span> <span class="o">%</span> <span class="n">cha</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">receiver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="p">):</span>
-        <span class="n">rec</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">Receiver</span><span class="p">(</span><span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">Receiver</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">inamevals</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
-        <span class="k">return</span> <span class="n">rec</span>
-
-    <span class="k">def</span> <span class="nf">component_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">cha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">cha</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s">&#39; &#39;</span>
-
-    <span class="k">def</span> <span class="nf">effective_azimuth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">azimuth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">azimuth</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_code</span><span class="p">()</span> <span class="ow">in</span> <span class="s">&#39;NEZ&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">{</span><span class="s">&#39;N&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span> <span class="s">&#39;E&#39;</span><span class="p">:</span> <span class="mf">90.</span><span class="p">,</span> <span class="s">&#39;Z&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">component_code</span><span class="p">()]</span>
-
-        <span class="k">raise</span> <span class="n">BadRequest</span><span class="p">(</span><span class="s">&#39;cannot determine sensor component azimuth for &#39;</span>
-                         <span class="s">&#39;%s.%s.%s.%s&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">codes</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">effective_dip</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dip</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_code</span><span class="p">()</span> <span class="ow">in</span> <span class="s">&#39;NEZ&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">{</span><span class="s">&#39;N&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span> <span class="s">&#39;E&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span> <span class="s">&#39;Z&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">90.</span><span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">component_code</span><span class="p">()]</span>
-
-        <span class="k">raise</span> <span class="n">BadRequest</span><span class="p">(</span><span class="s">&#39;cannot determine sensor component dip&#39;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">get_sin_cos_factors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">azi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effective_azimuth</span><span class="p">()</span>
-        <span class="n">dip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effective_dip</span><span class="p">()</span>
-        <span class="n">sa</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">azi</span><span class="o">*</span><span class="n">d2r</span><span class="p">)</span>
-        <span class="n">ca</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">azi</span><span class="o">*</span><span class="n">d2r</span><span class="p">)</span>
-        <span class="n">sd</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">dip</span><span class="o">*</span><span class="n">d2r</span><span class="p">)</span>
-        <span class="n">cd</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">dip</span><span class="o">*</span><span class="n">d2r</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">sa</span><span class="p">,</span> <span class="n">ca</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">cd</span>
-
-    <span class="k">def</span> <span class="nf">get_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="mf">1.0</span>
-
-    <span class="k">def</span> <span class="nf">post_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">tr</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">trace</span><span class="o">=</span><span class="n">tr</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="Result"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Result">[docs]</a><span class="k">class</span> <span class="nc">Result</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">SeismosizerTrace</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-    <span class="n">n_records_stacked</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-    <span class="n">n_shared_stacking</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-    <span class="n">t_optimize</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-    <span class="n">t_stack</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
-
-
 <div class="viewcode-block" id="Request"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Request">[docs]</a><span class="k">class</span> <span class="nc">Request</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Synthetic seismogram computation request.</span>
@@ -2162,10 +1963,26 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sources</span><span class="p">,</span> <span class="n">Source</span><span class="p">):</span>
             <span class="n">sources</span> <span class="o">=</span> <span class="p">[</span><span class="n">sources</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">Target</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">Target</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">StaticTarget</span><span class="p">):</span>
             <span class="n">targets</span> <span class="o">=</span> <span class="p">[</span><span class="n">targets</span><span class="p">]</span>
 
         <span class="n">Object</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sources</span><span class="o">=</span><span class="n">sources</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="n">targets</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">targets_dynamic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">Target</span><span class="p">)]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">targets_static</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">StaticTarget</span><span class="p">)]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_dynamic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="k">True</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">targets_dynamic</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="k">False</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_statics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="k">True</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">targets_static</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="k">False</span>
 
     <span class="k">def</span> <span class="nf">subsources_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
@@ -2193,20 +2010,24 @@
 
 
 <div class="viewcode-block" id="ProcessingStats"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.ProcessingStats">[docs]</a><span class="k">class</span> <span class="nc">ProcessingStats</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
-    <span class="n">t_perc_get_store_and_receiver</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
-    <span class="n">t_perc_discretize_source</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
-    <span class="n">t_perc_make_base_seismogram</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
-    <span class="n">t_perc_make_same_span</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
-    <span class="n">t_perc_post_process</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
-    <span class="n">t_perc_optimize</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
-    <span class="n">t_perc_stack</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
-    <span class="n">t_wallclock</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
-    <span class="n">t_cpu</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
-    <span class="n">n_read_blocks</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
-    <span class="n">n_results</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
-    <span class="n">n_subrequests</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
-    <span class="n">n_stores</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
-    <span class="n">n_records_stacked</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">()</span></div>
+    <span class="n">t_perc_get_store_and_receiver</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+    <span class="n">t_perc_discretize_source</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+    <span class="n">t_perc_make_base_seismogram</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+    <span class="n">t_perc_make_same_span</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+    <span class="n">t_perc_post_process</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+    <span class="n">t_perc_optimize</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+    <span class="n">t_perc_stack</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+    <span class="n">t_perc_static_get_store</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+    <span class="n">t_perc_static_discretize_basesource</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+    <span class="n">t_perc_static_sum_statics</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+    <span class="n">t_perc_static_post_process</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+    <span class="n">t_wallclock</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+    <span class="n">t_cpu</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+    <span class="n">n_read_blocks</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">n_results</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">n_subrequests</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">n_stores</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">n_records_stacked</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Response"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Response">[docs]</a><span class="k">class</span> <span class="nc">Response</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
@@ -2215,27 +2036,45 @@
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
-    <span class="n">results_list</span> <span class="o">=</span> <span class="n">List</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">List</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">Result</span><span class="o">.</span><span class="n">T</span><span class="p">()))</span>
+    <span class="n">results_list</span> <span class="o">=</span> <span class="n">List</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">List</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">SeismosizerResult</span><span class="o">.</span><span class="n">T</span><span class="p">()))</span>
     <span class="n">stats</span> <span class="o">=</span> <span class="n">ProcessingStats</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Response.pyrocko_traces"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Response.pyrocko_traces">[docs]</a>    <span class="k">def</span> <span class="nf">pyrocko_traces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Return a list of requested :py:class:`trace.Trace` instances.</span>
+<span class="sd">        Return a list of requested</span>
+<span class="sd">        :class:`~pyrocko.trace.Trace` instances.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="n">traces</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">results</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results_list</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">meta</span><span class="o">.</span><span class="n">Result</span><span class="p">):</span>
+                    <span class="k">continue</span>
                 <span class="n">traces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">trace</span><span class="o">.</span><span class="n">pyrocko_trace</span><span class="p">())</span>
 
         <span class="k">return</span> <span class="n">traces</span></div>
+
+<div class="viewcode-block" id="Response.static_results"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Response.static_results">[docs]</a>    <span class="k">def</span> <span class="nf">static_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return a list of requested</span>
+<span class="sd">        :class:`~pyrocko.gf.meta.StaticResult` instances.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">statics</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">results</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results_list</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">meta</span><span class="o">.</span><span class="n">StaticResult</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="n">statics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">statics</span></div>
 
 <div class="viewcode-block" id="Response.iter_results"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.Response.iter_results">[docs]</a>    <span class="k">def</span> <span class="nf">iter_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">get</span><span class="o">=</span><span class="s">&#39;pyrocko_traces&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Generator function to iterate over results of request.</span>
 
-<span class="sd">        Yields associated :py:class:`Source`, :py:class:`Target`,</span>
-<span class="sd">        :py:class:`trace.Trace` instances in each iteration.</span>
+<span class="sd">        Yields associated :py:class:`Source`,</span>
+<span class="sd">        :class:`~pyrocko.gf.targets.Target`,</span>
+<span class="sd">        :class:`~pyrocko.trace.Trace` instances in each iteration.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="k">for</span> <span class="n">isource</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">sources</span><span class="p">):</span>
@@ -2345,7 +2184,7 @@
         <span class="k">return</span> <span class="n">data</span>
 
 
-<span class="k">class</span> <span class="nc">ScalarRule</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">ScalarRule</span><span class="p">(</span><span class="n">Rule</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">differentiate</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="n">quantity</span>
 
@@ -2356,12 +2195,31 @@
         <span class="k">return</span> <span class="n">base_seismogram</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
 
+<span class="k">class</span> <span class="nc">StaticDisplacement</span><span class="p">(</span><span class="n">Rule</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">required_components</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">([</span><span class="s">&#39;displacement.%s&#39;</span> <span class="o">%</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="s">&#39;ned&#39;</span><span class="p">)])</span>
+
+    <span class="k">def</span> <span class="nf">apply_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">base_statics</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">SatelliteTarget</span><span class="p">):</span>
+            <span class="n">los_fac</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">get_los_factors</span><span class="p">()</span>
+            <span class="n">base_statics</span><span class="p">[</span><span class="s">&#39;displacement.los&#39;</span><span class="p">]</span> <span class="o">=</span>\
+                <span class="p">(</span><span class="n">los_fac</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="o">-</span><span class="n">base_statics</span><span class="p">[</span><span class="s">&#39;displacement.d&#39;</span><span class="p">]</span> <span class="o">+</span>
+                 <span class="n">los_fac</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">base_statics</span><span class="p">[</span><span class="s">&#39;displacement.e&#39;</span><span class="p">]</span> <span class="o">+</span>
+                 <span class="n">los_fac</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">base_statics</span><span class="p">[</span><span class="s">&#39;displacement.n&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">base_statics</span>
+
+
 <span class="n">channel_rules</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s">&#39;displacement&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">VectorRule</span><span class="p">(</span><span class="s">&#39;displacement&#39;</span><span class="p">)],</span>
     <span class="s">&#39;velocity&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">VectorRule</span><span class="p">(</span><span class="s">&#39;displacement&#39;</span><span class="p">,</span> <span class="n">differentiate</span><span class="o">=</span><span class="mi">1</span><span class="p">)],</span>
     <span class="s">&#39;pore_pressure&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">ScalarRule</span><span class="p">(</span><span class="s">&#39;pore_pressure&#39;</span><span class="p">)],</span>
     <span class="s">&#39;vertical_tilt&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">HorizontalVectorRule</span><span class="p">(</span><span class="s">&#39;vertical_tilt&#39;</span><span class="p">)],</span>
-    <span class="s">&#39;darcy_velocity&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">VectorRule</span><span class="p">(</span><span class="s">&#39;darcy_velocity&#39;</span><span class="p">)]}</span>
+    <span class="s">&#39;darcy_velocity&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">VectorRule</span><span class="p">(</span><span class="s">&#39;darcy_velocity&#39;</span><span class="p">)],</span>
+<span class="p">}</span>
+
+<span class="n">static_rules</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;displacement&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">StaticDisplacement</span><span class="p">()]</span>
+<span class="p">}</span>
 
 
 <span class="k">class</span> <span class="nc">OutOfBoundsContext</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
@@ -2371,7 +2229,7 @@
     <span class="n">components</span> <span class="o">=</span> <span class="n">List</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">())</span>
 
 
-<span class="k">def</span> <span class="nf">process_subrequest</span><span class="p">(</span><span class="n">work</span><span class="p">,</span> <span class="n">pshared</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">process_subrequest_dynamic</span><span class="p">(</span><span class="n">work</span><span class="p">,</span> <span class="n">pshared</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
     <span class="n">engine</span> <span class="o">=</span> <span class="n">pshared</span><span class="p">[</span><span class="s">&#39;engine&#39;</span><span class="p">]</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">isources</span><span class="p">,</span> <span class="n">itargets</span> <span class="o">=</span> <span class="n">work</span>
 
@@ -2380,7 +2238,7 @@
 
     <span class="n">components</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span>
-        <span class="n">rule</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">channel_rule</span><span class="p">(</span><span class="n">sources</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">target</span><span class="p">)</span>
+        <span class="n">rule</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">get_rule</span><span class="p">(</span><span class="n">sources</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">target</span><span class="p">)</span>
         <span class="n">components</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">rule</span><span class="o">.</span><span class="n">required_components</span><span class="p">(</span><span class="n">target</span><span class="p">))</span>
 
     <span class="k">try</span><span class="p">:</span>
@@ -2396,7 +2254,6 @@
             <span class="n">target</span><span class="o">=</span><span class="n">targets</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
             <span class="n">distance</span><span class="o">=</span><span class="n">sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="n">targets</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
             <span class="n">components</span><span class="o">=</span><span class="n">components</span><span class="p">)</span>
-
         <span class="k">raise</span>
 
     <span class="n">n_records_stacked</span> <span class="o">=</span> <span class="mi">0</span>
@@ -2411,7 +2268,8 @@
     <span class="k">for</span> <span class="n">isource</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">isources</span><span class="p">,</span> <span class="n">sources</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">itarget</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">itargets</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">_post_process</span><span class="p">(</span><span class="n">base_seismogram</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">_post_process_seismogram</span><span class="p">(</span>
+                    <span class="n">base_seismogram</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
                 <span class="n">result</span><span class="o">.</span><span class="n">n_records_stacked</span> <span class="o">=</span> <span class="n">n_records_stacked</span>
                 <span class="n">result</span><span class="o">.</span><span class="n">n_shared_stacking</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sources</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span>
                 <span class="n">result</span><span class="o">.</span><span class="n">t_optimize</span> <span class="o">=</span> <span class="n">t_optimize</span>
@@ -2425,6 +2283,35 @@
     <span class="n">tcounters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xtime</span><span class="p">())</span>
 
     <span class="k">return</span> <span class="n">results</span><span class="p">,</span> <span class="n">tcounters</span>
+
+
+<span class="k">def</span> <span class="nf">process_static</span><span class="p">(</span><span class="n">work</span><span class="p">,</span> <span class="n">sources</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">nthreads</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">work</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">isources</span><span class="p">,</span> <span class="n">itargets</span> <span class="o">=</span> <span class="n">w</span>
+
+        <span class="n">sources</span> <span class="o">=</span> <span class="p">[</span><span class="n">sources</span><span class="p">[</span><span class="n">isource</span><span class="p">]</span> <span class="k">for</span> <span class="n">isource</span> <span class="ow">in</span> <span class="n">isources</span><span class="p">]</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="p">[</span><span class="n">targets</span><span class="p">[</span><span class="n">itarget</span><span class="p">]</span> <span class="k">for</span> <span class="n">itarget</span> <span class="ow">in</span> <span class="n">itargets</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">isource</span><span class="p">,</span> <span class="n">source</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">isources</span><span class="p">,</span> <span class="n">sources</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">itarget</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">itargets</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+                <span class="n">components</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">get_rule</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>\
+                    <span class="o">.</span><span class="n">required_components</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">base_statics</span><span class="p">,</span> <span class="n">tcounters</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">base_statics</span><span class="p">(</span>
+                        <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">components</span><span class="p">,</span> <span class="n">nthreads</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">meta</span><span class="o">.</span><span class="n">OutOfBounds</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">e</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="n">OutOfBoundsContext</span><span class="p">(</span>
+                        <span class="n">source</span><span class="o">=</span><span class="n">sources</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                        <span class="n">target</span><span class="o">=</span><span class="n">targets</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                        <span class="n">distance</span><span class="o">=</span><span class="n">sources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="n">targets</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                        <span class="n">components</span><span class="o">=</span><span class="n">components</span><span class="p">)</span>
+                    <span class="k">raise</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">_post_process_statics</span><span class="p">(</span>
+                    <span class="n">base_statics</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+                <span class="n">tcounters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xtime</span><span class="p">())</span>
+
+                <span class="k">yield</span> <span class="p">(</span><span class="n">isource</span><span class="p">,</span> <span class="n">itarget</span><span class="p">,</span> <span class="n">result</span><span class="p">),</span> <span class="n">tcounters</span>
 
 
 <div class="viewcode-block" id="LocalEngine"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.LocalEngine">[docs]</a><span class="k">class</span> <span class="nc">LocalEngine</span><span class="p">(</span><span class="n">Engine</span><span class="p">):</span>
@@ -2586,12 +2473,19 @@
         <span class="k">for</span> <span class="n">store_id</span> <span class="ow">in</span> <span class="n">store_ids</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_open_stores</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">store_id</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">channel_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
         <span class="n">store_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_store</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span>
         <span class="n">cprovided</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">provided_components</span><span class="p">(</span><span class="n">store_</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">component_scheme</span><span class="p">)</span>
-        <span class="n">quantity</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">effective_quantity</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">StaticTarget</span><span class="p">):</span>
+            <span class="n">quantity</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">quantity</span>
+            <span class="n">available_rules</span> <span class="o">=</span> <span class="n">static_rules</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">Target</span><span class="p">):</span>
+            <span class="n">quantity</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">effective_quantity</span><span class="p">()</span>
+            <span class="n">available_rules</span> <span class="o">=</span> <span class="n">channel_rules</span>
+
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">channel_rules</span><span class="p">[</span><span class="n">quantity</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">available_rules</span><span class="p">[</span><span class="n">quantity</span><span class="p">]:</span>
                 <span class="n">cneeded</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">required_components</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
                 <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">c</span> <span class="ow">in</span> <span class="n">cprovided</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cneeded</span><span class="p">):</span>
                     <span class="k">return</span> <span class="n">rule</span>
@@ -2654,10 +2548,40 @@
 
         <span class="k">return</span> <span class="n">base_seismogram</span><span class="p">,</span> <span class="n">tcounters</span>
 
-    <span class="k">def</span> <span class="nf">_post_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_seismogram</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">base_statics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">components</span><span class="p">,</span> <span class="n">nthreads</span><span class="p">):</span>
+        <span class="n">tcounters</span> <span class="o">=</span> <span class="p">[</span><span class="n">xtime</span><span class="p">()]</span>
+
+        <span class="n">store_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_store</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">target</span><span class="o">.</span><span class="n">tsnapshot</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+            <span class="n">n_f</span> <span class="o">=</span> <span class="n">store_</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">sample_rate</span>
+            <span class="n">itsnapshot</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">tsnapshot</span> <span class="o">*</span> <span class="n">n_f</span><span class="p">))</span>
+            <span class="c"># print target.tsnapshot, n_f, itsnapshot</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">itsnapshot</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="n">tcounters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xtime</span><span class="p">())</span>
+
+        <span class="n">base_source</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">discretize_basesource</span><span class="p">(</span><span class="n">store_</span><span class="p">)</span>
+
+        <span class="n">tcounters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xtime</span><span class="p">())</span>
+
+        <span class="n">base_statics</span> <span class="o">=</span> <span class="n">store_</span><span class="o">.</span><span class="n">statics</span><span class="p">(</span>
+            <span class="n">base_source</span><span class="p">,</span>
+            <span class="n">target</span><span class="p">,</span>
+            <span class="n">itsnapshot</span><span class="p">,</span>
+            <span class="n">components</span><span class="p">,</span>
+            <span class="n">target</span><span class="o">.</span><span class="n">interpolation</span><span class="p">,</span>
+            <span class="n">nthreads</span><span class="p">)</span>
+
+        <span class="n">tcounters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xtime</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">base_statics</span><span class="p">,</span> <span class="n">tcounters</span>
+
+    <span class="k">def</span> <span class="nf">_post_process_seismogram</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_seismogram</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
         <span class="n">deltat</span> <span class="o">=</span> <span class="n">base_seismogram</span><span class="o">.</span><span class="n">values</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">deltat</span>
 
-        <span class="n">rule</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_rule</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+        <span class="n">rule</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_rule</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">apply_</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">base_seismogram</span><span class="p">)</span>
 
         <span class="n">factor</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">get_factor</span><span class="p">()</span> <span class="o">*</span> <span class="n">target</span><span class="o">.</span><span class="n">get_factor</span><span class="p">()</span>
@@ -2679,13 +2603,19 @@
 
         <span class="n">tmin</span> <span class="o">=</span> <span class="n">itmin</span> <span class="o">*</span> <span class="n">deltat</span> <span class="o">+</span> <span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-        <span class="n">tr</span> <span class="o">=</span> <span class="n">SeismosizerTrace</span><span class="p">(</span>
+        <span class="n">tr</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">SeismosizerTrace</span><span class="p">(</span>
             <span class="n">codes</span><span class="o">=</span><span class="n">target</span><span class="o">.</span><span class="n">codes</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[:</span><span class="o">-</span><span class="n">amplitudes</span><span class="o">.</span><span class="n">size</span><span class="p">],</span>
             <span class="n">deltat</span><span class="o">=</span><span class="n">deltat</span><span class="p">,</span>
             <span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">target</span><span class="o">.</span><span class="n">post_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">tr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_post_process_statics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_statics</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">starget</span><span class="p">):</span>
+        <span class="n">rule</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_rule</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">starget</span><span class="p">)</span>
+        <span class="n">rule</span><span class="o">.</span><span class="n">apply_</span><span class="p">(</span><span class="n">starget</span><span class="p">,</span> <span class="n">base_statics</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">starget</span><span class="o">.</span><span class="n">post_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">base_statics</span><span class="p">)</span>
 
 <div class="viewcode-block" id="LocalEngine.process"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.LocalEngine.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -2719,49 +2649,85 @@
 
         <span class="n">rs0</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">getrusage</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">RUSAGE_SELF</span><span class="p">)</span>
         <span class="n">rc0</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">getrusage</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">RUSAGE_CHILDREN</span><span class="p">)</span>
-        <span class="n">tt0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-
-        <span class="n">source_index</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">sources</span><span class="p">))</span>
-        <span class="n">target_index</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">targets</span><span class="p">))</span>
+        <span class="n">tt0</span> <span class="o">=</span> <span class="n">xtime</span><span class="p">()</span>
 
         <span class="c"># make sure stores are open before fork()</span>
         <span class="n">store_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">store_id</span> <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">targets</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">store_id</span> <span class="ow">in</span> <span class="n">store_ids</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_store</span><span class="p">(</span><span class="n">store_id</span><span class="p">)</span>
 
+        <span class="n">source_index</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span>
+                            <span class="nb">enumerate</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">sources</span><span class="p">))</span>
+        <span class="n">target_index</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span>
+                            <span class="nb">enumerate</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">targets</span><span class="p">))</span>
+
         <span class="n">m</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">subrequest_map</span><span class="p">()</span>
         <span class="n">skeys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="n">results_list</span> <span class="o">=</span> <span class="p">[]</span>
+
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">sources</span><span class="p">)):</span>
             <span class="n">results_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="k">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">targets</span><span class="p">))</span>
 
+        <span class="n">tcounters_dyn_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">tcounters_static_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">nsub</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">skeys</span><span class="p">)</span>
-        <span class="n">work</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">nsub</span><span class="p">,</span>
-                <span class="p">[</span><span class="n">source_index</span><span class="p">[</span><span class="n">source</span><span class="p">]</span> <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">m</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]],</span>
-                <span class="p">[</span><span class="n">target_index</span><span class="p">[</span><span class="n">target</span><span class="p">]</span> <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">m</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="n">isub</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c"># Processing dynamic targets through</span>
+        <span class="c"># parimap(process_subrequest_dynamic)</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">has_dynamic</span><span class="p">:</span>
+            <span class="n">work_dynamic</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">nsub</span><span class="p">,</span>
+                 <span class="p">[</span><span class="n">source_index</span><span class="p">[</span><span class="n">source</span><span class="p">]</span> <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">m</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]],</span>
+                 <span class="p">[</span><span class="n">target_index</span><span class="p">[</span><span class="n">target</span><span class="p">]</span> <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">m</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">StaticTarget</span><span class="p">)])</span>
                 <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">skeys</span><span class="p">)]</span>
 
-        <span class="n">isub</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">tcounters_list</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">ii_results</span><span class="p">,</span> <span class="n">tcounters</span> <span class="ow">in</span> <span class="n">parimap</span><span class="o">.</span><span class="n">parimap</span><span class="p">(</span>
-                <span class="n">process_subrequest</span><span class="p">,</span> <span class="n">work</span><span class="p">,</span>
-                <span class="n">pshared</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-                    <span class="n">engine</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
-                    <span class="n">sources</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">sources</span><span class="p">,</span>
-                    <span class="n">targets</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">targets</span><span class="p">,</span>
-                    <span class="n">dsource_cache</span><span class="o">=</span><span class="p">{}),</span>
+            <span class="k">for</span> <span class="n">ii_results</span><span class="p">,</span> <span class="n">tcounters_dyn</span> <span class="ow">in</span> <span class="n">parimap</span><span class="o">.</span><span class="n">parimap</span><span class="p">(</span>
+                    <span class="n">process_subrequest_dynamic</span><span class="p">,</span> <span class="n">work_dynamic</span><span class="p">,</span>
+                    <span class="n">pshared</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                        <span class="n">engine</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+                        <span class="n">sources</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">sources</span><span class="p">,</span>
+                        <span class="n">targets</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">targets</span><span class="p">,</span>
+                        <span class="n">dsource_cache</span><span class="o">=</span><span class="p">{}),</span>
 
-                <span class="n">nprocs</span><span class="o">=</span><span class="n">nprocs</span><span class="p">):</span>
+                    <span class="n">nprocs</span><span class="o">=</span><span class="n">nprocs</span><span class="p">):</span>
 
-            <span class="n">tcounters_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">tcounters</span><span class="p">))</span>
+                <span class="n">tcounters_dyn_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">tcounters_dyn</span><span class="p">))</span>
 
-            <span class="k">for</span> <span class="n">isource</span><span class="p">,</span> <span class="n">itarget</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">ii_results</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">isource</span><span class="p">,</span> <span class="n">itarget</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">ii_results</span><span class="p">:</span>
+                    <span class="n">results_list</span><span class="p">[</span><span class="n">isource</span><span class="p">][</span><span class="n">itarget</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
+
+                <span class="k">if</span> <span class="n">status_callback</span><span class="p">:</span>
+                    <span class="n">status_callback</span><span class="p">(</span><span class="n">isub</span><span class="p">,</span> <span class="n">nsub</span><span class="p">)</span>
+
+                <span class="n">isub</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c"># Processing static targets through process_static</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">has_statics</span><span class="p">:</span>
+            <span class="n">work_static</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">nsub</span><span class="p">,</span>
+                 <span class="p">[</span><span class="n">source_index</span><span class="p">[</span><span class="n">source</span><span class="p">]</span> <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">m</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]],</span>
+                 <span class="p">[</span><span class="n">target_index</span><span class="p">[</span><span class="n">target</span><span class="p">]</span> <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">m</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">StaticTarget</span><span class="p">)])</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">skeys</span><span class="p">)]</span>
+
+            <span class="k">for</span> <span class="n">ii_results</span><span class="p">,</span> <span class="n">tcounters_static</span> <span class="ow">in</span> <span class="n">process_static</span><span class="p">(</span>
+              <span class="n">work_static</span><span class="p">,</span>
+              <span class="n">request</span><span class="o">.</span><span class="n">sources</span><span class="p">,</span>
+              <span class="n">request</span><span class="o">.</span><span class="n">targets</span><span class="p">,</span>
+              <span class="bp">self</span><span class="p">,</span>
+              <span class="n">nthreads</span><span class="o">=</span><span class="n">nprocs</span><span class="p">):</span>
+
+                <span class="n">tcounters_static_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">tcounters_static</span><span class="p">))</span>
+
+                <span class="n">isource</span><span class="p">,</span> <span class="n">itarget</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">ii_results</span>
                 <span class="n">results_list</span><span class="p">[</span><span class="n">isource</span><span class="p">][</span><span class="n">itarget</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
 
-            <span class="k">if</span> <span class="n">status_callback</span><span class="p">:</span>
-                <span class="n">status_callback</span><span class="p">(</span><span class="n">isub</span><span class="p">,</span> <span class="n">nsub</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">status_callback</span><span class="p">:</span>
+                    <span class="n">status_callback</span><span class="p">(</span><span class="n">isub</span><span class="p">,</span> <span class="n">nsub</span><span class="p">)</span>
 
-            <span class="n">isub</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">isub</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="k">if</span> <span class="n">status_callback</span><span class="p">:</span>
             <span class="n">status_callback</span><span class="p">(</span><span class="n">nsub</span><span class="p">,</span> <span class="n">nsub</span><span class="p">)</span>
@@ -2770,52 +2736,56 @@
         <span class="n">rs1</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">getrusage</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">RUSAGE_SELF</span><span class="p">)</span>
         <span class="n">rc1</span> <span class="o">=</span> <span class="n">resource</span><span class="o">.</span><span class="n">getrusage</span><span class="p">(</span><span class="n">resource</span><span class="o">.</span><span class="n">RUSAGE_CHILDREN</span><span class="p">)</span>
 
-        <span class="n">tcumu</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">tcounters_list</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">tcumusum</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">tcumu</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">ProcessingStats</span><span class="p">()</span>
 
-        <span class="n">perc</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">tcumu</span><span class="o">/</span><span class="n">tcumusum</span> <span class="o">*</span> <span class="mf">100.</span><span class="p">)</span>
-        <span class="n">t_wallclock</span> <span class="o">=</span> <span class="n">tt1</span> <span class="o">-</span> <span class="n">tt0</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">has_dynamic</span><span class="p">:</span>
+            <span class="n">tcumu_dyn</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">tcounters_dyn_list</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">t_dyn</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">tcumu_dyn</span><span class="p">)</span>
+            <span class="n">perc_dyn</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">tcumu_dyn</span><span class="o">/</span><span class="n">t_dyn</span> <span class="o">*</span> <span class="mf">100.</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">t_perc_get_store_and_receiver</span><span class="p">,</span>
+             <span class="n">s</span><span class="o">.</span><span class="n">t_perc_discretize_source</span><span class="p">,</span>
+             <span class="n">s</span><span class="o">.</span><span class="n">t_perc_make_base_seismogram</span><span class="p">,</span>
+             <span class="n">s</span><span class="o">.</span><span class="n">t_perc_make_same_span</span><span class="p">,</span>
+             <span class="n">s</span><span class="o">.</span><span class="n">t_perc_post_process</span><span class="p">)</span> <span class="o">=</span> <span class="n">perc_dyn</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">t_dyn</span> <span class="o">=</span> <span class="mf">0.</span>
 
-        <span class="n">t_cpu</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">has_statics</span><span class="p">:</span>
+            <span class="n">tcumu_static</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">tcounters_static_list</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">t_static</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">tcumu_static</span><span class="p">)</span>
+            <span class="n">perc_static</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">tcumu_static</span><span class="o">/</span><span class="n">t_static</span> <span class="o">*</span> <span class="mf">100.</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">t_perc_static_get_store</span><span class="p">,</span>
+             <span class="n">s</span><span class="o">.</span><span class="n">t_perc_static_discretize_basesource</span><span class="p">,</span>
+             <span class="n">s</span><span class="o">.</span><span class="n">t_perc_static_sum_statics</span><span class="p">,</span>
+             <span class="n">s</span><span class="o">.</span><span class="n">t_perc_static_post_process</span><span class="p">)</span> <span class="o">=</span> <span class="n">perc_static</span>
+
+        <span class="n">s</span><span class="o">.</span><span class="n">t_wallclock</span> <span class="o">=</span> <span class="n">tt1</span> <span class="o">-</span> <span class="n">tt0</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">t_cpu</span> <span class="o">=</span> <span class="p">(</span>
             <span class="p">(</span><span class="n">rs1</span><span class="o">.</span><span class="n">ru_utime</span> <span class="o">+</span> <span class="n">rs1</span><span class="o">.</span><span class="n">ru_stime</span> <span class="o">+</span> <span class="n">rc1</span><span class="o">.</span><span class="n">ru_utime</span> <span class="o">+</span> <span class="n">rc1</span><span class="o">.</span><span class="n">ru_stime</span><span class="p">)</span> <span class="o">-</span>
             <span class="p">(</span><span class="n">rs0</span><span class="o">.</span><span class="n">ru_utime</span> <span class="o">+</span> <span class="n">rs0</span><span class="o">.</span><span class="n">ru_stime</span> <span class="o">+</span> <span class="n">rc0</span><span class="o">.</span><span class="n">ru_utime</span> <span class="o">+</span> <span class="n">rc0</span><span class="o">.</span><span class="n">ru_stime</span><span class="p">))</span>
-        <span class="n">n_read_blocks</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">n_read_blocks</span> <span class="o">=</span> <span class="p">(</span>
             <span class="p">(</span><span class="n">rs1</span><span class="o">.</span><span class="n">ru_inblock</span> <span class="o">+</span> <span class="n">rc1</span><span class="o">.</span><span class="n">ru_inblock</span><span class="p">)</span> <span class="o">-</span>
             <span class="p">(</span><span class="n">rs0</span><span class="o">.</span><span class="n">ru_inblock</span> <span class="o">+</span> <span class="n">rc0</span><span class="o">.</span><span class="n">ru_inblock</span><span class="p">))</span>
 
-        <span class="n">n_records_stacked</span> <span class="o">=</span> <span class="mf">0.0</span>
-        <span class="n">t_optimize</span> <span class="o">=</span> <span class="mf">0.0</span>
-        <span class="n">t_stack</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">n_records_stacked</span> <span class="o">=</span> <span class="mf">0.</span>
         <span class="k">for</span> <span class="n">results</span> <span class="ow">in</span> <span class="n">results_list</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">Result</span><span class="p">):</span>
-                    <span class="n">shr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">n_shared_stacking</span><span class="p">)</span>
-                    <span class="n">n_records_stacked</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">n_records_stacked</span><span class="p">)</span> <span class="o">/</span> <span class="n">shr</span>
-                    <span class="n">t_optimize</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">t_optimize</span><span class="p">)</span> <span class="o">/</span> <span class="n">shr</span>
-                    <span class="n">t_stack</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">t_stack</span><span class="p">)</span> <span class="o">/</span> <span class="n">shr</span>
-
-        <span class="n">n_records_stacked</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_records_stacked</span><span class="p">)</span>
-
-        <span class="n">stats</span> <span class="o">=</span> <span class="n">ProcessingStats</span><span class="p">(</span>
-            <span class="n">t_perc_get_store_and_receiver</span><span class="o">=</span><span class="n">perc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-            <span class="n">t_perc_discretize_source</span><span class="o">=</span><span class="n">perc</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-            <span class="n">t_perc_make_base_seismogram</span><span class="o">=</span><span class="n">perc</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-            <span class="n">t_perc_make_same_span</span><span class="o">=</span><span class="n">perc</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
-            <span class="n">t_perc_post_process</span><span class="o">=</span><span class="n">perc</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span>
-            <span class="n">t_perc_optimize</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">t_optimize</span> <span class="o">/</span> <span class="n">tcumusum</span> <span class="o">*</span> <span class="mf">100.</span><span class="p">),</span>
-            <span class="n">t_perc_stack</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">t_stack</span> <span class="o">/</span> <span class="n">tcumusum</span> <span class="o">*</span> <span class="mf">100.</span><span class="p">),</span>
-            <span class="n">t_wallclock</span><span class="o">=</span><span class="n">t_wallclock</span><span class="p">,</span>
-            <span class="n">t_cpu</span><span class="o">=</span><span class="n">t_cpu</span><span class="p">,</span>
-            <span class="n">n_read_blocks</span><span class="o">=</span><span class="n">n_read_blocks</span><span class="p">,</span>
-            <span class="n">n_results</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">targets</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">sources</span><span class="p">),</span>
-            <span class="n">n_subrequests</span><span class="o">=</span><span class="n">nsub</span><span class="p">,</span>
-            <span class="n">n_stores</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">store_ids</span><span class="p">),</span>
-            <span class="n">n_records_stacked</span><span class="o">=</span><span class="n">n_records_stacked</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">meta</span><span class="o">.</span><span class="n">Result</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="n">shr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">n_shared_stacking</span><span class="p">)</span>
+                <span class="n">n_records_stacked</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">n_records_stacked</span><span class="p">)</span> <span class="o">/</span>\
+                    <span class="n">shr</span>
+                <span class="n">s</span><span class="o">.</span><span class="n">t_perc_optimize</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">t_optimize</span><span class="p">)</span> <span class="o">/</span> <span class="n">shr</span>
+                <span class="n">s</span><span class="o">.</span><span class="n">t_perc_stack</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">t_stack</span><span class="p">)</span> <span class="o">/</span> <span class="n">shr</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">n_records_stacked</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_records_stacked</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">t_dyn</span> <span class="o">!=</span> <span class="mf">0.</span><span class="p">:</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">t_perc_optimize</span> <span class="o">/=</span> <span class="n">t_dyn</span> <span class="o">*</span> <span class="mi">100</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">t_perc_stack</span> <span class="o">/=</span> <span class="n">t_dyn</span> <span class="o">*</span> <span class="mi">100</span>
 
         <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
             <span class="n">request</span><span class="o">=</span><span class="n">request</span><span class="p">,</span>
             <span class="n">results_list</span><span class="o">=</span><span class="n">results_list</span><span class="p">,</span>
-            <span class="n">stats</span><span class="o">=</span><span class="n">stats</span><span class="p">)</span></div></div>
+            <span class="n">stats</span><span class="o">=</span><span class="n">s</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="RemoteEngine"><a class="viewcode-back" href="../../../reference_gf.html#pyrocko.gf.seismosizer.RemoteEngine">[docs]</a><span class="k">class</span> <span class="nc">RemoteEngine</span><span class="p">(</span><span class="n">Engine</span><span class="p">):</span>
@@ -2932,15 +2902,9 @@
 <span class="s">SeismosizerError</span>
 <span class="s">BadRequest</span>
 <span class="s">NoSuchStore</span>
-<span class="s">InterpolationMethod</span>
-<span class="s">OptimizationMethod</span>
 <span class="s">STFMode</span>
-<span class="s">Filter</span>
 <span class="s">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span><span class="n">S</span><span class="o">.</span><span class="n">__name__</span> <span class="k">for</span> <span class="n">S</span> <span class="ow">in</span> <span class="n">source_classes</span> <span class="o">+</span> <span class="n">stf_classes</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;&#39;&#39;</span>
-<span class="s">Target</span>
-<span class="s">Result</span>
 <span class="s">Request</span>
-<span class="s">SeismosizerTrace</span>
 <span class="s">ProcessingStats</span>
 <span class="s">Response</span>
 <span class="s">Engine</span>
