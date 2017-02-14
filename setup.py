@@ -462,6 +462,11 @@ setup(
             include_dirs=[numpy.get_include()],
             extra_compile_args=['-Wextra'],
             sources=[pjoin('src', 'orthodrome_ext.c')]),
+        Extension(
+            'okada_ext',
+            include_dirs=[numpy.get_include()],
+            extra_compile_args=['-Wextra'],
+            sources=[pjoin('src', 'ext', 'okada.c')])
     ],
 
     scripts=[
