@@ -1091,8 +1091,12 @@ class Interrupted(gf.store.StoreError):
 class PsCmpRunner:
 
     def __init__(self, tmp=None, keep_tmp=False):
+<<<<<<< HEAD
         if tmp is not None:
             tmp = os.path.abspath(tmp)
+=======
+        tmp = os.path.abspath(tmp)
+>>>>>>> e7eb5e25496506d11d6bc486a19c2583a1ade3ef
         self.tempdir = mkdtemp(prefix='pscmprun-', dir=tmp)
         self.keep_tmp = keep_tmp
         self.config = None

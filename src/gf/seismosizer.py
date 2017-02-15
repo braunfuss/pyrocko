@@ -2494,8 +2494,159 @@ class LocalEngine(Engine):
 
     def base_statics(self, source, target, components, nthreads):
 
-        class OkadaSource(object):
-            pass
+        class OkadaSource(object):               
+    
+        
+            length = Float.T(
+                default=0.,
+                help='length of rectangular source area [m]')
+        
+            width = Float.T(
+                default=0.,
+                help='width of rectangular source area [m]')
+        
+            nucleation_x = Float.T(
+                optional=True,
+                help='horizontal position of rupture nucleation in normalized fault '
+                     'plane coordinates (-1 = left edge, +1 = right edge)')
+        
+            nucleation_y = Float.T(
+                optional=True,
+                help='down-dip position of rupture nucleation in normalized fault '
+                     'plane coordinates (-1 = upper edge, +1 = lower edge)')
+        
+            slip = Float.T(
+                optional=True,
+                help='Slip on the rectangular source area [m]')
+            
+        
+            nucleation_type = StringChoice.T(   ##+coord!
+                choices=['centre_top', 'bottom_corners', 'top_corners', 'centroid'],
+                default='centre_top',
+                optional= True)
+            
+        
+            mu = Float.T(
+                optional=True,
+                default='0.25',
+                help='Possion')
+        
+            def base_key(self):
+                return DCSource.base_key(self) + (
+                    self.length,
+                    self.width,
+                    self.nucleation_x,
+                    self.nucleation_y,
+                    self.slip)
+            
+            if rake is not None:
+                rake= self.get_rake
+                
+            if top is not None:
+                top= self.get_top
+                
+            if rake is not None:
+                bottom= self.get_bottom     
+                
+            if nucleation=='centroid':
+                nucleation_x= self.get_nucleation_x
+                nucleation_y= self.get_nucleation_y
+                depth= self.get_depth
+        
+                    
+            
+            dsin = lambda x: numpy.sin( x * numpy.pi / 180. )
+            dcos = lambda x: numpy.cos( x * numpy.pi / 180. )
+            dtan = lambda x: numpy.tan( x * numpy.pi / 180. )
+            
+              
+            
+            def get_bottom(self):
+                
+                if nucleation=='centroid':
+                    bottom = self.depth - .5 * self.width * self.dipvec
+                    return bottom
+                elif bottom is not None:
+                    bottom=self.bottom
+                    return bottom
+                else:
+                    bottom= self.depth - self.width * self.dipvec         
+                    return bottom[2]
+               
+            def get_top(self):
+                if nucleation=='centroid':
+                    top= self.depth + .5* self.width * self.dipvec
+                    return top
+                elif top is not None:
+                    top = self.top
+                    return top
+                else:
+                    top=self.depth + self.width * self.dipvec           
+                    return top[2]
+                  
+            def get_centre(self):
+                centre= self.depth + .5 * self.width * self.dipvec
+                return centre
+            
+            def get_dipvec(self):
+                dipvec = num.array( [ -dcos(self.dip) * dcos(self.strike), dcos(self.dip) * dsin(self.strike), dsin(self.dip) ] )
+                return dipvec
+        
+            def get_strikevec(self):
+                strikevec = num.array( [ dsin(self.strike), dcos(self.strike), 0. ] ) 
+                return strikevec
+            
+            def get_openvec(self):
+                openvec = num.array( [ dcos(self.strike) * dsin(self.slip_d), -dsin(self.strike) * dsin(self.slip_d), dcos(self.slip_d) ] )
+                return openvec
+        
+            def get_slipvec(self):
+                slipvec = self.slip_s * self.strikevec + self.slip_d * self.dipvec + self.slip_ts * self.openvec 
+                return slipvec
+            
+            def get_rake(self):        
+                rake = num.arctan2( self.slip_d, self.slip_s ) * 180 / num.pi
+                return rake                  
+         
+            def get_nucleation_x(self):
+                
+                if nucleation =='centre_top':
+                    nucleation_x = self.nucleation_x
+                    
+                elif nucleation=='centroid':
+                    ##relative ?
+                    nucleation_x = self.nucleation_x + self.get_top[0]
+                            
+                return nucleation_x
+        
+            def get_nucleation_y(self):
+                
+                if nucleation =='centre_top':
+                    nucleation_y = self.nucleation_y
+                    
+                elif nucleation=='centroid':
+                    ##relative
+                    nucleation_y = self.nucleation_y + self.get_top[1]
+                
+                return nucleation_y
+            
+            def get_depth(self):
+                
+                if nucleation =='centre_top':
+                    depth = self.depth
+                    
+                elif nucleation=='centroid':
+                    depth = self.get_top[2]
+                
+                return depth
+                
+            def get_corners( self ):
+                ###relative tie in point for the several sources
+              return self.bottom + num.array(
+                [[ -.5 * self.length * self.strikevec, -.5 * self.length * self.strikevec + self.width * self.dipvec ],
+                 [ +.5 * self.length * self.strikevec, +.5 * self.length * self.strikevec + self.width * self.dipvec ]] )
+            
+
 
         if isinstance(source, OkadaSource):
             pass
