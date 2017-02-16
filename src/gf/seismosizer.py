@@ -2495,8 +2495,7 @@ class LocalEngine(Engine):
     def base_statics(self, source, target, components, nthreads):
 
         class OkadaSource(object):               
-    
-        
+            
             length = Float.T(
                 default=0.,
                 help='length of rectangular source area [m]')
@@ -2539,13 +2538,13 @@ class LocalEngine(Engine):
                     self.nucleation_y,
                     self.slip)
             
-            if rake is not None:
+            if rake is None:
                 rake= self.get_rake
                 
             if top is not None:
                 top= self.get_top
                 
-            if rake is not None:
+            if bottom is not None:
                 bottom= self.get_bottom     
                 
             if nucleation=='centroid':
@@ -2553,14 +2552,12 @@ class LocalEngine(Engine):
                 nucleation_y= self.get_nucleation_y
                 depth= self.get_depth
         
-                    
-            
+                              
             dsin = lambda x: numpy.sin( x * numpy.pi / 180. )
             dcos = lambda x: numpy.cos( x * numpy.pi / 180. )
             dtan = lambda x: numpy.tan( x * numpy.pi / 180. )
             
-              
-            
+        
             def get_bottom(self):
                 
                 if nucleation=='centroid':
@@ -2639,6 +2636,10 @@ class LocalEngine(Engine):
                     depth = self.get_top[2]
                 
                 return depth
+            
+            def get_slip(self):
+                slip=  num.tan( self.rake ) * 180 / num.pi
+                slip_d,slip_s=  num.hypot( self.slip ) 
                 
             def get_corners( self ):
                 ###relative tie in point for the several sources
