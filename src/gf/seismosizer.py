@@ -2504,12 +2504,12 @@ class LocalEngine(Engine):
                 default=0.,
                 help='width of rectangular source area [m]')
         
-            nucleation_x = Float.T(
+            anchor_x = Float.T(
                 optional=True,
                 help='horizontal position of rupture nucleation in normalized fault '
                      'plane coordinates (-1 = left edge, +1 = right edge)')
         
-            nucleation_y = Float.T(
+            anchor_y = Float.T(
                 optional=True,
                 help='down-dip position of rupture nucleation in normalized fault '
                      'plane coordinates (-1 = upper edge, +1 = lower edge)')
@@ -2519,10 +2519,10 @@ class LocalEngine(Engine):
                 help='Slip on the rectangular source area [m]')
             
         
-            nucleation_type = StringChoice.T(   ##+coord!
-                choices=['centre_top', 'bottom_corners', 'top_corners', 'centroid'],
-                default='centre_top',
-                optional= True)
+        #    anchor_type = StringChoice.T(   ##+coord!
+         #       choices=['centre_top', 'bottom_corners', 'top_corners', 'centroid'],
+          #      default='centre_top',
+           #     optional= True)
             
         
             mu = Float.T(
@@ -2534,8 +2534,8 @@ class LocalEngine(Engine):
                 return DCSource.base_key(self) + (
                     self.length,
                     self.width,
-                    self.nucleation_x,
-                    self.nucleation_y,
+                    self.anchor_x,
+                    self.anchor_y,
                     self.slip)
             
             if rake is None:
@@ -2547,9 +2547,9 @@ class LocalEngine(Engine):
             if bottom is not None:
                 bottom= self.get_bottom     
                 
-            if nucleation=='centroid':
-                nucleation_x= self.get_nucleation_x
-                nucleation_y= self.get_nucleation_y
+            if anchor_type=='centroid':
+                anchor_x= self.get_anchor_x
+                anchor_y= self.get_anchor_y
                 depth= self.get_depth
         
                               
@@ -2560,7 +2560,7 @@ class LocalEngine(Engine):
         
             def get_bottom(self):
                 
-                if nucleation=='centroid':
+                if anchor_type=='centroid':
                     bottom = self.depth - .5 * self.width * self.dipvec
                     return bottom
                 elif bottom is not None:
@@ -2605,27 +2605,36 @@ class LocalEngine(Engine):
                 rake = num.arctan2( self.slip_d, self.slip_s ) * 180 / num.pi
                 return rake                  
          
-            def get_nucleation_x(self):
+            def get_anchor_x(self):
                 
-                if nucleation =='centre_top':
-                    nucleation_x = self.nucleation_x
+                if self.anchor_x == 0:
+                    anchor = self.north_shift
                     
-                elif nucleation=='centroid':
+                elif self.anchor_x==-1:
                     ##relative ?
-                    nucleation_x = self.nucleation_x + self.get_top[0]
-                            
-                return nucleation_x
-        
-            def get_nucleation_y(self):
-                
-                if nucleation =='centre_top':
-                    nucleation_y = self.nucleation_y
+                    anchor_x = self.north_shift + self.get_top[0]
                     
-                elif nucleation=='centroid':
-                    ##relative
-                    nucleation_y = self.nucleation_y + self.get_top[1]
+                elif self.anchor_x==+1:
+                    ##relative ?
+                    anchor_x = self.north_shift + self.get_top[0]
+                            
+                return anchor_x
+        
+            def get_anchor_y(self):
                 
-                return nucleation_y
+                if self.anchor_y == 0:
+                    anchor_y = self.east_shift
+                    
+                elif self.anchor_y==-1:
+                    ##relative ?
+                    anchor_y = self.east_shift + self.get_top[0]
+                    
+                elif self.anchor_y==+1:
+                    ##relative ?
+                    anchor_y = self.east_shift + self.get_top[0]
+                            
+                return anchor_x
+            
             
             def get_depth(self):
                 
