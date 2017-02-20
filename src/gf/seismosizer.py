@@ -1490,6 +1490,12 @@ class OkadaSource(DCSource):
         optional=True,
         default=1.0,
         help='Dip Slip [m]')
+     
+     slip_to = Float.T(
+        optional=True,
+        default=0.0,
+        help='Dip Slip [m]')
+
 
      mu = Float.T(
          optional=True,
@@ -1506,26 +1512,24 @@ class OkadaSource(DCSource):
         
      def discretize_basesource(self, store, target=None):
         
-                                  
         dsin = lambda x: numpy.sin( x * numpy.pi / 180. )
         dcos = lambda x: numpy.cos( x * numpy.pi / 180. )
         dtan = lambda x: numpy.tan( x * numpy.pi / 180. )
+        
+        if self.slip_d is None:
+            self.slip_d = cos(self.rake) * self.slip
+            self.slip_s = sin(self.rake) * self.slip
+    
      
         if self.rake is None:
             self.rake= self.get_rake
             
-#        if self.top is not None:
- #           self.top= self.get_top
-            
-  #      if self.bottom is not None:
-   #         self.bottom= self.get_bottom
-   
+        nucleation_type=[]
         if self.nucleation_x == 0.5 and self.nucleation_y == 0.5 :
             nucleation_type=='centroid'
         else:
             nucleation_type=='top'
-            
-            
+                       
         if self.nucleation_x == 0.5:
             self.nucleation_x= self.get_nucleation_x
             self.nucleation_y= self.get_nucleation_y
@@ -1614,17 +1618,30 @@ class OkadaSource(DCSource):
                 depth = self.get_top[2]
             
             return self.depth
-        
-        def get_slip(self):
-            slip_d = cos(self.rake) * self.slip
-            slip_s = sin(self.rake) * self.slip
-            return self.slip_d, slip_s
+
             
         def get_corners( self ):
             ###relative tie in point for the several sources
           return self.bottom + num.array(
             [[ -.5 * self.length * self.strikevec, -.5 * self.length * self.strikevec + self.width * self.dipvec ],
              [ +.5 * self.length * self.strikevec, +.5 * self.length * self.strikevec + self.width * self.dipvec ]] )
+        
+    
+        ds = num.zeros((1, 10))
+        ds = num.zeros((1, 10))
+        ds[:, 0] = self.length  # length
+        ds[:, 1] = self.width  # width
+        ds[:, 2] = self.depth  # depth
+        ds[:, 3] = self.dip  # Dip
+        ds[:, 4] = self.strike  # Strike
+        ds[:, 5] = self.lat  # X
+        ds[:, 6] = self.lon  # Y
+        ds[:, 7] = self.slip_s  # SS Strike-Slip
+        ds[:, 8] = self.slip_d  # DS Dip-Slip
+        ds[:, 9] = self.slip_to  # TS Tensional-Slip
+        
+        
+        return ds
         
 
 
@@ -2670,10 +2687,16 @@ class LocalEngine(Engine):
         return base_seismogram, tcounters
 
     def base_statics(self, source, target, components, nthreads):
- 
-        if isinstance(source, OkadaSource):
-                pass
+        store_ = self.get_store(target.store_id)
+        base_source = source.discretize_basesource(store_)
+        def run_okada(nthreads):
             
+            return okada_ext.disloc(base_source, target.coords5, source.mu, nthreads)
+        
+        if isinstance(source, OkadaSource):
+            r = run_okada(nthreads)
+            return r
+                        
             
         else:
             tcounters = [xtime()]
@@ -2756,7 +2779,10 @@ class LocalEngine(Engine):
         The request can be given a a :py:class:`Request` object, or such an
         object is created using ``Request(**kwargs)`` for convenience.
         '''
-
+        
+        def allowed_backends(self):
+            allowed = ['qseis', 'qssp', 'Okada']
+            
         if len(args) not in (0, 1, 2):
             raise BadRequest('invalid arguments')
 
