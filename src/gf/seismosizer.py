@@ -115,7 +115,7 @@ def arr(x):
 
 
 def discretize_rect_source(deltas, deltat, strike, dip, length, width,
-                           velocity, stf=None,
+                           anchor, velocity, stf=None,
                            nucleation_x=None, nucleation_y=None,
                            tref=0.0):
 
@@ -169,10 +169,29 @@ def discretize_rect_source(deltas, deltat, strike, dip, length, width,
     times2 = num.repeat(times, nt) + num.tile(xtau, n)
     amplitudes2 = num.tile(amplitudes, n)
 
+    if anchor == 'center':
+        anch_north = 0.
+        anch_east = 0.
+        anch_depth = 0.
+    elif anchor == 'top' or anchor == 'bottom':
+        anch_north = num.cos(strike * d2r) *\
+            num.cos(dip * d2r) * width * .5
+        anch_east = num.sin(strike) *\
+            num.cos(dip * d2r) * width * .5
+        anch_depth = num.cos(dip * d2r) * width * .5
+    if anchor == 'bottom':
+        anch_north *= -1.
+        anch_east *= -1.
+        anch_depth *= -1.
+
+    points2[:, 0] += anch_north
+    points2[:, 1] += anch_east
+    points2[:, 2] += anch_depth
+
     return points2, times2, amplitudes2, dl, dw
 
 
-def outline_rect_source(strike, dip, length, width):
+def outline_rect_source(strike, dip, length, width, anchor):
     l = length
     w = width
     points = num.array(
@@ -181,6 +200,21 @@ def outline_rect_source(strike, dip, length, width):
          [0.5*l, 0.5*w, 0.],
          [-0.5*l, 0.5*w, 0.],
          [-0.5*l, -0.5*w, 0.]])
+
+    if anchor == 'center':
+        anch_north = 0.
+        anch_east = 0.
+    elif anchor == 'top' or anchor == 'bottom':
+        anch_north = num.cos(strike * d2r) *\
+            num.cos(dip * d2r) * width * .5
+        anch_east = num.sin(strike * d2r) *\
+            num.cos(dip * d2r) * width * .5
+    if anchor == 'bottom':
+        anch_north *= -1.
+        anch_east *= -1.
+
+    points[:, 0] += anch_north
+    points[:, 1] += anch_east
 
     rotmat = num.asarray(
         mt.euler_to_matrix(dip*d2r, strike*d2r, 0.0))
@@ -1078,6 +1112,12 @@ class RectangularExplosionSource(ExplosionSource):
         default=0.,
         help='width of rectangular source area [m]')
 
+    anchor = StringChoice.T(
+        choices=['top', 'center', 'bottom'],
+        default='center',
+        optional=True,
+        help='Anchor point for positioning the plane.')
+
     nucleation_x = Float.T(
         optional=True,
         help='horizontal position of rupture nucleation in normalized fault '
@@ -1113,7 +1153,7 @@ class RectangularExplosionSource(ExplosionSource):
 
         points, times, amplitudes, dl, dw = discretize_rect_source(
             store.config.deltas, store.config.deltat,
-            self.strike, self.dip, self.length, self.width,
+            self.strike, self.dip, self.length, self.width, self.anchor,
             self.velocity, stf=stf, nucleation_x=nucx, nucleation_y=nucy)
 
         return meta.DiscretizedExplosionSource(
@@ -1124,6 +1164,27 @@ class RectangularExplosionSource(ExplosionSource):
             east_shifts=self.east_shift + points[:, 1],
             depths=self.depth + points[:, 2],
             m0s=amplitudes)
+
+    def outline(self, cs='xyz'):
+        points = outline_rect_source(self.strike, self.dip, self.length,
+                                     self.width, self.anchor)
+
+        points[:, 0] += self.north_shift
+        points[:, 1] += self.east_shift
+        points[:, 2] += self.depth
+        if cs == 'xyz':
+            return points
+        elif cs == 'xy':
+            return points[:, :2]
+        elif cs in ('latlon', 'lonlat'):
+            latlon = ne_to_latlon(
+                self.lat, self.lon, points[:, 0], points[:, 1])
+
+            latlon = num.array(latlon).T
+            if cs == 'latlon':
+                return latlon
+            else:
+                return latlon[:, ::-1]
 
 
 class DCSource(SourceWithMagnitude):
@@ -1347,6 +1408,12 @@ class RectangularSource(DCSource):
         default=0.,
         help='width of rectangular source area [m]')
 
+    anchor = StringChoice.T(
+        choices=['top', 'center', 'bottom'],
+        default='center',
+        optional=True,
+        help='Anchor point for positioning the plane.')
+
     nucleation_x = Float.T(
         optional=True,
         help='horizontal position of rupture nucleation in normalized fault '
@@ -1395,7 +1462,7 @@ class RectangularSource(DCSource):
 
         points, times, amplitudes, dl, dw = discretize_rect_source(
             store.config.deltas, store.config.deltat,
-            self.strike, self.dip, self.length, self.width,
+            self.strike, self.dip, self.length, self.width, self.anchor,
             self.velocity, stf=stf, nucleation_x=nucx, nucleation_y=nucy)
 
         if self.slip is not None:
@@ -1437,7 +1504,7 @@ class RectangularSource(DCSource):
 
     def outline(self, cs='xyz'):
         points = outline_rect_source(self.strike, self.dip, self.length,
-                                     self.width)
+                                     self.width, self.anchor)
 
         points[:, 0] += self.north_shift
         points[:, 1] += self.east_shift
@@ -1457,188 +1524,6 @@ class RectangularSource(DCSource):
                 return latlon[:, ::-1]
 
 
-class OkadaSource(DCSource):
-
-    length = Float.T(
-        default=0.,
-        help='length of rectangular source area [m]')
-
-    width = Float.T(
-        default=0.,
-        help='width of rectangular source area [m]')
-
-    nucleation_x = Float.T(
-        optional=True,
-        help='horizontal position of rupture nucleation in normalized fault '
-             'plane coordinates (-1 = left edge, +1 = right edge)')
-
-    nucleation_y = Float.T(
-        optional=True,
-        help='down-dip position of rupture nucleation in normalized fault '
-             'plane coordinates (-1 = upper edge, +1 = lower edge)')
-
-    slip = Float.T(
-        default=0.,
-        help='Slip on the rectangular source area [m]')
-
-    slip_s = Float.T(
-        optional=True,
-        default=0.0,
-        help='Strike Slip [m]')
-
-    slip_d = Float.T(
-       optional=True,
-       default=1.0,
-       help='Dip Slip [m]')
-
-    slip_to = Float.T(
-       optional=True,
-       default=0.0,
-       help='Dip Slip [m]')
-
-    mu = Float.T(
-        optional=True,
-        default=0.25,
-        help='Possion')
-
-    def base_key(self):
-        return DCSource.base_key(self) + (
-            self.length,
-            self.width,
-            self.nucleation_x,
-            self.nucleation_y,
-            self.slip)
-
-    def discretize_basesource(self, store, target=None):
-    
-        dsin = lambda x: numpy.sin(x * numpy.pi / 180. )
-        dcos = lambda x: numpy.cos(x * numpy.pi / 180. )
-        dtan = lambda x: numpy.tan(x * numpy.pi / 180. )
-    
-        if self.slip_d is None:
-            self.slip_d = cos(self.rake) * self.slip
-            self.slip_s = sin(self.rake) * self.slip
-    
-        if self.rake is None:
-            self.rake = self.get_rake
-    
-        nucleation_type = []
-        if self.nucleation_x == 0.5 and self.nucleation_y == 0.5:
-            nucleation_type == 'centroid'
-        else:
-            nucleation_type == 'top'
-    
-        if self.nucleation_x == 0.5:
-            self.nucleation_x = self.get_nucleation_x
-            self.nucleation_y = self.get_nucleation_y
-            self.depth = self.get_depth
-    
-        def get_bottom(self):
-            if self.nucleation_type == 'centroid':
-                bottom = self.depth - .5 * self.width * self.dipvec
-                return self.bottom
-            elif self.bottom is not None:
-                bottom = self.bottom
-                return self.bottom
-            else:
-                bottom = self.depth - self.width * self.dipvec
-                return self.bottom[2]
-
-        def get_top(self):
-            if self.nucleation == 'centroid':
-                top = self.depth + .5 * self.width * self.dipvec
-                return self.top
-            elif top is not None:
-                top = self.top
-                return top
-            else:
-                top = self.depth + self.width * self.dipvec
-                return top[2]
-
-        def get_centre(self):
-            centre = self.depth + .5 * self.width * self.dipvec
-            return centre
-
-        def get_dipvec(self):
-            dipvec = num.array([-dcos(self.dip) * dcos(self.strike),
-                                dcos(self.dip) * dsin(self.strike), dsin(self.dip)])
-            return dipvec
-
-        def get_strikevec(self):
-            strikevec = num.array([dsin(self.strike), dcos(self.strike), 0.])
-            return self.strikevec
-
-        def get_openvec(self):
-            openvec = num.array([dcos(self.strike) * dsin(self.slip_d),
-                                -dsin(self.strike) * dsin(self.slip_d),
-                                dcos(self.slip_d)])
-            return self.openvec
-
-        def get_slipvec(self):
-            slipvec = self.slip_s * self.strikevec + self.slip_d * self.dipvec + self.slip_ts * self.openvec 
-            return self.slipvec
-
-        def get_rake(self):
-            rake = num.arctan2(self.slip_d, self.slip_s) * 180 / num.pi
-            return self.rake
-
-        def get_nucleation_x(self):
-
-            if self.nucleation_x == 0:
-                nucleation = self.north_shift
-
-            elif self.nucleation_x == -1:
-                nucleation_x = self.north_shift + self.get_top[0]
-
-            elif self.nucleation_x == +1:
-                nucleation_x = self.north_shift + self.get_top[0]
-
-            return self.nucleation_x
-
-        def get_nucleation_y(self):
-
-            if self.nucleation_y == 0:
-                nucleation_y = self.east_shift
-
-            elif self.nucleation_y == -1:
-                nucleation_y = self.east_shift + self.get_top[0]
-
-            elif self.nucleation_y == +1:
-                nucleation_y = self.east_shift + self.get_top[0]
-
-            return self.nucleation_x
-
-        def get_depth(self):
-            if nucleation == 'top':
-                depth = self.depth
-
-            elif nucleation == 'centroid':
-                depth = self.get_top[2]
-            return self.depth
-
-        def get_corners(self):
-            return self.bottom + num.array(
-              [[-.5 * self.length * self.strikevec, -.5 * self.length *
-                self.strikevec + self.width * self.dipvec],
-               [+.5 * self.length * self.strikevec, +.5 * self.length *
-                self.strikevec + self.width * self.dipvec]])
-
-        ds1 = num.zeros((1, 10))
-        ds1 = num.zeros((1, 10))
-        ds1[:, 0] = self.length  # length
-        ds1[:, 1] = self.width  # width
-        ds1[:, 2] = self.depth  # depth
-        ds1[:, 3] = self.dip  # Dip
-        ds1[:, 4] = self.strike  # Strike
-        ds1[:, 5] = self.lat  # X
-        ds1[:, 6] = self.lon  # Y
-        ds1[:, 7] = self.slip_s  # SS Strike-Slip
-        ds1[:, 8] = self.slip_d  # DS Dip-Slip
-        ds1[:, 9] = self.slip_to  # TS Tensional-Slip
-
-        return ds1
-
-
 class DoubleDCSource(SourceWithMagnitude):
     '''
     Two double-couple point sources separated in space and time.
@@ -1651,6 +1536,11 @@ class DoubleDCSource(SourceWithMagnitude):
     dip1 = Float.T(
         default=90.0,
         help='dip angle in [deg], measured downward from horizontal')
+
+    azimuth = Float.T(
+        default=0.0,
+        help='azimuth to second double-couple [deg], '
+             'measured at first, clockwise from north')
 
     rake1 = Float.T(
         default=0.0,
@@ -1679,11 +1569,6 @@ class DoubleDCSource(SourceWithMagnitude):
     delta_depth = Float.T(
         default=0.0,
         help='difference in depth (z2-z1) [m]')
-
-    azimuth = Float.T(
-        default=0.0,
-        help='azimuth to second double-couple [deg], '
-             'measured at first, clockwise from north')
 
     distance = Float.T(
         default=0.0,
@@ -2440,7 +2325,6 @@ def process_static(work, psources, ptargets, engine, nthreads=0):
                 yield (isource, itarget, result), tcounters
 
 
-
 class LocalEngine(Engine):
     '''
     Offline synthetic seismogram calculator.
@@ -2464,10 +2348,6 @@ class LocalEngine(Engine):
         optional=True,
         help='default store ID to be used when a request does not provide '
              'one')
-    
-    allowed_backends= String.T(
-        optional=True,
-        help='Backend to be used')
 
     def __init__(self, **kwargs):
         use_env = kwargs.pop('use_env', False)
@@ -2680,12 +2560,66 @@ class LocalEngine(Engine):
         return base_seismogram, tcounters
 
     def base_statics(self, source, target, components, nthreads):
-        store_ = self.get_store(target.store_id)
-        base_source = source.discretize_basesource(store_)
 
-        from pyrocko import okada_ext
+        class OkadaSource(object):
+
+            def discretize_Okadasource(self, store, target=None):
+
+                dsin = lambda x: numpy.sin(x * numpy.pi / 180. )
+                dcos = lambda x: numpy.cos(x * numpy.pi / 180. )
+                dtan = lambda x: numpy.tan(x * numpy.pi / 180. )
+
+                if self.slip_d is None:
+                    self.slip_d = cos(self.rake) * self.slip
+                    self.slip_s = sin(self.rake) * self.slip
+
+                if self.rake is None:
+                    self.rake = self.get_rake
+
+                if self.slip_to is None:
+                    self.slip_to = self.get_openvec * self.slip
+
+                def get_dipvec(self):
+                    dipvec = num.array([-dcos(self.dip) * dcos(self.strike),
+                                        dcos(self.dip) * dsin(self.strike),
+                                        dsin(self.dip)])
+                    return dipvec
+
+                def get_strikevec(self):
+                    strikevec = num.array([dsin(self.strike), dcos(self.strike),
+                                           0.])
+                    return self.strikevec
+
+                def get_openvec(self):
+                    openvec = num.array([dcos(self.strike) * dsin(self.slip_d),
+                                        -dsin(self.strike) * dsin(self.slip_d),
+                                        dcos(self.slip_d)])
+                    return self.openvec
+
+                def get_slipvec(self):
+                    slipvec = self.slip_s * self.strikevec + self.slip_d * self.dipvec + self.slip_ts * self.openvec 
+                    return self.slipvec
+
+                def get_rake(self):
+                    rake = num.arctan2(self.slip_d, self.slip_s) * 180 / num.pi
+                    return self.rake
+
+                ds = num.zeros((1, 10))
+                ds[:, 0] = self.length  # length
+                ds[:, 1] = self.width  # width
+                ds[:, 2] = self.depth  # depth
+                ds[:, 3] = self.dip  # Dip
+                ds[:, 4] = self.strike  # Strike
+                ds[:, 5] = self.lat  # X
+                ds[:, 6] = self.lon  # Y
+                ds[:, 7] = self.slip_s  # SS Strike-Slip
+                ds[:, 8] = self.slip_d  # DS Dip-Slip
+                ds[:, 9] = self.slip_to  # TS Tensional-Slip
+                return ds
 
         if isinstance(source, OkadaSource):
+            store_ = self.get_store(target.store_id)
+            base_source = source.discretize_Okadasource(store_)
             tcounters = [xtime(), xtime()]
             res = okada_ext.disloc(base_source, target.coords5, source.mu,
                                    nthreads)
@@ -2695,15 +2629,14 @@ class LocalEngine(Engine):
                 'displacement.e': res[1],
                 'displacement.d': res[2],
             }
-
         else:
-
             tcounters = [xtime()]
             store_ = self.get_store(target.store_id)
 
             if target.tsnapshot is not None:
                 n_f = store_.config.sample_rate
                 itsnapshot = int(num.floor(target.tsnapshot * n_f))
+                # print target.tsnapshot, n_f, itsnapshot
             else:
                 itsnapshot = 1
 
@@ -2723,7 +2656,7 @@ class LocalEngine(Engine):
 
             tcounters.append(xtime())
 
-        return base_statics, tcounters
+            return base_statics, tcounters
 
     def _post_process_seismogram(self, base_seismogram, source, target):
         deltat = base_seismogram.values()[0].deltat
@@ -3033,7 +2966,6 @@ source_classes = [
     CLVDSource,
     MTSource,
     RectangularSource,
-    OkadaSource,
     DoubleDCSource,
     RingfaultSource,
     SFSource,
