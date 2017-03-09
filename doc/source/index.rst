@@ -41,6 +41,7 @@ Contents
    install/index
    apps/index
    library/index
+   tutorials/index
 
 Indices and tables
 ------------------
