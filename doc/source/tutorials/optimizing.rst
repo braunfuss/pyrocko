@@ -1,6 +1,8 @@
 Optimizations with pyrocko and kite  
 ========================================
 
+Leeds notice:
+We will need the pyrocko:master, kite:dev branch and grond:refactor branch.
 
 Introduction
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -305,9 +307,7 @@ Alternativly to the console version a script can be used:
     
 .. figure:: /static/aquila_beachballs.png
     :scale: 40%
-    :align: center
-    :alt: The results of the optimization, the upper rows being the solution that should be retrived in this examle and the lower
-    row being the reference solution from GCMT.
+
     
     
 Static optimization 
