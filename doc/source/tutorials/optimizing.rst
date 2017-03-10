@@ -33,7 +33,7 @@ Data, event file and the config file for Grond can be found here:
 
 We will use a Greensfunction storage that you can obtain by:
 
-    fomosto download kinherd global_2s_25k
+    fomosto download kinherd global_2s_25km
 
 You will have to adjust the path at the ending of the conf.yml called
 gf_store_superdirs with a path where you downloaded this store.
@@ -59,6 +59,17 @@ following command:
     
     grond go conf.yml 200904060132A
 
+If there is a warning like:
+    WARNING  - skipping problem cmt_%(event_name)s: rundir already exists: gruns/amatrice.run
+
+This happens because there is already an exisiting folder, that contains a previously run optimization.
+
+You have to change the rundir in the top most row of the config (rundir_template) or delete the folder
+gruns or use the --force option:
+
+    grond go conf.yml 200904060132A --force
+    
+This will overwrite the folder.
 
 
 Optimzing from Script 
