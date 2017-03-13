@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="151"
+   height="30"
+   id="svg4520"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="bridges.svg">
+  <defs
+     id="defs4522" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="72.569687"
+     inkscape:cy="73.938164"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1360"
+     inkscape:window-height="720"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata4525">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-1.7542444,-1020.7348)">
+    <g
+       id="g4091"
+       transform="translate(-7.6912745,115.71429)">
+      <g
+         style="stroke-width:5.87421322;stroke-miterlimit:4;stroke-dasharray:none"
+         transform="matrix(0.25535335,0,0,0.25535335,-33.319576,850.50871)"
+         id="g3894">
+        <path
+           d="m 174.41657,291.93584 577.45269,0"
+           style="fill:none;stroke:#000000;stroke-width:5.87421322;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           id="path3896"
+           inkscape:connector-curvature="0" />
+        <path
+           d="m 174.41657,333.92758 c 167.34474,-150.68323 410.10795,-150.68323 577.45269,0"
+           style="fill:none;stroke:#000000;stroke-width:5.87421322;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           id="path3898"
+           inkscape:connector-curvature="0" />
+      </g>
+      <text
+         style="font-size:7.08053684px"
+         y="921.95245"
+         x="54.112827"
+         id="text3900">
+        <tspan
+           style="font-size:12.54717255px;font-variant:normal;font-weight:bold;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:DejaVu Serif;-inkscape-font-specification:DejaVuSerif-Bold"
+           x="54.112827 64.715179 71.315002 76.070381 84.840851 95.556129 103.53614"
+           y="921.95245"
+           sodipodi:role="line"
+           id="tspan3902">BridGeS</tspan>
+      </text>
+    </g>
+    <g
+       transform="matrix(0.362916,0,0,0.362916,370.95518,668.60226)"
+       id="layer1-56"
+       inkscape:label="Layer 1" />
+  </g>
+</svg>

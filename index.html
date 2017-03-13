@@ -1,137 +1,248 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Pyrocko - A Seismology Toolkit for Python</title>
-    
-    <link rel="stylesheet" href="current/_static/default.css" type="text/css" />
-  </head>
-  <body>
+    <meta content="Pyrocko is an open source seismology environment." name="description" />
+<meta content="Seismology, Earthquake, Geodesy, Earth, Science, Software, Python, software development, open source" name="keywords" />
+<meta content="scientists, students, researcher, software developer" name="audience" />
+<meta content="index, follow" name="robots" />
 
+    <title>pyrocko.org - Software for Seismology &#8212; pyrocko.org</title>
+    
+    <link rel="stylesheet" href="_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within pyrocko.org"
+          href="_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+      <script src="https://use.fontawesome.com/d51e5952e5.js"></script>
+    
+
+  </head>
+  <body role="document">
     <div class="related">
       <h3>Navigation</h3>
       <ul>
-          <li><a href="#">Pyrocko</a></li>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="#">pyrocko.org</a> &#187;</li> 
       </ul>
     </div>
+    
+  
+
     <div class="document">
       <div class="documentwrapper">
-          <div class="body">
+          <div class="body" role="main">
             
-              <img alt="current/_images/snuffler.png" class="align-left" src="current/_images/snuffler.png" />
-              
-              <div class="section">
-                  <h1>Pyrocko</h1>
+  <img alt="http://pyrocko.org/v0.3/_images/pyrocko_shadow.png" class="align-left" src="http://pyrocko.org/v0.3/_images/pyrocko_shadow.png" />
+<div class="section" id="pyrocko-org-software-for-seismology">
+<h1>pyrocko.org - Software for Seismology<a class="headerlink" href="#pyrocko-org-software-for-seismology" title="Permalink to this headline">¶</a></h1>
+<p>Pyrocko is an open source seismology toolbox and library, written in the Python
+programming language.  It can be utilized flexibly for a variety of geophysical
+tasks, like seismological data processing and analysis, modelling of InSAR, GPS
+data and dynamic waveforms, or for seismic source characterization.</p>
+<p>Development and support is coordinated at <a class="reference external" href="https://github.com/pyrocko">https://github.com/pyrocko</a>.</p>
+<div style="clear:both; width:100%; text-align:center; margin-top:3em; margin-bottom:2em;">
+    <a href="http://gfz-potsdam.de/"><img style="margin-left:1em; height:2em; display:inline-block;" src="_static/logos/gfz.svg" /></a>
+    <a href="http://www.dfg.de/"><img style="margin-left:1em; height:2em; display:inline-block;" src="_static/logos/dfg.svg" /></a>
+    <a href="https://www.bridges.uni-kiel.de/"><img style="margin-left:1em; height:2em; display:inline-block;" src="_static/logos/bridges.svg" /></a>
+    <a href="http://www.uni-kiel.de/"><img style="margin-left:1em; height:2em; display:inline-block;" src="_static/logos/cau.svg" /></a>
+    <a href="http://www.uni-hamburg.de/"><img style="margin-left:1em; height:2em; display:inline-block;" src="_static/logos/uhh.svg" /></a>
+</div><div class="section" id="pyrocko-framework">
+<h2>Pyrocko Framework<a class="headerlink" href="#pyrocko-framework" title="Permalink to this headline">¶</a></h2>
+<p>At its core, Pyrocko is a library and framework providing building blocks for
+researchers and students wishing to develop there own applications.</p>
+<div class="icon-button-group">
 
-                  <p>
-                    Pyrocko is a seismology toolbox and library, written in the
-                    Python programming language. 
-                  </p>
-              </div>
+    <a href="http://pyrocko.org/v0.3" class="icon-button">
+        <i class="fa fa-book" aria-hidden="true"></i><br />
+        Pyrocko manual
+    </a>
 
-              <div class="clearer"></div>
+    <a href="http://pyrocko.org/v0.3/install/" class="icon-button">
+        <i class="fa fa-download" aria-hidden="true"></i><br />
+        Download and installation
+    </a>
 
-              <div class="section">
-                <h2>Standalone applications</h2>
-                <p>
-                    Besides being usable as a framework for own developments 
-                    a few standalone tools for everyday seismological practice 
-                    are contained in Pyrocko:
-                <ul>
-                    <li><a href="current/apps_snuffler_tutorial.html">Snuffler</a>: 
-                        an <a class="reference external" href="http://github.com/emolch/contrib-snufflings/">extensible</a> seismogram browser and workbench</li>
-                    <li><a href="current/apps_cake_manual.html">Cake</a>:
-                        travel-time and ray-path computations for 1D layered earthmodels</li>
-                    <li><a href="current/apps_fomosto_tutorial.html">Fomosto</a>:
-                        a tool to manage pre-calculated Green's function stores</li>
-                    <li>Jackseis:
-                        command-line tool for common waveform archive data manipulations</li>
-                </ul>
-                </p>
-                
-              </div>
-              <div class="section">
-                <h2>Resources</h2>
-                <ul>
-                    <li>
-                    new: <a class="reference external" href="http://kinherd.org/snuffler.dmg">Snuffler App for Mac OS X</a> (testing)
-                    </li>
-                    <li>
-                    <a class="reference external" href="https://lists.zmaw.de/mailman/listinfo/snuffler">Snuffler mailing list</a> (also used for Pyrocko)
-                    </li>
-                    <li>
-                    <a href="current/apps_snuffler_tutorial.html">Snuffler tutorial (with screenshots)</a>
-                    </li>
-                    <li>
-                    <a class="reference external" href="https://github.com/pyrocko/pyrocko/">Pyrocko project page on GitHub</a>
-                    </li>
-                    <li>
-                    <a class="reference external" href="http://kinherd.org/poster-egu-2014.pdf">EGU2014 poster: Synthetic seismogram web service and Python tools</a>
-                    </li>
-                    <li>
-                    <a class="reference external" href="http://kinherd.org:8080/gfws/static/stores/">Pre-calculated Green's function stores</a>
-                    </li>
-                    <li>
-                    <a class="reference external" href="http://github.com/emolch/contrib-snufflings/">Repository of user contributed Snufflings</a>
-                    </li>
-                </ul>
-              </div>
-              <div class="section">
-                    <h2>Version 0.3</h2>
-                    <p>
-                    Current development is done here. This version contains many improvements over the older version 0.2, but some features should be considered experimental and the APIs might change unexpectedly.
-                    </p>
-                    <ul>
-                        <li>
-                            <a href="v0.3/install.html">Download &amp; Installation</a>
-                        </li>
-                        <li>
-                            <a href="v0.3/index.html">Manual</a>
-                        </li>
-                    </ul>
-              </div>
-              <div class="section">
-                    <h2>Version 0.2</h2>
-                    <p>This version of Pyrocko is maintained for compatibility with existing scripts. It will receive bug fixes but no new features will be added.</p>
-                    <ul>
-                        <li>
-                            <a href="v0.2/install.html">Download &amp; Installation</a>
-                        </li>
-                        <li>
-                            <a href="v0.2/index.html">Manual</a>
-                        </li>
-                    </ul>
-              </div>
-              <div class="section">
-                  <h2>Future</h2>
-                  <p>
+    <a href="https://github.com/pyrocko/pyrocko" class="icon-button">
+        <i class="fa fa-github" aria-hidden="true"></i><br />
+        Project page on GitHub
+    </a>
 
-                  The plan is to continue development of Pyrocko's main
-                  features within the scope of <a href="http://obspy.org/">ObsPy</a>.
-                  There is significant
-                  overlap in the functionality provided by ObsPy and Pyrocko,
-                  but there are also some unique features on either side. While
-                  for a user application it is possible to use both libraries
-                  simultaneously this does not feel like a clean solution.
-                  However, merging the two projects will require a big effort
-                  and it is not yet clear where this will lead to...
-                  </p>
-              </div>
+    <a href="https://github.com/pyrocko/pyrocko/issues" class="icon-button">
+        <i class="fa fa-question" aria-hidden="true"></i><br />
+        Support
+    </a>
+
+    <a href="https://pyrocko.org/v0.3/library/examples/" class="icon-button">
+        <i class="fa fa-graduation-cap" aria-hidden="true"></i><br />
+        Code examples
+    </a>
+
+</div></div>
+<div class="section" id="applications">
+<h2>Applications<a class="headerlink" href="#applications" title="Permalink to this headline">¶</a></h2>
+<p>This section lists some applications built on top of the Pyrocko library. Some
+of these may be useful for everyday seismological practice and are <a class="reference external" href="http://pyrocko.org/v0.3/apps/">included in
+the Pyrocko package</a>. Some others are tightly integrated with Pyrocko for specialized tasks and can be found in their own software repositories.</p>
+<div class="section" id="snuffler">
+<h3>Snuffler<a class="headerlink" href="#snuffler" title="Permalink to this headline">¶</a></h3>
+<div class="application-information">
+    <span class="tag">
+        <i class="fa fa-tag" aria-hidden="true"></i>
+        <a href="http://pyrocko.org/v0.3/apps/snuffler/">Part of Pyrocko</a>
+    </span>
+</div><div class="section" id="seismogram-browser-and-workbench">
+<h4>Seismogram browser and workbench<a class="headerlink" href="#seismogram-browser-and-workbench" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/snuffler_screenshot.png" class="align-left" src="_images/snuffler_screenshot.png" />
+<p>The Snuffler is an interactive and extendible seismogram browser that is suited for small and very big datasets and archives. It features plugins (called <a class="reference external" href="http://pyrocko.org/v0.3/apps/snuffler/extensions.html">Snufflings</a>), which are helpful
+for broad variety of seismological applications. Features include:</p>
+<ul class="simple">
+<li>Event and phase picking (manual &amp; STA/LTA)</li>
+<li>Spectral- and FK-analysis</li>
+<li>Beamforming</li>
+<li>Cross-correlation of traces</li>
+</ul>
+<div style="clear:both;">
+    <span class="tag">
+        <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+        <a href="http://pyrocko.org/v0.3/apps/snuffler/tutorial.html">Tutorial</a>
+    </span>
+
+    <span class="tag">
+        <i class="fa fa-puzzle-piece" aria-hidden="true"></i>
+        <a href="https://github.com/pyrocko/contrib-snufflings">User contributed Snufflings</a>
+    </span>
+</div></div>
+</div>
+<div class="section" id="cake">
+<h3>Cake<a class="headerlink" href="#cake" title="Permalink to this headline">¶</a></h3>
+<div class="application-information">
+    <span class="tag">
+        <i class="fa fa-tag" aria-hidden="true"></i>
+        <a href="http://pyrocko.org/v0.3/apps/cake/">Part of Pyrocko</a>
+    </span>
+</div><div class="section" id="d-travel-time-and-ray-path-computations">
+<h4>1D travel-time and ray-path computations<a class="headerlink" href="#d-travel-time-and-ray-path-computations" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/cake_plot_example.png" class="align-left" src="_images/cake_plot_example.png" />
+<p>Cake is a very tasty tool that can be used to solve classical seismic ray theory problems
+for layered-earth models (layer cake models). For various seismic phases it can
+calculate:</p>
+<ul class="simple">
+<li>Arrival times</li>
+<li>Ray paths</li>
+<li>Reflection and transmission coefficients</li>
+<li>Take-off and incidence angles</li>
+</ul>
+<p>Computations are done for a spherical earth.</p>
+</div>
+</div>
+<div class="section" id="fomosto">
+<h3>Fomosto<a class="headerlink" href="#fomosto" title="Permalink to this headline">¶</a></h3>
+<div class="application-information">
+    <span class="tag">
+        <i class="fa fa-tag" aria-hidden="true"></i>
+        <a href="http://pyrocko.org/v0.3/apps/fomosto/">Part of Pyrocko</a>
+    </span>
+</div><div class="section" id="calculate-and-manage-green-s-function-databases">
+<h4>Calculate and manage Green&#8217;s function databases<a class="headerlink" href="#calculate-and-manage-green-s-function-databases" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/fomosto2.png" class="align-left" src="_images/fomosto2.png" />
+<p>Calculation of Green’s functions for synthetic seismograms is a computationally expensive operation and it can be of advantage to calculate and store them in advance. Now, for typical application scenarios, the Green’s function traces can be reused as required. Fomosto offers building of flexible Green&#8217;s function databases that can be shared and passed to other researchers, allowing them to focus on their own application rather then spending days of work to get their Green’s function setup ready.</p>
+<div style="clear:both;">
+    <span class="tag">
+        <i class="fa fa-database" aria-hidden="true"></i>
+        <a href="http://kinherd.org:8080/gfws/static/stores/">Online resource of pre-calculated Green's functions</a>
+    </span>
+</div></div>
+</div>
+<div class="section" id="jackseis">
+<h3>Jackseis<a class="headerlink" href="#jackseis" title="Permalink to this headline">¶</a></h3>
+<div class="application-information">
+    <span class="tag">
+        <i class="fa fa-tag" aria-hidden="true"></i>
+        <a href="http://pyrocko.org/v0.3/apps/jackseis/">Part of Pyrocko</a>
+    </span>
+</div><div class="section" id="waveform-archive-data-manipulation">
+<h4>Waveform archive data manipulation<a class="headerlink" href="#waveform-archive-data-manipulation" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/jackseis_250x172.png" class="align-left" src="_images/jackseis_250x172.png" />
+<p>Jackseis is a command-line tool for common manipulations of archived waveform data. You can conveniently select/resample/trim or rename seismic data of various formats.</p>
+</div>
+</div>
+<div class="section" id="grond">
+<h3>Grond<a class="headerlink" href="#grond" title="Permalink to this headline">¶</a></h3>
+<div class="application-information application-standalone">
+    <span class="tag">
+        <i class="fa fa-cube" aria-hidden="true"></i>
+        <a href="http://gitext.gfz-potsdam.de/heimann/grond">Download and Documentation</a>
+    </span>
+</div><div class="section" id="earthquake-source-parameter-optimization">
+<h4>Earthquake source parameter optimization<a class="headerlink" href="#earthquake-source-parameter-optimization" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/fomosto_synthetic.png" class="align-left" src="_images/fomosto_synthetic.png" />
+<p>Grond is a bootstrap-based probabilistic battering ram to explore and efficiently converge in solution spaces of earthquake source parameter estimation problems.</p>
+</div>
+</div>
+<div class="section" id="kite">
+<h3>Kite<a class="headerlink" href="#kite" title="Permalink to this headline">¶</a></h3>
+<div class="application-information application-standalone">
+    <span class="tag">
+        <i class="fa fa-github" aria-hidden="true"></i>
+        <a href="https://github.com/pyrocko/kite">Download</a>
+    </span>
+</div><div class="section" id="insar-displacement-analysis-and-postprocessing">
+<h4>InSAR displacement analysis and postprocessing<a class="headerlink" href="#insar-displacement-analysis-and-postprocessing" title="Permalink to this headline">¶</a></h4>
+<img alt="_images/spool_screenshot.png" class="align-left" src="_images/spool_screenshot.png" />
+<p>Get your InSAR displacement maps handled the pyrocko way (and prepared for the deformation source analysis in pyrocko). Experience a highly interactive inspection of static displacement fields and data noise. Do easy quadtree data subsampling and data error variance-covariance estimation of InSAR data for proper data weighting in deformation source optimizations.</p>
+<div style="clear:both;">
+    <span class="tag">
+        <i class="fa fa-book" aria-hidden="true"></i>
+        <a href="https://pyrocko.github.io/kite">Documentation</a>
+    </span>
+</div></div>
+</div>
+</div>
+</div>
+
+
           </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="related">
+    &nbsp;
       <h3>Navigation</h3>
       <ul>
-          <li><a href="#">Pyrocko</a></li>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2016, The Pyrocko Developers. <img src="http://kinherd.org/pyrocko.png" width="5" height="5">
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
     </div>
   </body>
 </html>
