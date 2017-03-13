@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fomosto tutorial &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Fomosto backends" href="backends.html" />
+    <link rel="prev" title="Fomosto" href="index.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Applications</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Fomosto</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fomosto-tutorial">
+<h1>Fomosto tutorial<a class="headerlink" href="#fomosto-tutorial" title="Permalink to this headline">¶</a></h1>
+<p>Fomosto is a tool to help create and work with pre-calculated and stored
+Green&#8217;s functions.</p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Many seismological methods require knowledge of Green&#8217;s functions in dependance
+of ranges of source and receiver coordinates. Examples range from synthetic
+seismogram calculation over source imaging techniques to source inversion
+methods.  Calculation of Green&#8217;s functions is a computationally expensive
+operation and it can be of advantage to calculate them in advance. The same
+Green&#8217;s function traces can then be reused several or many times as required in
+a typical application.</p>
+<p>Regarding Green&#8217;s function creation as an independent step in a use-case&#8217;s
+processing chain encourages the storage of these in an application independant form.
+They can then immediatly be reused when new data is to be processed, they can
+be shared between different applications and they can also be passed to other
+researchers, allowing them to focus on their own application rather then
+spending days of work to get their Green&#8217;s function setup ready.</p>
+<p>Furthermore, it is useful to store associated meta information, like e.g.
+travel time tables for seismic phases and the earth model used, together with
+the Green&#8217;s function in order to have a complete and consistent framework to
+play with.</p>
+<p>Pyrocko contains a flexible framework to store and work with pre-calculated
+Green&#8217;s functions. It is implemented in the <a class="reference internal" href="../../library/reference/gf.html#module-pyrocko.gf" title="pyrocko.gf"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.gf</span></code></a> subpackage.
+Also included, is a powerful front end tool to create, inspect, and manipulate
+Green&#8217;s function stores: the <strong class="program">fomosto</strong> tool (&#8220;<em>forward model storage
+tool</em>&#8221;).</p>
+</div>
+<div class="section" id="invocation-and-online-help">
+<h2>Invocation and online help<a class="headerlink" href="#invocation-and-online-help" title="Permalink to this headline">¶</a></h2>
+<p>Fomosto is a command line program. A brief help overview is shown, when it is
+started without any arguments.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto
+<span class="go">Usage: fomosto &lt;subcommand&gt; &lt;arguments&gt; ... [options]</span>
+
+<span class="go">Subcommands:</span>
+
+<span class="go">    init          create a new empty GF store</span>
+<span class="go">    build         compute GFs and fill into store</span>
+<span class="go">    stats         print information about a GF store</span>
+<span class="go">    check         check for problems in GF store</span>
+<span class="go">    decimate      build decimated variant of a GF store</span>
+<span class="go">    redeploy      copy traces from one GF store into another</span>
+<span class="go">    view          view selected traces</span>
+<span class="go">    extract       extract selected traces</span>
+<span class="go">    import        convert Kiwi GFDB to GF store format</span>
+<span class="go">    export        convert GF store to Kiwi GFDB format</span>
+<span class="go">    ttt           create travel time tables</span>
+<span class="go">    tttview       plot travel time table</span>
+<span class="go">    tttextract    extract selected travel times&#39;,</span>
+<span class="go">    server        run seismosizer server,</span>
+<span class="go">    download      download GF store from a server,</span>
+<span class="go">    modelview     plot earthmodels,</span>
+<span class="go">    upgrade       upgrade store format to latest version,</span>
+<span class="go">    addref        import citation references to GF store config,</span>
+<span class="go">    qc            quality check,</span>
+<span class="go">    report        report for Green&#39;s function databases,</span>
+
+<span class="go">To get further help and a list of available options for any subcommand run:</span>
+
+<span class="go">    fomosto &lt;subcommand&gt; --help</span>
+</pre></div>
+</div>
+<p>The first argument selects the subcommand. All other arguments and options are
+dependant on the subcommand. Options start with a double dash, as in
+<code class="docutils literal"><span class="pre">--option</span></code>. If an option takes an argument, it must immediatly follow the
+option, as in <code class="docutils literal"><span class="pre">--option=argument</span></code>.</p>
+</div>
+<div class="section" id="creating-a-new-green-s-function-store">
+<h2>Creating a new Green&#8217;s function store<a class="headerlink" href="#creating-a-new-green-s-function-store" title="Permalink to this headline">¶</a></h2>
+<p>Fomosto does not do the actual computation of the Green&#8217;s functions. A separate
+Green&#8217;s function modelling code is required to do this.</p>
+<p>However, Fomosto provides a unified interface to configure and run these codes
+in order to make it simple to build a database of pre-calculated Green&#8217;s
+functions.</p>
+<p>Four modelling codes, including python interfaces required for fomosto are
+available at:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://kinherd.org/fomosto-qssp-2010beta.tar.gz">http://kinherd.org/fomosto-qssp-2010beta.tar.gz</a></li>
+<li><a class="reference external" href="http://kinherd.org/fomosto-qssp-2010.tar.gz">http://kinherd.org/fomosto-qssp-2010.tar.gz</a></li>
+<li><a class="reference external" href="http://kinherd.org/fomosto-qseis-2006.tar.gz">http://kinherd.org/fomosto-qseis-2006.tar.gz</a></li>
+<li><a class="reference external" href="http://kinherd.org/fomosto-qseis-2006a.tar.gz">http://kinherd.org/fomosto-qseis-2006a.tar.gz</a></li>
+</ul>
+</div></blockquote>
+<p>For detailled information regarding each computation code refer to the
+Downloads/Software website of section 2.1 (GFZ): <a class="reference external" href="http://www.gfz-potsdam.de/en/section/physics-of-earthquakes-and-volcanoes/services/downloads-software/">http://www.gfz-potsdam.de/en/section/physics-of-earthquakes-and-volcanoes/services/downloads-software/</a>.</p>
+<p>Installation is done for each code inside the uncompressed folder by:</p>
+<blockquote>
+<div>./configure
+make
+make install</div></blockquote>
+<p>In this example, we will use QSEIS as the modelling code.</p>
+<p>To initialize an empty Green&#8217;s function store to be built with QSEIS 2006a run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto init qseis.2006a my_first_gfs
+</pre></div>
+</div>
+<p>to use a different backend, e.g. QSSP 2010, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto init qssp.2010 my_first_gfs
+</pre></div>
+</div>
+<p>A directory named <code class="docutils literal"><span class="pre">my_first_gfs</span></code>, containing some example configuration files
+is created:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">my_first_gfs/</span>
+<span class="go">|-- config       # (1)</span>
+<span class="go">`-- extra/</span>
+<span class="go">    `-- qseis    # (2)</span>
+</pre></div>
+</div>
+<p>The file <code class="docutils literal"><span class="pre">config</span></code> (1) contains general settings and the file <code class="docutils literal"><span class="pre">extra/qseis</span></code>
+(2) contains extra settings which are specific to the QSEIS modelling code.
+These files are in the <a class="reference external" href="http://yaml.org/">YAML</a> format, which is a good
+compromise between human and computer readability. The contents of the
+configuration files are disussed in the next section.  The default
+configuration produced by the <code class="docutils literal"><span class="pre">fomosto</span> <span class="pre">init</span></code> command can be used without any
+modifications for a quick functional test.</p>
+<p>First step is to create tabulated phase arrivals:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> my_first_gfs
+<span class="gp">$</span> fomosto ttt
+<span class="go">...</span>
+<span class="gp">$</span> ls phases/
+<span class="go">begin.phase  end.phase  p.phase  P.phase  s.phase  S.phase</span>
+</pre></div>
+</div>
+<p>These tabulated phase arrivals are later, in the <em>build</em> step, used to cut the
+generated Green&#8217;s function traces before insertion into the database.</p>
+<p>Now, we can calculate the Green&#8217;s function traces:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto build
+</pre></div>
+</div>
+<p>Green&#8217;s functions are built in parallel, if possible. The number of worker processes
+may be limited with the <code class="docutils literal"><span class="pre">--nworkers=N</span></code> option.</p>
+<p>We now have a complete Green&#8217;s function store, ready to be used. This is the
+directory structure of the store:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">my_first_gfs/         # this directory represents the GF store</span>
+<span class="go">|-- config            # general settings</span>
+<span class="go">|-- decimated/        # directory for decimated variants of the store</span>
+<span class="go">|-- extra/            # any extra meta information is in here</span>
+<span class="go">|   `-- qseis         # e.g. parameters used for the initial modelling</span>
+<span class="go">|-- index             # index part of the storage</span>
+<span class="go">|-- phases/           # tabulated phase arrivals are looked for in here</span>
+<span class="go">|   |-- begin.phase</span>
+<span class="go">|   |-- end.phase</span>
+<span class="go">|   |-- p.phase</span>
+<span class="go">|   |-- P.phase</span>
+<span class="go">|   |-- s.phase</span>
+<span class="go">|   `-- S.phase</span>
+<span class="go">`-- traces            # big binary file with the actual GF data samples</span>
+</pre></div>
+</div>
+<p>We may now want to change some configuration values and rebuild the Green&#8217;s
+functions.</p>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>These are the initial contents of the <code class="docutils literal"><span class="pre">config</span></code> file:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="nn">---</span> <span class="kt">!pyrocko.gf.meta.ConfigTypeA</span>  <span class="c1"># this type is for cylindrical symmetry with</span>
+                                  <span class="c1"># receivers all at the same depth</span>
+
+<span class="c1"># this label should be set to something unique if the GF store should be published</span>
+<span class="l l-Scalar l-Scalar-Plain">id</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">my_qseis_gf_store</span>
+
+<span class="c1"># indicates, that QSEIS is/was used for the modelling</span>
+<span class="l l-Scalar l-Scalar-Plain">modelling_code_id</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">qseis</span>
+
+<span class="c1"># a layered earth model, used for modelling of the Green&#39;s functions</span>
+<span class="c1"># and for calculation of phase arrivals. Format is the &#39;nd&#39; format</span>
+<span class="c1"># as used in cake.</span>
+
+<span class="l l-Scalar l-Scalar-Plain">earthmodel_1d</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">|2</span>  <span class="c1"># &#39;|2&#39; means that a text block indented with 2 blanks follows</span>
+      <span class="no">0.             5.8            3.46           2.6         1264.           600.</span>
+     <span class="no">20.             5.8            3.46           2.6         1264.           600.</span>
+     <span class="no">20.             6.5            3.85           2.9         1283.           600.</span>
+     <span class="no">35.             6.5            3.85           2.9         1283.           600.</span>
+  <span class="no">mantle</span>
+     <span class="no">35.             8.04           4.48           3.58        1449.           600.</span>
+
+     <span class="no">...</span>
+
+<span class="l l-Scalar l-Scalar-Plain">sample_rate</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.2</span>  <span class="c1"># [Hz]</span>
+<span class="l l-Scalar l-Scalar-Plain">ncomponents</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>   <span class="c1"># number of Green&#39;s function components (always use 10 with QSEIS).</span>
+
+<span class="c1"># travel time tables are calculated for the phase arrivals defined below</span>
+<span class="c1"># the travel time tables can be referenced at other points in the configuration</span>
+<span class="c1"># by their id</span>
+<span class="l l-Scalar l-Scalar-Plain">tabulated_phases</span><span class="p p-Indicator">:</span>
+<span class="p p-Indicator">-</span> <span class="kt">!pyrocko.gf.meta.TPDef</span>
+  <span class="l l-Scalar l-Scalar-Plain">id</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">begin</span>
+  <span class="l l-Scalar l-Scalar-Plain">definition</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">p,P,p\,P\,Pv_(cmb)p</span>     <span class="c1"># phase defintions in *cake* syntax, first available arrival is used</span>
+<span class="p p-Indicator">-</span> <span class="kt">!pyrocko.gf.meta.TPDef</span>
+  <span class="l l-Scalar l-Scalar-Plain">id</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">end</span>
+  <span class="l l-Scalar l-Scalar-Plain">definition</span><span class="p p-Indicator">:</span> <span class="s">&#39;2.5&#39;</span>                   <span class="c1"># this simply means 2.5 km/s horizontal velocity</span>
+<span class="p p-Indicator">-</span> <span class="kt">!pyrocko.gf.meta.TPDef</span>
+  <span class="l l-Scalar l-Scalar-Plain">id</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">P</span>
+  <span class="l l-Scalar l-Scalar-Plain">definition</span><span class="p p-Indicator">:</span> <span class="s">&#39;!P&#39;</span>                    <span class="c1"># exclamation mark: a *cake classic phase name* follows</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">...</span>
+
+<span class="c1"># uniform receiver depth with this type of GF config</span>
+<span class="l l-Scalar l-Scalar-Plain">receiver_depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>  <span class="c1"># [m]</span>
+
+<span class="c1"># extents and spacing of the GF traces [m]</span>
+<span class="l l-Scalar l-Scalar-Plain">source_depth_min</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10000.0</span>
+<span class="l l-Scalar l-Scalar-Plain">source_depth_max</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">20000.0</span>
+<span class="l l-Scalar l-Scalar-Plain">source_depth_delta</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10000.0</span>
+<span class="l l-Scalar l-Scalar-Plain">distance_min</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">100000.0</span>
+<span class="l l-Scalar l-Scalar-Plain">distance_max</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1000000.0</span>
+<span class="l l-Scalar l-Scalar-Plain">distance_delta</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10000.0</span>
+</pre></div>
+</div>
+<p>Details about the structures in the <code class="docutils literal"><span class="pre">config</span></code> file are given in the
+documentation of the <a class="reference internal" href="../../library/reference/gf.html#module-pyrocko.gf.meta" title="pyrocko.gf.meta"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.gf.meta</span></code></a> module. In this case, e.g. see
+the class <a class="reference internal" href="../../library/reference/gf.html#pyrocko.gf.meta.ConfigTypeA" title="pyrocko.gf.meta.ConfigTypeA"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.gf.meta.ConfigTypeA</span></code></a>.</p>
+<p>The initial contents of the QSEIS specific configuration file <code class="docutils literal"><span class="pre">extra/qseis</span></code>:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="nn">---</span> <span class="kt">!pyrocko.fomosto.qseis.QSeisConfig</span> <span class="c1">#</span>
+
+<span class="c1"># with the folowing setting, Green&#39;s functions will be calculated for (at</span>
+<span class="c1"># least) the time region between  &#39;begin&#39; minus 50 seconds to &#39;end&#39; plus 100</span>
+<span class="c1"># seconds, where &#39;begin&#39; and  &#39;end&#39; are tabulated phases as defined in the</span>
+<span class="c1"># main configuration</span>
+
+<span class="l l-Scalar l-Scalar-Plain">time_region</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="nv">begin-50</span><span class="p p-Indicator">,</span> <span class="nv">end+100</span><span class="p p-Indicator">]</span>  <span class="c1"># see note below</span>
+
+<span class="c1"># cut the Green&#39;s functions to the same time span</span>
+
+<span class="l l-Scalar l-Scalar-Plain">cut</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="nv">begin-50</span><span class="p p-Indicator">,</span> <span class="nv">end+100</span><span class="p p-Indicator">]</span>  <span class="c1"># see note below</span>
+
+<span class="c1"># following docs are excerpts from the QSEIS documentation</span>
+
+<span class="c1"># select slowness integration algorithm (0 = suggested for full wave-field</span>
+<span class="c1"># modelling; 1 or 2 = suggested when using a slowness window with narrow</span>
+<span class="c1"># taper range - a technique for suppressing space-domain aliasing)</span>
+
+<span class="l l-Scalar l-Scalar-Plain">sw_algorithm</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+<span class="c1"># 4 parameters for low and high slowness (Note 1) cut-offs [s/km] with</span>
+<span class="c1"># tapering: 0 &lt; slw1 &lt; slw2 defining cosine taper at the lower end, and 0 &lt;</span>
+<span class="c1"># slw3 &lt; slw4 defining the cosine taper at the higher end. default values</span>
+<span class="c1"># will be used in case of inconsistent input of the cut-offs (possibly with</span>
+<span class="c1"># much more computational effort)</span>
+
+<span class="l l-Scalar l-Scalar-Plain">slowness_window</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="nv">0.0</span><span class="p p-Indicator">,</span> <span class="nv">0.0</span><span class="p p-Indicator">,</span> <span class="nv">0.0</span><span class="p p-Indicator">,</span> <span class="nv">0.0</span><span class="p p-Indicator">]</span>    <span class="c1"># [s/km]</span>
+
+<span class="c1"># parameter for sampling rate of the wavenumber integration (1 = sampled</span>
+<span class="c1"># with the spatial Nyquist frequency, 2 = sampled with twice higher than</span>
+<span class="c1"># the Nyquist, and so on: the larger this parameter, the smaller the space-k</span>
+
+<span class="l l-Scalar l-Scalar-Plain">wavenumber_sampling</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">2.5</span>
+
+<span class="c1"># the factor for suppressing time domain aliasing (&gt; 0 and &lt;= 1) The</span>
+<span class="c1"># suppression of the time domain aliasing is achieved by using the complex</span>
+<span class="c1"># frequency technique. The suppression factor should be a value between 0 and</span>
+<span class="c1"># 1. If this factor is set to 0.1, for example, the aliasing phase at the</span>
+<span class="c1"># reduced time begin is suppressed to 10%.</span>
+
+<span class="l l-Scalar l-Scalar-Plain">aliasing_suppression_factor</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.1</span>
+
+<span class="c1"># switch for filtering free surface effects (0 = with free surface, i.e.,</span>
+<span class="c1"># do not select this filter; 1 = without free surface; 2 = without free</span>
+<span class="c1"># surface but with correction on amplitude and wave form. Note switch 2</span>
+<span class="c1"># can only be used for receivers at the surface)</span>
+
+<span class="l l-Scalar l-Scalar-Plain">filter_surface_effects</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+
+<span class="c1"># switch for filtering waves with a shallow penetration depth (concerning</span>
+<span class="c1"># their whole trace from source to receiver), penetration depth limit [km]</span>
+<span class="c1"># if this option is selected, waves whose travel path never exceeds the</span>
+<span class="c1"># given depth limit will be filtered (&quot;seismic nuting&quot;). the condition for</span>
+<span class="c1"># selecting this filter is that the given shallow path depth limit should</span>
+<span class="c1"># be larger than both source and receiver depth.</span>
+
+<span class="l l-Scalar l-Scalar-Plain">filter_shallow_paths</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="l l-Scalar l-Scalar-Plain">filter_shallow_paths_depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>  <span class="c1"># [km]</span>
+
+<span class="c1"># switch for flat-earth-transform</span>
+
+<span class="l l-Scalar l-Scalar-Plain">sw_flat_earth_transform</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+
+<span class="c1"># gradient resolution [%] of vp, vs, and density, if &lt;= 0, then default</span>
+<span class="c1"># values (depending on wave length at cut-off frequency) will be used</span>
+
+<span class="l l-Scalar l-Scalar-Plain">gradient_resolution_vp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="l l-Scalar l-Scalar-Plain">gradient_resolution_vs</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="l l-Scalar l-Scalar-Plain">gradient_resolution_density</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+
+<span class="c1"># wavelet duration [unit = time sample rather than sec!], that is about</span>
+<span class="c1"># equal to the half-amplitude cut-off period of the wavelet (&gt; 0. if &lt;= 0,</span>
+<span class="c1"># then default value = 2 time samples will be used)</span>
+
+<span class="l l-Scalar l-Scalar-Plain">wavelet_duration_samples</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.001</span>
+
+<span class="c1"># switch for the wavelet form (0 = user&#39;s own wavelet; 1 = default wavelet:</span>
+<span class="c1"># normalized square half-sinusoid for simulating a physical delta impulse;</span>
+<span class="c1"># 2 = tapered Heaviside wavelet, i.e. integral of wavelet 1)</span>
+
+<span class="l l-Scalar l-Scalar-Plain">wavelet_type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The syntax for the timings in the <code class="docutils literal"><span class="pre">time_region</span></code> and <code class="docutils literal"><span class="pre">cut</span></code> in the above
+example configuration is described in <a class="reference internal" href="../../library/reference/gf.html#pyrocko.gf.meta.Timing" title="pyrocko.gf.meta.Timing"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.gf.meta.Timing</span></code></a>.</p>
+</div>
+<p>If configuration values have been changed, it may be neccessary to rebuild the
+tabulated phase arrivals or the Green&#8217;s functions. By default, fomosto will
+refuse to overwrite any GF store content. Use the <code class="docutils literal"><span class="pre">--force</span></code> option to override
+this behaviour:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto ttt --force
+<span class="gp">$</span> fomosto build --force
+</pre></div>
+</div>
+<p>When debugging problems with the GF modelling setup, it can be helpful to
+increase the verbosity of the program:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto build --loglevel<span class="o">=</span>debug --nworkers<span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
+<p>This will show in more detail, e.g. what input is generated for the modelling
+code.</p>
+</div>
+<div class="section" id="considerations-for-real-world-applications">
+<h2>Considerations for real-world applications<a class="headerlink" href="#considerations-for-real-world-applications" title="Permalink to this headline">¶</a></h2>
+<p>A Green&#8217;s function store of type A (<a class="reference internal" href="../../library/reference/gf.html#pyrocko.gf.meta.ConfigTypeA" title="pyrocko.gf.meta.ConfigTypeA"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.gf.meta.ConfigTypeA</span></code></a>)
+contains precalculated Green&#8217;s functions on a grid for combinations of source
+depth <em>z</em> and source-receiver surface distance <em>x</em>. How many Green&#8217;s functions
+to calculate in advance is determined by the use-case. The depth range to be
+calculated is given by the earthquake source depths to be studied. The distance
+range by the smallest and largest distances between possible source points and
+receiver positions. How dense the grid has to be made depends on whether we
+want to be able to later interpolate the Green&#8217;s function between neighboring
+nodes (a requirement for the analysis of extended sources) or if we don&#8217;t have
+such a requirement. For bilinear interpolation to work fine, it is neccessary
+to make the grid dense enough, so that no aliasing effects can occur. This
+means that the grid spacing <em>dx</em> should be (considerably) smaller than <em>v_min /
+f_max</em>, where <em>v_min</em> is the slowest apparent velocity of the seismic waves at
+the surface and <em>f_max</em> is the highest frequency to be analysed. For example if
+we want to study waveforms in a frequency range of up to 2 Hz and the slowest
+horizontal velocities are 2 km/s, we need a grid spacing well below 1 km so we
+may try with 250 m. The Green&#8217;s functions should be calculated with a temporal
+sampling rate of at least 4 Hz in this example, better more.</p>
+<p>Typically there is some trial and error involved in determining a stable and
+efficient set of parameters for a new modelling setup. The strategy is to first
+do some trial runs with a sparse grid and/or with a lowered sampling rate until
+we get a feeling for the modelling parameters. The final run for a dense grid,
+may take days or even weeks of computation time and we don’t want to waste that
+effort.</p>
+</div>
+<div class="section" id="diagnostics">
+<h2>Diagnostics<a class="headerlink" href="#diagnostics" title="Permalink to this headline">¶</a></h2>
+<p>To quickly visualize selected Green&#8217;s function traces use Fomosto&#8217;s <em>view</em>
+subcommand.  Run the following command to show the Green&#8217;s function traces for
+ten equally spaced distances:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto view --extract<span class="o">=</span><span class="s1">&#39;20k,@10&#39;</span>
+</pre></div>
+</div>
+<p>If we are not in the Green&#8217;s function store&#8217;s directory, we can equally use:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto view --extract<span class="o">=</span><span class="s1">&#39;20k,@10&#39;</span> path/to/my_first_gfs
+</pre></div>
+</div>
+<p>The extracted traces are shown in a Snuffler window, labeled as <code class="docutils literal"><span class="pre">&lt;counter&gt;</span>
+<span class="pre">(&lt;source-depth&gt;,</span> <span class="pre">&lt;distance&gt;)</span> <span class="pre">&lt;component&gt;</span></code>.</p>
+<div class="figure align-center">
+<img alt="../../_images/fomosto_view_1.png" src="../../_images/fomosto_view_1.png" />
+</div>
+<p>It is also possible to directly compare the traces of two (or more) different
+Green&#8217;s function stores. As a demonstration, here we created two Green&#8217;s
+function stores, one using QSEIS for the modelling (<code class="docutils literal"><span class="pre">qseis-test</span></code>), the other
+using QSSP (<code class="docutils literal"><span class="pre">qssp-test</span></code>). The example configurations produced by <code class="docutils literal"><span class="pre">fomosto</span>
+<span class="pre">init</span> <span class="pre">...</span></code> have been used, only the sampling rate has been changed to 1 Hz in
+both.  To compare some traces of the two Green&#8217;s function stores append both
+their directory names to the view command:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto view qseis-test qssp-test --extract<span class="o">=</span><span class="s1">&#39;20k,@5&#39;</span>
+</pre></div>
+</div>
+<p>Rearranging the view in Snuffler a bit, we can quickly spot some differences:</p>
+<div class="figure align-center">
+<img alt="../../_images/fomosto_view_2.png" src="../../_images/fomosto_view_2.png" />
+</div>
+<p>Here we can see, that at the closest distance, the QSEIS trace (red) contains a
+final static offset, while the QSSP trace (blue) does not.</p>
+<p>Other diagnostic subcommands are <code class="docutils literal"><span class="pre">fomosto</span> <span class="pre">tttview</span></code> to visualize the travel
+time tables, <code class="docutils literal"><span class="pre">fomosto</span> <span class="pre">stats</span></code> to summarize some technical details, and
+<code class="docutils literal"><span class="pre">fomosto</span> <span class="pre">check</span></code> which checks the store for <em>NaN</em> values and some other
+problems.</p>
+</div>
+<div class="section" id="report-subcommand">
+<h2>Report subcommand<a class="headerlink" href="#report-subcommand" title="Permalink to this headline">¶</a></h2>
+<p>The report subcommand will create a pdf document containing an artefacts report, displacement seismograms, velocity seismograms (optional), maximum amplitude graphs for seismograms, spectrum graphs, earth model graphs and the contents of the Green&#8217;s function configuration file.  Each set of seismograms will contain five graphs with increasing amplitude scales.  To view the subcommands of report, it can be ran without any arguments from the command line.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto report
+<span class="go">Create a pdf of displacment and velocity traces, max. amplitude of traces</span>
+<span class="go">and displacment spectra for Green&#39;s function stores.</span>
+
+<span class="go">Usage: fomosto report &lt;subcommand&gt; &lt;arguments&gt; ... [options]</span>
+
+<span class="go">Subcommands:</span>
+
+<span class="go">    single          create pdf of a single store</span>
+<span class="go">    double          create pdf of two stores</span>
+<span class="go">    sstandard       create a single store pdf with standard setup</span>
+<span class="go">    dstandard       create a double store pdf with standard setup</span>
+<span class="go">    slow            create a single store pdf, filtering the</span>
+<span class="go">                    traces with a low frequency</span>
+<span class="go">    dlow            create a double store pdf, filtering the</span>
+<span class="go">                    traces with a low frequency</span>
+<span class="go">    shigh           create a single store pdf, filtering the</span>
+<span class="go">                    traces with a low frequency</span>
+<span class="go">    dhigh           create a single store pdf, filtering the</span>
+<span class="go">                    traces with a low frequency</span>
+<span class="go">    slowband        create a single store pdf with a low</span>
+<span class="go">                    frequency band filter</span>
+<span class="go">    dlowband        create a double store pdf with a low</span>
+<span class="go">                    frequency band filter</span>
+<span class="go">    shighband       create a single store pdf with a high</span>
+<span class="go">                    frequency band filter</span>
+<span class="go">    dhighband       create a double store pdf with a high</span>
+<span class="go">                    frequency band filter</span>
+<span class="go">    snone           create a single store pdf with unfiltered traces</span>
+<span class="go">    dnone           create a double store pdf with unfiltered traces</span>
+
+<span class="go">To get further help and a list of available options for any subcommand run:</span>
+
+<span class="go">    fomosto report &lt;subcommand&gt; --help</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configuration-file-for-report-subcommand">
+<h2>Configuration file for Report subcommand<a class="headerlink" href="#configuration-file-for-report-subcommand" title="Permalink to this headline">¶</a></h2>
+<p>Here is a minimal configuration file (to be used with the <code class="docutils literal"><span class="pre">fomosto</span> <span class="pre">report</span> <span class="pre">single</span></code> command).  If wanting to use the <code class="docutils literal"><span class="pre">fomosto</span> <span class="pre">report</span> <span class="pre">double</span></code> command, just copy/paste the entire contents below the existing contents, and change only the <code class="docutils literal"><span class="pre">store_dir</span></code> path.  To see a full configuration file, use the <code class="docutils literal"><span class="pre">output</span></code> option on any of the <code class="docutils literal"><span class="pre">fomosto</span> <span class="pre">report</span></code> subcommands.</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="nn">---</span> <span class="kt">!gft.GreensFunctionTest</span>  <span class="c1"># this line is a must</span>
+
+<span class="c1"># needs to point to the main directory of the Green&#39;s function store</span>
+<span class="l l-Scalar l-Scalar-Plain">store_dir</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">/home/willey/src/gf_stores/iceland_reg_v2</span>
+
+<span class="c1"># optional: these will base the applied filters on the sampling rate</span>
+<span class="c1"># of the store</span>
+<span class="l l-Scalar l-Scalar-Plain">rel_lowpass_frequency</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.125</span>
+<span class="l l-Scalar l-Scalar-Plain">rel_highpass_frequency</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.25</span>
+
+<span class="c1"># optional: these will set the absolute frequencys of the applied filters</span>
+<span class="c1"># if neither are set, then the seismograms will not be filtered</span>
+<span class="c1"># only one option can be used for low/highpass frequency, so if absolute</span>
+<span class="c1"># frequencies are desried, comment/delete the above and uncomment those below</span>
+<span class="c1"># lowpass_frequency: 0.0014</span>
+<span class="c1"># highpass_frequency: 0.0018</span>
+
+<span class="c1"># a section for the source objects to be used when creating seismograms</span>
+<span class="l l-Scalar l-Scalar-Plain">sources</span><span class="p p-Indicator">:</span>
+
+  <span class="c1"># &lt;name&gt;: &lt;type&gt;, the specific source objects to be used, where the names</span>
+  <span class="c1"># have to be unique (see pyrocko for available source objects</span>
+  <span class="c1"># :py:class:`pyrocko.gf.seismosizer.Source`)</span>
+  <span class="l l-Scalar l-Scalar-Plain">source1</span><span class="p p-Indicator">:</span> <span class="kt">!pf.DCSource</span>
+    <span class="l l-Scalar l-Scalar-Plain">depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">6500.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">strike</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">-90.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">dip</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">90.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">rake</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">-90.0</span>
+
+<span class="c1"># a section for the sensor array objects to be used when creating seismograms</span>
+<span class="l l-Scalar l-Scalar-Plain">sensors</span><span class="p p-Indicator">:</span>
+
+  <span class="c1"># &lt;name&gt;: !gft.SensorArray, where the name has to be unique</span>
+  <span class="l l-Scalar l-Scalar-Plain">sensors1</span><span class="p p-Indicator">:</span> <span class="kt">!gft.SensorArray</span>
+    <span class="l l-Scalar l-Scalar-Plain">depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+
+    <span class="c1"># these are the codes for the type of sensors (pyrocko.gf.Target objects)</span>
+    <span class="l l-Scalar l-Scalar-Plain">codes</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;&#39;</span><span class="p p-Indicator">,</span> <span class="nv">STA</span><span class="p p-Indicator">,</span> <span class="s">&#39;&#39;</span><span class="p p-Indicator">,</span> <span class="nv">R</span><span class="p p-Indicator">]</span>
+
+    <span class="c1"># this is the direction [deg] in which the sensor monitors</span>
+    <span class="l l-Scalar l-Scalar-Plain">azimuth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+
+    <span class="c1"># this the dip [deg] of the sensor</span>
+    <span class="l l-Scalar l-Scalar-Plain">dip</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+
+    <span class="c1"># minimum/maximum distances [m] for the sensorys to be array at</span>
+    <span class="l l-Scalar l-Scalar-Plain">distance_min</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1000.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">distance_max</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">500000.0</span>
+
+    <span class="c1"># the direction [deg] along which the sensors will be arrayed</span>
+    <span class="l l-Scalar l-Scalar-Plain">strike</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+
+    <span class="c1"># amount of sensors per array</span>
+    <span class="l l-Scalar l-Scalar-Plain">sensor_count</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">50</span>
+</pre></div>
+</div>
+<p>If there are multiple source and sensor array objects in the configuration file, then the command will create seismograms for every combination of source and sensor arry.  Example (partial file):</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">sources</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">source1</span><span class="p p-Indicator">:</span> <span class="kt">!pf.DCSource</span>
+    <span class="l l-Scalar l-Scalar-Plain">depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">6500.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">strike</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">-90.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">dip</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">90.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">rake</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">-90.0</span>
+  <span class="l l-Scalar l-Scalar-Plain">source2</span><span class="p p-Indicator">:</span> <span class="kt">!pf.DCSource</span>
+    <span class="l l-Scalar l-Scalar-Plain">depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">6500.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">strike</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">45.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">dip</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">90.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">rake</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">180.0</span>
+
+<span class="l l-Scalar l-Scalar-Plain">sensors</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">sensors1</span><span class="p p-Indicator">:</span> <span class="kt">!gft.SensorArray</span>
+    <span class="l l-Scalar l-Scalar-Plain">depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">codes</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;&#39;</span><span class="p p-Indicator">,</span> <span class="nv">STA</span><span class="p p-Indicator">,</span> <span class="s">&#39;&#39;</span><span class="p p-Indicator">,</span> <span class="nv">R</span><span class="p p-Indicator">]</span>
+    <span class="l l-Scalar l-Scalar-Plain">azimuth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">dip</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">distance_min</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1000.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">distance_max</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">500000.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">strike</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">sensor_count</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">50</span>
+  <span class="l l-Scalar l-Scalar-Plain">sensors2</span><span class="p p-Indicator">:</span> <span class="kt">!gft.SensorArray</span>
+    <span class="l l-Scalar l-Scalar-Plain">depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">codes</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;&#39;</span><span class="p p-Indicator">,</span> <span class="nv">STA</span><span class="p p-Indicator">,</span> <span class="s">&#39;&#39;</span><span class="p p-Indicator">,</span> <span class="nv">Z</span><span class="p p-Indicator">]</span>
+    <span class="l l-Scalar l-Scalar-Plain">azimuth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">dip</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">90.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">distance_min</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1000.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">distance_max</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">500000.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">strike</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">sensor_count</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">50</span>
+</pre></div>
+</div>
+<p>This configuration file will create four sets of seismograms (source1-sensors1, source1-sensor-2, ...), but if you only specific source-sensor array combinations, then use the optional parameter <code class="docutils literal"><span class="pre">trace_configs</span></code> like:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">trace_configs</span><span class="p p-Indicator">:</span>
+<span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class="nv">source1</span><span class="p p-Indicator">,</span> <span class="nv">sensors2</span><span class="p p-Indicator">]</span>
+<span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class="nv">source2</span><span class="p p-Indicator">,</span> <span class="nv">sensors1</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p>placed at the bottom of the configuration file.  This will only produce the seismograms for the listed combinations.</p>
+<p>To try the configuration file, save to your home directory as <code class="docutils literal"><span class="pre">min_config</span></code>.  Make sure you have the specified Green&#8217;s function store accessible.  Then run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto report single ~/min_config
+</pre></div>
+</div>
+<p>and you will create a pdf file called <code class="docutils literal"><span class="pre">iceland_reg_v2_0.25-0.5Hz.pdf</span></code> in your home directory.  If you want to see what an output configuration file looks like:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto report single ~/min_config --output<span class="o">=</span>~/min_config_full
+</pre></div>
+</div>
+<p>A example displacement seismogram.</p>
+<div class="figure align-center">
+<img alt="../../_images/fomosto_report_displacement1.png" src="../../_images/fomosto_report_displacement1.png" />
+</div>
+</div>
+<div class="section" id="creating-decimated-variants-of-a-green-s-function-store">
+<h2>Creating decimated variants of a Green&#8217;s function store<a class="headerlink" href="#creating-decimated-variants-of-a-green-s-function-store" title="Permalink to this headline">¶</a></h2>
+<p>For some applications, it can be useful if the sampling rate of the Green&#8217;s
+functions are variable; for example if the method first analyses the lower
+frequency content of the signal and in a later stage refines the results
+including higher frequencies or if the frequency range to be analysed is
+dependant on the magnitude of the source. Because a lower sampling rate typically
+also means that the Green&#8217;s functions are required on a less dense spacial grid,
+this can lead to less computational effort and lower memory consumption of the
+application.</p>
+<p>We can create downsampled variants of a Green&#8217;s function store with the
+<code class="docutils literal"><span class="pre">fomosto</span> <span class="pre">decimate</span></code> command. For example, running</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto decimate <span class="m">2</span>
+<span class="gp">$</span> fomosto decimate <span class="m">4</span>
+</pre></div>
+</div>
+<p>in a store directory creates variants of the database with half and a quater of
+the original sampling rate. The downsampled variants are stored in the
+<code class="docutils literal"><span class="pre">decimated</span></code> subdirectory of the store, so we can again compare the traces
+with</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto view . decimated/2 decimated/4 --extract<span class="o">=</span><span class="s1">&#39;@2,@5&#39;</span>
+</pre></div>
+</div>
+<p>If not only the temporal but also the spacial
+sampling should be reduced, a modified configuration for the downsampled
+variants can be used:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cp config config.2.temp
+<span class="gp">$</span> <span class="c1"># edit config2.temp; e.g. double the distance_delta value</span>
+<span class="gp">$</span> fomosto decimate <span class="m">2</span> --config<span class="o">=</span>config.2.temp
+<span class="gp">$</span> rm config.2.temp
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-to-combine-or-split-green-s-function-stores">
+<h2>How to combine or split Green&#8217;s function stores<a class="headerlink" href="#how-to-combine-or-split-green-s-function-stores" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes, it is neccessary to combine or split Green&#8217;s function stores. For
+example if we want to extend an existing store with more additional source
+depths, or if we wish to extract a subset of an existing database.  This is
+done with Fomosto by creating an empty target store with the desired extents
+and by then copying the relevant traces from the source stores to the target
+store.</p>
+<ol class="arabic">
+<li><p class="first">Create empty copy of <code class="docutils literal"><span class="pre">my_first_gfs</span></code>:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto init redeploy my_first_gfs derived
+</pre></div>
+</div>
+</li>
+<li><p class="first">Adjust parameters in <code class="docutils literal"><span class="pre">derived/config</span></code>; e.g. change the extents of the
+store.</p>
+</li>
+<li><p class="first">Copy traces from <code class="docutils literal"><span class="pre">my_first_gfs</span></code> to <code class="docutils literal"><span class="pre">derived</span></code>. Only traces at
+nodes which are present in both stores are copied.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto redeploy my_first_gfs derived
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="backends.html" title="Fomosto backends"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Fomosto"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The crust2x2 Module &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The crustdb Module" href="crustdb.html" />
+    <link rel="prev" title="The catalog Module" href="catalog.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyrocko.crust2x2">
+<span id="the-crust2x2-module"></span><h1>The <code class="xref py py-mod docutils literal"><span class="pre">crust2x2</span></code> Module<a class="headerlink" href="#module-pyrocko.crust2x2" title="Permalink to this headline">¶</a></h1>
+<p>Interface to use CRUST2.0 model by Laske, Masters and Reif.</p>
+<p>All functions defined in this module return SI units (m, m/s, kg/m^3).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Please refer to the REM web site if you use this model:</p>
+<blockquote>
+<div><a class="reference external" href="http://igppweb.ucsd.edu/~gabi/rem.html">http://igppweb.ucsd.edu/~gabi/rem.html</a></div></blockquote>
+<p>or</p>
+<blockquote class="last">
+<div>Bassin, C., Laske, G. and Masters, G., The Current Limits of Resolution for
+Surface Wave Tomography in North America, EOS Trans AGU, 81, F897, 2000. A
+description of CRUST 5.1 can be found in: Mooney, Laske and Masters, Crust
+5.1: a global crustal model at 5x5 degrees, JGR, 103, 727-747, 1998.</div></blockquote>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">crust2x2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">crust2x2</span><span class="o">.</span><span class="n">get_profile</span><span class="p">(</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">20.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">p</span>
+<span class="go">type, name:              G2, Archean 0.5 km seds.</span>
+<span class="go">elevation:                           529</span>
+<span class="go">crustal thickness:                 38500</span>
+<span class="go">average vp, vs, rho:              6460.7          3665.1          2867.5</span>
+<span class="go">mantle ave. vp, vs, rho:            8200            4700            3400</span>
+
+<span class="go">          0            3810            1940             920   ice</span>
+<span class="go">          0            1500               0            1020   water</span>
+<span class="go">        500            2500            1200            2100   soft sed.</span>
+<span class="go">          0            4000            2100            2400   hard sed.</span>
+<span class="go">      12500            6200            3600            2800   upper crust</span>
+<span class="go">      13000            6400            3600            2850   middle crust</span>
+<span class="go">      13000            6800            3800            2950   lower crust</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">p</span><span class="o">.</span><span class="n">get_weeded</span><span class="p">()</span>
+<span class="go">[[     0.    500.    500.  13000.  13000.  26000.  26000.  39000.  39000.]</span>
+<span class="go"> [  2500.   2500.   6200.   6200.   6400.   6400.   6800.   6800.   8200.]</span>
+<span class="go"> [  1200.   1200.   3600.   3600.   3600.   3600.   3800.   3800.   4700.]</span>
+<span class="go"> [  2100.   2100.   2800.   2800.   2850.   2850.   2950.   2950.   3400.]]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="constants">
+<h2>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Layer id</th>
+<th class="head">Layer name</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LICE</td>
+<td>ice</td>
+</tr>
+<tr class="row-odd"><td>LWATER</td>
+<td>water</td>
+</tr>
+<tr class="row-even"><td>LSOFTSED</td>
+<td>soft sediments</td>
+</tr>
+<tr class="row-odd"><td>LHARDSED</td>
+<td>hard sediments</td>
+</tr>
+<tr class="row-even"><td>LUPPERCRUST</td>
+<td>upper crust</td>
+</tr>
+<tr class="row-odd"><td>LMIDDLECRUST</td>
+<td>middle crust</td>
+</tr>
+<tr class="row-even"><td>LLOWERCRUST</td>
+<td>lower crust</td>
+</tr>
+<tr class="row-odd"><td>LBELOWCRUST</td>
+<td>below crust</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyrocko.crust2x2.Crust2Profile">
+<em class="property">class </em><code class="descname">Crust2Profile</code><span class="sig-paren">(</span><em>ident</em>, <em>name</em>, <em>vp</em>, <em>vs</em>, <em>rho</em>, <em>thickness</em>, <em>elevation</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crust2x2.html#Crust2Profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crust2x2.Crust2Profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Representation of a CRUST2.0 key profile.</p>
+<dl class="attribute">
+<dt id="pyrocko.crust2x2.Crust2Profile.layer_names">
+<code class="descname">layer_names</code><em class="property"> = ('ice', 'water', 'soft sed.', 'hard sed.', 'upper crust', 'middle crust', 'lower crust', 'mantle')</em><a class="headerlink" href="#pyrocko.crust2x2.Crust2Profile.layer_names" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crust2x2.Crust2Profile.get_weeded">
+<code class="descname">get_weeded</code><span class="sig-paren">(</span><em>include_waterlayer=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crust2x2.html#Crust2Profile.get_weeded"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crust2x2.Crust2Profile.get_weeded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get layers used in the profile.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>include_waterlayer</strong> &#8211; include water layer if <code class="docutils literal"><span class="pre">True</span></code>. Default is
+<code class="docutils literal"><span class="pre">False</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">NumPy array with rows <code class="docutils literal"><span class="pre">depth</span></code>, <code class="docutils literal"><span class="pre">vp</span></code>, <code class="docutils literal"><span class="pre">vs</span></code>, <code class="docutils literal"><span class="pre">density</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crust2x2.Crust2Profile.get_layer">
+<code class="descname">get_layer</code><span class="sig-paren">(</span><em>ilayer</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crust2x2.html#Crust2Profile.get_layer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crust2x2.Crust2Profile.get_layer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters for a layer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ilayer</strong> &#8211; id of layer</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">thickness, vp, vs, density</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crust2x2.Crust2Profile.set_elevation">
+<code class="descname">set_elevation</code><span class="sig-paren">(</span><em>elevation</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crust2x2.html#Crust2Profile.set_elevation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crust2x2.Crust2Profile.set_elevation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crust2x2.Crust2Profile.set_layer_thickness">
+<code class="descname">set_layer_thickness</code><span class="sig-paren">(</span><em>ilayer</em>, <em>thickness</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crust2x2.html#Crust2Profile.set_layer_thickness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crust2x2.Crust2Profile.set_layer_thickness" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crust2x2.Crust2Profile.elevation">
+<code class="descname">elevation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crust2x2.html#Crust2Profile.elevation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crust2x2.Crust2Profile.elevation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crust2x2.Crust2Profile.crustal_thickness">
+<code class="descname">crustal_thickness</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crust2x2.html#Crust2Profile.crustal_thickness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crust2x2.Crust2Profile.crustal_thickness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get total crustal thickness</p>
+<p>Takes into account ice layer.
+Does not take into account water layer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crust2x2.Crust2Profile.averages">
+<code class="descname">averages</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crust2x2.html#Crust2Profile.averages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crust2x2.Crust2Profile.averages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get crustal averages for vp, vs and density and total crustal thickness,</p>
+<p>Takes into account ice layer.
+Does not take into account water layer.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.crust2x2.Crust2">
+<em class="property">class </em><code class="descname">Crust2</code><span class="sig-paren">(</span><em>directory=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crust2x2.html#Crust2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crust2x2.Crust2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Access CRUST2.0 model.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param directory:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">Directory with the data files which contain the
+CRUST2.0 model data. If this is set to <code class="docutils literal"><span class="pre">None</span></code>, builtin CRUST2.0
+files are used.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<dl class="attribute">
+<dt id="pyrocko.crust2x2.Crust2.fn_keys">
+<code class="descname">fn_keys</code><em class="property"> = 'CNtype2_key.txt'</em><a class="headerlink" href="#pyrocko.crust2x2.Crust2.fn_keys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.crust2x2.Crust2.fn_elevation">
+<code class="descname">fn_elevation</code><em class="property"> = 'CNelevatio2.txt'</em><a class="headerlink" href="#pyrocko.crust2x2.Crust2.fn_elevation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.crust2x2.Crust2.fn_map">
+<code class="descname">fn_map</code><em class="property"> = 'CNtype2.txt'</em><a class="headerlink" href="#pyrocko.crust2x2.Crust2.fn_map" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.crust2x2.Crust2.nlo">
+<code class="descname">nlo</code><em class="property"> = 180</em><a class="headerlink" href="#pyrocko.crust2x2.Crust2.nlo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.crust2x2.Crust2.nla">
+<code class="descname">nla</code><em class="property"> = 90</em><a class="headerlink" href="#pyrocko.crust2x2.Crust2.nla" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crust2x2.Crust2.get_profile">
+<code class="descname">get_profile</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crust2x2.html#Crust2.get_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crust2x2.Crust2.get_profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get crustal profile at a specific location or raw profile for given
+key.</p>
+<p>Get profile for location <code class="docutils literal"><span class="pre">(lat,</span> <span class="pre">lon)</span></code>, or raw profile for given
+string key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">instance of <a class="reference internal" href="#pyrocko.crust2x2.Crust2Profile" title="pyrocko.crust2x2.Crust2Profile"><code class="xref py py-class docutils literal"><span class="pre">Crust2Profile</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="pyrocko.crust2x2.Crust2.instance">
+<em class="property">static </em><code class="descname">instance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crust2x2.html#Crust2.instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crust2x2.Crust2.instance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the global default Crust2 instance.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.crust2x2.get_profile_keys">
+<code class="descname">get_profile_keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crust2x2.html#get_profile_keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crust2x2.get_profile_keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get list of all profile keys.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.crust2x2.get_profile">
+<code class="descname">get_profile</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crust2x2.html#get_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crust2x2.get_profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get Crust2x2 profile for given location or profile key.</p>
+<p>Get profile for (lat,lon) or raw profile for given string key.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.crust2x2.plot_crustal_thickness">
+<code class="descname">plot_crustal_thickness</code><span class="sig-paren">(</span><em>crust2=None</em>, <em>filename='crustal_thickness.pdf'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crust2x2.html#plot_crustal_thickness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crust2x2.plot_crustal_thickness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a quick and dirty plot of the crustal thicknesses defined in
+CRUST2.0.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.crust2x2.plot_vp_belowcrust">
+<code class="descname">plot_vp_belowcrust</code><span class="sig-paren">(</span><em>crust2=None</em>, <em>filename='vp_below_crust.pdf'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crust2x2.html#plot_vp_belowcrust"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crust2x2.plot_vp_belowcrust" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a quick and dirty plot of vp below the crust, as defined in
+CRUST2.0.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.crust2x2.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>func</em>, <em>filename</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crust2x2.html#plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crust2x2.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="crustdb.html" title="The crustdb Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="catalog.html" title="The catalog Module"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

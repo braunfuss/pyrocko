@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Snuffler manual &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Snuffler tutorial" href="tutorial.html" />
+    <link rel="prev" title="Snuffler" href="index.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Applications</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Snuffler</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="snuffler-manual">
+<h1>Snuffler manual<a class="headerlink" href="#snuffler-manual" title="Permalink to this headline">¶</a></h1>
+<p>Snuffler is a seismogram browser and workbench.</p>
+<ul class="simple">
+<li>read waveforms in Mini-SEED, SAC and other file formats</li>
+<li>visually browse through seismic waveform archives</li>
+<li>display real-time data streams</li>
+<li>snappy interface for zooming, panning, scrolling, filtering, rotating and scaling</li>
+<li>changes to controls give instantaneous visual feedback</li>
+<li>transparent handling of traces split into many files</li>
+<li>integrated manual picker</li>
+<li>extendable with user plugins (snufflings)</li>
+<li>gap-aware continuous waveform processing framework</li>
+</ul>
+<div class="section" id="invocation">
+<h2>Invocation<a class="headerlink" href="#invocation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">snuffler</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span> <span class="n">waveforms</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>Input <code class="docutils literal"><span class="pre">waveforms</span></code> can be any combination of the following data sources:</p>
+<ul class="simple">
+<li>waveform files of supported formats</li>
+<li>directories, which are recursively seached for waveform files</li>
+<li>pseudo URLs, which are used to open real-time data streams from different sources</li>
+</ul>
+<p>The following pseudo URLs are supported:</p>
+<dl class="describe">
+<dt>
+<code class="descname">seedlink://&lt;host&gt;[:&lt;port&gt;]/&lt;pattern&gt;</code></dt>
+<dd><p>Acquire data through SeedLink from given <code class="docutils literal"><span class="pre">&lt;host&gt;</span></code>.  The specified <code class="docutils literal"><span class="pre">&lt;pattern&gt;</span></code> is matched against strings of the form <code class="docutils literal"><span class="pre">&lt;network&gt;.&lt;station&gt;.&lt;location&gt;.&lt;channel&gt;</span></code>,   where the placeholders stand for the corresponding IDs of each SeedLink data stream. To use this feature, <code class="docutils literal"><span class="pre">slinktool</span></code> must be installed.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">school://&lt;device&gt;</code></dt>
+<dd><p>Acquire data through serial line from &#8220;school seismometer&#8221;.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">hb628://&lt;device&gt;[?rate=&lt;rate&gt;[&amp;channels=&lt;channels&gt;]]</code></dt>
+<dd><p>Acquire data from eight-channel USB-HB628 module. Example: to read channels
+0, 3 and 5 from serial device <code class="docutils literal"><span class="pre">/dev/ttyS0</span></code> at default rate (50Hz), use
+<code class="docutils literal"><span class="pre">snuffler</span> <span class="pre">'hb628:///dev/ttyS0?channels=035'</span></code>. By default all channels are
+shown.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<code class="descname">cam://&lt;device&gt;</code></dt>
+<dd><p>Acquire data from Hamburg Univerisity Wiechert camera module.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="options">
+<h2>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
+<dl class="option">
+<dt id="cmdoption-snuffler-h">
+<code class="descname">-h</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--help</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-snuffler-h" title="Permalink to this definition">¶</a></dt>
+<dd><p>show help message and exit</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-snuffler-format">
+<code class="descname">--format</code><code class="descclassname">=FORMAT</code><a class="headerlink" href="#cmdoption-snuffler-format" title="Permalink to this definition">¶</a></dt>
+<dd><p>assume files are of given <code class="docutils literal"><span class="pre">FORMAT</span></code> [default: <code class="docutils literal"><span class="pre">from_extension</span></code>]</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-snuffler-pattern">
+<code class="descname">--pattern</code><code class="descclassname">=REGEX</code><a class="headerlink" href="#cmdoption-snuffler-pattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>only include files whose paths match <code class="docutils literal"><span class="pre">REGEX</span></code></p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-snuffler-stations">
+<code class="descname">--stations</code><code class="descclassname">=STATIONS</code><a class="headerlink" href="#cmdoption-snuffler-stations" title="Permalink to this definition">¶</a></dt>
+<dd><p>read station information from file <code class="docutils literal"><span class="pre">STATIONS</span></code>, this option can be given
+more than once.  The format of the stations file is a simple five-column
+ASCII table where each line has the form</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">net</span><span class="o">&gt;.&lt;</span><span class="n">sta</span><span class="o">&gt;.&lt;</span><span class="n">loc</span><span class="o">&gt;</span>  <span class="o">&lt;</span><span class="n">latitude</span><span class="o">&gt;</span>  <span class="o">&lt;</span><span class="n">longitude</span><span class="o">&gt;</span>  <span class="o">&lt;</span><span class="n">altitude</span><span class="o">&gt;</span>  <span class="o">&lt;</span><span class="n">sensor</span><span class="o">-</span><span class="n">depth</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">&lt;net&gt;</span></code>, <code class="docutils literal"><span class="pre">&lt;sta&gt;</span></code>, and <code class="docutils literal"><span class="pre">&lt;loc&gt;</span></code> are the network, station and location
+codes, respectively. <code class="docutils literal"><span class="pre">&lt;altitude&gt;</span></code> and <code class="docutils literal"><span class="pre">&lt;sensor-depth&gt;</span></code> are given in
+[m]. If network and location code are empty, use <code class="docutils literal"><span class="pre">.&lt;sta&gt;.</span></code>, i.e. the dots
+should not be omitted.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-snuffler-event">
+<code class="descname">--event</code><code class="descclassname">=EVENT</code><code class="descclassname">, </code><code class="descname">--events</code><code class="descclassname">=EVENT</code><a class="headerlink" href="#cmdoption-snuffler-event" title="Permalink to this definition">¶</a></dt>
+<dd><p>read event information from file <code class="docutils literal"><span class="pre">EVENT</span></code>, this option can be given more than once</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-snuffler-markers">
+<code class="descname">--markers</code><code class="descclassname">=MARKERS</code><a class="headerlink" href="#cmdoption-snuffler-markers" title="Permalink to this definition">¶</a></dt>
+<dd><p>read marker information from file <code class="docutils literal"><span class="pre">MARKERS</span></code>, this option can be given more than once</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-snuffler-follow">
+<code class="descname">--follow</code><code class="descclassname">=N</code><a class="headerlink" href="#cmdoption-snuffler-follow" title="Permalink to this definition">¶</a></dt>
+<dd><p>follow real time with a window of N seconds</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-snuffler-cache">
+<code class="descname">--cache</code><code class="descclassname">=DIR</code><a class="headerlink" href="#cmdoption-snuffler-cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>use directory DIR to cache trace metadata (default: <code class="docutils literal"><span class="pre">pyrocko_0.3_cache_&lt;username&gt;</span></code> in the system&#8217;s default temporary directory)</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-snuffler-force-cache">
+<code class="descname">--force-cache</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-snuffler-force-cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>use the cache even when trace attribute spoofing is active (may have silly consequences)</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-snuffler-store-path">
+<code class="descname">--store-path</code><code class="descclassname">=TARGET</code><a class="headerlink" href="#cmdoption-snuffler-store-path" title="Permalink to this definition">¶</a></dt>
+<dd><p>store data received through streams to TARGET. If TARGET is a directory, filnames are automatically choosen. If    more control over the filenames is needed, TARGET can be a filename template containing placeholders like <code class="docutils literal"><span class="pre">%(KEY)s</span></code>, where KEY is any of <code class="docutils literal"><span class="pre">network</span></code>, <code class="docutils literal"><span class="pre">station</span></code>, <code class="docutils literal"><span class="pre">location</span></code>, <code class="docutils literal"><span class="pre">channel</span></code>, <code class="docutils literal"><span class="pre">tmin</span></code> (time of first sample), <code class="docutils literal"><span class="pre">tmax</span></code> (time of last sample).</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-snuffler-store-interval">
+<code class="descname">--store-interval</code><code class="descclassname">=N</code><a class="headerlink" href="#cmdoption-snuffler-store-interval" title="Permalink to this definition">¶</a></dt>
+<dd><p>dump stream data to file every N seconds [default: <code class="docutils literal"><span class="pre">600</span></code>]</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-snuffler-ntracks">
+<code class="descname">--ntracks</code><code class="descclassname">=N</code><a class="headerlink" href="#cmdoption-snuffler-ntracks" title="Permalink to this definition">¶</a></dt>
+<dd><p>initially use <code class="docutils literal"><span class="pre">N</span></code> waveform tracks in viewer [default: <code class="docutils literal"><span class="pre">24</span></code>]</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-snuffler-opengl">
+<code class="descname">--opengl</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-snuffler-opengl" title="Permalink to this definition">¶</a></dt>
+<dd><p>use OpenGL for drawing</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-snuffler-debug">
+<code class="descname">--debug</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-snuffler-debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>print debugging information to stderr</p>
+</dd></dl>
+
+</div>
+<div class="section" id="keystrokes">
+<h2>Keystrokes<a class="headerlink" href="#keystrokes" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Effect</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="kbd docutils literal"><span class="pre">q</span></code></td>
+<td>Quit</td>
+</tr>
+<tr class="row-odd"><td><code class="kbd docutils literal"><span class="pre">r</span></code></td>
+<td>Reload modified files</td>
+</tr>
+<tr class="row-even"><td><code class="kbd docutils literal"><span class="pre">R</span></code></td>
+<td>Reload snufflings</td>
+</tr>
+<tr class="row-odd"><td><code class="kbd docutils literal"><span class="pre">f</span></code></td>
+<td>Toggle full screen mode</td>
+</tr>
+<tr class="row-even"><td><code class="kbd docutils literal"><span class="pre">:</span></code></td>
+<td>Enter command</td>
+</tr>
+<tr class="row-odd"><td><code class="kbd docutils literal"><span class="pre">&lt;space&gt;</span></code></td>
+<td>Forward one page in time</td>
+</tr>
+<tr class="row-even"><td><code class="kbd docutils literal"><span class="pre">b</span></code></td>
+<td>Backward one page in time</td>
+</tr>
+<tr class="row-odd"><td><code class="kbd docutils literal"><span class="pre">&lt;pagedown&gt;</span></code></td>
+<td>Scroll tracks one page down</td>
+</tr>
+<tr class="row-even"><td><code class="kbd docutils literal"><span class="pre">&lt;pageup&gt;</span></code></td>
+<td>Scroll tracks one page up</td>
+</tr>
+<tr class="row-odd"><td><code class="kbd docutils literal"><span class="pre">+</span></code></td>
+<td>Show one track more</td>
+</tr>
+<tr class="row-even"><td><code class="kbd docutils literal"><span class="pre">-</span></code></td>
+<td>Show one track less</td>
+</tr>
+<tr class="row-odd"><td><code class="kbd docutils literal"><span class="pre">=</span></code></td>
+<td>Show initial number of tracks</td>
+</tr>
+<tr class="row-even"><td><code class="kbd docutils literal"><span class="pre">g</span></code></td>
+<td>Go to selection / show all</td>
+</tr>
+<tr class="row-odd"><td><code class="kbd docutils literal"><span class="pre">n</span></code></td>
+<td>Go to next marker</td>
+</tr>
+<tr class="row-even"><td><code class="kbd docutils literal"><span class="pre">p</span></code></td>
+<td>Go to previous marker</td>
+</tr>
+<tr class="row-odd"><td><code class="kbd docutils literal"><span class="pre">N</span></code></td>
+<td>Go to next event marker</td>
+</tr>
+<tr class="row-even"><td><code class="kbd docutils literal"><span class="pre">P</span></code></td>
+<td>Go to previous event marker</td>
+</tr>
+<tr class="row-odd"><td><code class="kbd docutils literal"><span class="pre">a</span></code></td>
+<td>Select all markers currently visible</td>
+</tr>
+<tr class="row-even"><td><code class="kbd docutils literal"><span class="pre">A</span></code></td>
+<td>Select all markers</td>
+</tr>
+<tr class="row-odd"><td><code class="kbd docutils literal"><span class="pre">d</span></code></td>
+<td>Deselect all markers</td>
+</tr>
+<tr class="row-even"><td><code class="kbd docutils literal"><span class="pre">0</span></code> ... <code class="kbd docutils literal"><span class="pre">5</span></code></td>
+<td>Change color of marker</td>
+</tr>
+<tr class="row-odd"><td><code class="kbd docutils literal"><span class="pre">&lt;f1&gt;</span></code> ... <code class="kbd docutils literal"><span class="pre">&lt;f5&gt;</span></code></td>
+<td>Convert to phase marker</td>
+</tr>
+<tr class="row-even"><td><code class="kbd docutils literal"><span class="pre">e</span></code></td>
+<td>Convert to event marker / set active event / associate to event</td>
+</tr>
+<tr class="row-odd"><td><code class="kbd docutils literal"><span class="pre">&lt;f10&gt;</span></code></td>
+<td>Convert phase marker to normal marker</td>
+</tr>
+<tr class="row-even"><td><code class="kbd docutils literal"><span class="pre">&lt;backspace&gt;</span></code></td>
+<td>Delete marker</td>
+</tr>
+<tr class="row-odd"><td><code class="kbd docutils literal"><span class="pre">&lt;escape&gt;</span></code></td>
+<td>Abort picking</td>
+</tr>
+<tr class="row-even"><td><code class="kbd docutils literal"><span class="pre">?</span></code></td>
+<td>Help</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="mouse">
+<h2>Mouse<a class="headerlink" href="#mouse" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Mouse</th>
+<th class="head">Effect</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Click and drag</td>
+<td>Zoom and pan</td>
+</tr>
+<tr class="row-odd"><td>Click and drag on time axis</td>
+<td>Pan only</td>
+</tr>
+<tr class="row-even"><td>Click on marker</td>
+<td>Select marker</td>
+</tr>
+<tr class="row-odd"><td><code class="kbd docutils literal"><span class="pre">&lt;shift&gt;</span></code> + click on marker</td>
+<td>Select additional marker</td>
+</tr>
+<tr class="row-even"><td>Wheel</td>
+<td>Scroll tracks vertically</td>
+</tr>
+<tr class="row-odd"><td><code class="kbd docutils literal"><span class="pre">&lt;ctrl&gt;</span></code> + wheel</td>
+<td>Change number of tracks shown</td>
+</tr>
+<tr class="row-even"><td>Right-click</td>
+<td>Menu</td>
+</tr>
+<tr class="row-odd"><td>Double-click</td>
+<td>Enter picking mode</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="commands">
+<h2>Commands<a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h2>
+<p>After pressing &#8216;<em>:</em>&#8216; in the trace viewer, a command can be entered. To leave command mode press &#8216;<em>&lt;return&gt;</em>&#8216;.</p>
+<p>Some of snuffler&#8217;s commands take a <code class="docutils literal"><span class="pre">&lt;pattern&gt;</span></code> argument. These may contain the following shell-style wildcards:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="74%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">*</span></code></td>
+<td>matches everything</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">?</span></code></td>
+<td>matches any single character</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[seq]</span></code></td>
+<td>matches any character in seq</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[!seq]</span></code></td>
+<td>matches any character not in seq</td>
+</tr>
+</tbody>
+</table>
+<p>The pattern matching is done case-insensitive.</p>
+<div class="section" id="quick-search-traces">
+<h3>Quick-search traces<a class="headerlink" href="#quick-search-traces" title="Permalink to this headline">¶</a></h3>
+<p>Reduce traces shown in viewer to those matching a given pattern.</p>
+<p><code class="docutils literal"><span class="pre">n|s|l|c</span> <span class="pre">[</span> <span class="pre">&lt;pattern&gt;</span> <span class="pre">]</span></code></p>
+<p><code class="docutils literal"><span class="pre">&lt;pattern&gt;</span></code> is matched against network, station, location, or channel ID of the traces depending on whether the <code class="docutils literal"><span class="pre">n</span></code>, <code class="docutils literal"><span class="pre">s</span></code>, <code class="docutils literal"><span class="pre">l</span></code>, or <code class="docutils literal"><span class="pre">c</span></code> command is used, respectively. Only one quick-search pattern is active at any time. The currently active pattern is cleared by calling any of these commands without an argument.</p>
+</div>
+<div class="section" id="hide">
+<h3>Hide<a class="headerlink" href="#hide" title="Permalink to this headline">¶</a></h3>
+<p>Hide traces whose network, station, location, and channel IDs match a given pattern.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hide</span> <span class="o">&lt;</span><span class="n">pattern</span><span class="o">&gt;</span>
+<span class="n">hide</span> <span class="n">n</span><span class="o">|</span><span class="n">s</span><span class="o">|</span><span class="n">l</span><span class="o">|</span><span class="n">c</span> <span class="o">&lt;</span><span class="n">pattern</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Using the first form, <code class="docutils literal"><span class="pre">&lt;pattern&gt;</span></code> is matched against strings of the form <code class="docutils literal"><span class="pre">&lt;network&gt;.&lt;station&gt;.&lt;location&gt;.&lt;channel&gt;</span></code>, where the placeholders stand for the corresponding IDs of each trace.</p>
+<p>Using the second form, <code class="docutils literal"><span class="pre">&lt;pattern&gt;</span></code> is matched against network, station, location, or channel ID of the trace depending on whether <code class="docutils literal"><span class="pre">n</span></code>, <code class="docutils literal"><span class="pre">s</span></code>, <code class="docutils literal"><span class="pre">l</span></code>, or <code class="docutils literal"><span class="pre">c</span></code> is given as first argument, respectively. For example, <code class="docutils literal"><span class="pre">hide</span> <span class="pre">s</span> <span class="pre">&lt;pattern&gt;</span></code> is short for <code class="docutils literal"><span class="pre">hide</span> <span class="pre">*.&lt;pattern&gt;.*.*</span></code>.</p>
+<p>The patterns given to successive invocations of <code class="docutils literal"><span class="pre">hide</span></code> are accumulated in a blacklist. To remove patterns from that blacklist, use the <code class="docutils literal"><span class="pre">unhide</span></code> command.</p>
+<p><strong>Examples:</strong></p>
+<ul class="simple">
+<li>To hide any <code class="docutils literal"><span class="pre">BHZ</span></code> channels of stations with ID <code class="docutils literal"><span class="pre">HAM3</span></code>, use <code class="docutils literal"><span class="pre">hide</span> <span class="pre">*.ham3.*.bhz</span></code>.</li>
+<li>To hide all <code class="docutils literal"><span class="pre">LHZ</span></code> channels use <code class="docutils literal"><span class="pre">hide</span> <span class="pre">c</span> <span class="pre">lhz</span></code>.</li>
+<li>To hide any <code class="docutils literal"><span class="pre">LHE</span></code> and <code class="docutils literal"><span class="pre">LHN</span></code> channels use <code class="docutils literal"><span class="pre">hide</span> <span class="pre">c</span> <span class="pre">lh[en]</span></code></li>
+<li>Assuming stations are named <code class="docutils literal"><span class="pre">S01</span></code> ... <code class="docutils literal"><span class="pre">S15</span></code>, to remove all but <code class="docutils literal"><span class="pre">S02</span></code> and <code class="docutils literal"><span class="pre">S04</span></code>, type <code class="docutils literal"><span class="pre">hide</span> <span class="pre">s</span> <span class="pre">S0[!24]</span></code> followed by <code class="docutils literal"><span class="pre">hide</span> <span class="pre">s</span> <span class="pre">S1?</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="unhide">
+<h3>Unhide<a class="headerlink" href="#unhide" title="Permalink to this headline">¶</a></h3>
+<p>Unhide traces previously hidden with the <code class="docutils literal"><span class="pre">hide</span></code> command.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">unhide</span> <span class="p">[</span> <span class="o">&lt;</span><span class="n">pattern</span><span class="o">&gt;</span> <span class="p">]</span>
+<span class="n">unhide</span> <span class="n">n</span><span class="o">|</span><span class="n">s</span><span class="o">|</span><span class="n">l</span><span class="o">|</span><span class="n">c</span> <span class="o">&lt;</span><span class="n">pattern</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">&lt;pattern&gt;</span></code> argument must exactly correspond to a pattern previously given to the <code class="docutils literal"><span class="pre">hide</span></code> command. When <code class="docutils literal"><span class="pre">unhide</span></code> is called without any arguments, all currently active hide patterns are cleared.</p>
+</div>
+<div class="section" id="markers">
+<h3>Markers<a class="headerlink" href="#markers" title="Permalink to this headline">¶</a></h3>
+<p>Toggle marker visibility.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">markers</span> <span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="mi">3</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">markers</span> <span class="nb">all</span>
+<span class="n">markers</span>
+</pre></div>
+</div>
+<p>The visibility of the markers can be set selectively with regard to their kind
+(color). Each number given in the argument to this command turns on visibility
+of the corresponding marker kind, all other markers are hidden. If no arguments
+are given, all markers are hidden. If the argument is <code class="docutils literal"><span class="pre">all</span></code>, all markers are shown.</p>
+</div>
+<div class="section" id="scaling">
+<h3>Scaling<a class="headerlink" href="#scaling" title="Permalink to this headline">¶</a></h3>
+<p>Set scaling rules.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">scaling</span> <span class="o">&lt;</span><span class="n">vmin</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">vmax</span><span class="o">&gt;</span>
+<span class="n">scaling</span> <span class="o">&lt;</span><span class="n">pattern</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">vmin</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">vmax</span><span class="o">&gt;</span>
+<span class="n">scaling</span>
+</pre></div>
+</div>
+<p>Traces are scaled according to the range [<code class="docutils literal"><span class="pre">&lt;vmin&gt;</span></code>, <code class="docutils literal"><span class="pre">&lt;vmax&gt;</span></code>]. Either of
+<code class="docutils literal"><span class="pre">&lt;vmin&gt;</span></code> or <code class="docutils literal"><span class="pre">&lt;vmax&gt;</span></code> may be set to the string &#8216;nan&#8217;, to maintain automatic
+scaling for the corresponding limit.  If three arguments are given, the first
+argument should be a pattern, restricting application of the given scaling rule
+to matching traces.  If no arguments are given, any previously set scalings
+rules are cleared.</p>
+</div>
+<div class="section" id="goto">
+<h3>Goto<a class="headerlink" href="#goto" title="Permalink to this headline">¶</a></h3>
+<p>Jump to given time or event.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">goto</span> <span class="n">YYYY</span><span class="o">-</span><span class="n">MM</span><span class="p">[</span><span class="o">-</span><span class="n">DD</span><span class="p">[</span> <span class="n">HH</span><span class="p">[:</span><span class="n">MM</span><span class="p">[:</span><span class="n">SS</span><span class="p">[</span><span class="o">.</span><span class="n">XXX</span><span class="p">]]]]]</span>
+<span class="n">goto</span> <span class="n">HH</span><span class="p">:</span><span class="n">MM</span><span class="p">[:</span><span class="n">SS</span><span class="p">[</span><span class="o">.</span><span class="n">XXX</span><span class="p">]]</span>
+<span class="n">goto</span> <span class="o">&lt;</span><span class="n">eventname</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The first form causes the viewer to jump to the given date and time. With the
+second form (when no date is given), the date is taken from the center of the
+currently visible time range. Using the third form, it jumps to the time of an
+event with the given <code class="docutils literal"><span class="pre">&lt;eventname&gt;</span></code>. The event marker is neither selected nor
+made active through this command.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Snuffler tutorial"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Snuffler"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

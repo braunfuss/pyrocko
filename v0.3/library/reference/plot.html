@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The plot Module &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The pz Module" href="pz.html" />
+    <link rel="prev" title="The pile_viewer Module" href="pile_viewer.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyrocko.plot">
+<span id="the-plot-module"></span><h1>The <code class="xref py py-mod docutils literal"><span class="pre">plot</span></code> Module<a class="headerlink" href="#module-pyrocko.plot" title="Permalink to this headline">¶</a></h1>
+<p>Utility functions and defintions for a common plot style throughout Pyrocko.</p>
+<p>Functions with name prefix <code class="docutils literal"><span class="pre">mpl_</span></code> are Matplotlib specific. All others should
+be toolkit-agnostic.</p>
+<p>The following skeleton can be used to produce nice PDF figures, with absolute
+sizes derived from paper and font sizes (file <code class="file docutils literal"><span class="pre">examples/plot_skeleton.py</span></code>
+in the Pyrocko source directory):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="kn">from</span> <span class="nn">pyrocko.plot</span> <span class="k">import</span> <span class="n">mpl_init</span><span class="p">,</span> <span class="n">mpl_margins</span><span class="p">,</span> <span class="n">mpl_papersize</span>
+<span class="c1"># from pyrocko.plot import mpl_labelspace</span>
+
+<span class="n">fontsize</span> <span class="o">=</span> <span class="mf">9.</span>   <span class="c1"># in points</span>
+
+<span class="c1"># set some Pyrocko style defaults</span>
+<span class="n">mpl_init</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">mpl_papersize</span><span class="p">(</span><span class="s1">&#39;a4&#39;</span><span class="p">,</span> <span class="s1">&#39;landscape&#39;</span><span class="p">))</span>
+
+<span class="c1"># let margins be proportional to selected font size, e.g. top and bottom</span>
+<span class="c1"># margin are set to be 5*fontsize = 45 [points]</span>
+<span class="n">labelpos</span> <span class="o">=</span> <span class="n">mpl_margins</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="mf">7.</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">5.</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">fontsize</span><span class="p">)</span>
+
+<span class="n">axes</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># positioning of axis labels</span>
+<span class="c1"># mpl_labelspace(axes)    # either: relative to axis tick labels</span>
+<span class="n">labelpos</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>   <span class="c1"># or: relative to left/bottom paper edge</span>
+
+<span class="n">axes</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>
+
+<span class="n">axes</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time [s]&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Amplitude [m]&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;plot_skeleton.pdf&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="function">
+<dt id="pyrocko.plot.nice_value">
+<code class="descname">nice_value</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/plot.html#nice_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.plot.nice_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Round x to nice value.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.plot.papersize">
+<code class="descname">papersize</code><span class="sig-paren">(</span><em>paper</em>, <em>orientation='landscape'</em>, <em>units='point'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/plot.html#papersize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.plot.papersize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get paper size from string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>paper</strong> &#8211; string selecting paper size. Choices: <code class="docutils literal"><span class="pre">'a0'</span></code>, <code class="docutils literal"><span class="pre">'a1'</span></code>, <code class="docutils literal"><span class="pre">'a2'</span></code>, <code class="docutils literal"><span class="pre">'a3'</span></code>, <code class="docutils literal"><span class="pre">'a4'</span></code>, <code class="docutils literal"><span class="pre">'a5'</span></code>, <code class="docutils literal"><span class="pre">'a6'</span></code>, <code class="docutils literal"><span class="pre">'a7'</span></code>, <code class="docutils literal"><span class="pre">'a8'</span></code>, <code class="docutils literal"><span class="pre">'a9'</span></code>, <code class="docutils literal"><span class="pre">'a10'</span></code>, <code class="docutils literal"><span class="pre">'b0'</span></code>, <code class="docutils literal"><span class="pre">'b1'</span></code>, <code class="docutils literal"><span class="pre">'b2'</span></code>, <code class="docutils literal"><span class="pre">'b3'</span></code>, <code class="docutils literal"><span class="pre">'b4'</span></code>, <code class="docutils literal"><span class="pre">'b5'</span></code>, <code class="docutils literal"><span class="pre">'archa'</span></code>, <code class="docutils literal"><span class="pre">'archb'</span></code>, <code class="docutils literal"><span class="pre">'archc'</span></code>, <code class="docutils literal"><span class="pre">'archd'</span></code>, <code class="docutils literal"><span class="pre">'arche'</span></code>, <code class="docutils literal"><span class="pre">'flsa'</span></code>, <code class="docutils literal"><span class="pre">'halfletter'</span></code>, <code class="docutils literal"><span class="pre">'note'</span></code>, <code class="docutils literal"><span class="pre">'letter'</span></code>, <code class="docutils literal"><span class="pre">'legal'</span></code>, <code class="docutils literal"><span class="pre">'11x17'</span></code>, <code class="docutils literal"><span class="pre">'ledger'</span></code></li>
+<li><strong>orientation</strong> &#8211; <code class="docutils literal"><span class="pre">'landscape'</span></code>, or <code class="docutils literal"><span class="pre">'portrait'</span></code></li>
+<li><strong>units</strong> &#8211; Units to be returned. Choices: <code class="docutils literal"><span class="pre">'points'</span></code>, <code class="docutils literal"><span class="pre">'inch'</span></code>, or <code class="docutils literal"><span class="pre">'cm'</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">(width,</span> <span class="pre">height)</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.plot.AutoScaler">
+<em class="property">class </em><code class="descname">AutoScaler</code><span class="sig-paren">(</span><em>approx_ticks=7.0</em>, <em>mode='auto'</em>, <em>exp=None</em>, <em>snap=False</em>, <em>inc=None</em>, <em>space=0.0</em>, <em>exp_factor=3</em>, <em>no_exp_interval=(-3</em>, <em>5)</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/plot.html#AutoScaler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.plot.AutoScaler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tunable 1D autoscaling based on data range.</p>
+<p>Instances of this class may be used to determine nice minima, maxima and
+increments for ax annotations, as well as suitable common exponents for
+notation.</p>
+<p>The autoscaling process is guided by the following public attributes:</p>
+<blockquote>
+<div><dl class="attribute">
+<dt id="pyrocko.plot.AutoScaler.approx_ticks">
+<code class="descname">approx_ticks</code><a class="headerlink" href="#pyrocko.plot.AutoScaler.approx_ticks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Approximate number of increment steps (tickmarks) to generate.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.plot.AutoScaler.mode">
+<code class="descname">mode</code><a class="headerlink" href="#pyrocko.plot.AutoScaler.mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mode of operation: one of <code class="docutils literal"><span class="pre">'auto'</span></code>, <code class="docutils literal"><span class="pre">'min-max'</span></code>, <code class="docutils literal"><span class="pre">'0-max'</span></code>,
+<code class="docutils literal"><span class="pre">'min-0'</span></code>, <code class="docutils literal"><span class="pre">'symmetric'</span></code> or <code class="docutils literal"><span class="pre">'off'</span></code>.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">mode</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">'auto'</span></code>:</td>
+<td>Look at data range and choose one of the choices
+below.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">'min-max'</span></code>:</td>
+<td>Output range is selected to include data range.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">'0-max'</span></code>:</td>
+<td>Output range shall start at zero and end at data
+max.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">'min-0'</span></code>:</td>
+<td>Output range shall start at data min and end at
+zero.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">'symmetric'</span></code>:</td>
+<td>Output range shall by symmetric by zero.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">'off'</span></code>:</td>
+<td>Similar to <code class="docutils literal"><span class="pre">'min-max'</span></code>, but snap and space are
+disabled, such that the output range always
+exactly matches the data range.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.plot.AutoScaler.exp">
+<code class="descname">exp</code><a class="headerlink" href="#pyrocko.plot.AutoScaler.exp" title="Permalink to this definition">¶</a></dt>
+<dd><p>If defined, override automatically determined exponent for notation
+by the given value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.plot.AutoScaler.snap">
+<code class="descname">snap</code><a class="headerlink" href="#pyrocko.plot.AutoScaler.snap" title="Permalink to this definition">¶</a></dt>
+<dd><p>If set to True, snap output range to multiples of increment. This
+parameter has no effect, if mode is set to <code class="docutils literal"><span class="pre">'off'</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.plot.AutoScaler.inc">
+<code class="descname">inc</code><a class="headerlink" href="#pyrocko.plot.AutoScaler.inc" title="Permalink to this definition">¶</a></dt>
+<dd><p>If defined, override automatically determined tick increment by the
+given value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.plot.AutoScaler.space">
+<code class="descname">space</code><a class="headerlink" href="#pyrocko.plot.AutoScaler.space" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add some padding to the range. The value given, is the fraction by
+which the output range is increased on each side. If mode is
+<code class="docutils literal"><span class="pre">'0-max'</span></code> or <code class="docutils literal"><span class="pre">'min-0'</span></code>, the end at zero is kept fixed at zero.
+This parameter has no effect if mode is set to <code class="docutils literal"><span class="pre">'off'</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.plot.AutoScaler.exp_factor">
+<code class="descname">exp_factor</code><a class="headerlink" href="#pyrocko.plot.AutoScaler.exp_factor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exponent of notation is chosen to be a multiple of this value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">no_exp_interval:</code></dt>
+<dd><p>Range of exponent, for which no exponential notation is allowed.</p>
+</dd></dl>
+
+</div></blockquote>
+<dl class="method">
+<dt id="pyrocko.plot.AutoScaler.make_scale">
+<code class="descname">make_scale</code><span class="sig-paren">(</span><em>data_range</em>, <em>override_mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/plot.html#AutoScaler.make_scale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.plot.AutoScaler.make_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get nice minimum, maximum and increment for given data range.</p>
+<p>Returns <code class="docutils literal"><span class="pre">(minimum,</span> <span class="pre">maximum,</span> <span class="pre">increment)</span></code> or <code class="docutils literal"><span class="pre">(maximum,</span> <span class="pre">minimum,</span>
+<span class="pre">-increment)</span></code>, depending on whether data_range is <code class="docutils literal"><span class="pre">(data_min,</span>
+<span class="pre">data_max)</span></code> or <code class="docutils literal"><span class="pre">(data_max,</span> <span class="pre">data_min)</span></code>. If <code class="docutils literal"><span class="pre">override_mode</span></code> is
+defined, the mode attribute is temporarily overridden by the given
+value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.plot.AutoScaler.make_exp">
+<code class="descname">make_exp</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/plot.html#AutoScaler.make_exp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.plot.AutoScaler.make_exp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get nice exponent for notation of <code class="docutils literal"><span class="pre">x</span></code>.</p>
+<p>For ax annotations, give tick increment as <code class="docutils literal"><span class="pre">x</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.plot.AutoScaler.guess_autoscale_mode">
+<code class="descname">guess_autoscale_mode</code><span class="sig-paren">(</span><em>data_min</em>, <em>data_max</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/plot.html#AutoScaler.guess_autoscale_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.plot.AutoScaler.guess_autoscale_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Guess mode of operation, based on data range.</p>
+<p>Used to map <code class="docutils literal"><span class="pre">'auto'</span></code> mode to <code class="docutils literal"><span class="pre">'0-max'</span></code>, <code class="docutils literal"><span class="pre">'min-0'</span></code>, <code class="docutils literal"><span class="pre">'min-max'</span></code>
+or <code class="docutils literal"><span class="pre">'symmetric'</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.plot.mpl_init">
+<code class="descname">mpl_init</code><span class="sig-paren">(</span><em>fontsize=10</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/plot.html#mpl_init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.plot.mpl_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize Matplotlib rc parameters Pyrocko style.</p>
+<p>Returns the matplotlib.pyplot module for convenience.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.plot.mpl_margins">
+<code class="descname">mpl_margins</code><span class="sig-paren">(</span><em>fig</em>, <em>left=1.0</em>, <em>top=1.0</em>, <em>right=1.0</em>, <em>bottom=1.0</em>, <em>wspace=None</em>, <em>hspace=None</em>, <em>w=None</em>, <em>h=None</em>, <em>nw=None</em>, <em>nh=None</em>, <em>all=None</em>, <em>units='inch'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/plot.html#mpl_margins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.plot.mpl_margins" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adjust Matplotlib subplot params with absolute values in user units.</p>
+<p>Calls <code class="xref py py-meth docutils literal"><span class="pre">matplotlib.figure.Figure.subplots_adjust()</span></code> on <code class="docutils literal"><span class="pre">fig</span></code> with
+absolute margin widths/heights rather than relative values. If <code class="docutils literal"><span class="pre">wspace</span></code>
+or <code class="docutils literal"><span class="pre">hspace</span></code> are given, the number of subplots must be given in <code class="docutils literal"><span class="pre">nw</span></code>
+and <code class="docutils literal"><span class="pre">nh</span></code> because <code class="docutils literal"><span class="pre">subplots_adjust()</span></code> treats the spacing parameters
+relative to the subplot width and height.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>units</strong> &#8211; Unit multiplier or unit as string: <code class="docutils literal"><span class="pre">'points'</span></code>, <code class="docutils literal"><span class="pre">'inch'</span></code>, or <code class="docutils literal"><span class="pre">'cm'</span></code></li>
+<li><strong>left</strong><strong>,</strong><strong>right</strong><strong>,</strong><strong>top</strong><strong>,</strong><strong>bottom</strong> &#8211; margin space</li>
+<li><strong>w</strong> &#8211; set <code class="docutils literal"><span class="pre">left</span></code> and <code class="docutils literal"><span class="pre">right</span></code> at once</li>
+<li><strong>h</strong> &#8211; set <code class="docutils literal"><span class="pre">top</span></code> and <code class="docutils literal"><span class="pre">bottom</span></code> at once</li>
+<li><strong>all</strong> &#8211; set <code class="docutils literal"><span class="pre">left</span></code>, <code class="docutils literal"><span class="pre">top</span></code>, <code class="docutils literal"><span class="pre">right</span></code>, and <code class="docutils literal"><span class="pre">bottom</span></code> at once</li>
+<li><strong>nw</strong> &#8211; number of subplots horizontally</li>
+<li><strong>nh</strong> &#8211; number of subplots vertically</li>
+<li><strong>wspace</strong> &#8211; horizontal spacing between subplots</li>
+<li><strong>hspace</strong> &#8211; vertical spacing between subplots</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.plot.mpl_labelspace">
+<code class="descname">mpl_labelspace</code><span class="sig-paren">(</span><em>axes</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/plot.html#mpl_labelspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.plot.mpl_labelspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add some extra padding between label and ax annotations.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.plot.mpl_papersize">
+<code class="descname">mpl_papersize</code><span class="sig-paren">(</span><em>paper</em>, <em>orientation='landscape'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/plot.html#mpl_papersize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.plot.mpl_papersize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get paper size in inch from string.</p>
+<p>Returns argument suitable to be passed to the <code class="docutils literal"><span class="pre">figsize</span></code> argument of
+<code class="xref py py-func docutils literal"><span class="pre">pyplot.figure()</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>paper</strong> &#8211; string selecting paper size. Choices: <code class="docutils literal"><span class="pre">'a0'</span></code>, <code class="docutils literal"><span class="pre">'a1'</span></code>, <code class="docutils literal"><span class="pre">'a2'</span></code>, <code class="docutils literal"><span class="pre">'a3'</span></code>, <code class="docutils literal"><span class="pre">'a4'</span></code>, <code class="docutils literal"><span class="pre">'a5'</span></code>, <code class="docutils literal"><span class="pre">'a6'</span></code>, <code class="docutils literal"><span class="pre">'a7'</span></code>, <code class="docutils literal"><span class="pre">'a8'</span></code>, <code class="docutils literal"><span class="pre">'a9'</span></code>, <code class="docutils literal"><span class="pre">'a10'</span></code>, <code class="docutils literal"><span class="pre">'b0'</span></code>, <code class="docutils literal"><span class="pre">'b1'</span></code>, <code class="docutils literal"><span class="pre">'b2'</span></code>, <code class="docutils literal"><span class="pre">'b3'</span></code>, <code class="docutils literal"><span class="pre">'b4'</span></code>, <code class="docutils literal"><span class="pre">'b5'</span></code>, <code class="docutils literal"><span class="pre">'archa'</span></code>, <code class="docutils literal"><span class="pre">'archb'</span></code>, <code class="docutils literal"><span class="pre">'archc'</span></code>, <code class="docutils literal"><span class="pre">'archd'</span></code>, <code class="docutils literal"><span class="pre">'arche'</span></code>, <code class="docutils literal"><span class="pre">'flsa'</span></code>, <code class="docutils literal"><span class="pre">'halfletter'</span></code>, <code class="docutils literal"><span class="pre">'note'</span></code>, <code class="docutils literal"><span class="pre">'letter'</span></code>, <code class="docutils literal"><span class="pre">'legal'</span></code>, <code class="docutils literal"><span class="pre">'11x17'</span></code>, <code class="docutils literal"><span class="pre">'ledger'</span></code></li>
+<li><strong>orientation</strong> &#8211; <code class="docutils literal"><span class="pre">'landscape'</span></code>, or <code class="docutils literal"><span class="pre">'portrait'</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">(width,</span> <span class="pre">height)</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.plot.mpl_color">
+<code class="descname">mpl_color</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/plot.html#mpl_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.plot.mpl_color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert string into color float tuple ranged 0-1 for use with Matplotlib.</p>
+<p>Accepts tango color names, matplotlib color names, and slash-separated
+strings. In the latter case, if values are larger than 1., the color
+is interpreted as 0-255 ranged. Single-valued (grayscale), three-valued
+(color) and four-valued (color with alpha) are accepted. An
+<code class="xref py py-exc docutils literal"><span class="pre">InvalidColorDef</span></code> exception is raised when the convertion fails.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pz.html" title="The pz Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pile_viewer.html" title="The pile_viewer Module"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

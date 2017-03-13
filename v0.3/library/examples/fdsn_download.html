@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Downloading seismic data (FDSN) &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Earthquake catalog search" href="catalog_search.html" />
+    <link rel="prev" title="Dataset management" href="dataset_management.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Examples</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="downloading-seismic-data-fdsn">
+<h1>Downloading seismic data (FDSN)<a class="headerlink" href="#downloading-seismic-data-fdsn" title="Permalink to this headline">¶</a></h1>
+<p>Waveforms and meta data can be retrieved from online <a class="reference external" href="http://www.fdsn.org">FDSN services</a> using the <a class="reference internal" href="../reference/fdsn.html#module-pyrocko.fdsn" title="pyrocko.fdsn"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn</span></code></a> modules.</p>
+<div class="section" id="seismic-data-from-geofon">
+<h2>Seismic data from Geofon<a class="headerlink" href="#seismic-data-from-geofon" title="Permalink to this headline">¶</a></h2>
+<p>The following demo explains how to download waveform data and instrument
+response information. Latter is used to deconvolve the transfer function from
+the waveform traces in a second step.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko.fdsn</span> <span class="k">import</span> <span class="n">ws</span>
+<span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">util</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">trace</span>
+
+<span class="n">tmin</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">stt</span><span class="p">(</span><span class="s1">&#39;2014-01-01 16:10:00.000&#39;</span><span class="p">)</span>
+<span class="n">tmax</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">stt</span><span class="p">(</span><span class="s1">&#39;2014-01-01 16:39:59.000&#39;</span><span class="p">)</span>
+
+<span class="c1"># select stations by their NSLC id and wildcards (asterisk)</span>
+<span class="n">selection</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;HMDT&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span><span class="p">),</span>    <span class="c1"># all available components</span>
+    <span class="p">(</span><span class="s1">&#39;GE&#39;</span><span class="p">,</span> <span class="s1">&#39;EIL&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;*Z&#39;</span><span class="p">,</span> <span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span><span class="p">),</span>   <span class="c1"># all vertical components</span>
+<span class="p">]</span>
+
+<span class="c1"># setup a waveform data request</span>
+<span class="n">request_waveform</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">dataselect</span><span class="p">(</span><span class="n">site</span><span class="o">=</span><span class="s1">&#39;geofon&#39;</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="n">selection</span><span class="p">)</span>
+
+<span class="c1"># write the incoming data stream to &#39;traces.mseed&#39;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;traces.mseed&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">request_waveform</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+<span class="c1"># request meta data</span>
+<span class="n">request_response</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">station</span><span class="p">(</span>
+    <span class="n">site</span><span class="o">=</span><span class="s1">&#39;geofon&#39;</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="n">selection</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s1">&#39;response&#39;</span><span class="p">)</span>
+
+<span class="c1"># save the response in YAML and StationXML format</span>
+<span class="n">request_response</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;responses.yaml&#39;</span><span class="p">)</span>
+<span class="n">request_response</span><span class="o">.</span><span class="n">dump_xml</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;responses.xml&#39;</span><span class="p">)</span>
+
+<span class="c1"># Loop through retrieved waveforms and request meta information</span>
+<span class="c1"># for each trace</span>
+<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;traces.mseed&#39;</span><span class="p">)</span>
+<span class="n">displacement</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+    <span class="n">polezero_response</span> <span class="o">=</span> <span class="n">request_response</span><span class="o">.</span><span class="n">get_pyrocko_response</span><span class="p">(</span>
+        <span class="n">nslc</span><span class="o">=</span><span class="n">tr</span><span class="o">.</span><span class="n">nslc_id</span><span class="p">,</span>
+        <span class="n">timespan</span><span class="o">=</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">tmin</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">tmax</span><span class="p">),</span>
+        <span class="n">fake_input_units</span><span class="o">=</span><span class="s1">&#39;M&#39;</span><span class="p">)</span>       <span class="c1"># (Required for consistent responses</span>
+                                    <span class="c1"># throughout entire data set)</span>
+
+    <span class="c1"># deconvolve transfer function</span>
+    <span class="n">restituted</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">transfer</span><span class="p">(</span>
+        <span class="n">tfade</span><span class="o">=</span><span class="mf">2.</span><span class="p">,</span>
+        <span class="n">freqlimits</span><span class="o">=</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">),</span>
+        <span class="n">transfer_function</span><span class="o">=</span><span class="n">polezero_response</span><span class="p">,</span>
+        <span class="n">invert</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">displacement</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">restituted</span><span class="p">)</span>
+
+<span class="c1"># Inspect waveforms using Snuffler</span>
+<span class="n">trace</span><span class="o">.</span><span class="n">snuffle</span><span class="p">(</span><span class="n">displacement</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="stationxml-data-manipulation">
+<h2>StationXML data manipulation<a class="headerlink" href="#stationxml-data-manipulation" title="Permalink to this headline">¶</a></h2>
+<p>To manipulate <a class="reference external" href="http://www.fdsn.org/xml/station/">StationXML</a> data through
+Pyrocko use the <a class="reference internal" href="../reference/fdsn.html#module-pyrocko.fdsn.station" title="pyrocko.fdsn.station"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.fdsn.station</span></code></a> module.  This example will
+change the azimuth and dip values for channels whose codes are X, Y and Z, and
+set all channel instrument&#8217;s input units to meters.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">pyrocko.fdsn</span> <span class="k">import</span> <span class="n">station</span> <span class="k">as</span> <span class="n">fs</span>
+
+<span class="c1"># load the StationXML data file passed</span>
+<span class="n">sx</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">load_xml</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">comp_to_azi_dip</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">),</span>
+    <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">90.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">),</span>
+    <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">90.</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="c1"># step through all the networks within the data file</span>
+<span class="k">for</span> <span class="n">network</span> <span class="ow">in</span> <span class="n">sx</span><span class="o">.</span><span class="n">network_list</span><span class="p">:</span>
+
+    <span class="c1"># step through all the stations per networks</span>
+    <span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">network</span><span class="o">.</span><span class="n">station_list</span><span class="p">:</span>
+
+        <span class="c1"># step through all the channels per stations</span>
+        <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="n">station</span><span class="o">.</span><span class="n">channel_list</span><span class="p">:</span>
+            <span class="n">azi</span><span class="p">,</span> <span class="n">dip</span> <span class="o">=</span> <span class="n">comp_to_azi_dip</span><span class="p">[</span><span class="n">channel</span><span class="o">.</span><span class="n">code</span><span class="p">]</span>
+
+            <span class="c1"># change the azimuth and dip of the channel per channel alpha</span>
+            <span class="c1"># code</span>
+            <span class="n">channel</span><span class="o">.</span><span class="n">azimuth</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">azi</span>
+            <span class="n">channel</span><span class="o">.</span><span class="n">dip</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">dip</span>
+
+            <span class="c1"># set the instrument input units to &#39;M&#39;eters</span>
+            <span class="n">channel</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">instrument_sensitivity</span><span class="o">.</span><span class="n">input_units</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;M&#39;</span>
+
+<span class="c1"># save as new StationXML file</span>
+<span class="n">sx</span><span class="o">.</span><span class="n">dump_xml</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;changed.xml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="catalog_search.html" title="Earthquake catalog search"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dataset_management.html" title="Dataset management"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

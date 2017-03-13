@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The trace Module &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The util Module" href="util.html" />
+    <link rel="prev" title="The tectonics Module" href="tectonics.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyrocko.trace">
+<span id="the-trace-module"></span><h1>The <a class="reference external" href="https://docs.python.org/2.7/library/trace.html#module-trace" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">trace</span></code></a> Module<a class="headerlink" href="#module-pyrocko.trace" title="Permalink to this headline">¶</a></h1>
+<p>This module provides basic signal processing for seismic traces.</p>
+<dl class="class">
+<dt id="pyrocko.trace.Trace">
+<em class="property">class </em><code class="descname">Trace</code><span class="sig-paren">(</span><em>network=''</em>, <em>station='STA'</em>, <em>location=''</em>, <em>channel=''</em>, <em>tmin=0.0</em>, <em>tmax=None</em>, <em>deltat=1.0</em>, <em>ydata=None</em>, <em>mtime=None</em>, <em>meta=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new trace object.</p>
+<p>A <code class="docutils literal"><span class="pre">Trace</span></code> object represents a single continuous strip of evenly sampled
+time series data.  It is built from a 1D NumPy array containing the data
+samples and some attributes describing its beginning  and ending time, its
+sampling rate and four string identifiers (its network, station, location
+and channel code).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>network</strong> &#8211; network code</li>
+<li><strong>station</strong> &#8211; station code</li>
+<li><strong>location</strong> &#8211; location code</li>
+<li><strong>channel</strong> &#8211; channel code</li>
+<li><strong>tmin</strong> &#8211; system time of first sample in [s]</li>
+<li><strong>tmax</strong> &#8211; system time of last sample in [s] (if set to <code class="docutils literal"><span class="pre">None</span></code> it is
+computed from length of <code class="docutils literal"><span class="pre">ydata</span></code>)</li>
+<li><strong>deltat</strong> &#8211; sampling interval in [s]</li>
+<li><strong>ydata</strong> &#8211; 1D numpy array with data samples (can be <code class="docutils literal"><span class="pre">None</span></code> when
+<code class="docutils literal"><span class="pre">tmax</span></code> is not <code class="docutils literal"><span class="pre">None</span></code>)</li>
+<li><strong>mtime</strong> &#8211; optional modification time</li>
+<li><strong>meta</strong> &#8211; additional meta information (not used, but maintained by the
+library)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The length of the network, station, location and channel codes is not
+resricted by this software, but data formats like SAC, Mini-SEED or GSE
+have different limits on the lengths of these codes. The codes set here are
+silently truncated when the trace is stored</p>
+<dl class="method">
+<dt id="pyrocko.trace.Trace.name">
+<code class="descname">name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a short string description.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.interpolate">
+<code class="descname">interpolate</code><span class="sig-paren">(</span><em>t</em>, <em>clip=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.interpolate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.interpolate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of trace between supporting points through linear interpolation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>t</strong> &#8211; time instant</li>
+<li><strong>clip</strong> &#8211; whether to clip indices to trace ends</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.index_clip">
+<code class="descname">index_clip</code><span class="sig-paren">(</span><em>i</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.index_clip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.index_clip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clip index to valid range.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.add">
+<code class="descname">add</code><span class="sig-paren">(</span><em>other</em>, <em>interpolate=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add values of other trace (self += other).</p>
+<p>Add values of <code class="docutils literal"><span class="pre">other</span></code> trace to the values of <code class="docutils literal"><span class="pre">self</span></code>, where it
+intersects with <code class="docutils literal"><span class="pre">other</span></code>.  This method does not change the extent of
+<code class="docutils literal"><span class="pre">self</span></code>. If <code class="docutils literal"><span class="pre">interpolate</span></code> is <code class="docutils literal"><span class="pre">True</span></code> (the default), the values of
+<code class="docutils literal"><span class="pre">other</span></code> to be added are interpolated at sampling instants of
+<code class="docutils literal"><span class="pre">self</span></code>. Linear interpolation is performed. In this case the sampling
+rate of <code class="docutils literal"><span class="pre">other</span></code> must be equal to or lower than that of <code class="docutils literal"><span class="pre">self</span></code>.  If
+<code class="docutils literal"><span class="pre">interpolate</span></code> is <code class="docutils literal"><span class="pre">False</span></code>, the sampling rates of the two traces must
+match.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.mult">
+<code class="descname">mult</code><span class="sig-paren">(</span><em>other</em>, <em>interpolate=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.mult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.mult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Muliply with values of other trace (self *= other).</p>
+<p>Multiply values of <code class="docutils literal"><span class="pre">other</span></code> trace to the values of <code class="docutils literal"><span class="pre">self</span></code>, where it
+intersects with <code class="docutils literal"><span class="pre">other</span></code>.  This method does not change the extent of
+<code class="docutils literal"><span class="pre">self</span></code>. If <code class="docutils literal"><span class="pre">interpolate</span></code> is <code class="docutils literal"><span class="pre">True</span></code> (the default), the values of
+<code class="docutils literal"><span class="pre">other</span></code> to be multiplied are interpolated at sampling instants of
+<code class="docutils literal"><span class="pre">self</span></code>. Linear interpolation is performed. In this case the sampling
+rate of <code class="docutils literal"><span class="pre">other</span></code> must be equal to or lower than that of <code class="docutils literal"><span class="pre">self</span></code>.  If
+<code class="docutils literal"><span class="pre">interpolate</span></code> is <code class="docutils literal"><span class="pre">False</span></code>, the sampling rates of the two traces must
+match.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.max">
+<code class="descname">max</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.max" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get time and value of data maximum.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.min">
+<code class="descname">min</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.min"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.min" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get time and value of data minimum.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.absmax">
+<code class="descname">absmax</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.absmax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.absmax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get time and value of maximum of the absolute of data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.set_codes">
+<code class="descname">set_codes</code><span class="sig-paren">(</span><em>network=None</em>, <em>station=None</em>, <em>location=None</em>, <em>channel=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.set_codes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.set_codes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set network, station, location, and channel codes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.overlaps">
+<code class="descname">overlaps</code><span class="sig-paren">(</span><em>tmin</em>, <em>tmax</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.overlaps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.overlaps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if trace has overlap with a given time span.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.is_relevant">
+<code class="descname">is_relevant</code><span class="sig-paren">(</span><em>tmin</em>, <em>tmax</em>, <em>selector=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.is_relevant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.is_relevant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if trace has overlap with a given time span and matches a
+condition callback. (internal use)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.set_mtime">
+<code class="descname">set_mtime</code><span class="sig-paren">(</span><em>mtime</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.set_mtime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.set_mtime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set modification time of the trace.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.get_xdata">
+<code class="descname">get_xdata</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.get_xdata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.get_xdata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create array for time axis.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.get_ydata">
+<code class="descname">get_ydata</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.get_ydata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.get_ydata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data array.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.set_ydata">
+<code class="descname">set_ydata</code><span class="sig-paren">(</span><em>new_ydata</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.set_ydata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.set_ydata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace data array.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.drop_data">
+<code class="descname">drop_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.drop_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.drop_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forget data, make dataless trace.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.drop_growbuffer">
+<code class="descname">drop_growbuffer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.drop_growbuffer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.drop_growbuffer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detach the traces grow buffer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><em>data=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a deep copy of the trace.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.crop_zeros">
+<code class="descname">crop_zeros</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.crop_zeros"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.crop_zeros" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove any zeros at beginning and end.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.append">
+<code class="descname">append</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.append"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append data to the end of the trace.</p>
+<p>To make this method efficient when successively very few or even single
+samples are appended, a larger grow buffer is allocated upon first
+invocation. The traces data is then changed to be a view into the
+currently filled portion of the grow buffer array.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.chop">
+<code class="descname">chop</code><span class="sig-paren">(</span><em>tmin</em>, <em>tmax</em>, <em>inplace=True</em>, <em>include_last=False</em>, <em>snap=(&lt;built-in function round&gt;</em>, <em>&lt;built-in function round&gt;)</em>, <em>want_incomplete=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.chop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.chop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cut the trace to given time span.</p>
+<p>If the <code class="docutils literal"><span class="pre">inplace</span></code> argument is True (the default) the trace is cut in
+place, otherwise a new trace with the cut part is returned.  By
+default, the indices where to start and end the trace data array are
+determined by rounding of <code class="docutils literal"><span class="pre">tmin</span></code> and <code class="docutils literal"><span class="pre">tmax</span></code> to sampling instances
+using Python&#8217;s <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#round" title="(in Python v2.7)"><code class="xref py py-func docutils literal"><span class="pre">round()</span></code></a> function. This behaviour can be changed
+with the <code class="docutils literal"><span class="pre">snap</span></code> argument, which takes a tuple of two functions (one
+for the lower and one for the upper end) to be used instead of
+<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#round" title="(in Python v2.7)"><code class="xref py py-func docutils literal"><span class="pre">round()</span></code></a>.  The last sample is by default not included unless
+<code class="docutils literal"><span class="pre">include_last</span></code> is set to True.  If the given time span exceeds the
+available time span of the trace, the available part is returned,
+unless <code class="docutils literal"><span class="pre">want_incomplete</span></code> is set to False - in that case, a
+<a class="reference internal" href="#pyrocko.trace.NoData" title="pyrocko.trace.NoData"><code class="xref py py-exc docutils literal"><span class="pre">NoData</span></code></a> exception is raised. This exception is always raised,
+when the requested time span does dot overlap with the trace&#8217;s time
+span.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.downsample">
+<code class="descname">downsample</code><span class="sig-paren">(</span><em>ndecimate</em>, <em>snap=False</em>, <em>initials=None</em>, <em>demean=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.downsample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.downsample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downsample trace by a given integer factor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ndecimate</strong> &#8211; decimation factor, avoid values larger than 8</li>
+<li><strong>snap</strong> &#8211; whether to put the new sampling instances closest to
+multiples of the sampling rate.</li>
+<li><strong>initials</strong> &#8211; <code class="docutils literal"><span class="pre">None</span></code>, <code class="docutils literal"><span class="pre">True</span></code>, or initial conditions for the
+anti-aliasing filter, obtained from a previous run. In the latter
+two cases the final state of the filter is returned instead of
+<code class="docutils literal"><span class="pre">None</span></code>.</li>
+<li><strong>demean</strong> &#8211; whether to demean the signal before filtering.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.downsample_to">
+<code class="descname">downsample_to</code><span class="sig-paren">(</span><em>deltat</em>, <em>snap=False</em>, <em>allow_upsample_max=1</em>, <em>initials=None</em>, <em>demean=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.downsample_to"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.downsample_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downsample to given sampling rate.</p>
+<p>Tries to downsample the trace to a target sampling interval of
+<code class="docutils literal"><span class="pre">deltat</span></code>. This runs the <a class="reference internal" href="#pyrocko.trace.Trace.downsample" title="pyrocko.trace.Trace.downsample"><code class="xref py py-meth docutils literal"><span class="pre">Trace.downsample()</span></code></a> one or several
+times. If allow_upsample_max is set to a value larger than 1,
+intermediate upsampling steps are allowed, in order to increase the
+number of possible downsampling ratios.</p>
+<p>If the requested ratio is not supported, an exception of type
+<a class="reference internal" href="util.html#pyrocko.util.UnavailableDecimation" title="pyrocko.util.UnavailableDecimation"><code class="xref py py-exc docutils literal"><span class="pre">pyrocko.util.UnavailableDecimation</span></code></a> is raised.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.resample">
+<code class="descname">resample</code><span class="sig-paren">(</span><em>deltat</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.resample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.resample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resample to given sampling rate <code class="docutils literal"><span class="pre">deltat</span></code>.</p>
+<p>Resampling is performed in the frequency domain.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.stretch">
+<code class="descname">stretch</code><span class="sig-paren">(</span><em>tmin_new</em>, <em>tmax_new</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.stretch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.stretch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stretch signal while preserving sample rate using sinc interpolation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tmin_new</strong> &#8211; new time of first sample</li>
+<li><strong>tmax_new</strong> &#8211; new time of last sample</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method can be used to correct for a small linear time drift or to
+introduce sub-sample time shifts. The amount of stretching is limited
+to 10% by the implementation and is expected to be much smaller than
+that by the approximations used.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.nyquist_check">
+<code class="descname">nyquist_check</code><span class="sig-paren">(</span><em>frequency</em>, <em>intro='Corner frequency'</em>, <em>warn=True</em>, <em>raise_exception=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.nyquist_check"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.nyquist_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a given frequency is above the Nyquist frequency of the trace.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>intro</strong> &#8211; string used to introduce the warning/error message</li>
+<li><strong>warn</strong> &#8211; whether to emit a warning</li>
+<li><strong>raise_exception</strong> &#8211; whether to raise an <a class="reference internal" href="#pyrocko.trace.AboveNyquist" title="pyrocko.trace.AboveNyquist"><code class="xref py py-exc docutils literal"><span class="pre">AboveNyquist</span></code></a>
+exception.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.lowpass">
+<code class="descname">lowpass</code><span class="sig-paren">(</span><em>order</em>, <em>corner</em>, <em>nyquist_warn=True</em>, <em>nyquist_exception=False</em>, <em>demean=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.lowpass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.lowpass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply Butterworth lowpass to the trace.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>order</strong> &#8211; order of the filter</li>
+<li><strong>corner</strong> &#8211; corner frequency of the filter</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Mean is removed before filtering.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.highpass">
+<code class="descname">highpass</code><span class="sig-paren">(</span><em>order</em>, <em>corner</em>, <em>nyquist_warn=True</em>, <em>nyquist_exception=False</em>, <em>demean=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.highpass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.highpass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply butterworth highpass to the trace.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>order</strong> &#8211; order of the filter</li>
+<li><strong>corner</strong> &#8211; corner frequency of the filter</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Mean is removed before filtering.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.bandpass">
+<code class="descname">bandpass</code><span class="sig-paren">(</span><em>order</em>, <em>corner_hp</em>, <em>corner_lp</em>, <em>demean=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.bandpass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.bandpass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply butterworth bandpass to the trace.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>order</strong> &#8211; order of the filter</li>
+<li><strong>corner_hp</strong> &#8211; lower corner frequency of the filter</li>
+<li><strong>corner_lp</strong> &#8211; upper corner frequency of the filter</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Mean is removed before filtering.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.envelope">
+<code class="descname">envelope</code><span class="sig-paren">(</span><em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.envelope"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.envelope" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the envelope of the trace.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>inplace</strong> &#8211; calculate envelope in place</td>
+</tr>
+</tbody>
+</table>
+<p>The calculation follows:</p>
+<div class="math">
+<p><span class="math">Y' = \sqrt{Y^2+H(Y)^2}</span></p>
+</div><p>where H is the Hilbert-Transform of the signal Y.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.taper">
+<code class="descname">taper</code><span class="sig-paren">(</span><em>taperer</em>, <em>inplace=True</em>, <em>chop=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.taper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.taper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a <a class="reference internal" href="#pyrocko.trace.Taper" title="pyrocko.trace.Taper"><code class="xref py py-class docutils literal"><span class="pre">Taper</span></code></a> to the trace.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>taperer</strong> &#8211; instance of <a class="reference internal" href="#pyrocko.trace.Taper" title="pyrocko.trace.Taper"><code class="xref py py-class docutils literal"><span class="pre">Taper</span></code></a> subclass</li>
+<li><strong>inplace</strong> &#8211; apply taper inplace</li>
+<li><strong>chop</strong> &#8211; if <code class="docutils literal"><span class="pre">True</span></code>: exclude tapered parts from the resulting
+trace</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.whiten">
+<code class="descname">whiten</code><span class="sig-paren">(</span><em>order=6</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.whiten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.whiten" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whiten signal in time domain using autoregression and recursive filter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>order</strong> &#8211; order of the autoregression process</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.ampspec_whiten">
+<code class="descname">ampspec_whiten</code><span class="sig-paren">(</span><em>width</em>, <em>td_taper='auto'</em>, <em>fd_taper='auto'</em>, <em>pad_to_pow2=True</em>, <em>demean=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.ampspec_whiten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.ampspec_whiten" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whiten signal via frequency domain using moving average on amplitude
+spectra.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>width</strong> &#8211; width of smoothing kernel [Hz]</li>
+<li><strong>td_taper</strong> &#8211; time domain taper, object of type <a class="reference internal" href="#pyrocko.trace.Taper" title="pyrocko.trace.Taper"><code class="xref py py-class docutils literal"><span class="pre">Taper</span></code></a> or
+<code class="docutils literal"><span class="pre">None</span></code> or <code class="docutils literal"><span class="pre">'auto'</span></code>.</li>
+<li><strong>fd_taper</strong> &#8211; frequency domain taper, object of type
+<a class="reference internal" href="#pyrocko.trace.Taper" title="pyrocko.trace.Taper"><code class="xref py py-class docutils literal"><span class="pre">Taper</span></code></a> or <code class="docutils literal"><span class="pre">None</span></code> or <code class="docutils literal"><span class="pre">'auto'</span></code>.</li>
+<li><strong>pad_to_pow2</strong> &#8211; whether to pad the signal with zeros up to a length
+of 2^n</li>
+<li><strong>demean</strong> &#8211; whether to demean the signal before tapering</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The signal is first demeaned and then tapered using <code class="docutils literal"><span class="pre">td_taper</span></code>. Then,
+the spectrum is calculated and inversely weighted with a smoothed
+version of its amplitude spectrum. A moving average is used for the
+smoothing. The smoothed spectrum is then tapered using <code class="docutils literal"><span class="pre">fd_taper</span></code>.
+Finally, the smoothed and tapered spectrum is back-transformed into the
+time domain.</p>
+<p>If <code class="docutils literal"><span class="pre">td_taper</span></code> is set to <code class="docutils literal"><span class="pre">'auto'</span></code>, <code class="docutils literal"><span class="pre">CosFader(1.0/width)</span></code> is used.
+If <code class="docutils literal"><span class="pre">fd_taper</span></code> is set to <code class="docutils literal"><span class="pre">'auto'</span></code>, <code class="docutils literal"><span class="pre">CosFader(width)</span></code> is used.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.bandpass_fft">
+<code class="descname">bandpass_fft</code><span class="sig-paren">(</span><em>corner_hp</em>, <em>corner_lp</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.bandpass_fft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.bandpass_fft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply boxcar bandbpass to trace (in spectral domain).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.shift">
+<code class="descname">shift</code><span class="sig-paren">(</span><em>tshift</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.shift"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.shift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time shift the trace.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.snap">
+<code class="descname">snap</code><span class="sig-paren">(</span><em>inplace=True</em>, <em>interpolate=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.snap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.snap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shift trace samples to nearest even multiples of the sampling rate.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>inplace</strong> &#8211; (boolean) snap traces inplace</td>
+</tr>
+</tbody>
+</table>
+<p>If <code class="docutils literal"><span class="pre">inplace</span></code> is <code class="docutils literal"><span class="pre">False</span></code> and the difference of tmin and tmax of
+both, the snapped and the original trace is smaller than 0.01 x deltat,
+<a class="reference internal" href="#pyrocko.trace.Trace.snap" title="pyrocko.trace.Trace.snap"><code class="xref py py-func docutils literal"><span class="pre">snap()</span></code></a> returns the unsnapped instance of the original trace.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.sta_lta_centered">
+<code class="descname">sta_lta_centered</code><span class="sig-paren">(</span><em>tshort</em>, <em>tlong</em>, <em>quad=True</em>, <em>scalingmethod=1</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.sta_lta_centered"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.sta_lta_centered" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run special STA/LTA filter where the short time window is centered on
+the long time window.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tshort</strong> &#8211; length of short time window in [s]</li>
+<li><strong>tlong</strong> &#8211; length of long time window in [s]</li>
+<li><strong>quad</strong> &#8211; whether to square the data prior to applying the STA/LTA
+filter</li>
+<li><strong>scalingmethod</strong> &#8211; integer key to select how output values are
+scaled / normalized (<code class="docutils literal"><span class="pre">1</span></code>, <code class="docutils literal"><span class="pre">2</span></code>, or <code class="docutils literal"><span class="pre">3</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="61%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Scalingmethod</th>
+<th class="head">Implementation</th>
+<th class="head">Range</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">1</span></code></td>
+<td>As/Al* Tl/Ts</td>
+<td>[0,1]</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">2</span></code></td>
+<td>(As/Al - 1) / (Tl/Ts - 1)</td>
+<td>[-Ts/Tl,1]</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">3</span></code></td>
+<td>Like <code class="docutils literal"><span class="pre">2</span></code> but clipping range at zero</td>
+<td>[0,1]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.peaks">
+<code class="descname">peaks</code><span class="sig-paren">(</span><em>threshold</em>, <em>tsearch</em>, <em>deadtime=False</em>, <em>nblock_duration_detection=100</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.peaks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.peaks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect peaks above given threshold.</p>
+<p>From every instant, where the signal rises above <code class="docutils literal"><span class="pre">threshold</span></code>, a time
+length of <code class="docutils literal"><span class="pre">tsearch</span></code> seconds is searched for a maximum. A list with
+tuples (time, value) for each detected peak is returned. The
+<code class="docutils literal"><span class="pre">deadtime</span></code> argument turns on a special deadtime duration detection
+algorithm useful in combination with recursive STA/LTA filters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.extend">
+<code class="descname">extend</code><span class="sig-paren">(</span><em>tmin=None</em>, <em>tmax=None</em>, <em>fillmethod='zeros'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.extend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.extend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extend trace to given span.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tmin</strong> &#8211; begin time of new span</li>
+<li><strong>tmax</strong> &#8211; end time of new span</li>
+<li><strong>fillmethod</strong> &#8211; &#8216;zeros&#8217; or &#8216;repeat&#8217;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.transfer">
+<code class="descname">transfer</code><span class="sig-paren">(</span><em>tfade=0.0</em>, <em>freqlimits=None</em>, <em>transfer_function=None</em>, <em>cut_off_fading=True</em>, <em>invert=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.transfer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.transfer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return new trace with transfer function applied (convolution).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tfade</strong> &#8211; rise/fall time in seconds of taper applied in timedomain
+at both ends of trace.</li>
+<li><strong>freqlimits</strong> &#8211; 4-tuple with corner frequencies in Hz.</li>
+<li><strong>transfer_function</strong> &#8211; FrequencyResponse object; must provide a
+method &#8216;evaluate(freqs)&#8217;, which returns the transfer function
+coefficients at the frequencies &#8216;freqs&#8217;.</li>
+<li><strong>cut_off_fading</strong> &#8211; whether to cut off rise/fall interval in output
+trace.</li>
+<li><strong>invert</strong> &#8211; set to True to do a deconvolution</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.misfit">
+<code class="descname">misfit</code><span class="sig-paren">(</span><em>candidate</em>, <em>setup</em>, <em>nocache=False</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.misfit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.misfit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate misfit and normalization factor against candidate trace.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>candidate</strong> &#8211; <a class="reference internal" href="#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a> object</li>
+<li><strong>setup</strong> &#8211; <a class="reference internal" href="#pyrocko.trace.MisfitSetup" title="pyrocko.trace.MisfitSetup"><code class="xref py py-class docutils literal"><span class="pre">MisfitSetup</span></code></a> object</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple <code class="docutils literal"><span class="pre">(m,</span> <span class="pre">n)</span></code>, where m is the misfit value and n is the
+normalization divisor</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>If the sampling rates of <code class="docutils literal"><span class="pre">self</span></code> and <code class="docutils literal"><span class="pre">candidate</span></code> differ, the trace
+with the higher sampling rate will be downsampled.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.spectrum">
+<code class="descname">spectrum</code><span class="sig-paren">(</span><em>pad_to_pow2=False</em>, <em>tfade=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.spectrum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.spectrum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get FFT spectrum of trace.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pad_to_pow2</strong> &#8211; whether to zero-pad the data to next larger
+power-of-two length</li>
+<li><strong>tfade</strong> &#8211; <code class="docutils literal"><span class="pre">None</span></code> or a time length in seconds, to apply cosine
+shaped tapers to both</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a tuple with (frequencies, values)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.fill_template">
+<code class="descname">fill_template</code><span class="sig-paren">(</span><em>template</em>, <em>**additional</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.fill_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.fill_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fill string template with trace metadata.</p>
+<p>Uses normal python &#8216;%(placeholder)s&#8217; string templates. The following
+placeholders are considered: <code class="docutils literal"><span class="pre">network</span></code>, <code class="docutils literal"><span class="pre">station</span></code>, <code class="docutils literal"><span class="pre">location</span></code>,
+<code class="docutils literal"><span class="pre">channel</span></code>, <code class="docutils literal"><span class="pre">tmin</span></code> (time of first sample), <code class="docutils literal"><span class="pre">tmax</span></code> (time of last
+sample), <code class="docutils literal"><span class="pre">tmin_ms</span></code>, <code class="docutils literal"><span class="pre">tmax_ms</span></code>, <code class="docutils literal"><span class="pre">tmin_us</span></code>, <code class="docutils literal"><span class="pre">tmax_us</span></code>. The
+versions with &#8216;_ms&#8217; include milliseconds, the versions with &#8216;_us&#8217;
+include microseconds.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show trace with matplotlib.</p>
+<p>See also: <a class="reference internal" href="#pyrocko.trace.Trace.snuffle" title="pyrocko.trace.Trace.snuffle"><code class="xref py py-meth docutils literal"><span class="pre">Trace.snuffle()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.Trace.snuffle">
+<code class="descname">snuffle</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Trace.snuffle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Trace.snuffle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show trace in a snuffler window.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>stations</strong> &#8211; list of <cite>pyrocko.model.Station</cite> objects or <code class="docutils literal"><span class="pre">None</span></code></li>
+<li><strong>events</strong> &#8211; list of <cite>pyrocko.model.Event</cite> objects or <code class="docutils literal"><span class="pre">None</span></code></li>
+<li><strong>markers</strong> &#8211; list of <cite>pyrocko.gui_util.Marker</cite> objects or <code class="docutils literal"><span class="pre">None</span></code></li>
+<li><strong>ntracks</strong> &#8211; float, number of tracks to be shown initially (default:
+12)</li>
+<li><strong>follow</strong> &#8211; time interval (in seconds) for real time follow mode or
+<code class="docutils literal"><span class="pre">None</span></code></li>
+<li><strong>controls</strong> &#8211; bool, whether to show the main controls (default:
+<code class="docutils literal"><span class="pre">True</span></code>)</li>
+<li><strong>opengl</strong> &#8211; bool, whether to use opengl (default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.snuffle">
+<code class="descname">snuffle</code><span class="sig-paren">(</span><em>traces</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#snuffle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.snuffle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show traces in a snuffler window.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>stations</strong> &#8211; list of <cite>pyrocko.model.Station</cite> objects or <code class="docutils literal"><span class="pre">None</span></code></li>
+<li><strong>events</strong> &#8211; list of <cite>pyrocko.model.Event</cite> objects or <code class="docutils literal"><span class="pre">None</span></code></li>
+<li><strong>markers</strong> &#8211; list of <cite>pyrocko.gui_util.Marker</cite> objects or <code class="docutils literal"><span class="pre">None</span></code></li>
+<li><strong>ntracks</strong> &#8211; float, number of tracks to be shown initially (default: 12)</li>
+<li><strong>follow</strong> &#8211; time interval (in seconds) for real time follow mode or
+<code class="docutils literal"><span class="pre">None</span></code></li>
+<li><strong>controls</strong> &#8211; bool, whether to show the main controls (default:
+<code class="docutils literal"><span class="pre">True</span></code>)</li>
+<li><strong>opengl</strong> &#8211; bool, whether to use opengl (default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrocko.trace.MisalignedTraces">
+<em class="property">exception </em><code class="descname">MisalignedTraces</code><a class="reference internal" href="../../_modules/pyrocko/trace.html#MisalignedTraces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.MisalignedTraces" title="Permalink to this definition">¶</a></dt>
+<dd><p>This exception is raised by some <a class="reference internal" href="#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a> operations when tmin,
+tmax or number of samples do not match.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrocko.trace.NoData">
+<em class="property">exception </em><code class="descname">NoData</code><a class="reference internal" href="../../_modules/pyrocko/trace.html#NoData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.NoData" title="Permalink to this definition">¶</a></dt>
+<dd><p>This exception is raised by some <a class="reference internal" href="#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a> operations when no or
+not enough data is available.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrocko.trace.AboveNyquist">
+<em class="property">exception </em><code class="descname">AboveNyquist</code><a class="reference internal" href="../../_modules/pyrocko/trace.html#AboveNyquist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.AboveNyquist" title="Permalink to this definition">¶</a></dt>
+<dd><p>This exception is raised by some <a class="reference internal" href="#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a> operations when given
+frequencies are above the Nyquist frequency.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrocko.trace.TraceTooShort">
+<em class="property">exception </em><code class="descname">TraceTooShort</code><a class="reference internal" href="../../_modules/pyrocko/trace.html#TraceTooShort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.TraceTooShort" title="Permalink to this definition">¶</a></dt>
+<dd><p>This exception is raised by some <a class="reference internal" href="#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a> operations when the
+trace is too short.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.minmax">
+<code class="descname">minmax</code><span class="sig-paren">(</span><em>traces</em>, <em>key=None</em>, <em>mode='minmax'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#minmax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.minmax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data range given traces grouped by selected pattern.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>key</strong> &#8211; a callable which takes as single argument a trace and returns a
+key for the grouping of the results. If this is <code class="docutils literal"><span class="pre">None</span></code>, the default,
+<code class="docutils literal"><span class="pre">lambda</span> <span class="pre">tr:</span> <span class="pre">(tr.network,</span> <span class="pre">tr.station,</span> <span class="pre">tr.location,</span> <span class="pre">tr.channel)</span></code> is
+used.</li>
+<li><strong>mode</strong> &#8211; &#8216;minmax&#8217; or floating point number. If this is &#8216;minmax&#8217;,
+minimum and maximum of the traces are used, if it is a number, mean +-
+standard deviation times <code class="docutils literal"><span class="pre">mode</span></code> is used.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a dict with the combined data ranges.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Examples:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ranges</span> <span class="o">=</span> <span class="n">minmax</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">tr</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">channel</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">ranges</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span>   <span class="c1"># print min &amp; max of all traces with channel == &#39;N&#39;</span>
+<span class="nb">print</span> <span class="n">ranges</span><span class="p">[</span><span class="s1">&#39;E&#39;</span><span class="p">]</span>   <span class="c1"># print min &amp; max of all traces with channel == &#39;E&#39;</span>
+
+<span class="n">ranges</span> <span class="o">=</span> <span class="n">minmax</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">tr</span><span class="p">:</span> <span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">network</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">station</span><span class="p">))</span>
+<span class="nb">print</span> <span class="n">ranges</span><span class="p">[</span><span class="s1">&#39;GR&#39;</span><span class="p">,</span> <span class="s1">&#39;HAM3&#39;</span><span class="p">]</span>  <span class="c1"># print min &amp; max of all traces with</span>
+                            <span class="c1"># network == &#39;GR&#39; and station == &#39;HAM3&#39;</span>
+
+<span class="n">ranges</span> <span class="o">=</span> <span class="n">minmax</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">tr</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">ranges</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span>  <span class="c1"># prints min &amp; max of all traces</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.minmaxtime">
+<code class="descname">minmaxtime</code><span class="sig-paren">(</span><em>traces</em>, <em>key=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#minmaxtime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.minmaxtime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get time range given traces grouped by selected pattern.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>key</strong> &#8211; a callable which takes as single argument a trace and returns a
+key for the grouping of the results. If this is <code class="docutils literal"><span class="pre">None</span></code>, the default,
+<code class="docutils literal"><span class="pre">lambda</span> <span class="pre">tr:</span> <span class="pre">(tr.network,</span> <span class="pre">tr.station,</span> <span class="pre">tr.location,</span> <span class="pre">tr.channel)</span></code> is
+used.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a dict with the combined data ranges.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.degapper">
+<code class="descname">degapper</code><span class="sig-paren">(</span><em>traces</em>, <em>maxgap=5</em>, <em>fillmethod='interpolate'</em>, <em>deoverlap='use_second'</em>, <em>maxlap=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#degapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.degapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Try to connect traces and remove gaps.</p>
+<p>This method will combine adjacent traces, which match in their network,
+station, location and channel attributes. Overlapping parts are handled
+according to the <code class="docutils literal"><span class="pre">deoverlap</span></code> argument.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>traces</strong> &#8211; input traces, must be sorted by their full_id attribute.</li>
+<li><strong>maxgap</strong> &#8211; maximum number of samples to interpolate.</li>
+<li><strong>fillmethod</strong> &#8211; what to put into the gaps: &#8216;interpolate&#8217; or &#8216;zeros&#8217;.</li>
+<li><strong>deoverlap</strong> &#8211; how to handle overlaps: &#8216;use_second&#8217; to use data from
+second trace (default), &#8216;use_first&#8217; to use data from first trace,
+&#8216;crossfade_cos&#8217; to crossfade with cosine taper, &#8216;add&#8217; to add amplitude
+values.</li>
+<li><strong>maxlap</strong> &#8211; maximum number of samples of overlap which are removed</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of traces</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.rotate">
+<code class="descname">rotate</code><span class="sig-paren">(</span><em>traces</em>, <em>azimuth</em>, <em>in_channels</em>, <em>out_channels</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#rotate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.rotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>2D rotation of traces.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>traces</strong> &#8211; list of input traces</li>
+<li><strong>azimuth</strong> &#8211; difference of the azimuths of the component directions
+(azimuth of out_channels[0]) - (azimuth of in_channels[0])</li>
+<li><strong>in_channels</strong> &#8211; names of the input channels (e.g. &#8216;N&#8217;, &#8216;E&#8217;)</li>
+<li><strong>out_channels</strong> &#8211; names of the output channels (e.g. &#8216;R&#8217;, &#8216;T&#8217;)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of rotated traces</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.rotate_to_lqt">
+<code class="descname">rotate_to_lqt</code><span class="sig-paren">(</span><em>traces</em>, <em>backazimuth</em>, <em>incidence</em>, <em>in_channels</em>, <em>out_channels=('L'</em>, <em>'Q'</em>, <em>'T')</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#rotate_to_lqt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.rotate_to_lqt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate traces from ZNE to LQT system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>traces</strong> &#8211; list of traces in arbitrary order</li>
+<li><strong>backazimuth</strong> &#8211; backazimuth in degrees clockwise from north</li>
+<li><strong>incidence</strong> &#8211; incidence angle in degrees from vertical</li>
+<li><strong>in_channels</strong> &#8211; input channel names</li>
+<li><strong>out_channels</strong> &#8211; output channel names (default: (&#8216;L&#8217;, &#8216;Q&#8217;, &#8216;T&#8217;))</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of transformed traces</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.project">
+<code class="descname">project</code><span class="sig-paren">(</span><em>traces</em>, <em>matrix</em>, <em>in_channels</em>, <em>out_channels</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Affine transform of three-component traces.</p>
+<p>Compute matrix-vector product of three-component traces, to e.g. rotate
+traces into a different basis. The traces are distinguished and ordered by
+their channel attribute. The tranform is applied to overlapping parts of
+any appropriate combinations of the input traces. This should allow this
+function to be robust with data gaps. It also tries to apply the
+tranformation to subsets of the channels, if this is possible, so that, if
+for example a vertical compontent is missing, horizontal components can
+still be rotated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>traces</strong> &#8211; list of traces in arbitrary order</li>
+<li><strong>matrix</strong> &#8211; tranformation matrix</li>
+<li><strong>in_channels</strong> &#8211; input channel names</li>
+<li><strong>out_channels</strong> &#8211; output channel names</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of transformed traces</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.project_dependencies">
+<code class="descname">project_dependencies</code><span class="sig-paren">(</span><em>matrix</em>, <em>in_channels</em>, <em>out_channels</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#project_dependencies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.project_dependencies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Figure out what dependencies project() would produce.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.correlate">
+<code class="descname">correlate</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>mode='valid'</em>, <em>normalization=None</em>, <em>use_fft=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#correlate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.correlate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cross correlation of two traces.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>a</strong><strong>,</strong><strong>b</strong> &#8211; input traces</li>
+<li><strong>mode</strong> &#8211; <code class="docutils literal"><span class="pre">'valid'</span></code>, <code class="docutils literal"><span class="pre">'full'</span></code>, or <code class="docutils literal"><span class="pre">'same'</span></code></li>
+<li><strong>normalization</strong> &#8211; <code class="docutils literal"><span class="pre">'normal'</span></code>, <code class="docutils literal"><span class="pre">'gliding'</span></code>, or <code class="docutils literal"><span class="pre">None</span></code></li>
+<li><strong>use_fft</strong> &#8211; bool, whether to do cross correlation in spectral domain</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">trace containing cross correlation coefficients</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This function computes the cross correlation between two traces. It
+evaluates the discrete equivalent of</p>
+<div class="math">
+<p><span class="math">c(t) = \int_{-\infty}^{\infty} a^{\ast}(\tau) b(t+\tau) d\tau</span></p>
+</div><p>where the star denotes complex conjugate. Note, that the arguments here are
+swapped when compared with the <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.correlate.html#numpy.correlate" title="(in NumPy v1.12)"><code class="xref py py-func docutils literal"><span class="pre">numpy.correlate()</span></code></a> function,
+which is internally called. This function should be safe even with older
+versions of NumPy, where the correlate function has some problems.</p>
+<p>A trace containing the cross correlation coefficients is returned. The time
+information of the output trace is set so that the returned cross
+correlation can be viewed directly as a function of time lag.</p>
+<p>Example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># align two traces a and b containing a time shifted similar signal:</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">pyrocko</span><span class="o">.</span><span class="n">trace</span><span class="o">.</span><span class="n">correlate</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+<span class="n">t</span><span class="p">,</span> <span class="n">coef</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>  <span class="c1"># get time and value of maximum</span>
+<span class="n">b</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="p">)</span>        <span class="c1"># align b with a</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.same_sampling_rate">
+<code class="descname">same_sampling_rate</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>eps=1e-06</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#same_sampling_rate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.same_sampling_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if two traces have the same sampling rate.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>a</strong><strong>,</strong><strong>b</strong> &#8211; input traces</li>
+<li><strong>eps</strong> &#8211; relative tolerance</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.merge_codes">
+<code class="descname">merge_codes</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>sep='-'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#merge_codes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.merge_codes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge network-station-location-channel codes of a pair of traces.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.trace.Taper">
+<em class="property">class </em><code class="descname">Taper</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Taper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Taper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for tapers.</p>
+<p>Does nothing by default.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.trace.CosTaper">
+<em class="property">class </em><code class="descname">CosTaper</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>c</em>, <em>d</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#CosTaper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.CosTaper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cosine Taper.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>a</strong> &#8211; start of fading in</li>
+<li><strong>b</strong> &#8211; end of fading in</li>
+<li><strong>c</strong> &#8211; start of fading out</li>
+<li><strong>d</strong> &#8211; end of fading out</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="gattribute">
+<dt id="pyrocko.trace.CosTaper.a">
+<em class="property">♦ </em><code class="descname">a</code><a class="headerlink" href="#pyrocko.trace.CosTaper.a" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.CosTaper.b">
+<em class="property">♦ </em><code class="descname">b</code><a class="headerlink" href="#pyrocko.trace.CosTaper.b" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.CosTaper.c">
+<em class="property">♦ </em><code class="descname">c</code><a class="headerlink" href="#pyrocko.trace.CosTaper.c" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.CosTaper.d">
+<em class="property">♦ </em><code class="descname">d</code><a class="headerlink" href="#pyrocko.trace.CosTaper.d" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.trace.CosFader">
+<em class="property">class </em><code class="descname">CosFader</code><span class="sig-paren">(</span><em>xfade=None</em>, <em>xfrac=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#CosFader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.CosFader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cosine Fader.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>xfade</strong> &#8211; fade in and fade out time in seconds (optional)</li>
+<li><strong>xfrac</strong> &#8211; fade in and fade out as fraction between 0. and 1. (optional)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Only one argument can be set. The other should to be <code class="docutils literal"><span class="pre">None</span></code>.</p>
+<dl class="gattribute">
+<dt id="pyrocko.trace.CosFader.xfade">
+<em class="property">♦ </em><code class="descname">xfade</code><a class="headerlink" href="#pyrocko.trace.CosFader.xfade" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.CosFader.xfrac">
+<em class="property">♦ </em><code class="descname">xfrac</code><a class="headerlink" href="#pyrocko.trace.CosFader.xfrac" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.trace.MultiplyTaper">
+<em class="property">class </em><code class="descname">MultiplyTaper</code><span class="sig-paren">(</span><em>tapers=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#MultiplyTaper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.MultiplyTaper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiplication of several tapers.</p>
+<dl class="gattribute">
+<dt id="pyrocko.trace.MultiplyTaper.tapers">
+<em class="property">♦ </em><code class="descname">tapers</code><a class="headerlink" href="#pyrocko.trace.MultiplyTaper.tapers" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.trace.Taper" title="pyrocko.trace.Taper"><code class="xref py py-class docutils literal"><span class="pre">Taper</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.trace.GaussTaper">
+<em class="property">class </em><code class="descname">GaussTaper</code><span class="sig-paren">(</span><em>alpha</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#GaussTaper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.GaussTaper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Frequency domain Gaussian filter.</p>
+<dl class="gattribute">
+<dt id="pyrocko.trace.GaussTaper.alpha">
+<em class="property">♦ </em><code class="descname">alpha</code><a class="headerlink" href="#pyrocko.trace.GaussTaper.alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.trace.FrequencyResponse">
+<em class="property">class </em><code class="descname">FrequencyResponse</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#FrequencyResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.FrequencyResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates frequency response at given frequencies.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.trace.Evalresp">
+<em class="property">class </em><code class="descname">Evalresp</code><span class="sig-paren">(</span><em>respfile</em>, <em>trace=None</em>, <em>target='dis'</em>, <em>nslc_id=None</em>, <em>time=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Evalresp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Evalresp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls evalresp and generates values of the instrument response transfer
+function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>respfile</strong> &#8211; response file in evalresp format</li>
+<li><strong>trace</strong> &#8211; trace for which the response is to be extracted from the file</li>
+<li><strong>target</strong> &#8211; <code class="docutils literal"><span class="pre">'dis'</span></code> for displacement or <code class="docutils literal"><span class="pre">'vel'</span></code> for velocity</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="gattribute">
+<dt id="pyrocko.trace.Evalresp.respfile">
+<em class="property">♦ </em><code class="descname">respfile</code><a class="headerlink" href="#pyrocko.trace.Evalresp.respfile" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.Evalresp.nslc_id">
+<em class="property">♦ </em><code class="descname">nslc_id</code><a class="headerlink" href="#pyrocko.trace.Evalresp.nslc_id" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">tuple</span></code> of 4 <code class="docutils literal"><span class="pre">str</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">(None,</span> <span class="pre">None,</span> <span class="pre">None,</span> <span class="pre">None)</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.Evalresp.target">
+<em class="property">♦ </em><code class="descname">target</code><a class="headerlink" href="#pyrocko.trace.Evalresp.target" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">'dis'</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.Evalresp.instant">
+<em class="property">♦ </em><code class="descname">instant</code><a class="headerlink" href="#pyrocko.trace.Evalresp.instant" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.trace.InverseEvalresp">
+<em class="property">class </em><code class="descname">InverseEvalresp</code><span class="sig-paren">(</span><em>respfile</em>, <em>trace</em>, <em>target='dis'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#InverseEvalresp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.InverseEvalresp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls evalresp and generates values of the inverse instrument response for
+deconvolution of instrument response.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>respfile</strong> &#8211; response file in evalresp format</li>
+<li><strong>trace</strong> &#8211; trace for which the response is to be extracted from the file</li>
+<li><strong>target</strong> &#8211; <code class="docutils literal"><span class="pre">'dis'</span></code> for displacement or <code class="docutils literal"><span class="pre">'vel'</span></code> for velocity</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="gattribute">
+<dt id="pyrocko.trace.InverseEvalresp.respfile">
+<em class="property">♦ </em><code class="descname">respfile</code><a class="headerlink" href="#pyrocko.trace.InverseEvalresp.respfile" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.InverseEvalresp.nslc_id">
+<em class="property">♦ </em><code class="descname">nslc_id</code><a class="headerlink" href="#pyrocko.trace.InverseEvalresp.nslc_id" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">tuple</span></code> of 4 <code class="docutils literal"><span class="pre">str</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">(None,</span> <span class="pre">None,</span> <span class="pre">None,</span> <span class="pre">None)</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.InverseEvalresp.target">
+<em class="property">♦ </em><code class="descname">target</code><a class="headerlink" href="#pyrocko.trace.InverseEvalresp.target" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">'dis'</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.InverseEvalresp.instant">
+<em class="property">♦ </em><code class="descname">instant</code><a class="headerlink" href="#pyrocko.trace.InverseEvalresp.instant" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.trace.PoleZeroResponse">
+<em class="property">class </em><code class="descname">PoleZeroResponse</code><span class="sig-paren">(</span><em>zeros=None</em>, <em>poles=None</em>, <em>constant=(1+0j)</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#PoleZeroResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.PoleZeroResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates frequency response from pole-zero representation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>zeros</strong> &#8211; <code class="xref py py-class docutils literal"><span class="pre">numpy.array</span></code> containing complex positions of zeros</li>
+<li><strong>poles</strong> &#8211; <code class="xref py py-class docutils literal"><span class="pre">numpy.array</span></code> containing complex positions of poles</li>
+<li><strong>constant</strong> &#8211; gain as floating point number</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span>                  <span class="p">(</span><span class="n">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">f</span> <span class="o">-</span> <span class="n">zeros</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">f</span> <span class="o">-</span> <span class="n">zeros</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="o">...</span>
+<span class="n">T</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">=</span> <span class="n">constant</span> <span class="o">*</span> <span class="o">----------------------------------------------------</span>
+                  <span class="p">(</span><span class="n">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">f</span> <span class="o">-</span> <span class="n">poles</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">f</span> <span class="o">-</span> <span class="n">poles</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>The poles and zeros should be given as angular frequencies, not in Hz.</p>
+<dl class="gattribute">
+<dt id="pyrocko.trace.PoleZeroResponse.zeros">
+<em class="property">♦ </em><code class="descname">zeros</code><a class="headerlink" href="#pyrocko.trace.PoleZeroResponse.zeros" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">complex</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.PoleZeroResponse.poles">
+<em class="property">♦ </em><code class="descname">poles</code><a class="headerlink" href="#pyrocko.trace.PoleZeroResponse.poles" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">complex</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.PoleZeroResponse.constant">
+<em class="property">♦ </em><code class="descname">constant</code><a class="headerlink" href="#pyrocko.trace.PoleZeroResponse.constant" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">complex</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">(1+0j)</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.trace.ButterworthResponse">
+<em class="property">class </em><code class="descname">ButterworthResponse</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#ButterworthResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.ButterworthResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Butterworth frequency response.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>corner</strong> &#8211; corner frequency of the response</li>
+<li><strong>order</strong> &#8211; order of the response</li>
+<li><strong>type</strong> &#8211; either <code class="docutils literal"><span class="pre">high</span></code> or <code class="docutils literal"><span class="pre">low</span></code></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="gattribute">
+<dt id="pyrocko.trace.ButterworthResponse.corner">
+<em class="property">♦ </em><code class="descname">corner</code><a class="headerlink" href="#pyrocko.trace.ButterworthResponse.corner" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">1.0</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.ButterworthResponse.order">
+<em class="property">♦ </em><code class="descname">order</code><a class="headerlink" href="#pyrocko.trace.ButterworthResponse.order" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">4</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.ButterworthResponse.type">
+<em class="property">♦ </em><code class="descname">type</code><a class="headerlink" href="#pyrocko.trace.ButterworthResponse.type" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code>), <em>default:</em> <code class="docutils literal"><span class="pre">'low'</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.trace.SampledResponse">
+<em class="property">class </em><code class="descname">SampledResponse</code><span class="sig-paren">(</span><em>frequencies</em>, <em>values</em>, <em>left=None</em>, <em>right=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#SampledResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.SampledResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolates frequency response given at a set of sampled frequencies.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>frequencies</strong><strong>,</strong><strong>values</strong> &#8211; frequencies and values of the sampled response
+function.</li>
+<li><strong>left</strong><strong>,</strong><strong>right</strong> &#8211; values to return when input is out of range. If set to
+<code class="docutils literal"><span class="pre">None</span></code> (the default) the endpoints are returned.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="gattribute">
+<dt id="pyrocko.trace.SampledResponse.frequencies">
+<em class="property">♦ </em><code class="descname">frequencies</code><a class="headerlink" href="#pyrocko.trace.SampledResponse.frequencies" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.SampledResponse.values">
+<em class="property">♦ </em><code class="descname">values</code><a class="headerlink" href="#pyrocko.trace.SampledResponse.values" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.SampledResponse.left">
+<em class="property">♦ </em><code class="descname">left</code><a class="headerlink" href="#pyrocko.trace.SampledResponse.left" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">complex</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.SampledResponse.right">
+<em class="property">♦ </em><code class="descname">right</code><a class="headerlink" href="#pyrocko.trace.SampledResponse.right" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">complex</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.trace.SampledResponse.inverse">
+<code class="descname">inverse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#SampledResponse.inverse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.SampledResponse.inverse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get inverse as a new <a class="reference internal" href="#pyrocko.trace.SampledResponse" title="pyrocko.trace.SampledResponse"><code class="xref py py-class docutils literal"><span class="pre">SampledResponse</span></code></a> object.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.trace.IntegrationResponse">
+<em class="property">class </em><code class="descname">IntegrationResponse</code><span class="sig-paren">(</span><em>n=1</em>, <em>gain=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#IntegrationResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.IntegrationResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>The integration response, optionally multiplied by a constant gain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> &#8211; exponent (integer)</li>
+<li><strong>gain</strong> &#8211; gain factor (float)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span>            <span class="n">gain</span>
+<span class="n">T</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">=</span> <span class="o">--------------</span>
+       <span class="p">(</span><span class="n">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f</span><span class="p">)</span><span class="o">^</span><span class="n">n</span>
+</pre></div>
+</div>
+<dl class="gattribute">
+<dt id="pyrocko.trace.IntegrationResponse.n">
+<em class="property">♦ </em><code class="descname">n</code><a class="headerlink" href="#pyrocko.trace.IntegrationResponse.n" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">1</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.IntegrationResponse.gain">
+<em class="property">♦ </em><code class="descname">gain</code><a class="headerlink" href="#pyrocko.trace.IntegrationResponse.gain" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">1.0</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.trace.DifferentiationResponse">
+<em class="property">class </em><code class="descname">DifferentiationResponse</code><span class="sig-paren">(</span><em>n=1</em>, <em>gain=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#DifferentiationResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.DifferentiationResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>The differentiation response, optionally multiplied by a constant gain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> &#8211; exponent (integer)</li>
+<li><strong>gain</strong> &#8211; gain factor (float)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">T</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">=</span> <span class="n">gain</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f</span><span class="p">)</span><span class="o">^</span><span class="n">n</span>
+</pre></div>
+</div>
+<dl class="gattribute">
+<dt id="pyrocko.trace.DifferentiationResponse.n">
+<em class="property">♦ </em><code class="descname">n</code><a class="headerlink" href="#pyrocko.trace.DifferentiationResponse.n" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">1</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.DifferentiationResponse.gain">
+<em class="property">♦ </em><code class="descname">gain</code><a class="headerlink" href="#pyrocko.trace.DifferentiationResponse.gain" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">1.0</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.trace.AnalogFilterResponse">
+<em class="property">class </em><code class="descname">AnalogFilterResponse</code><span class="sig-paren">(</span><em>b</em>, <em>a</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#AnalogFilterResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.AnalogFilterResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Frequency response of an analog filter.</p>
+<p>(see <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.freqs.html#scipy.signal.freqs" title="(in SciPy v0.19.0)"><code class="xref py py-func docutils literal"><span class="pre">scipy.signal.freqs()</span></code></a>).</p>
+<dl class="gattribute">
+<dt id="pyrocko.trace.AnalogFilterResponse.b">
+<em class="property">♦ </em><code class="descname">b</code><a class="headerlink" href="#pyrocko.trace.AnalogFilterResponse.b" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">float</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.AnalogFilterResponse.a">
+<em class="property">♦ </em><code class="descname">a</code><a class="headerlink" href="#pyrocko.trace.AnalogFilterResponse.a" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">float</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.trace.MultiplyResponse">
+<em class="property">class </em><code class="descname">MultiplyResponse</code><span class="sig-paren">(</span><em>responses=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#MultiplyResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.MultiplyResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiplication of several <a class="reference internal" href="#pyrocko.trace.FrequencyResponse" title="pyrocko.trace.FrequencyResponse"><code class="xref py py-class docutils literal"><span class="pre">FrequencyResponse</span></code></a> objects.</p>
+<dl class="gattribute">
+<dt id="pyrocko.trace.MultiplyResponse.responses">
+<em class="property">♦ </em><code class="descname">responses</code><a class="headerlink" href="#pyrocko.trace.MultiplyResponse.responses" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.trace.FrequencyResponse" title="pyrocko.trace.FrequencyResponse"><code class="xref py py-class docutils literal"><span class="pre">FrequencyResponse</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.numpy_has_correlate_flip_bug">
+<code class="descname">numpy_has_correlate_flip_bug</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#numpy_has_correlate_flip_bug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.numpy_has_correlate_flip_bug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if NumPy&#8217;s correlate function reveals old behaviour</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.numpy_correlate_fixed">
+<code class="descname">numpy_correlate_fixed</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>mode='valid'</em>, <em>use_fft=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#numpy_correlate_fixed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.numpy_correlate_fixed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.correlate.html#numpy.correlate" title="(in NumPy v1.12)"><code class="xref py py-func docutils literal"><span class="pre">numpy.correlate()</span></code></a> with fixes.</p>
+<blockquote>
+<div>c[k] = sum_i a[i+k] * conj(b[i])</div></blockquote>
+<p>Note that the result produced by newer numpy.correlate is always flipped
+with respect to the formula given in its documentation (if ascending k
+assumed for the output).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.numpy_correlate_emulate">
+<code class="descname">numpy_correlate_emulate</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>mode='valid'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#numpy_correlate_emulate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.numpy_correlate_emulate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Slow version of <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.correlate.html#numpy.correlate" title="(in NumPy v1.12)"><code class="xref py py-func docutils literal"><span class="pre">numpy.correlate()</span></code></a> for comparison.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.numpy_correlate_lag_range">
+<code class="descname">numpy_correlate_lag_range</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>mode='valid'</em>, <em>use_fft=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#numpy_correlate_lag_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.numpy_correlate_lag_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get range of lags for which <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.correlate.html#numpy.correlate" title="(in NumPy v1.12)"><code class="xref py py-func docutils literal"><span class="pre">numpy.correlate()</span></code></a> produces values.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.autocorr">
+<code class="descname">autocorr</code><span class="sig-paren">(</span><em>x</em>, <em>nshifts</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#autocorr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.autocorr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute biased estimate of the first autocorrelation coefficients.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; input array</li>
+<li><strong>nshifts</strong> &#8211; number of coefficients to calculate</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.yulewalker">
+<code class="descname">yulewalker</code><span class="sig-paren">(</span><em>x</em>, <em>order</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#yulewalker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.yulewalker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute autoregression coefficients using Yule-Walker method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; input array</li>
+<li><strong>order</strong> &#8211; number of coefficients to produce</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>A biased estimate of the autocorrelation is used. The Yule-Walker equations
+are solved by <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.inv.html#numpy.linalg.inv" title="(in NumPy v1.12)"><code class="xref py py-func docutils literal"><span class="pre">numpy.linalg.inv()</span></code></a> instead of Levinson-Durbin
+recursion which is normally used.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.hilbert">
+<code class="descname">hilbert</code><span class="sig-paren">(</span><em>x</em>, <em>N=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#hilbert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.hilbert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the hilbert transform of x of length N.</p>
+<p>(from scipy.signal, but changed to use fft and ifft from numpy.fft)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.trace.States">
+<em class="property">class </em><code class="descname">States</code><a class="reference internal" href="../../_modules/pyrocko/trace.html#States"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.States" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility to store channel-specific state in coroutines.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.co_lfilter">
+<code class="descname">co_lfilter</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#co_lfilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.co_lfilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Successively filter broken continuous trace data (coroutine).</p>
+<p>Create coroutine which takes <a class="reference internal" href="#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a> objects, filters their data
+through <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.lfilter.html#scipy.signal.lfilter" title="(in SciPy v0.19.0)"><code class="xref py py-func docutils literal"><span class="pre">scipy.signal.lfilter()</span></code></a> and sends new <a class="reference internal" href="#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a>
+objects containing the filtered data to target. This is useful, if one
+wants to filter a long continuous time series, which is split into many
+successive traces without producing filter artifacts at trace boundaries.</p>
+<p>Filter states are kept <em>per channel</em>, specifically, for each (network,
+station, location, channel) combination occuring in the input traces, a
+separate state is created and maintained. This makes it possible to filter
+multichannel or multistation data with only one <a class="reference internal" href="#pyrocko.trace.co_lfilter" title="pyrocko.trace.co_lfilter"><code class="xref py py-func docutils literal"><span class="pre">co_lfilter()</span></code></a>
+instance.</p>
+<p>Filter state is reset, when gaps occur.</p>
+<p>Use it like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko.trace</span> <span class="k">import</span> <span class="n">co_lfilter</span><span class="p">,</span> <span class="n">co_list_append</span>
+
+<span class="n">filtered_traces</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">pipe</span> <span class="o">=</span> <span class="n">co_lfilter</span><span class="p">(</span><span class="n">co_list_append</span><span class="p">(</span><span class="n">filtered_traces</span><span class="p">),</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+     <span class="n">pipe</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+
+<span class="n">pipe</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.co_downsample">
+<code class="descname">co_downsample</code><span class="sig-paren">(</span><em>target</em>, <em>q</em>, <em>n=None</em>, <em>ftype='fir'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#co_downsample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.co_downsample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Successively downsample broken continuous trace data (coroutine).</p>
+<p>Create coroutine which takes <a class="reference internal" href="#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a> objects, downsamples their
+data and sends new <a class="reference internal" href="#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a> objects containing the downsampled
+data to target.  This is useful, if one wants to downsample a long
+continuous time series, which is split into many successive traces without
+producing filter artifacts and gaps at trace boundaries.</p>
+<p>Filter states are kept <em>per channel</em>, specifically, for each (network,
+station, location, channel) combination occuring in the input traces, a
+separate state is created and maintained. This makes it possible to filter
+multichannel or multistation data with only one <a class="reference internal" href="#pyrocko.trace.co_lfilter" title="pyrocko.trace.co_lfilter"><code class="xref py py-func docutils literal"><span class="pre">co_lfilter()</span></code></a>
+instance.</p>
+<p>Filter state is reset, when gaps occur. The sampling instances are choosen
+so that they occur at (or as close as possible) to even multiples of the
+sampling interval of the downsampled trace (based on system time).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.trace.DomainChoice">
+<em class="property">class </em><code class="descname">DomainChoice</code><span class="sig-paren">(</span><em>dummy</em><span class="sig-paren">)</span> &rarr; str<a class="reference internal" href="../../_modules/pyrocko/trace.html#DomainChoice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.DomainChoice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Any <code class="docutils literal"><span class="pre">str</span></code> out of <code class="docutils literal"><span class="pre">['time_domain',</span> <span class="pre">'frequency_domain',</span> <span class="pre">'envelope',</span> <span class="pre">'absolute',</span> <span class="pre">'cc_max_norm']</span></code>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.trace.MisfitSetup">
+<em class="property">class </em><code class="descname">MisfitSetup</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#MisfitSetup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.MisfitSetup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains misfit setup to be used in <code class="xref py py-func docutils literal"><span class="pre">trace.misfit()</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>description</strong> &#8211; Description of the setup</li>
+<li><strong>norm</strong> &#8211; L-norm classifier</li>
+<li><strong>taper</strong> &#8211; Object of <a class="reference internal" href="#pyrocko.trace.Taper" title="pyrocko.trace.Taper"><code class="xref py py-class docutils literal"><span class="pre">Taper</span></code></a></li>
+<li><strong>filter</strong> &#8211; Object of <a class="reference internal" href="#pyrocko.trace.FrequencyResponse" title="pyrocko.trace.FrequencyResponse"><code class="xref py py-class docutils literal"><span class="pre">FrequencyResponse</span></code></a></li>
+<li><strong>domain</strong> &#8211; [&#8216;time_domain&#8217;, &#8216;frequency_domain&#8217;, &#8216;envelope&#8217;, &#8216;absolute&#8217;,
+&#8216;cc_max_norm&#8217;]</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Can be dumped to a yaml file.</p>
+<dl class="gattribute">
+<dt id="pyrocko.trace.MisfitSetup.description">
+<em class="property">♦ </em><code class="descname">description</code><a class="headerlink" href="#pyrocko.trace.MisfitSetup.description" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.MisfitSetup.norm">
+<em class="property">♦ </em><code class="descname">norm</code><a class="headerlink" href="#pyrocko.trace.MisfitSetup.norm" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.MisfitSetup.taper">
+<em class="property">♦ </em><code class="descname">taper</code><a class="headerlink" href="#pyrocko.trace.MisfitSetup.taper" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.trace.Taper" title="pyrocko.trace.Taper"><code class="xref py py-class docutils literal"><span class="pre">Taper</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.MisfitSetup.filter">
+<em class="property">♦ </em><code class="descname">filter</code><a class="headerlink" href="#pyrocko.trace.MisfitSetup.filter" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.trace.FrequencyResponse" title="pyrocko.trace.FrequencyResponse"><code class="xref py py-class docutils literal"><span class="pre">FrequencyResponse</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.trace.MisfitSetup.domain">
+<em class="property">♦ </em><code class="descname">domain</code><a class="headerlink" href="#pyrocko.trace.MisfitSetup.domain" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<a class="reference internal" href="#pyrocko.trace.DomainChoice" title="pyrocko.trace.DomainChoice"><code class="xref py py-class docutils literal"><span class="pre">DomainChoice</span></code></a>), <em>default:</em> <code class="docutils literal"><span class="pre">'time_domain'</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.equalize_sampling_rates">
+<code class="descname">equalize_sampling_rates</code><span class="sig-paren">(</span><em>trace_1</em>, <em>trace_2</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#equalize_sampling_rates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.equalize_sampling_rates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equalize sampling rates of two traces (reduce higher sampling rate to
+lower).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>trace_1</strong> &#8211; <a class="reference internal" href="#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a> object</li>
+<li><strong>trace_2</strong> &#8211; <a class="reference internal" href="#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a> object</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns a copy of the resampled trace if resampling is needed.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.trace.Lx_norm">
+<code class="descname">Lx_norm</code><span class="sig-paren">(</span><em>u</em>, <em>v</em>, <em>norm=2</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/trace.html#Lx_norm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.trace.Lx_norm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the misfit denominator <em>m</em> and the normalization devisor <em>n</em>
+according to norm.</p>
+<p>The normalization divisor <em>n</em> is calculated from <code class="docutils literal"><span class="pre">v</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>u</strong> &#8211; <code class="xref py py-class docutils literal"><span class="pre">numpy.array</span></code></li>
+<li><strong>v</strong> &#8211; <code class="xref py py-class docutils literal"><span class="pre">numpy.array</span></code></li>
+<li><strong>norm</strong> &#8211; (default = 2)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal"><span class="pre">u</span></code> and <code class="docutils literal"><span class="pre">v</span></code> must be of same size.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="util.html" title="The util Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tectonics.html" title="The tectonics Module"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

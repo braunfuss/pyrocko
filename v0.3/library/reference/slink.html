@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The slink Module &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The snuffling Module" href="snuffling.html" />
+    <link rel="prev" title="The rdseed Module" href="rdseed.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyrocko.slink">
+<span id="the-slink-module"></span><h1>The <code class="xref py py-mod docutils literal"><span class="pre">slink</span></code> Module<a class="headerlink" href="#module-pyrocko.slink" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="pyrocko.slink.preexec">
+<code class="descname">preexec</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/slink.html#preexec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.slink.preexec" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="pyrocko.slink.SlowSlinkError">
+<em class="property">exception </em><code class="descname">SlowSlinkError</code><a class="reference internal" href="../../_modules/pyrocko/slink.html#SlowSlinkError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.slink.SlowSlinkError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.slink.SlowSlink">
+<em class="property">class </em><code class="descname">SlowSlink</code><span class="sig-paren">(</span><em>host='geofon.gfz-potsdam.de'</em>, <em>port=18000</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/slink.html#SlowSlink"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.slink.SlowSlink" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pyrocko.slink.SlowSlink.query_streams">
+<code class="descname">query_streams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/slink.html#SlowSlink.query_streams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.slink.SlowSlink.query_streams" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.slink.SlowSlink.add_stream">
+<code class="descname">add_stream</code><span class="sig-paren">(</span><em>network</em>, <em>station</em>, <em>location</em>, <em>channel</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/slink.html#SlowSlink.add_stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.slink.SlowSlink.add_stream" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.slink.SlowSlink.add_raw_stream_selector">
+<code class="descname">add_raw_stream_selector</code><span class="sig-paren">(</span><em>stream_selector</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/slink.html#SlowSlink.add_raw_stream_selector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.slink.SlowSlink.add_raw_stream_selector" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.slink.SlowSlink.acquisition_start">
+<code class="descname">acquisition_start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/slink.html#SlowSlink.acquisition_start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.slink.SlowSlink.acquisition_start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.slink.SlowSlink.acquisition_stop">
+<code class="descname">acquisition_stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/slink.html#SlowSlink.acquisition_stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.slink.SlowSlink.acquisition_stop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.slink.SlowSlink.acquisition_request_stop">
+<code class="descname">acquisition_request_stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/slink.html#SlowSlink.acquisition_request_stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.slink.SlowSlink.acquisition_request_stop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.slink.SlowSlink.process">
+<code class="descname">process</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/slink.html#SlowSlink.process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.slink.SlowSlink.process" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.slink.SlowSlink.got_trace">
+<code class="descname">got_trace</code><span class="sig-paren">(</span><em>tr</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/slink.html#SlowSlink.got_trace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.slink.SlowSlink.got_trace" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="snuffling.html" title="The snuffling Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="rdseed.html" title="The rdseed Module"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

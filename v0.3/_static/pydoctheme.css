@@ -3,7 +3,7 @@ a tt {
     font-weight: normal;
 }
 body {
-    background-color: rgb(252, 252, 251);
+    background-color: rgb(237, 236, 231);
     max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
@@ -11,8 +11,7 @@ body {
 
 div.related, div.document {
     border-radius: 3px;
-    box-shadow: 0px 0px 3px rgb(225, 225, 220);
-    border: 1px solid rgb(236, 236, 233);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     width: 100%;
     margin: 15px 0px;
 }
@@ -23,10 +22,6 @@ div.related ul {
 
 div.related:first-child {
     border-bottom: 0;
-}
-
-div.related a:hover {
-    color: #0095C4;
 }
 
 div.sphinxsidebar {
@@ -362,6 +357,11 @@ a code:hover {
 
 div.related a {
     color: #204a87;
+    font-weight: bold;
+}
+
+div.related a:hover {
+    color: #204a87;
 }
 
 
@@ -606,18 +606,24 @@ div.code-block-caption:hover  span.viewcode-link {
     visibility: visible;
 }
 
-div.keywords span {
-	border: 1px solid #e6e6e6;
+div.keywords span, span.tag {
+	border: 1px solid #cfbc9b;
 	padding: 0.05em 0.3em;
 	display: inline-block;
-	margin: 2px;
+	margin: .5em 0em;
 	border-radius: 3px;
-	background-color: #fbfbfb;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+	background-color: #f2e6ca;
 	color: #333;
 	font-size: 90%;
 }
+
 div.keywords {
     margin-top: 1em;
     margin-bottom: 1em;
+}
+
+span.tag i.fa {
+    padding-right: .4em;
 }
 

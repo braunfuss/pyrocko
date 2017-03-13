@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The cake Module &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The catalog Module" href="catalog.html" />
+    <link rel="prev" title="The beachball Module" href="beachball.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyrocko.cake">
+<span id="the-cake-module"></span><h1>The <code class="xref py py-mod docutils literal"><span class="pre">cake</span></code> Module<a class="headerlink" href="#module-pyrocko.cake" title="Permalink to this headline">¶</a></h1>
+<p>Classical seismic ray theory for layered earth models (<em>layer cake</em> models).</p>
+<p>This module can be used to e.g. calculate arrival times, ray paths, reflection
+and transmission coefficients, take-off and incidence angles and geometrical
+spreading factors for arbitrary seismic phases. Computations are done for a
+spherical earth, even though the module name may suggests something flat.</p>
+<p>The main classes defined in this module are:</p>
+<ul>
+<li><p class="first"><a class="reference internal" href="#pyrocko.cake.Material" title="pyrocko.cake.Material"><code class="xref py py-class docutils literal"><span class="pre">Material</span></code></a> - Defines an isotropic elastic material.</p>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="#pyrocko.cake.PhaseDef" title="pyrocko.cake.PhaseDef"><code class="xref py py-class docutils literal"><span class="pre">PhaseDef</span></code></a> - Defines a seismic phase arrival / wave propagation</dt>
+<dd><p class="first last">history.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><a class="reference internal" href="#pyrocko.cake.Leg" title="pyrocko.cake.Leg"><code class="xref py py-class docutils literal"><span class="pre">Leg</span></code></a> - Continuous propagation in a <a class="reference internal" href="#pyrocko.cake.PhaseDef" title="pyrocko.cake.PhaseDef"><code class="xref py py-class docutils literal"><span class="pre">PhaseDef</span></code></a>.</p>
+</li>
+<li><p class="first"><a class="reference internal" href="#pyrocko.cake.Knee" title="pyrocko.cake.Knee"><code class="xref py py-class docutils literal"><span class="pre">Knee</span></code></a> - Conversion/reflection in a <a class="reference internal" href="#pyrocko.cake.PhaseDef" title="pyrocko.cake.PhaseDef"><code class="xref py py-class docutils literal"><span class="pre">PhaseDef</span></code></a>.</p>
+</li>
+<li><p class="first"><a class="reference internal" href="#pyrocko.cake.LayeredModel" title="pyrocko.cake.LayeredModel"><code class="xref py py-class docutils literal"><span class="pre">LayeredModel</span></code></a> - Representation of a layer cake model.</p>
+</li>
+<li><p class="first"><a class="reference internal" href="#pyrocko.cake.Layer" title="pyrocko.cake.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a> - A layer in a <a class="reference internal" href="#pyrocko.cake.LayeredModel" title="pyrocko.cake.LayeredModel"><code class="xref py py-class docutils literal"><span class="pre">LayeredModel</span></code></a>.</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#pyrocko.cake.HomogeneousLayer" title="pyrocko.cake.HomogeneousLayer"><code class="xref py py-class docutils literal"><span class="pre">HomogeneousLayer</span></code></a> - A homogeneous <a class="reference internal" href="#pyrocko.cake.Layer" title="pyrocko.cake.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a>.</li>
+<li><a class="reference internal" href="#pyrocko.cake.GradientLayer" title="pyrocko.cake.GradientLayer"><code class="xref py py-class docutils literal"><span class="pre">GradientLayer</span></code></a> - A gradient <a class="reference internal" href="#pyrocko.cake.Layer" title="pyrocko.cake.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a>.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference internal" href="#pyrocko.cake.Discontinuity" title="pyrocko.cake.Discontinuity"><code class="xref py py-class docutils literal"><span class="pre">Discontinuity</span></code></a> - A discontinuity in a <a class="reference internal" href="#pyrocko.cake.LayeredModel" title="pyrocko.cake.LayeredModel"><code class="xref py py-class docutils literal"><span class="pre">LayeredModel</span></code></a>.</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#pyrocko.cake.Interface" title="pyrocko.cake.Interface"><code class="xref py py-class docutils literal"><span class="pre">Interface</span></code></a> - A <a class="reference internal" href="#pyrocko.cake.Discontinuity" title="pyrocko.cake.Discontinuity"><code class="xref py py-class docutils literal"><span class="pre">Discontinuity</span></code></a> between two
+<a class="reference internal" href="#pyrocko.cake.Layer" title="pyrocko.cake.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a> instances.</li>
+<li><a class="reference internal" href="#pyrocko.cake.Surface" title="pyrocko.cake.Surface"><code class="xref py py-class docutils literal"><span class="pre">Surface</span></code></a> - The surface <a class="reference internal" href="#pyrocko.cake.Discontinuity" title="pyrocko.cake.Discontinuity"><code class="xref py py-class docutils literal"><span class="pre">Discontinuity</span></code></a> on top of
+a <a class="reference internal" href="#pyrocko.cake.LayeredModel" title="pyrocko.cake.LayeredModel"><code class="xref py py-class docutils literal"><span class="pre">LayeredModel</span></code></a>.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference internal" href="#pyrocko.cake.RayPath" title="pyrocko.cake.RayPath"><code class="xref py py-class docutils literal"><span class="pre">RayPath</span></code></a> - A fan of rays running through a common sequence of
+layers / interfaces.</p>
+</li>
+<li><p class="first"><a class="reference internal" href="#pyrocko.cake.Ray" title="pyrocko.cake.Ray"><code class="xref py py-class docutils literal"><span class="pre">Ray</span></code></a> - A specific ray with a specific (ray parameter, distance,
+arrival time) choice.</p>
+</li>
+<li><p class="first"><a class="reference internal" href="#pyrocko.cake.RayElement" title="pyrocko.cake.RayElement"><code class="xref py py-class docutils literal"><span class="pre">RayElement</span></code></a> - An element of a <a class="reference internal" href="#pyrocko.cake.RayPath" title="pyrocko.cake.RayPath"><code class="xref py py-class docutils literal"><span class="pre">RayPath</span></code></a>.</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#pyrocko.cake.Straight" title="pyrocko.cake.Straight"><code class="xref py py-class docutils literal"><span class="pre">Straight</span></code></a> - A ray segment representing propagation through
+one <a class="reference internal" href="#pyrocko.cake.Layer" title="pyrocko.cake.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a>.</li>
+<li><a class="reference internal" href="#pyrocko.cake.Kink" title="pyrocko.cake.Kink"><code class="xref py py-class docutils literal"><span class="pre">Kink</span></code></a> - An interaction of a ray with a
+<a class="reference internal" href="#pyrocko.cake.Discontinuity" title="pyrocko.cake.Discontinuity"><code class="xref py py-class docutils literal"><span class="pre">Discontinuity</span></code></a>.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<dl class="class">
+<dt id="pyrocko.cake.Material">
+<em class="property">class </em><code class="descname">Material</code><span class="sig-paren">(</span><em>vp=None</em>, <em>vs=None</em>, <em>rho=2600.0</em>, <em>qp=None</em>, <em>qs=None</em>, <em>poisson=None</em>, <em>lame=None</em>, <em>qk=None</em>, <em>qmu=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Material"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Material" title="Permalink to this definition">¶</a></dt>
+<dd><p>Isotropic elastic material.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vp</strong> &#8211; P-wave velocity [m/s]</li>
+<li><strong>vs</strong> &#8211; S-wave velocity [m/s]</li>
+<li><strong>rho</strong> &#8211; density [kg/m^3]</li>
+<li><strong>qp</strong> &#8211; P-wave attenuation Qp</li>
+<li><strong>qs</strong> &#8211; S-wave attenuation Qs</li>
+<li><strong>poisson</strong> &#8211; Poisson ratio</li>
+<li><strong>lame</strong> &#8211; tuple with Lame parameter <cite>lambda</cite> and <cite>shear modulus</cite> [Pa]</li>
+<li><strong>qk</strong> &#8211; bulk attenuation Qk</li>
+<li><strong>qmu</strong> &#8211; shear attenuation Qmu</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>If no velocities and no lame parameters are given, standard crustal values
+of vp = 5800 m/s and vs = 3200 m/s are used.  If no Q values are given,
+standard crustal values of qp = 1456 and qs = 600 are used.</p>
+<p>Everything is in SI units (m/s, Pa, kg/m^3) unless explicitly stated.</p>
+<p>The main material properties are considered independant and are accessible
+as attributes (it is allowed to assign to these):</p>
+<blockquote>
+<div><dl class="attribute">
+<dt>
+<code class="descname">vp, vs, rho, qp, qs</code></dt>
+<dd></dd></dl>
+
+</div></blockquote>
+<p>Other material properties are considered dependant and can be queried by
+instance methods.</p>
+<dl class="method">
+<dt id="pyrocko.cake.Material.astuple">
+<code class="descname">astuple</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Material.astuple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Material.astuple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get independant material properties as a tuple.</p>
+<p>Returns a tuple with <code class="docutils literal"><span class="pre">(vp,</span> <span class="pre">vs,</span> <span class="pre">rho,</span> <span class="pre">qp,</span> <span class="pre">qs)</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Material.lame">
+<code class="descname">lame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Material.lame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Material.lame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get Lame&#8217;s parameter lambda and shear modulus.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Material.lame_lambda">
+<code class="descname">lame_lambda</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Material.lame_lambda"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Material.lame_lambda" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get Lame&#8217;s parameter lambda.</p>
+<p>Returned units are [Pa].</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Material.shear_modulus">
+<code class="descname">shear_modulus</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Material.shear_modulus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Material.shear_modulus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get shear modulus.</p>
+<p>Returned units are [Pa].</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Material.poisson">
+<code class="descname">poisson</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Material.poisson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Material.poisson" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get Poisson&#8217;s ratio.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Material.bulk">
+<code class="descname">bulk</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Material.bulk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Material.bulk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get bulk modulus.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Material.youngs">
+<code class="descname">youngs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Material.youngs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Material.youngs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get Young&#8217;s modulus.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Material.vp_vs_ratio">
+<code class="descname">vp_vs_ratio</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Material.vp_vs_ratio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Material.vp_vs_ratio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get vp/vs ratio.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Material.qmu">
+<code class="descname">qmu</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Material.qmu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Material.qmu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get shear attenuation coefficient Qmu.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Material.qk">
+<code class="descname">qk</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Material.qk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Material.qk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get bulk attenuation coefficient Qk.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Material.rayleigh">
+<code class="descname">rayleigh</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Material.rayleigh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Material.rayleigh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get rayleigh velocity assuming a homogenous halfspace.</p>
+<p>Returned units are [m/s].</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Material.describe">
+<code class="descname">describe</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Material.describe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Material.describe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a readable listing of the material properties.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.cake.Leg">
+<em class="property">class </em><code class="descname">Leg</code><span class="sig-paren">(</span><em>departure=None</em>, <em>mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Leg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Leg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a continuous piece of wave propagation in a <a class="reference internal" href="#pyrocko.cake.PhaseDef" title="pyrocko.cake.PhaseDef"><code class="xref py py-class docutils literal"><span class="pre">PhaseDef</span></code></a>.</p>
+<p><strong>Attributes:</strong></p>
+<p>To be considered as read-only.</p>
+<blockquote>
+<div><dl class="attribute">
+<dt id="pyrocko.cake.Leg.departure">
+<code class="descname">departure</code><a class="headerlink" href="#pyrocko.cake.Leg.departure" title="Permalink to this definition">¶</a></dt>
+<dd><p>One of the constants <code class="xref py py-const docutils literal"><span class="pre">UP</span></code> or <code class="xref py py-const docutils literal"><span class="pre">DOWN</span></code> indicating
+upward or downward departure.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.cake.Leg.mode">
+<code class="descname">mode</code><a class="headerlink" href="#pyrocko.cake.Leg.mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>One of the constants <code class="xref py py-const docutils literal"><span class="pre">P</span></code> or <code class="xref py py-const docutils literal"><span class="pre">S</span></code>, indicating the
+propagation mode.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.cake.Leg.depthmin">
+<code class="descname">depthmin</code><a class="headerlink" href="#pyrocko.cake.Leg.depthmin" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">None</span></code>, a number (a depth in [m]) or a string (an interface name),
+minimum depth.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.cake.Leg.depthmax">
+<code class="descname">depthmax</code><a class="headerlink" href="#pyrocko.cake.Leg.depthmax" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">None</span></code>, a number (a depth in [m]) or a string (an interface name),
+maximum depth.</p>
+</dd></dl>
+
+</div></blockquote>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.cake.Knee">
+<em class="property">class </em><code class="descname">Knee</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Knee"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Knee" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a change in wave propagation within a <a class="reference internal" href="#pyrocko.cake.PhaseDef" title="pyrocko.cake.PhaseDef"><code class="xref py py-class docutils literal"><span class="pre">PhaseDef</span></code></a>.</p>
+<p><strong>Attributes:</strong></p>
+<p>To be considered as read-only.</p>
+<blockquote>
+<div><dl class="attribute">
+<dt id="pyrocko.cake.Knee.depth">
+<code class="descname">depth</code><a class="headerlink" href="#pyrocko.cake.Knee.depth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Depth at which the conversion/reflection should happen. this can be
+a string or a number.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.cake.Knee.direction">
+<code class="descname">direction</code><a class="headerlink" href="#pyrocko.cake.Knee.direction" title="Permalink to this definition">¶</a></dt>
+<dd><p>One of the constants <code class="xref py py-const docutils literal"><span class="pre">UP</span></code> or <code class="xref py py-const docutils literal"><span class="pre">DOWN</span></code> to indicate
+the incoming direction.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.cake.Knee.in_mode">
+<code class="descname">in_mode</code><a class="headerlink" href="#pyrocko.cake.Knee.in_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>One of the constants <code class="xref py py-const docutils literal"><span class="pre">P</span></code> or <code class="xref py py-const docutils literal"><span class="pre">S</span></code> to indicate the
+type of mode of the incoming wave.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.cake.Knee.out_mode">
+<code class="descname">out_mode</code><a class="headerlink" href="#pyrocko.cake.Knee.out_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>One of the constants <code class="xref py py-const docutils literal"><span class="pre">P</span></code> or <code class="xref py py-const docutils literal"><span class="pre">S</span></code> to indicate the
+type of mode of the outgoing wave.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.cake.Knee.conversion">
+<code class="descname">conversion</code><a class="headerlink" href="#pyrocko.cake.Knee.conversion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean, whether there is a mode conversion involved.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.cake.Knee.reflection">
+<code class="descname">reflection</code><a class="headerlink" href="#pyrocko.cake.Knee.reflection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean, whether there is a reflection involved.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.cake.Knee.headwave">
+<code class="descname">headwave</code><a class="headerlink" href="#pyrocko.cake.Knee.headwave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean, whether there is headwave propagation involved.</p>
+</dd></dl>
+
+</div></blockquote>
+<dl class="method">
+<dt id="pyrocko.cake.Knee.matches">
+<code class="descname">matches</code><span class="sig-paren">(</span><em>discontinuity</em>, <em>mode</em>, <em>direction</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Knee.matches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Knee.matches" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether it is relevant to a given combination of interface,
+propagation mode, and direction.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Knee.out_direction">
+<code class="descname">out_direction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Knee.out_direction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Knee.out_direction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get outgoing direction.</p>
+<p>Returns one of the constants <code class="xref py py-const docutils literal"><span class="pre">UP</span></code> or <code class="xref py py-const docutils literal"><span class="pre">DOWN</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrocko.cake.PhaseDefParseError">
+<em class="property">exception </em><code class="descname">PhaseDefParseError</code><span class="sig-paren">(</span><em>definition</em>, <em>position</em>, <em>exception</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#PhaseDefParseError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.PhaseDefParseError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception raised when an error occures during parsing of a phase
+definition string.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.cake.PhaseDef">
+<em class="property">class </em><code class="descname">PhaseDef</code><span class="sig-paren">(</span><em>definition=None</em>, <em>classicname=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#PhaseDef"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.PhaseDef" title="Permalink to this definition">¶</a></dt>
+<dd><p>Definition of a seismic phase arrival, based on ray propagation path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>definition</strong> &#8211; string representation of the phase in Cake&#8217;s phase
+syntax</td>
+</tr>
+</tbody>
+</table>
+<p>Seismic phases are conventionally named e.g. P, Pn, PP, PcP, etc. In Cake,
+a slightly different terminology is adapted, which allows to specify
+arbitrary conversion/reflection histories for seismic ray paths. The
+conventions used here are inspired by those used in the TauP toolkit, but
+are not completely compatible with those.</p>
+<p>The definition of a seismic ray propagation path in Cake&#8217;s phase syntax is
+a string consisting of an alternating sequence of <em>legs</em> and <em>knees</em>.</p>
+<p>A <em>leg</em> represents seismic wave propagation without any conversions,
+encountering only super-critical reflections. Legs are denoted by <code class="docutils literal"><span class="pre">P</span></code>,
+<code class="docutils literal"><span class="pre">p</span></code>,  <code class="docutils literal"><span class="pre">S</span></code>, or <code class="docutils literal"><span class="pre">s</span></code>. The capital letters are used when the take-off of
+the <em>leg</em> is in downward direction, while the lower case letters indicate a
+take-off in upward direction.</p>
+<p>A <em>knee</em> is an interaction with an interface. It can be a mode conversion,
+a reflection, or propagation as a headwave or diffracted wave.</p>
+<blockquote>
+<div><ul class="simple">
+<li>conversion is simply denoted as: <code class="docutils literal"><span class="pre">(INTERFACE)</span></code> or <code class="docutils literal"><span class="pre">DEPTH</span></code></li>
+<li>upperside reflection: <code class="docutils literal"><span class="pre">v(INTERFACE)</span></code> or <code class="docutils literal"><span class="pre">vDEPTH</span></code></li>
+<li>underside reflection: <code class="docutils literal"><span class="pre">^(INTERFACE)</span></code> or <code class="docutils literal"><span class="pre">^DEPTH</span></code></li>
+<li>normal kind headwave or diffracted wave: <code class="docutils literal"><span class="pre">v_(INTERFACE)</span></code> or
+<code class="docutils literal"><span class="pre">v_DEPTH</span></code></li>
+</ul>
+</div></blockquote>
+<p>The interface may be given by name or by depth: INTERFACE is the name of an
+interface defined in the model, DEPTH is the depth of an interface in
+[km] (the interface closest to that depth is chosen).  If two legs appear
+consecutively without an explicit <em>knee</em>, surface interaction is assumed.</p>
+<p>The phase definition may end with a backslash <code class="docutils literal"><span class="pre">\</span></code>, to indicate that the
+ray should arrive at the receiver from above instead of from below. It is
+possible to restrict the maximum and minimum depth of a <em>leg</em> by appending
+<code class="docutils literal"><span class="pre">&lt;(INTERFACE)</span></code> or <code class="docutils literal"><span class="pre">&lt;DEPTH</span></code> or <code class="docutils literal"><span class="pre">&gt;(INTERFACE)</span></code> or <code class="docutils literal"><span class="pre">&gt;DEPTH</span></code> after the
+leg character, respectively.</p>
+<p><strong>Examples:</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">P</span></code> - like the classical P, but includes PKP, PKIKP, Pg</li>
+<li><code class="docutils literal"><span class="pre">P&lt;(moho)</span></code> - like classical Pg, but must leave source downwards</li>
+<li><code class="docutils literal"><span class="pre">pP</span></code> - leaves source upward, reflects at surface, then travels as P</li>
+<li><code class="docutils literal"><span class="pre">P(moho)s</span></code> - conversion from P to S at the Moho on upgoing path</li>
+<li><code class="docutils literal"><span class="pre">P(moho)S</span></code> - conversion from P to S at the Moho on downgoing path</li>
+<li><code class="docutils literal"><span class="pre">Pv12p</span></code> - P with reflection at 12 km deep interface (or the
+interface closest to that)</li>
+<li><code class="docutils literal"><span class="pre">Pv_(moho)p</span></code> - classical Pn</li>
+<li><code class="docutils literal"><span class="pre">Pv_(cmb)p</span></code> - classical Pdiff</li>
+<li><code class="docutils literal"><span class="pre">P^(conrad)P</span></code> - underside reflection of P at the Conrad
+discontinuity</li>
+</ul>
+</div></blockquote>
+<p><strong>Usage:</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyrocko.cake</span> <span class="k">import</span> <span class="n">PhaseDef</span>
+<span class="go"># must escape the backslash</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_crazy_phase</span> <span class="o">=</span> <span class="n">PhaseDef</span><span class="p">(</span><span class="s1">&#39;pPv(moho)sP</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">my_crazy_phase</span>
+<span class="go">Phase definition &quot;pPv(moho)sP&quot;:</span>
+<span class="go"> - P mode propagation, departing upward</span>
+<span class="go"> - surface reflection</span>
+<span class="go"> - P mode propagation, departing downward</span>
+<span class="go"> - upperside reflection with conversion from P to S at moho</span>
+<span class="go"> - S mode propagation, departing upward</span>
+<span class="go"> - surface reflection with conversion from S to P</span>
+<span class="go"> - P mode propagation, departing downward</span>
+<span class="go"> - arriving at target from above</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ol class="last arabic simple">
+<li>These conventions might be extended in a way to allow to fix wave
+propagation to SH mode, possibly by specifying SH, or a single
+character (e.g. H) instead of S. This would be benificial for the
+selection of conversion and reflection coefficients, which
+currently only deal with the P-SV case.</li>
+</ol>
+</div>
+<dl class="staticmethod">
+<dt id="pyrocko.cake.PhaseDef.classic">
+<em class="property">static </em><code class="descname">classic</code><span class="sig-paren">(</span><em>phasename</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#PhaseDef.classic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.PhaseDef.classic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get phase definitions based on classic phase name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>phasename</strong> &#8211; classic name of a phase</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of PhaseDef objects</td>
+</tr>
+</tbody>
+</table>
+<p>This returns a list of PhaseDef objects, because some classic phases
+(like e.g. Pg) can only be represented by two Cake style PhaseDef
+objects (one with downgoing and one with upgoing first leg).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.PhaseDef.first_leg">
+<code class="descname">first_leg</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#PhaseDef.first_leg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.PhaseDef.first_leg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the first leg in phase definition.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.PhaseDef.last_leg">
+<code class="descname">last_leg</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#PhaseDef.last_leg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.PhaseDef.last_leg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the last leg in phase definition.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.PhaseDef.legs">
+<code class="descname">legs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#PhaseDef.legs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.PhaseDef.legs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate over the continuous pieces of wave propagation (legs) defined
+within this phase definition.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.PhaseDef.knees">
+<code class="descname">knees</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#PhaseDef.knees"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.PhaseDef.knees" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate over conversions and reflections (knees) defined within this
+phase definition.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.PhaseDef.definition">
+<code class="descname">definition</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#PhaseDef.definition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.PhaseDef.definition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get original definition of the phase.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.PhaseDef.given_name">
+<code class="descname">given_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#PhaseDef.given_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.PhaseDef.given_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get entered classic name if any, or original definition of the phase.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.PhaseDef.used_repr">
+<code class="descname">used_repr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#PhaseDef.used_repr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.PhaseDef.used_repr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translate into textual representation (cake phase syntax).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.PhaseDef.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#PhaseDef.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.PhaseDef.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a deep copy of it.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.cake.psv_surface_ind">
+<code class="descname">psv_surface_ind</code><span class="sig-paren">(</span><em>in_mode</em>, <em>out_mode</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#psv_surface_ind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.psv_surface_ind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get indices to select the appropriate element from scatter matrix for free
+surface.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.cake.psv_surface">
+<code class="descname">psv_surface</code><span class="sig-paren">(</span><em>material</em>, <em>p</em>, <em>energy=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#psv_surface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.psv_surface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scatter matrix for free surface reflection/conversions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>material</strong> &#8211; material, object of type <a class="reference internal" href="#pyrocko.cake.Material" title="pyrocko.cake.Material"><code class="xref py py-class docutils literal"><span class="pre">Material</span></code></a></li>
+<li><strong>p</strong> &#8211; flat ray parameter [s/m]</li>
+<li><strong>energy</strong> &#8211; bool, when <code class="docutils literal"><span class="pre">True</span></code> energy normalized coefficients are
+returned</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Scatter matrix</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The scatter matrix is ordered as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">PP</span><span class="p">,</span> <span class="n">PS</span><span class="p">],</span>
+ <span class="p">[</span><span class="n">SP</span><span class="p">,</span> <span class="n">SS</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>The formulas given in Aki &amp; Richards are used.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.cake.psv_solid_ind">
+<code class="descname">psv_solid_ind</code><span class="sig-paren">(</span><em>in_direction</em>, <em>out_direction</em>, <em>in_mode</em>, <em>out_mode</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#psv_solid_ind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.psv_solid_ind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get indices to select the appropriate element from scatter matrix for
+solid-solid interface.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.cake.psv_solid">
+<code class="descname">psv_solid</code><span class="sig-paren">(</span><em>material1</em>, <em>material2</em>, <em>p</em>, <em>energy=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#psv_solid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.psv_solid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scatter matrix for solid-solid interface.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>material1</strong> &#8211; material above, object of type <a class="reference internal" href="#pyrocko.cake.Material" title="pyrocko.cake.Material"><code class="xref py py-class docutils literal"><span class="pre">Material</span></code></a></li>
+<li><strong>material2</strong> &#8211; material below, object of type <a class="reference internal" href="#pyrocko.cake.Material" title="pyrocko.cake.Material"><code class="xref py py-class docutils literal"><span class="pre">Material</span></code></a></li>
+<li><strong>p</strong> &#8211; flat ray parameter [s/m]</li>
+<li><strong>energy</strong> &#8211; bool, when <code class="docutils literal"><span class="pre">True</span></code> energy normalized coefficients are
+returned</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Scatter matrix</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The scatter matrix is ordered as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">P1P1</span><span class="p">,</span> <span class="n">S1P1</span><span class="p">,</span> <span class="n">P2P1</span><span class="p">,</span> <span class="n">S2P1</span><span class="p">],</span>
+ <span class="p">[</span><span class="n">P1S1</span><span class="p">,</span> <span class="n">S1S1</span><span class="p">,</span> <span class="n">P2S1</span><span class="p">,</span> <span class="n">S2S1</span><span class="p">],</span>
+ <span class="p">[</span><span class="n">P1P2</span><span class="p">,</span> <span class="n">S1P2</span><span class="p">,</span> <span class="n">P2P2</span><span class="p">,</span> <span class="n">S2P2</span><span class="p">],</span>
+ <span class="p">[</span><span class="n">P1S2</span><span class="p">,</span> <span class="n">S1S2</span><span class="p">,</span> <span class="n">P2S2</span><span class="p">,</span> <span class="n">S2S2</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>The formulas given in Aki &amp; Richards are used.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.cake.Layer">
+<em class="property">class </em><code class="descname">Layer</code><span class="sig-paren">(</span><em>ztop</em>, <em>zbot</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Layer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Layer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Representation of a layer in a layered earth model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ztop</strong> &#8211; depth of top of layer</li>
+<li><strong>zbot</strong> &#8211; depth of bottom of layer</li>
+<li><strong>name</strong> &#8211; name of layer (optional)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Subclasses are: <a class="reference internal" href="#pyrocko.cake.HomogeneousLayer" title="pyrocko.cake.HomogeneousLayer"><code class="xref py py-class docutils literal"><span class="pre">HomogeneousLayer</span></code></a> and <a class="reference internal" href="#pyrocko.cake.GradientLayer" title="pyrocko.cake.GradientLayer"><code class="xref py py-class docutils literal"><span class="pre">GradientLayer</span></code></a>.</p>
+<dl class="method">
+<dt id="pyrocko.cake.Layer.potint_coefs">
+<code class="descname">potint_coefs</code><span class="sig-paren">(</span><em>mode</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Layer.potint_coefs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Layer.potint_coefs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get coefficients for potential interpolation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mode</strong> &#8211; mode of wave propagation, <code class="xref py py-const docutils literal"><span class="pre">P</span></code> or <code class="xref py py-const docutils literal"><span class="pre">S</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">coefficients <code class="docutils literal"><span class="pre">(a,</span> <span class="pre">b)</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Layer.contains">
+<code class="descname">contains</code><span class="sig-paren">(</span><em>z</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Layer.contains"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Layer.contains" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tolerantly check if a given depth is within the layer
+(including boundaries).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Layer.inner">
+<code class="descname">inner</code><span class="sig-paren">(</span><em>z</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Layer.inner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Layer.inner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tolerantly check if a given depth is within the layer
+(not including boundaries).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Layer.at_bottom">
+<code class="descname">at_bottom</code><span class="sig-paren">(</span><em>z</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Layer.at_bottom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Layer.at_bottom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tolerantly check if given depth is at the bottom of the layer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Layer.at_top">
+<code class="descname">at_top</code><span class="sig-paren">(</span><em>z</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Layer.at_top"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Layer.at_top" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tolerantly check if given depth is at the top of the layer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Layer.pflat_top">
+<code class="descname">pflat_top</code><span class="sig-paren">(</span><em>p</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Layer.pflat_top"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Layer.pflat_top" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert spherical ray parameter to local flat ray parameter for top of
+layer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Layer.pflat_bottom">
+<code class="descname">pflat_bottom</code><span class="sig-paren">(</span><em>p</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Layer.pflat_bottom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Layer.pflat_bottom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert spherical ray parameter to local flat ray parameter for bottom
+of layer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Layer.pflat">
+<code class="descname">pflat</code><span class="sig-paren">(</span><em>p</em>, <em>z</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Layer.pflat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Layer.pflat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert spherical ray parameter to local flat ray parameter for
+given depth.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Layer.xt_potint">
+<code class="descname">xt_potint</code><span class="sig-paren">(</span><em>p</em>, <em>mode</em>, <em>zpart=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Layer.xt_potint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Layer.xt_potint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get travel time and distance for for traversal with given mode and ray
+parameter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>p</strong> &#8211; ray parameter (spherical)</li>
+<li><strong>mode</strong> &#8211; mode of propagation (<code class="xref py py-const docutils literal"><span class="pre">P</span></code> or <code class="xref py py-const docutils literal"><span class="pre">S</span></code>)</li>
+<li><strong>zpart</strong> &#8211; if given, tuple with two depths to restrict computation
+to a part of the layer</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This implementation uses analytic formulas valid for a spherical earth
+in the case where the velocity c within the layer is given by potential
+interpolation of the form</p>
+<blockquote>
+<div>c(z) = a*z^b</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Layer.test">
+<code class="descname">test</code><span class="sig-paren">(</span><em>p</em>, <em>mode</em>, <em>z</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Layer.test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Layer.test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if wave mode can exist for given ray parameter at given depth
+within the layer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Layer.zturn_potint">
+<code class="descname">zturn_potint</code><span class="sig-paren">(</span><em>p</em>, <em>mode</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Layer.zturn_potint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Layer.zturn_potint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get turning depth for given ray parameter and propagation mode.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Layer.propagate">
+<code class="descname">propagate</code><span class="sig-paren">(</span><em>p</em>, <em>mode</em>, <em>direction</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Layer.propagate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Layer.propagate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Propagate ray through layer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>p</strong> &#8211; ray parameter</li>
+<li><strong>mode</strong> &#8211; propagation mode</li>
+<li><strong>direction</strong> &#8211; in direction (<code class="xref py py-const docutils literal"><span class="pre">UP</span></code> or <code class="xref py py-const docutils literal"><span class="pre">DOWN</span></code></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Layer.resize">
+<code class="descname">resize</code><span class="sig-paren">(</span><em>depth_min=None</em>, <em>depth_max=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Layer.resize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Layer.resize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change layer thinkness and interpolate <a class="reference internal" href="#pyrocko.cake.Material" title="pyrocko.cake.Material"><code class="xref py py-class docutils literal"><span class="pre">Material</span></code></a> if
+required.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.cake.HomogeneousLayer">
+<em class="property">class </em><code class="descname">HomogeneousLayer</code><span class="sig-paren">(</span><em>ztop</em>, <em>zbot</em>, <em>m</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#HomogeneousLayer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.HomogeneousLayer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Representation of a homogeneous layer in a layered earth model.</p>
+<p>Base class: <a class="reference internal" href="#pyrocko.cake.Layer" title="pyrocko.cake.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.cake.GradientLayer">
+<em class="property">class </em><code class="descname">GradientLayer</code><span class="sig-paren">(</span><em>ztop</em>, <em>zbot</em>, <em>mtop</em>, <em>mbot</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#GradientLayer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.GradientLayer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Representation of a gradient layer in a layered earth model.</p>
+<p>Base class: <a class="reference internal" href="#pyrocko.cake.Layer" title="pyrocko.cake.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.cake.Discontinuity">
+<em class="property">class </em><code class="descname">Discontinuity</code><span class="sig-paren">(</span><em>z</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Discontinuity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Discontinuity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for discontinuities in layered earth model.</p>
+<p>Subclasses are: <a class="reference internal" href="#pyrocko.cake.Interface" title="pyrocko.cake.Interface"><code class="xref py py-class docutils literal"><span class="pre">Interface</span></code></a> and <a class="reference internal" href="#pyrocko.cake.Surface" title="pyrocko.cake.Surface"><code class="xref py py-class docutils literal"><span class="pre">Surface</span></code></a>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.cake.Interface">
+<em class="property">class </em><code class="descname">Interface</code><span class="sig-paren">(</span><em>z</em>, <em>mabove</em>, <em>mbelow</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Interface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Interface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Representation of an interface in a layered earth model.</p>
+<p>Base class: <a class="reference internal" href="#pyrocko.cake.Discontinuity" title="pyrocko.cake.Discontinuity"><code class="xref py py-class docutils literal"><span class="pre">Discontinuity</span></code></a>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.cake.Surface">
+<em class="property">class </em><code class="descname">Surface</code><span class="sig-paren">(</span><em>z</em>, <em>mbelow</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Surface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Surface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Representation of the surface discontinuity in a layered earth model.</p>
+<p>Base class: <a class="reference internal" href="#pyrocko.cake.Discontinuity" title="pyrocko.cake.Discontinuity"><code class="xref py py-class docutils literal"><span class="pre">Discontinuity</span></code></a>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.cake.RayElement">
+<em class="property">class </em><code class="descname">RayElement</code><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>An element of a <a class="reference internal" href="#pyrocko.cake.RayPath" title="pyrocko.cake.RayPath"><code class="xref py py-class docutils literal"><span class="pre">RayPath</span></code></a>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.cake.Straight">
+<em class="property">class </em><code class="descname">Straight</code><span class="sig-paren">(</span><em>direction_in</em>, <em>direction_out</em>, <em>mode</em>, <em>layer</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Straight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Straight" title="Permalink to this definition">¶</a></dt>
+<dd><p>A ray segment representing wave propagation through one <a class="reference internal" href="#pyrocko.cake.Layer" title="pyrocko.cake.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.cake.Kink">
+<em class="property">class </em><code class="descname">Kink</code><span class="sig-paren">(</span><em>in_direction</em>, <em>out_direction</em>, <em>in_mode</em>, <em>out_mode</em>, <em>discontinuity</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Kink"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Kink" title="Permalink to this definition">¶</a></dt>
+<dd><p>An interaction of a ray with a <a class="reference internal" href="#pyrocko.cake.Discontinuity" title="pyrocko.cake.Discontinuity"><code class="xref py py-class docutils literal"><span class="pre">Discontinuity</span></code></a>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.cake.RayPath">
+<em class="property">class </em><code class="descname">RayPath</code><span class="sig-paren">(</span><em>phase</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Representation of a fan of rays running through a common sequence of
+layers / interfaces.</p>
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a copy of it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.endgaps">
+<code class="descname">endgaps</code><span class="sig-paren">(</span><em>zstart</em>, <em>zstop</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.endgaps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.endgaps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get information needed for end point adjustments.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.used_phase">
+<code class="descname">used_phase</code><span class="sig-paren">(</span><em>p=None</em>, <em>eps=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.used_phase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.used_phase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate phase definition from ray path.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.pmax">
+<code class="descname">pmax</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.pmax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.pmax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get maximum valid ray parameter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.pmin">
+<code class="descname">pmin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.pmin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.pmin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get minimum valid ray parameter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.xmin">
+<code class="descname">xmin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.xmin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.xmin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get minimal distance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.xmax">
+<code class="descname">xmax</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.xmax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.xmax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get maximal distance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.kinks">
+<code class="descname">kinks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.kinks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.kinks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate over propagation mode changes (reflections/transmissions).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.straights">
+<code class="descname">straights</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.straights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.straights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate over ray segments.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.first_straight">
+<code class="descname">first_straight</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.first_straight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.first_straight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get first ray segment.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.last_straight">
+<code class="descname">last_straight</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.last_straight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.last_straight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get last ray segment.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.efficiency">
+<code class="descname">efficiency</code><span class="sig-paren">(</span><em>p</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.efficiency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.efficiency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get product of all conversion/reflection coefficients encountered on
+path.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.spreading">
+<code class="descname">spreading</code><span class="sig-paren">(</span><em>p</em>, <em>endgaps</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.spreading"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.spreading" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get geometrical spreading factor.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.xt_endgaps">
+<code class="descname">xt_endgaps</code><span class="sig-paren">(</span><em>p</em>, <em>endgaps</em>, <em>which='both'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.xt_endgaps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.xt_endgaps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get amount of distance/traveltime to be subtracted at the generic ray
+path&#8217;s ends.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.xt_endgaps_ptest">
+<code class="descname">xt_endgaps_ptest</code><span class="sig-paren">(</span><em>p</em>, <em>endgaps</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.xt_endgaps_ptest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.xt_endgaps_ptest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if ray parameter is valid at source and receiver.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.xt">
+<code class="descname">xt</code><span class="sig-paren">(</span><em>p</em>, <em>endgaps</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.xt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.xt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate distance and traveltime for given ray parameter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.xt_limits">
+<code class="descname">xt_limits</code><span class="sig-paren">(</span><em>p</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.xt_limits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.xt_limits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate limits of distance and traveltime for given ray parameter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.iter_zxt">
+<code class="descname">iter_zxt</code><span class="sig-paren">(</span><em>p</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.iter_zxt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.iter_zxt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate over (depth, distance, traveltime) at each layer interface on
+ray path.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.zxt_path_subdivided">
+<code class="descname">zxt_path_subdivided</code><span class="sig-paren">(</span><em>p</em>, <em>endgaps</em>, <em>points_per_straight=20</em>, <em>x_for_headwave=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.zxt_path_subdivided"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.zxt_path_subdivided" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get geometrical representation of ray path.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.interpolate_x2pt_linear">
+<code class="descname">interpolate_x2pt_linear</code><span class="sig-paren">(</span><em>x</em>, <em>endgaps</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.interpolate_x2pt_linear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.interpolate_x2pt_linear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get approximate ray parameter and traveltime for distance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.critical_pstart">
+<code class="descname">critical_pstart</code><span class="sig-paren">(</span><em>endgaps</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.critical_pstart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.critical_pstart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get critical ray parameter for source depth choice.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.critical_pstop">
+<code class="descname">critical_pstop</code><span class="sig-paren">(</span><em>endgaps</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.critical_pstop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.critical_pstop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get critical ray parameter for receiver depth choice.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.ranges">
+<code class="descname">ranges</code><span class="sig-paren">(</span><em>endgaps</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.ranges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.ranges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get valid ranges of ray parameter, distance, and traveltime.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.RayPath.describe">
+<code class="descname">describe</code><span class="sig-paren">(</span><em>endgaps=None</em>, <em>as_degrees=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#RayPath.describe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.RayPath.describe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get textual representation.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.cake.Ray">
+<em class="property">class </em><code class="descname">Ray</code><span class="sig-paren">(</span><em>path</em>, <em>p</em>, <em>x</em>, <em>t</em>, <em>endgaps</em>, <em>draft_pxt</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Ray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Ray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Representation of a ray with a specific (path, ray parameter, distance,
+arrival time) choice.</p>
+<p><strong>Attributes:</strong></p>
+<blockquote>
+<div><dl class="attribute">
+<dt id="pyrocko.cake.Ray.path">
+<code class="descname">path</code><a class="headerlink" href="#pyrocko.cake.Ray.path" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.cake.RayPath" title="pyrocko.cake.RayPath"><code class="xref py py-class docutils literal"><span class="pre">RayPath</span></code></a> object containing complete propagation history.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.cake.Ray.p">
+<code class="descname">p</code><a class="headerlink" href="#pyrocko.cake.Ray.p" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ray parameter (spherical) [s/rad]</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.cake.Ray.x">
+<code class="descname">x</code><a class="headerlink" href="#pyrocko.cake.Ray.x" title="Permalink to this definition">¶</a></dt>
+<dd><p>Radial distance [deg]</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.cake.Ray.t">
+<code class="descname">t</code><a class="headerlink" href="#pyrocko.cake.Ray.t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Traveltime [s]</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.cake.Ray.endgaps">
+<code class="descname">endgaps</code><a class="headerlink" href="#pyrocko.cake.Ray.endgaps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Needed for source/receiver depth adjustments in many
+<a class="reference internal" href="#pyrocko.cake.RayPath" title="pyrocko.cake.RayPath"><code class="xref py py-class docutils literal"><span class="pre">RayPath</span></code></a> methods.</p>
+</dd></dl>
+
+</div></blockquote>
+<dl class="method">
+<dt id="pyrocko.cake.Ray.given_phase">
+<code class="descname">given_phase</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Ray.given_phase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Ray.given_phase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get phase definition which was used to create the ray.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#pyrocko.cake.PhaseDef" title="pyrocko.cake.PhaseDef"><code class="xref py py-class docutils literal"><span class="pre">PhaseDef</span></code></a> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Ray.used_phase">
+<code class="descname">used_phase</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Ray.used_phase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Ray.used_phase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute phase definition from propagation path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#pyrocko.cake.PhaseDef" title="pyrocko.cake.PhaseDef"><code class="xref py py-class docutils literal"><span class="pre">PhaseDef</span></code></a> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Ray.takeoff_angle">
+<code class="descname">takeoff_angle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Ray.takeoff_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Ray.takeoff_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get takeoff angle of ray.</p>
+<p>The angle is returned in [degrees].</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Ray.incidence_angle">
+<code class="descname">incidence_angle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Ray.incidence_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Ray.incidence_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get incidence angle of ray.</p>
+<p>The angle is returned in [degrees].</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Ray.efficiency">
+<code class="descname">efficiency</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Ray.efficiency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Ray.efficiency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get conversion/reflection efficiency of the ray.</p>
+<p>A value between 0 and 1 is returned, reflecting the relative amount of
+energy which is transmitted along the ray and not lost by reflections
+or conversions.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Ray.spreading">
+<code class="descname">spreading</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Ray.spreading"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Ray.spreading" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get geometrical spreading factor.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.Ray.zxt_path_subdivided">
+<code class="descname">zxt_path_subdivided</code><span class="sig-paren">(</span><em>points_per_straight=20</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#Ray.zxt_path_subdivided"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.Ray.zxt_path_subdivided" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get geometrical representation of ray path.</p>
+<p>Three arrays (depth, distance, time) with points on the ray&#8217;s path of
+propagation are returned. The number of points which are used in each
+ray segment (passage through one layer) may be controlled by the
+<code class="docutils literal"><span class="pre">points_per_straight</span></code> parameter.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.cake.LayeredModel">
+<em class="property">class </em><code class="descname">LayeredModel</code><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Representation of a layer cake model.</p>
+<p>There are several ways to initialize an instance of this class.</p>
+<ol class="arabic simple">
+<li>Use the module function <a class="reference internal" href="#pyrocko.cake.load_model" title="pyrocko.cake.load_model"><code class="xref py py-func docutils literal"><span class="pre">load_model()</span></code></a> to read a model from a
+file.</li>
+<li>Create an empty model with the default constructor and append layers and
+discontinuities with the <a class="reference internal" href="#pyrocko.cake.LayeredModel.append" title="pyrocko.cake.LayeredModel.append"><code class="xref py py-meth docutils literal"><span class="pre">append()</span></code></a> method (from top to bottom).</li>
+<li>Use the constructor <a class="reference internal" href="#pyrocko.cake.LayeredModel.from_scanlines" title="pyrocko.cake.LayeredModel.from_scanlines"><code class="xref py py-meth docutils literal"><span class="pre">LayeredModel.from_scanlines()</span></code></a>, to
+automatically create the <a class="reference internal" href="#pyrocko.cake.Layer" title="pyrocko.cake.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a> and <a class="reference internal" href="#pyrocko.cake.Discontinuity" title="pyrocko.cake.Discontinuity"><code class="xref py py-class docutils literal"><span class="pre">Discontinuity</span></code></a>
+objects from a given velocity profile.</li>
+</ol>
+<p>An earth model is represented by as stack of <a class="reference internal" href="#pyrocko.cake.Layer" title="pyrocko.cake.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a> and
+<a class="reference internal" href="#pyrocko.cake.Discontinuity" title="pyrocko.cake.Discontinuity"><code class="xref py py-class docutils literal"><span class="pre">Discontinuity</span></code></a> objects.  The method <a class="reference internal" href="#pyrocko.cake.LayeredModel.arrivals" title="pyrocko.cake.LayeredModel.arrivals"><code class="xref py py-meth docutils literal"><span class="pre">arrivals()</span></code></a> returns
+<a class="reference internal" href="#pyrocko.cake.Ray" title="pyrocko.cake.Ray"><code class="xref py py-class docutils literal"><span class="pre">Ray</span></code></a> objects which may be e.g. queried for arrival times of
+specific phases. Each ray is associated with a <a class="reference internal" href="#pyrocko.cake.RayPath" title="pyrocko.cake.RayPath"><code class="xref py py-class docutils literal"><span class="pre">RayPath</span></code></a> object.
+Ray objects share common ray paths if they have the same
+conversion/reflection/propagation history. Creating the ray path objects is
+relatively expensive (this is done in <a class="reference internal" href="#pyrocko.cake.LayeredModel.gather_paths" title="pyrocko.cake.LayeredModel.gather_paths"><code class="xref py py-meth docutils literal"><span class="pre">gather_paths()</span></code></a>), but they
+are cached for reuse in successive invocations.</p>
+<dl class="method">
+<dt id="pyrocko.cake.LayeredModel.copy_with_elevation">
+<code class="descname">copy_with_elevation</code><span class="sig-paren">(</span><em>elevation</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel.copy_with_elevation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel.copy_with_elevation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a copy of the model with surface layer stretched to given elevation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>elevation</strong> &#8211; new surface elevation in [m]</td>
+</tr>
+</tbody>
+</table>
+<p>Elevation is positiv upward, contrary to the layered models downward
+<cite>z</cite> axis.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.LayeredModel.append">
+<code class="descname">append</code><span class="sig-paren">(</span><em>element</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel.append"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a layer or discontinuity at bottom of model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>element</strong> &#8211; object of subclass of  <a class="reference internal" href="#pyrocko.cake.Layer" title="pyrocko.cake.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a> or
+<a class="reference internal" href="#pyrocko.cake.Discontinuity" title="pyrocko.cake.Discontinuity"><code class="xref py py-class docutils literal"><span class="pre">Discontinuity</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.LayeredModel.elements">
+<code class="descname">elements</code><span class="sig-paren">(</span><em>direction=4</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel.elements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel.elements" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate over all elements of the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>direction</strong> &#8211; direction of traversal <code class="xref py py-const docutils literal"><span class="pre">DOWN</span></code> or
+<code class="xref py py-const docutils literal"><span class="pre">UP</span></code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Objects derived from the <a class="reference internal" href="#pyrocko.cake.Discontinuity" title="pyrocko.cake.Discontinuity"><code class="xref py py-class docutils literal"><span class="pre">Discontinuity</span></code></a> and
+<a class="reference internal" href="#pyrocko.cake.Layer" title="pyrocko.cake.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a> classes are yielded.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.LayeredModel.layers">
+<code class="descname">layers</code><span class="sig-paren">(</span><em>direction=4</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel.layers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel.layers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate over all layers of model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>direction</strong> &#8211; direction of traversal <code class="xref py py-const docutils literal"><span class="pre">DOWN</span></code> or
+<code class="xref py py-const docutils literal"><span class="pre">UP</span></code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Objects derived from the <a class="reference internal" href="#pyrocko.cake.Layer" title="pyrocko.cake.Layer"><code class="xref py py-class docutils literal"><span class="pre">Layer</span></code></a> class are yielded.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.LayeredModel.layer">
+<code class="descname">layer</code><span class="sig-paren">(</span><em>z</em>, <em>direction=4</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel.layer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel.layer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get layer for given depth.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>z</strong> &#8211; depth [m]</li>
+<li><strong>direction</strong> &#8211; direction of traversal <code class="xref py py-const docutils literal"><span class="pre">DOWN</span></code> or
+<code class="xref py py-const docutils literal"><span class="pre">UP</span></code>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns first layer which touches depth <code class="docutils literal"><span class="pre">z</span></code> (tolerant at boundaries).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.LayeredModel.material">
+<code class="descname">material</code><span class="sig-paren">(</span><em>z</em>, <em>direction=4</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel.material"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel.material" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get material at given depth.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>z</strong> &#8211; depth [m]</li>
+<li><strong>direction</strong> &#8211; direction of traversal <code class="xref py py-const docutils literal"><span class="pre">DOWN</span></code> or
+<code class="xref py py-const docutils literal"><span class="pre">UP</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">object of type <a class="reference internal" href="#pyrocko.cake.Material" title="pyrocko.cake.Material"><code class="xref py py-class docutils literal"><span class="pre">Material</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>If given depth <code class="docutils literal"><span class="pre">z</span></code> happens to be at an interface, the material of the
+first layer with respect to the the traversal ordering is returned.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.LayeredModel.discontinuities">
+<code class="descname">discontinuities</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel.discontinuities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel.discontinuities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate over all discontinuities of the model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.LayeredModel.discontinuity">
+<code class="descname">discontinuity</code><span class="sig-paren">(</span><em>name_or_z</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel.discontinuity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel.discontinuity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get discontinuity by name or depth.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name_or_z</strong> &#8211; name of discontinuity or depth [m] as float value</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.LayeredModel.adapt_phase">
+<code class="descname">adapt_phase</code><span class="sig-paren">(</span><em>phase</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel.adapt_phase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel.adapt_phase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adapt a phase definition for use with this model.</p>
+<p>This returns a copy of the phase definition, where named
+discontinuities are replaced with the actual depth of these, as defined
+in the model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.LayeredModel.path">
+<code class="descname">path</code><span class="sig-paren">(</span><em>p</em>, <em>phase</em>, <em>layer_start</em>, <em>layer_stop</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel.path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get ray path for given combination of ray parameter, phase definition,
+source and receiver layers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>p</strong> &#8211; ray parameter (spherical) [s/rad]</li>
+<li><strong>phase</strong> &#8211; phase definition (<a class="reference internal" href="#pyrocko.cake.PhaseDef" title="pyrocko.cake.PhaseDef"><code class="xref py py-class docutils literal"><span class="pre">PhaseDef</span></code></a> object)</li>
+<li><strong>layer_start</strong> &#8211; layer with source</li>
+<li><strong>layer_stop</strong> &#8211; layer with receiver</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#pyrocko.cake.RayPath" title="pyrocko.cake.RayPath"><code class="xref py py-class docutils literal"><span class="pre">RayPath</span></code></a> object</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>If it is not possible to find a solution, an exception of type
+<code class="xref py py-exc docutils literal"><span class="pre">NotPhaseConform</span></code>, <code class="xref py py-exc docutils literal"><span class="pre">MinDepthReached</span></code>,
+<code class="xref py py-exc docutils literal"><span class="pre">MaxDepthReached</span></code>, <code class="xref py py-exc docutils literal"><span class="pre">CannotPropagate</span></code>,
+<code class="xref py py-exc docutils literal"><span class="pre">BottomReached</span></code> or <code class="xref py py-exc docutils literal"><span class="pre">SurfaceReached</span></code> is raised.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.LayeredModel.gather_paths">
+<code class="descname">gather_paths</code><span class="sig-paren">(</span><em>phases=PhaseDef('P')</em>, <em>zstart=0.0</em>, <em>zstop=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel.gather_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel.gather_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all possible ray paths for given source and receiver depths for one
+or more phase definitions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>phases</strong> &#8211; a <a class="reference internal" href="#pyrocko.cake.PhaseDef" title="pyrocko.cake.PhaseDef"><code class="xref py py-class docutils literal"><span class="pre">PhaseDef</span></code></a> object or a list of such objects</li>
+<li><strong>zstart</strong> &#8211; source depth [m]</li>
+<li><strong>zstop</strong> &#8211; receiver depth [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a list of <a class="reference internal" href="#pyrocko.cake.RayPath" title="pyrocko.cake.RayPath"><code class="xref py py-class docutils literal"><span class="pre">RayPath</span></code></a> objects</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Results of this method are cached internally. Cached results are
+returned, when a given combination of source layer, receiver layer and
+phase definition has been used before.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.LayeredModel.arrivals">
+<code class="descname">arrivals</code><span class="sig-paren">(</span><em>distances=[]</em>, <em>phases=PhaseDef('P')</em>, <em>zstart=0.0</em>, <em>zstop=0.0</em>, <em>refine=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel.arrivals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel.arrivals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute rays and traveltimes for given distances.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>distances</strong> &#8211; list or array of distances [deg]</li>
+<li><strong>phases</strong> &#8211; a <a class="reference internal" href="#pyrocko.cake.PhaseDef" title="pyrocko.cake.PhaseDef"><code class="xref py py-class docutils literal"><span class="pre">PhaseDef</span></code></a> object or a list of such objects</li>
+<li><strong>zstart</strong> &#8211; source depth [m]</li>
+<li><strong>zstop</strong> &#8211; receiver depth [m]</li>
+<li><strong>refine</strong> &#8211; bool flag, whether to use bisectioning to improve
+(p, x, t) estimated from interpolation</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a list of <a class="reference internal" href="#pyrocko.cake.Ray" title="pyrocko.cake.Ray"><code class="xref py py-class docutils literal"><span class="pre">Ray</span></code></a> objects, sorted by
+(distance, arrival time)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="pyrocko.cake.LayeredModel.from_scanlines">
+<em class="property">classmethod </em><code class="descname">from_scanlines</code><span class="sig-paren">(</span><em>producer</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel.from_scanlines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel.from_scanlines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create layer cake model from sequence of materials at depths.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>producer</strong> &#8211; iterable yielding (depth, material, name) tuples</td>
+</tr>
+</tbody>
+</table>
+<p>Creates a new <a class="reference internal" href="#pyrocko.cake.LayeredModel" title="pyrocko.cake.LayeredModel"><code class="xref py py-class docutils literal"><span class="pre">LayeredModel</span></code></a> object and uses its
+<a class="reference internal" href="#pyrocko.cake.LayeredModel.append" title="pyrocko.cake.LayeredModel.append"><code class="xref py py-meth docutils literal"><span class="pre">append()</span></code></a> method to add layers and discontinuities as needed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.LayeredModel.profile">
+<code class="descname">profile</code><span class="sig-paren">(</span><em>get</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel.profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel.profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameter profile along depth of the earthmodel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>get</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; property to be queried (
+<code class="docutils literal"><span class="pre">'vp'</span></code>, <code class="docutils literal"><span class="pre">'vs'</span></code>, <code class="docutils literal"><span class="pre">'rho'</span></code>, <code class="docutils literal"><span class="pre">'qp'</span></code>, or <code class="docutils literal"><span class="pre">'qs'</span></code>, or <code class="docutils literal"><span class="pre">'z'</span></code>)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.LayeredModel.min">
+<code class="descname">min</code><span class="sig-paren">(</span><em>get='vp'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel.min"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel.min" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find minimum value of a material property or depth.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>get</strong> &#8211; property to be queried (
+<code class="docutils literal"><span class="pre">'vp'</span></code>, <code class="docutils literal"><span class="pre">'vs'</span></code>, <code class="docutils literal"><span class="pre">'rho'</span></code>, <code class="docutils literal"><span class="pre">'qp'</span></code>, or <code class="docutils literal"><span class="pre">'qs'</span></code>, or <code class="docutils literal"><span class="pre">'z'</span></code>)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.LayeredModel.max">
+<code class="descname">max</code><span class="sig-paren">(</span><em>get='vp'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel.max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel.max" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find maximum value of a material property or depth.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>get</strong> &#8211; property to be queried (
+<code class="docutils literal"><span class="pre">'vp'</span></code>, <code class="docutils literal"><span class="pre">'vs'</span></code>, <code class="docutils literal"><span class="pre">'rho'</span></code>, <code class="docutils literal"><span class="pre">'qp'</span></code>, <code class="docutils literal"><span class="pre">'qs'</span></code>, or <code class="docutils literal"><span class="pre">'z'</span></code>)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.LayeredModel.simplify">
+<code class="descname">simplify</code><span class="sig-paren">(</span><em>max_rel_error=0.001</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel.simplify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel.simplify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get representation of model with lower resolution.</p>
+<p>Returns an approximation of the model. All discontinuities are kept,
+but layer stacks with continuous model parameters are represented, if
+possible, by a lower number of layers.  Piecewise linear functions are
+fitted against the original model parameter&#8217;s piecewise linear
+functions.  Successively larger numbers of layers are tried, until the
+difference to the original model is below <code class="docutils literal"><span class="pre">max_rel_error</span></code>. The
+difference is measured as the RMS error of the fit normalized by the
+mean of the input (i.e. the fitted curves should deviate, on average,
+less than 0.1% from the input curves if <code class="docutils literal"><span class="pre">max_rel_error</span></code> = 0.001).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.cake.LayeredModel.extract">
+<code class="descname">extract</code><span class="sig-paren">(</span><em>depth_min=None</em>, <em>depth_max=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#LayeredModel.extract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.LayeredModel.extract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract <a class="reference internal" href="#pyrocko.cake.LayeredModel" title="pyrocko.cake.LayeredModel"><code class="xref py py-class docutils literal"><span class="pre">LayeredModel</span></code></a> from <a class="reference internal" href="#pyrocko.cake.LayeredModel" title="pyrocko.cake.LayeredModel"><code class="xref py py-class docutils literal"><span class="pre">LayeredModel</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>depth_min</strong> &#8211; depth of upper cut or name of <a class="reference internal" href="#pyrocko.cake.Interface" title="pyrocko.cake.Interface"><code class="xref py py-class docutils literal"><span class="pre">Interface</span></code></a></li>
+<li><strong>depth_max</strong> &#8211; depth of lower cut or name of <a class="reference internal" href="#pyrocko.cake.Interface" title="pyrocko.cake.Interface"><code class="xref py py-class docutils literal"><span class="pre">Interface</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Interpolates a <a class="reference internal" href="#pyrocko.cake.GradientLayer" title="pyrocko.cake.GradientLayer"><code class="xref py py-class docutils literal"><span class="pre">GradientLayer</span></code></a> at <code class="docutils literal"><span class="pre">depth_min</span></code> and/or
+<code class="docutils literal"><span class="pre">depth_max</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.cake.read_hyposat_model">
+<code class="descname">read_hyposat_model</code><span class="sig-paren">(</span><em>fn</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#read_hyposat_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.read_hyposat_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reader for HYPOSAT earth model files.</p>
+<p>To be used as producer in <a class="reference internal" href="#pyrocko.cake.LayeredModel.from_scanlines" title="pyrocko.cake.LayeredModel.from_scanlines"><code class="xref py py-meth docutils literal"><span class="pre">LayeredModel.from_scanlines()</span></code></a>.</p>
+<p>Interface names are translated as follows: <code class="docutils literal"><span class="pre">'MOHO'</span></code> -&gt; <code class="docutils literal"><span class="pre">'moho'</span></code>,
+<code class="docutils literal"><span class="pre">'CONR'</span></code> -&gt; <code class="docutils literal"><span class="pre">'conrad'</span></code></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.cake.read_nd_model">
+<code class="descname">read_nd_model</code><span class="sig-paren">(</span><em>fn</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#read_nd_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.read_nd_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reader for TauP style &#8216;.nd&#8217; (named discontinuity) files.</p>
+<p>To be used as producer in <a class="reference internal" href="#pyrocko.cake.LayeredModel.from_scanlines" title="pyrocko.cake.LayeredModel.from_scanlines"><code class="xref py py-meth docutils literal"><span class="pre">LayeredModel.from_scanlines()</span></code></a>.</p>
+<p>Interface names are translated as follows: <code class="docutils literal"><span class="pre">'mantle'</span></code> -&gt; <code class="docutils literal"><span class="pre">'moho'</span></code>,
+<code class="docutils literal"><span class="pre">'outer-core'</span></code> -&gt; <code class="docutils literal"><span class="pre">'cmb'</span></code>, <code class="docutils literal"><span class="pre">'inner-core'</span></code> -&gt; <code class="docutils literal"><span class="pre">'icb'</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.cake.load_model">
+<code class="descname">load_model</code><span class="sig-paren">(</span><em>fn='ak135-f-continental.m'</em>, <em>format='nd'</em>, <em>crust2_profile=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#load_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.load_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load layered earth model from file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fn</strong> &#8211; filename</li>
+<li><strong>format</strong> &#8211; format</li>
+<li><strong>crust2_profile</strong> &#8211; <code class="docutils literal"><span class="pre">(lat,</span> <span class="pre">lon)</span></code> or
+<a class="reference internal" href="crust2x2.html#pyrocko.crust2x2.Crust2Profile" title="pyrocko.crust2x2.Crust2Profile"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.crust2x2.Crust2Profile</span></code></a> object, merge model with
+crustal profile. If <code class="docutils literal"><span class="pre">fn</span></code> is forced to be <code class="docutils literal"><span class="pre">None</span></code> only the converted
+CRUST2.0 profile is returned.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">object of type <a class="reference internal" href="#pyrocko.cake.LayeredModel" title="pyrocko.cake.LayeredModel"><code class="xref py py-class docutils literal"><span class="pre">LayeredModel</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The following formats are currently supported:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">format</th>
+<th class="head">description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">'nd'</span></code></td>
+<td>&#8216;named discontinuity&#8217; format used by the TauP programs</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">'hyposat'</span></code></td>
+<td>format used by the HYPOSAT location program</td>
+</tr>
+</tbody>
+</table>
+<p>The naming of interfaces is translated from the file format&#8217;s native naming
+to Cake&#8217;s own convention (See <a class="reference internal" href="#pyrocko.cake.read_nd_model" title="pyrocko.cake.read_nd_model"><code class="xref py py-func docutils literal"><span class="pre">read_nd_model()</span></code></a> and
+<a class="reference internal" href="#pyrocko.cake.read_hyposat_model" title="pyrocko.cake.read_hyposat_model"><code class="xref py py-func docutils literal"><span class="pre">read_hyposat_model()</span></code></a> for details).  Cake likes the following
+internal names: <code class="docutils literal"><span class="pre">'conrad'</span></code>, <code class="docutils literal"><span class="pre">'moho'</span></code>, <code class="docutils literal"><span class="pre">'cmb'</span></code> (core-mantle boundary),
+<code class="docutils literal"><span class="pre">'icb'</span></code> (inner core boundary).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.cake.castagna_vs_to_vp">
+<code class="descname">castagna_vs_to_vp</code><span class="sig-paren">(</span><em>vs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#castagna_vs_to_vp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.castagna_vs_to_vp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate vp from vs using castagna&#8217;s relation.</p>
+<p>Castagna&#8217;s relation (the mudrock line) is an empirical relation for vp/vs
+for siliciclastic rocks (i.e. sandstones and shales). [Castagna et al.,
+1985]</p>
+<blockquote>
+<div>vp = 1.16 * vs + 1360 [m/s]</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vs</strong> &#8211; S-wave velocity [m/s]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">P-wave velocity [m/s]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.cake.castagna_vp_to_vs">
+<code class="descname">castagna_vp_to_vs</code><span class="sig-paren">(</span><em>vp</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#castagna_vp_to_vs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.castagna_vp_to_vs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate vp from vs using castagna&#8217;s relation.</p>
+<p>Castagna&#8217;s relation (the mudrock line) is an empirical relation for vp/vs
+for siliciclastic rocks (i.e. sandstones and shales). [Castagna et al.,
+1985]</p>
+<blockquote>
+<div>vp = 1.16 * vs + 1360 [m/s]</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vp</strong> &#8211; P-wave velocity [m/s]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">S-wave velocity [m/s]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.cake.filled">
+<code class="descname">filled</code><span class="sig-paren">(</span><em>v</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#filled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.filled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create NumPy array filled with given value.</p>
+<p>This works like <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ones.html#numpy.ones" title="(in NumPy v1.12)"><code class="xref py py-func docutils literal"><span class="pre">numpy.ones()</span></code></a> but initializes the array with <code class="docutils literal"><span class="pre">v</span></code>
+instead of ones.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="catalog.html" title="The catalog Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="beachball.html" title="The beachball Module"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

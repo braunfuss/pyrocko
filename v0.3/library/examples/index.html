@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Examples &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Seismic traces" href="trace_handling.html" />
+    <link rel="prev" title="Library" href="../index.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" accesskey="U">Library</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<p>The Pyrocko framework covers many aspects of seismological data handling and
+management. This section offers tutorials and real-world examples how to
+utilize the framework.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="trace_handling.html">Seismic traces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="trace_handling.html#load-filter-and-save">Load, filter and save</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trace_handling.html#visual-inspection-of-traces">Visual inspection of traces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trace_handling.html#creating-a-trace-object-from-scratch">Creating a trace object from scratch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trace_handling.html#extracting-part-of-a-trace-trimming">Extracting part of a trace (trimming)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trace_handling.html#time-shifting-a-trace">Time shifting a trace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trace_handling.html#resampling-a-trace">Resampling a trace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trace_handling.html#convert-sac-to-miniseed">Convert SAC to MiniSEED</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trace_handling.html#convert-miniseed-to-ascii">Convert MiniSEED to ASCII</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trace_handling.html#finding-the-comparative-misfits-of-mulitple-traces">Finding the comparative misfits of mulitple traces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trace_handling.html#restitute-to-displacement-using-poles-and-zeros">Restitute to displacement using poles and zeros</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dataset_management.html">Dataset management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dataset_management.html#reorganizing-a-dataset-into-hour-files">Reorganizing a dataset into hour-files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset_management.html#downsampling-a-whole-dataset">Downsampling a whole dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset_management.html#converting-a-dataset-from-mini-seed-to-sac-format">Converting a dataset from Mini-SEED to SAC format</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fdsn_download.html">Downloading seismic data (FDSN)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fdsn_download.html#seismic-data-from-geofon">Seismic data from Geofon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fdsn_download.html#stationxml-data-manipulation">StationXML data manipulation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="catalog_search.html">Earthquake catalog search</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="catalog_search.html#searching-the-globalcmt-catalog">Searching the GlobalCMT catalog</a></li>
+<li class="toctree-l2"><a class="reference internal" href="catalog_search.html#search-for-an-event-in-geofon-catalog">Search for an event in Geofon catalog</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="orthodrome.html">Geodesic functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="orthodrome.html#distance-between-points-on-earth">Distance between points on earth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="orthodrome.html#azimuth-and-backazimuth">Azimuth and backazimuth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="orthodrome.html#conversion-to-carthesian-coordinates">Conversion to carthesian coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="orthodrome.html#relative-carthesian-coordinates-to-latitude-and-longitude">Relative carthesian coordinates to latitude and longitude</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="plotting.html">Plotting functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html#beachballs-focal-mechanisms">Beachballs (focal mechanisms)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cake_raytracing.html">Traveltime calculation and raytracing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cake_raytracing.html#travel-time-table-interpolation">Travel time table interpolation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gf_store.html">Calculation of Green&#8217;s function databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gf_forward.html">Forward Modeling synthetic seismograms and displacements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gf_forward.html#calculate-synthetic-seismograms-from-a-local-store">Calculate synthetic seismograms from a local store</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gf_forward.html#calculate-spatial-surface-displacement-from-a-local-store">Calculate spatial surface displacement from a local store</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gf_forward.html#calculate-forward-model-of-thrust-event-and-display-wrapped-phase">Calculate forward model of thrust event and display wrapped phase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gf_forward.html#combining-severals-sources">Combining severals sources</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="velocity_databases.html">Accessing crustal velocity databases</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="velocity_databases.html#crust-2-0">Crust 2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="velocity_databases.html#global-crustal-database">Global Crustal Database</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guts.html">Working with the guts package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guts.html#introduction-to-guts">Introduction to guts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guts.html#guts-and-pyrocko">guts and pyrocko</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guts.html#implementing-guts">Implementing guts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guts.html#usage-examples">Usage examples</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="trace_handling.html" title="Seismic traces"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Library"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

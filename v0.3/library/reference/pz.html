@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The pz Module &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The rdseed Module" href="rdseed.html" />
+    <link rel="prev" title="The plot Module" href="plot.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyrocko.pz">
+<span id="the-pz-module"></span><h1>The <code class="xref py py-mod docutils literal"><span class="pre">pz</span></code> Module<a class="headerlink" href="#module-pyrocko.pz" title="Permalink to this headline">¶</a></h1>
+<dl class="exception">
+<dt id="pyrocko.pz.SacPoleZeroError">
+<em class="property">exception </em><code class="descname">SacPoleZeroError</code><a class="reference internal" href="../../_modules/pyrocko/pz.html#SacPoleZeroError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pz.SacPoleZeroError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pz.read_sac_zpk">
+<code class="descname">read_sac_zpk</code><span class="sig-paren">(</span><em>filename=None</em>, <em>file=None</em>, <em>string=None</em>, <em>get_comments=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pz.html#read_sac_zpk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pz.read_sac_zpk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read SAC Pole-Zero file.</p>
+<p>Returns (zeros, poles, constant).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pz.write_sac_zpk">
+<code class="descname">write_sac_zpk</code><span class="sig-paren">(</span><em>zeros</em>, <em>poles</em>, <em>constant</em>, <em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pz.html#write_sac_zpk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pz.write_sac_zpk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pz.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>zeros</em>, <em>poles</em>, <em>constant</em>, <em>fmin=0.001</em>, <em>fmax=100.0</em>, <em>nf=100</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pz.html#evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pz.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pz.evaluate_at">
+<code class="descname">evaluate_at</code><span class="sig-paren">(</span><em>zeros</em>, <em>poles</em>, <em>constant</em>, <em>f</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pz.html#evaluate_at"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pz.evaluate_at" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pz.plot_amplitudes_zpk">
+<code class="descname">plot_amplitudes_zpk</code><span class="sig-paren">(</span><em>zpks</em>, <em>filename_pdf</em>, <em>fmin=0.001</em>, <em>fmax=100.0</em>, <em>nf=100</em>, <em>fnorm=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pz.html#plot_amplitudes_zpk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pz.plot_amplitudes_zpk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pz.plot_phases_zpk">
+<code class="descname">plot_phases_zpk</code><span class="sig-paren">(</span><em>zpks</em>, <em>filename_pdf</em>, <em>fmin=0.001</em>, <em>fmax=100.0</em>, <em>nf=100</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pz.html#plot_phases_zpk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pz.plot_phases_zpk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="rdseed.html" title="The rdseed Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="plot.html" title="The plot Module"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

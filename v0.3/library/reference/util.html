@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The util Module &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The pyrocko.fdsn Subpackage" href="fdsn.html" />
+    <link rel="prev" title="The trace Module" href="trace.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyrocko.util">
+<span id="the-util-module"></span><h1>The <code class="xref py py-mod docutils literal"><span class="pre">util</span></code> Module<a class="headerlink" href="#module-pyrocko.util" title="Permalink to this headline">¶</a></h1>
+<p>Utility functions for Pyrocko.</p>
+<dl class="function">
+<dt id="pyrocko.util.progressbar_module">
+<code class="descname">progressbar_module</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#progressbar_module"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.progressbar_module" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.setup_logging">
+<code class="descname">setup_logging</code><span class="sig-paren">(</span><em>programname='pyrocko'</em>, <em>levelname='warning'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#setup_logging"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.setup_logging" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize logging.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>programname</strong> &#8211; program name to be written in log</li>
+<li><strong>levelname</strong> &#8211; string indicating the logging level (&#8216;debug&#8217;, &#8216;info&#8217;,
+&#8216;warning&#8217;, &#8216;error&#8217;, &#8216;critical&#8217;)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This function is called at startup by most pyrocko programs to set up a
+consistent logging format. This is simply a shortcut to a call to
+<a class="reference external" href="https://docs.python.org/2.7/library/logging.html#logging.basicConfig" title="(in Python v2.7)"><code class="xref py py-func docutils literal"><span class="pre">logging.basicConfig()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.data_file">
+<code class="descname">data_file</code><span class="sig-paren">(</span><em>fn</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#data_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.data_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="pyrocko.util.DownloadError">
+<em class="property">exception </em><code class="descname">DownloadError</code><a class="reference internal" href="../../_modules/pyrocko/util.html#DownloadError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.DownloadError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.download_file">
+<code class="descname">download_file</code><span class="sig-paren">(</span><em>url</em>, <em>fpath</em>, <em>username=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#download_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.download_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.util.Stopwatch">
+<em class="property">class </em><code class="descname">Stopwatch</code><a class="reference internal" href="../../_modules/pyrocko/util.html#Stopwatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.Stopwatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple stopwatch to measure elapsed wall clock time.</p>
+<p>Usage:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">Stopwatch</span><span class="p">()</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">s</span><span class="p">()</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">s</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.wrap">
+<code class="descname">wrap</code><span class="sig-paren">(</span><em>text</em>, <em>line_length=80</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#wrap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.wrap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Paragraph and list-aware wrapping of text.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.util.BetterHelpFormatter">
+<em class="property">class </em><code class="descname">BetterHelpFormatter</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#BetterHelpFormatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.BetterHelpFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pyrocko.util.BetterHelpFormatter.format_option">
+<code class="descname">format_option</code><span class="sig-paren">(</span><em>option</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#BetterHelpFormatter.format_option"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.BetterHelpFormatter.format_option" title="Permalink to this definition">¶</a></dt>
+<dd><p>From IndentedHelpFormatter but using a different wrap method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.util.BetterHelpFormatter.format_description">
+<code class="descname">format_description</code><span class="sig-paren">(</span><em>description</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#BetterHelpFormatter.format_description"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.BetterHelpFormatter.format_description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.progressbar">
+<code class="descname">progressbar</code><span class="sig-paren">(</span><em>label</em>, <em>maxval</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#progressbar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.progressbar" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.progress_beg">
+<code class="descname">progress_beg</code><span class="sig-paren">(</span><em>label</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#progress_beg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.progress_beg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notify user that an operation has started.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>label</strong> &#8211; name of the operation</td>
+</tr>
+</tbody>
+</table>
+<p>To be used in conjuction with <a class="reference internal" href="#pyrocko.util.progress_end" title="pyrocko.util.progress_end"><code class="xref py py-func docutils literal"><span class="pre">progress_end()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.progress_end">
+<code class="descname">progress_end</code><span class="sig-paren">(</span><em>label=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#progress_end"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.progress_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notify user that an operation has ended.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>label</strong> &#8211; name of the operation</td>
+</tr>
+</tbody>
+</table>
+<p>To be used in conjuction with <a class="reference internal" href="#pyrocko.util.progress_beg" title="pyrocko.util.progress_beg"><code class="xref py py-func docutils literal"><span class="pre">progress_beg()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.polylinefit">
+<code class="descname">polylinefit</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>n_or_xnodes</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#polylinefit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.polylinefit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit piece-wise linear function to data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong><strong>,</strong><strong>y</strong> &#8211; arrays with coordinates of data</li>
+<li><strong>n_or_xnodes</strong> &#8211; int, number of segments or x coordinates of polyline</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><cite>(xnodes, ynodes, rms_error)</cite> arrays with coordinates of
+polyline, root-mean-square error</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.plf_integrate_piecewise">
+<code class="descname">plf_integrate_piecewise</code><span class="sig-paren">(</span><em>x_edges</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#plf_integrate_piecewise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.plf_integrate_piecewise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate definite integral of piece-wise linear function on intervals.</p>
+<p>Use trapezoidal rule to calculate definite integral of a piece-wise linear
+function for a series of consecutive intervals. <code class="docutils literal"><span class="pre">x_edges</span></code> and <code class="docutils literal"><span class="pre">x</span></code> must
+be sorted.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x_edges</strong> &#8211; array with edges of the intervals</li>
+<li><strong>x</strong><strong>,</strong><strong>y</strong> &#8211; arrays with coordinates of piece-wise linear function&#8217;s
+control points</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.util.GlobalVars">
+<em class="property">class </em><code class="descname">GlobalVars</code><a class="reference internal" href="../../_modules/pyrocko/util.html#GlobalVars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.GlobalVars" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="pyrocko.util.GlobalVars.reuse_store">
+<code class="descname">reuse_store</code><em class="property"> = {}</em><a class="headerlink" href="#pyrocko.util.GlobalVars.reuse_store" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.util.GlobalVars.decitab_nmax">
+<code class="descname">decitab_nmax</code><em class="property"> = 0</em><a class="headerlink" href="#pyrocko.util.GlobalVars.decitab_nmax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.util.GlobalVars.decitab">
+<code class="descname">decitab</code><em class="property"> = {}</em><a class="headerlink" href="#pyrocko.util.GlobalVars.decitab" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.util.GlobalVars.decimate_fir_coeffs">
+<code class="descname">decimate_fir_coeffs</code><em class="property"> = {}</em><a class="headerlink" href="#pyrocko.util.GlobalVars.decimate_fir_coeffs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.util.GlobalVars.decimate_iir_coeffs">
+<code class="descname">decimate_iir_coeffs</code><em class="property"> = {}</em><a class="headerlink" href="#pyrocko.util.GlobalVars.decimate_iir_coeffs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.util.GlobalVars.re_frac">
+<code class="descname">re_frac</code><em class="property"> = None</em><a class="headerlink" href="#pyrocko.util.GlobalVars.re_frac" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.decimate_coeffs">
+<code class="descname">decimate_coeffs</code><span class="sig-paren">(</span><em>q</em>, <em>n=None</em>, <em>ftype='iir'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#decimate_coeffs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.decimate_coeffs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.decimate">
+<code class="descname">decimate</code><span class="sig-paren">(</span><em>x</em>, <em>q</em>, <em>n=None</em>, <em>ftype='iir'</em>, <em>zi=None</em>, <em>ioff=0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#decimate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.decimate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Downsample the signal x by an integer factor q, using an order n filter</p>
+<p>By default, an order 8 Chebyshev type I filter is used or a 30 point FIR
+filter with hamming window if ftype is &#8216;fir&#8217;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> &#8211; the signal to be downsampled (1D NumPy array)</li>
+<li><strong>q</strong> &#8211; the downsampling factor</li>
+<li><strong>n</strong> &#8211; order of the filter (1 less than the length of the filter for a
+&#8216;fir&#8217; filter)</li>
+<li><strong>ftype</strong> &#8211; type of the filter; can be &#8216;iir&#8217; or &#8216;fir&#8217;</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the downsampled signal (1D NumPy array)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrocko.util.UnavailableDecimation">
+<em class="property">exception </em><code class="descname">UnavailableDecimation</code><a class="reference internal" href="../../_modules/pyrocko/util.html#UnavailableDecimation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.UnavailableDecimation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception raised by <a class="reference internal" href="#pyrocko.util.decitab" title="pyrocko.util.decitab"><code class="xref py py-func docutils literal"><span class="pre">decitab()</span></code></a> for unavailable decimation factors.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.gcd">
+<code class="descname">gcd</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>epsilon=1e-07</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#gcd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.gcd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Greatest common divisor.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.lcm">
+<code class="descname">lcm</code><span class="sig-paren">(</span><em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#lcm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.lcm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Least common multiple.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.mk_decitab">
+<code class="descname">mk_decitab</code><span class="sig-paren">(</span><em>nmax=100</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#mk_decitab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.mk_decitab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make table with decimation sequences.</p>
+<p>Decimation from one sampling rate to a lower one is achieved by a
+successive application of <code class="xref py py-func docutils literal"><span class="pre">decimation()</span></code> with small integer
+downsampling factors (because using large downampling factors can make the
+decimation unstable or slow). This function sets up a table with downsample
+sequences for factors up to <code class="docutils literal"><span class="pre">nmax</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.zfmt">
+<code class="descname">zfmt</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#zfmt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.zfmt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.julian_day_of_year">
+<code class="descname">julian_day_of_year</code><span class="sig-paren">(</span><em>timestamp</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#julian_day_of_year"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.julian_day_of_year" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the day number after the 1st of January of year in <code class="docutils literal"><span class="pre">timestamp</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">day number as int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.day_start">
+<code class="descname">day_start</code><span class="sig-paren">(</span><em>timestamp</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#day_start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.day_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get beginning of day for any point in time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>timestamp</strong> &#8211; time instant as system timestamp (in seconds)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">instant of day start as system timestamp</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.month_start">
+<code class="descname">month_start</code><span class="sig-paren">(</span><em>timestamp</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#month_start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.month_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get beginning of month for any point in time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>timestamp</strong> &#8211; time instant as system timestamp (in seconds)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">instant of month start as system timestamp</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.year_start">
+<code class="descname">year_start</code><span class="sig-paren">(</span><em>timestamp</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#year_start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.year_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get beginning of year for any point in time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>timestamp</strong> &#8211; time instant as system timestamp (in seconds)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">instant of year start as system timestamp</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.iter_days">
+<code class="descname">iter_days</code><span class="sig-paren">(</span><em>tmin</em>, <em>tmax</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#iter_days"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.iter_days" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields begin and end of days until given time span is covered.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tmin</strong><strong>,</strong><strong>tmax</strong> &#8211; input time span</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body">tuples with (begin, end) of days as system timestamps</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.iter_months">
+<code class="descname">iter_months</code><span class="sig-paren">(</span><em>tmin</em>, <em>tmax</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#iter_months"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.iter_months" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields begin and end of months until given time span is covered.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tmin</strong><strong>,</strong><strong>tmax</strong> &#8211; input time span</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body">tuples with (begin, end) of months as system timestamps</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.iter_years">
+<code class="descname">iter_years</code><span class="sig-paren">(</span><em>tmin</em>, <em>tmax</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#iter_years"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.iter_years" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields begin and end of years until given time span is covered.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tmin</strong><strong>,</strong><strong>tmax</strong> &#8211; input time span</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body">tuples with (begin, end) of years as system timestamps</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.decitab">
+<code class="descname">decitab</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#decitab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.decitab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get integer decimation sequence for given downampling factor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> &#8211; target decimation factor</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">tuple with downsampling sequence</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.ctimegm">
+<code class="descname">ctimegm</code><span class="sig-paren">(</span><em>s</em>, <em>format='%Y-%m-%d %H:%M:%S'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#ctimegm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.ctimegm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert string representing UTC time to system time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>s</strong> &#8211; string to be interpreted</li>
+<li><strong>format</strong> &#8211; format string passed to <code class="xref py py-func docutils literal"><span class="pre">strptime()</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">system time stamp</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Interpretes string with format <code class="docutils literal"><span class="pre">'%Y-%m-%d</span> <span class="pre">%H:%M:%S'</span></code>, using strptime.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function is to be replaced by <a class="reference internal" href="#pyrocko.util.str_to_time" title="pyrocko.util.str_to_time"><code class="xref py py-func docutils literal"><span class="pre">str_to_time()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.gmctime">
+<code class="descname">gmctime</code><span class="sig-paren">(</span><em>t</em>, <em>format='%Y-%m-%d %H:%M:%S'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#gmctime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.gmctime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get string representation from system time, UTC.</p>
+<p>Produces string with format <code class="docutils literal"><span class="pre">'%Y-%m-%d</span> <span class="pre">%H:%M:%S'</span></code>, using strftime.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function is to be repaced by <a class="reference internal" href="#pyrocko.util.time_to_str" title="pyrocko.util.time_to_str"><code class="xref py py-func docutils literal"><span class="pre">time_to_str()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.gmctime_v">
+<code class="descname">gmctime_v</code><span class="sig-paren">(</span><em>t</em>, <em>format='%a</em>, <em>%d %b %Y %H:%M:%S'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#gmctime_v"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.gmctime_v" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get string representation from system time, UTC. Same as
+<a class="reference internal" href="#pyrocko.util.gmctime" title="pyrocko.util.gmctime"><code class="xref py py-func docutils literal"><span class="pre">gmctime()</span></code></a> but with a more verbose default format.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function is to be replaced by <a class="reference internal" href="#pyrocko.util.time_to_str" title="pyrocko.util.time_to_str"><code class="xref py py-func docutils literal"><span class="pre">time_to_str()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.gmctime_fn">
+<code class="descname">gmctime_fn</code><span class="sig-paren">(</span><em>t</em>, <em>format='%Y-%m-%d_%H-%M-%S'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#gmctime_fn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.gmctime_fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get string representation from system time, UTC. Same as
+<a class="reference internal" href="#pyrocko.util.gmctime" title="pyrocko.util.gmctime"><code class="xref py py-func docutils literal"><span class="pre">gmctime()</span></code></a> but with a default usable in filenames.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This function is to be replaced by <a class="reference internal" href="#pyrocko.util.time_to_str" title="pyrocko.util.time_to_str"><code class="xref py py-func docutils literal"><span class="pre">time_to_str()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrocko.util.TimeStrError">
+<em class="property">exception </em><code class="descname">TimeStrError</code><a class="reference internal" href="../../_modules/pyrocko/util.html#TimeStrError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.TimeStrError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="pyrocko.util.FractionalSecondsMissing">
+<em class="property">exception </em><code class="descname">FractionalSecondsMissing</code><a class="reference internal" href="../../_modules/pyrocko/util.html#FractionalSecondsMissing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.FractionalSecondsMissing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception raised by <a class="reference internal" href="#pyrocko.util.str_to_time" title="pyrocko.util.str_to_time"><code class="xref py py-func docutils literal"><span class="pre">str_to_time()</span></code></a> when the given string lacks
+fractional seconds.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrocko.util.FractionalSecondsWrongNumberOfDigits">
+<em class="property">exception </em><code class="descname">FractionalSecondsWrongNumberOfDigits</code><a class="reference internal" href="../../_modules/pyrocko/util.html#FractionalSecondsWrongNumberOfDigits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.FractionalSecondsWrongNumberOfDigits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception raised by <a class="reference internal" href="#pyrocko.util.str_to_time" title="pyrocko.util.str_to_time"><code class="xref py py-func docutils literal"><span class="pre">str_to_time()</span></code></a> when the given string has an
+incorrect number of digits in the fractional seconds part.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.str_to_time">
+<code class="descname">str_to_time</code><span class="sig-paren">(</span><em>s</em>, <em>format='%Y-%m-%d %H:%M:%S.OPTFRAC'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#str_to_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.str_to_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert string representing UTC time to floating point system time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>s</strong> &#8211; string representing UTC time</li>
+<li><strong>format</strong> &#8211; time string format</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">system time stamp as floating point value</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Uses the semantics of <a class="reference external" href="https://docs.python.org/2.7/library/time.html#time.strptime" title="(in Python v2.7)"><code class="xref py py-func docutils literal"><span class="pre">time.strptime()</span></code></a> but allows for fractional
+seconds. If the format ends with <code class="docutils literal"><span class="pre">'.FRAC'</span></code>, anything after a dot is
+interpreted as fractional seconds. If the format ends with <code class="docutils literal"><span class="pre">'.OPTFRAC'</span></code>,
+the fractional part, including the dot is made optional. The latter has the
+consequence, that the time strings and the format may not contain any other
+dots. If the format ends with <code class="docutils literal"><span class="pre">'.xFRAC'</span></code> where x is 1, 2, or 3, it is
+ensured, that exactly that number of digits are present in the fractional
+seconds.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.stt">
+<code class="descname">stt</code><span class="sig-paren">(</span><em>s</em>, <em>format='%Y-%m-%d %H:%M:%S.OPTFRAC'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.util.stt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert string representing UTC time to floating point system time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>s</strong> &#8211; string representing UTC time</li>
+<li><strong>format</strong> &#8211; time string format</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">system time stamp as floating point value</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Uses the semantics of <a class="reference external" href="https://docs.python.org/2.7/library/time.html#time.strptime" title="(in Python v2.7)"><code class="xref py py-func docutils literal"><span class="pre">time.strptime()</span></code></a> but allows for fractional
+seconds. If the format ends with <code class="docutils literal"><span class="pre">'.FRAC'</span></code>, anything after a dot is
+interpreted as fractional seconds. If the format ends with <code class="docutils literal"><span class="pre">'.OPTFRAC'</span></code>,
+the fractional part, including the dot is made optional. The latter has the
+consequence, that the time strings and the format may not contain any other
+dots. If the format ends with <code class="docutils literal"><span class="pre">'.xFRAC'</span></code> where x is 1, 2, or 3, it is
+ensured, that exactly that number of digits are present in the fractional
+seconds.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.time_to_str">
+<code class="descname">time_to_str</code><span class="sig-paren">(</span><em>t</em>, <em>format='%Y-%m-%d %H:%M:%S.3FRAC'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#time_to_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.time_to_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get string representation for floating point system time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>t</strong> &#8211; floating point system time</li>
+<li><strong>format</strong> &#8211; time string format</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">string representing UTC time</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Uses the semantics of <a class="reference external" href="https://docs.python.org/2.7/library/time.html#time.strftime" title="(in Python v2.7)"><code class="xref py py-func docutils literal"><span class="pre">time.strftime()</span></code></a> but additionally allows for
+fractional seconds. If <code class="docutils literal"><span class="pre">format</span></code> contains <code class="docutils literal"><span class="pre">'.xFRAC'</span></code>, where <code class="docutils literal"><span class="pre">x</span></code> is a
+digit between 1 and 9, this is replaced with the fractional part of <code class="docutils literal"><span class="pre">t</span></code>
+with <code class="docutils literal"><span class="pre">x</span></code> digits precision.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.tts">
+<code class="descname">tts</code><span class="sig-paren">(</span><em>t</em>, <em>format='%Y-%m-%d %H:%M:%S.3FRAC'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.util.tts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get string representation for floating point system time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>t</strong> &#8211; floating point system time</li>
+<li><strong>format</strong> &#8211; time string format</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">string representing UTC time</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Uses the semantics of <a class="reference external" href="https://docs.python.org/2.7/library/time.html#time.strftime" title="(in Python v2.7)"><code class="xref py py-func docutils literal"><span class="pre">time.strftime()</span></code></a> but additionally allows for
+fractional seconds. If <code class="docutils literal"><span class="pre">format</span></code> contains <code class="docutils literal"><span class="pre">'.xFRAC'</span></code>, where <code class="docutils literal"><span class="pre">x</span></code> is a
+digit between 1 and 9, this is replaced with the fractional part of <code class="docutils literal"><span class="pre">t</span></code>
+with <code class="docutils literal"><span class="pre">x</span></code> digits precision.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.mystrftime">
+<code class="descname">mystrftime</code><span class="sig-paren">(</span><em>fmt=None</em>, <em>tt=None</em>, <em>milliseconds=0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#mystrftime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.mystrftime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.gmtime_x">
+<code class="descname">gmtime_x</code><span class="sig-paren">(</span><em>timestamp</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#gmtime_x"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.gmtime_x" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.plural_s">
+<code class="descname">plural_s</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#plural_s"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.plural_s" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.ensuredirs">
+<code class="descname">ensuredirs</code><span class="sig-paren">(</span><em>dst</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#ensuredirs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.ensuredirs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create all intermediate path components for a target path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dst</strong> &#8211; target path</td>
+</tr>
+</tbody>
+</table>
+<p>The leaf part of the target path is not created (use <a class="reference internal" href="#pyrocko.util.ensuredir" title="pyrocko.util.ensuredir"><code class="xref py py-func docutils literal"><span class="pre">ensuredir()</span></code></a>
+if a the target path is a directory to be created).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.ensuredir">
+<code class="descname">ensuredir</code><span class="sig-paren">(</span><em>dst</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#ensuredir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.ensuredir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create directory and all intermediate path components to it as needed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dst</strong> &#8211; directory name</td>
+</tr>
+</tbody>
+</table>
+<p>Nothing is done if the given target already exists.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.reuse">
+<code class="descname">reuse</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#reuse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.reuse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get unique instance of an object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; hashable object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">reference to x or an equivalent object</td>
+</tr>
+</tbody>
+</table>
+<p>Cache object <code class="docutils literal"><span class="pre">x</span></code> in a global dict for reuse, or if x already
+is in that dict, return a reference to it.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.util.Anon">
+<em class="property">class </em><code class="descname">Anon</code><span class="sig-paren">(</span><em>**dict</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#Anon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.Anon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dict-to-object utility.</p>
+<p>Any given arguments are stored as attributes.</p>
+<p>Example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">Anon</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">a</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">y</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.select_files">
+<code class="descname">select_files</code><span class="sig-paren">(</span><em>paths</em>, <em>selector=None</em>, <em>regex=None</em>, <em>show_progress=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#select_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.select_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursively select files.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>paths</strong> &#8211; entry path names</li>
+<li><strong>selector</strong> &#8211; callback for conditional inclusion</li>
+<li><strong>regex</strong> &#8211; pattern for conditional inclusion</li>
+<li><strong>show_progress</strong> &#8211; if True, indicate start and stop of processing</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of path names</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Recursively finds all files under given entry points <code class="docutils literal"><span class="pre">paths</span></code>. If
+parameter <code class="docutils literal"><span class="pre">regex</span></code> is a regular expression, only files with matching path
+names are included. If additionally parameter <code class="docutils literal"><span class="pre">selector</span></code> is given a
+callback function, only files for which the callback returns <code class="docutils literal"><span class="pre">True</span></code> are
+included. The callback should take a single argument. The callback is
+called with a single argument, an object, having as attributes, any named
+groups given in <code class="docutils literal"><span class="pre">regex</span></code>.</p>
+<p>Examples</p>
+<p>To find all files ending in <code class="docutils literal"><span class="pre">'.mseed'</span></code> or <code class="docutils literal"><span class="pre">'.msd'</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">select_files</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span>
+    <span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;\.(mseed|msd)$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To find all files ending with <code class="docutils literal"><span class="pre">'$Year.$DayOfYear'</span></code>, having set 2009 for
+the year:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">select_files</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span>
+    <span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;(?P&lt;year&gt;\d\d\d\d)\.(?P&lt;doy&gt;\d\d\d)$&#39;</span><span class="p">,</span>
+    <span class="n">selector</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">year</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2009</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.base36encode">
+<code class="descname">base36encode</code><span class="sig-paren">(</span><em>number</em>, <em>alphabet='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#base36encode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.base36encode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert positive integer to a base36 string.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.base36decode">
+<code class="descname">base36decode</code><span class="sig-paren">(</span><em>number</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#base36decode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.base36decode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode base36 endcoded positive integer.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrocko.util.UnpackError">
+<em class="property">exception </em><code class="descname">UnpackError</code><a class="reference internal" href="../../_modules/pyrocko/util.html#UnpackError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.UnpackError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception raised when <a class="reference internal" href="#pyrocko.util.unpack_fixed" title="pyrocko.util.unpack_fixed"><code class="xref py py-func docutils literal"><span class="pre">unpack_fixed()</span></code></a> encounters an error.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.unpack_fixed">
+<code class="descname">unpack_fixed</code><span class="sig-paren">(</span><em>format</em>, <em>line</em>, <em>*callargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#unpack_fixed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.unpack_fixed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unpack fixed format string, as produced by many fortran codes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>format</strong> &#8211; format specification</li>
+<li><strong>line</strong> &#8211; string to be processed</li>
+<li><strong>callargs</strong> &#8211; callbacks for callback fields in the format</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The format is described by a string of comma-separated fields. Each field
+is defined by a character for the field type followed by the field width. A
+questionmark may be appended to the field description to allow the argument
+to be optional (The data string is then allowed to be filled with blanks
+and <code class="docutils literal"><span class="pre">None</span></code> is returned in this case).</p>
+<p>The following field types are available:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>A</td>
+<td>string (full field width is extracted)</td>
+</tr>
+<tr class="row-odd"><td>a</td>
+<td>string (whitespace at the beginning and the end is removed)</td>
+</tr>
+<tr class="row-even"><td>i</td>
+<td>integer value</td>
+</tr>
+<tr class="row-odd"><td>f</td>
+<td>floating point value</td>
+</tr>
+<tr class="row-even"><td>&#64;</td>
+<td>special type, a callback must be given for the conversion</td>
+</tr>
+<tr class="row-odd"><td>x</td>
+<td>special field type to skip parts of the string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.match_nslc">
+<code class="descname">match_nslc</code><span class="sig-paren">(</span><em>patterns</em>, <em>nslc</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#match_nslc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.match_nslc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Match network-station-location-channel code against pattern or list of
+patterns.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>patterns</strong> &#8211; pattern or list of patterns</li>
+<li><strong>nslc</strong> &#8211; tuple with (network, station, location, channel) as strings</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">True</span></code> if the pattern matches or if any of the given patterns
+match; or <code class="docutils literal"><span class="pre">False</span></code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The patterns may contain shell-style wildcards: *, ?, [seq], [!seq].</p>
+<p>Example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">match_nslc</span><span class="p">(</span><span class="s1">&#39;*.HAM3.*.BH?&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;GR&#39;</span><span class="p">,</span> <span class="s1">&#39;HAM3&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;BHZ&#39;</span><span class="p">))</span>   <span class="c1"># -&gt; True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.match_nslcs">
+<code class="descname">match_nslcs</code><span class="sig-paren">(</span><em>patterns</em>, <em>nslcs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#match_nslcs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.match_nslcs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get network-station-location-channel codes that match given pattern or any
+of several given patterns.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>patterns</strong> &#8211; pattern or list of patterns</li>
+<li><strong>nslcs</strong> &#8211; list of (network, station, location, channel) tuples</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>See also <a class="reference internal" href="#pyrocko.util.match_nslc" title="pyrocko.util.match_nslc"><code class="xref py py-func docutils literal"><span class="pre">match_nslc()</span></code></a></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrocko.util.SoleError">
+<em class="property">exception </em><code class="descname">SoleError</code><a class="reference internal" href="../../_modules/pyrocko/util.html#SoleError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.SoleError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception raised by objects of type <a class="reference internal" href="#pyrocko.util.Sole" title="pyrocko.util.Sole"><code class="xref py py-class docutils literal"><span class="pre">Sole</span></code></a>, when an concurrent
+instance is running.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.util.Sole">
+<em class="property">class </em><code class="descname">Sole</code><span class="sig-paren">(</span><em>pid_path</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#Sole"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.Sole" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use POSIX advisory file locking to ensure that only a single instance of a
+program is running.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pid_path</strong> &#8211; path to lockfile to be used</td>
+</tr>
+</tbody>
+</table>
+<p>Usage:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko.util</span> <span class="k">import</span> <span class="n">Sole</span><span class="p">,</span> <span class="n">SoleError</span><span class="p">,</span> <span class="n">setup_logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">setup_logging</span><span class="p">(</span><span class="s1">&#39;my_program&#39;</span><span class="p">)</span>
+
+<span class="n">pid_path</span> <span class="o">=</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;HOME&#39;</span><span class="p">],</span> <span class="s1">&#39;.my_program_lock&#39;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">sole</span> <span class="o">=</span> <span class="n">Sole</span><span class="p">(</span><span class="n">pid_path</span><span class="p">)</span>
+
+<span class="k">except</span> <span class="n">SoleError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.escapequotes">
+<code class="descname">escapequotes</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#escapequotes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.escapequotes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.util.TableWriter">
+<em class="property">class </em><code class="descname">TableWriter</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#TableWriter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.TableWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write table of space separated values to a file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>f</strong> &#8211; file like object</td>
+</tr>
+</tbody>
+</table>
+<p>Strings containing spaces are quoted on output.</p>
+<dl class="method">
+<dt id="pyrocko.util.TableWriter.writerow">
+<code class="descname">writerow</code><span class="sig-paren">(</span><em>row</em>, <em>minfieldwidths=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#TableWriter.writerow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.TableWriter.writerow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write one row of values to underlying file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> &#8211; iterable of values</li>
+<li><strong>minfieldwidths</strong> &#8211; minimum field widths for the values</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Each value in in <code class="docutils literal"><span class="pre">row</span></code> is converted to a string and optionally padded
+with blanks. The resulting strings are output separated with blanks. If
+any values given are strings and if they contain whitespace, they are
+quoted with single quotes, and any internal single quotes are
+backslash-escaped.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.util.TableReader">
+<em class="property">class </em><code class="descname">TableReader</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#TableReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.TableReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read table of space separated values from a file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>f</strong> &#8211; file-like object</td>
+</tr>
+</tbody>
+</table>
+<p>This uses Pythons shlex module to tokenize lines. Should deal correctly
+with quoted strings.</p>
+<dl class="method">
+<dt id="pyrocko.util.TableReader.readrow">
+<code class="descname">readrow</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#TableReader.readrow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.TableReader.readrow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read one row from the underlying file, tokenize it with shlex.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">tokenized line as a list of strings.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.gform">
+<code class="descname">gform</code><span class="sig-paren">(</span><em>number</em>, <em>significant_digits=3</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#gform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.gform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pretty print floating point numbers.</p>
+<p>Align floating point numbers at the decimal dot.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">|</span>  <span class="o">-</span><span class="n">d</span><span class="o">.</span><span class="n">dde</span><span class="o">+</span><span class="n">xxx</span><span class="o">|</span>
+<span class="o">|</span>  <span class="o">-</span><span class="n">d</span><span class="o">.</span><span class="n">dde</span><span class="o">+</span><span class="n">xx</span> <span class="o">|</span>
+<span class="o">|-</span><span class="n">ddd</span><span class="o">.</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="o">-</span><span class="n">dd</span><span class="o">.</span><span class="n">d</span>      <span class="o">|</span>
+<span class="o">|</span>  <span class="o">-</span><span class="n">d</span><span class="o">.</span><span class="n">dd</span>     <span class="o">|</span>
+<span class="o">|</span>  <span class="o">-</span><span class="mf">0.</span><span class="n">ddd</span>    <span class="o">|</span>
+<span class="o">|</span>  <span class="o">-</span><span class="mf">0.0</span><span class="n">ddd</span>   <span class="o">|</span>
+<span class="o">|</span>  <span class="o">-</span><span class="mf">0.00</span><span class="n">ddd</span>  <span class="o">|</span>
+<span class="o">|</span>  <span class="o">-</span><span class="n">d</span><span class="o">.</span><span class="n">dde</span><span class="o">-</span><span class="n">xx</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="o">-</span><span class="n">d</span><span class="o">.</span><span class="n">dde</span><span class="o">-</span><span class="n">xxx</span><span class="o">|</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.human_bytesize">
+<code class="descname">human_bytesize</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#human_bytesize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.human_bytesize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.pf_is_old">
+<code class="descname">pf_is_old</code><span class="sig-paren">(</span><em>fn</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#pf_is_old"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.pf_is_old" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.pf_upgrade">
+<code class="descname">pf_upgrade</code><span class="sig-paren">(</span><em>fn</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#pf_upgrade"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.pf_upgrade" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.read_leap_seconds">
+<code class="descname">read_leap_seconds</code><span class="sig-paren">(</span><em>tzfile='/usr/share/zoneinfo/right/UTC'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#read_leap_seconds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.read_leap_seconds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract leap second information from tzdata.</p>
+<p>Based on example at <a class="reference external" href="http://stackoverflow.com/questions/19332902/">http://stackoverflow.com/questions/19332902/</a>            extract-historic-leap-seconds-from-tzdata</p>
+<p>See also &#8216;man 5 tzfile&#8217;.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrocko.util.LeapSecondsError">
+<em class="property">exception </em><code class="descname">LeapSecondsError</code><a class="reference internal" href="../../_modules/pyrocko/util.html#LeapSecondsError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.LeapSecondsError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="pyrocko.util.LeapSecondsOutdated">
+<em class="property">exception </em><code class="descname">LeapSecondsOutdated</code><a class="reference internal" href="../../_modules/pyrocko/util.html#LeapSecondsOutdated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.LeapSecondsOutdated" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.parse_leap_seconds_list">
+<code class="descname">parse_leap_seconds_list</code><span class="sig-paren">(</span><em>fn</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#parse_leap_seconds_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.parse_leap_seconds_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.read_leap_seconds2">
+<code class="descname">read_leap_seconds2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#read_leap_seconds2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.read_leap_seconds2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.gps_utc_offset">
+<code class="descname">gps_utc_offset</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#gps_utc_offset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.gps_utc_offset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.make_iload_family">
+<code class="descname">make_iload_family</code><span class="sig-paren">(</span><em>iload_fh</em>, <em>doc_fmt='FMT'</em>, <em>doc_yielded_objects='FMT'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#make_iload_family"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.make_iload_family" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="pyrocko.util.Inconsistency">
+<em class="property">exception </em><code class="descname">Inconsistency</code><a class="reference internal" href="../../_modules/pyrocko/util.html#Inconsistency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.Inconsistency" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.consistency_check">
+<code class="descname">consistency_check</code><span class="sig-paren">(</span><em>list_of_tuples</em>, <em>message='values differ:'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#consistency_check"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.consistency_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check for inconsistencies.</p>
+<p>Given a list of tuples, check that all tuple elements except for first one
+match. E.g. <code class="docutils literal"><span class="pre">[('STA.N',</span> <span class="pre">55.3,</span> <span class="pre">103.2),</span> <span class="pre">('STA.E',</span> <span class="pre">55.3,</span> <span class="pre">103.2)]</span></code> would be
+valid because the coordinates at the two channels are the same.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.util.defaultzerodict">
+<em class="property">class </em><code class="descname">defaultzerodict</code><a class="reference internal" href="../../_modules/pyrocko/util.html#defaultzerodict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.defaultzerodict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.mostfrequent">
+<code class="descname">mostfrequent</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#mostfrequent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.mostfrequent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.util.consistency_merge">
+<code class="descname">consistency_merge</code><span class="sig-paren">(</span><em>list_of_tuples</em>, <em>message='values differ:'</em>, <em>error='raise'</em>, <em>merge=&lt;function mostfrequent at 0x4ce7ed8&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/util.html#consistency_merge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.util.consistency_merge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="fdsn.html" title="The pyrocko.fdsn Subpackage"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="trace.html" title="The trace Module"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

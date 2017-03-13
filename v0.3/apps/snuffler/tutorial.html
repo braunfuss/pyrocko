@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Snuffler tutorial &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Extending Snuffler with plugins: Snufflings" href="extensions.html" />
+    <link rel="prev" title="Snuffler manual" href="manual.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Applications</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Snuffler</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="snuffler-tutorial">
+<h1>Snuffler tutorial<a class="headerlink" href="#snuffler-tutorial" title="Permalink to this headline">¶</a></h1>
+<p>This document describes basic usage of Snuffler.</p>
+<div class="section" id="first-steps">
+<h2>First steps<a class="headerlink" href="#first-steps" title="Permalink to this headline">¶</a></h2>
+<p>Suppose we want to have a quick look on some seismic waveforms in a file
+<a class="reference external" href="https://github.com/downloads/emolch/pyrocko/test.mseed">test.mseed</a>. The
+file is in Mini-SEED format, which is the default file format, when working
+with Snuffler.  Download the file, then run the command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">snuffler</span> <span class="n">test</span><span class="o">.</span><span class="n">mseed</span>
+</pre></div>
+</div>
+<p>A window should open:</p>
+<img alt="../../_images/screenshot1.png" class="align-center" src="../../_images/screenshot1.png" />
+<p>Initially, no waveforms are shown. That is perfectly ok.</p>
+<p>Now use the mouse! Press and hold the mouse button to navigate: draging it sideways
+will bring you back and forth in time, pushing and pulling will zoom out and
+in, respectively.</p>
+<p>If you zoom in close enough, the trace data will appear:</p>
+<img alt="../../_images/screenshot2.png" class="align-center" src="../../_images/screenshot2.png" />
+<p>There are some more commands to navigate. The <code class="kbd docutils literal"><span class="pre">&lt;space&gt;</span></code> key brings you one
+page forward in time, <code class="kbd docutils literal"><span class="pre">b</span></code> does the opposite. Press <code class="kbd docutils literal"><span class="pre">?</span></code> for a list of
+key bindings.</p>
+<p>Things to remember for now are:</p>
+<ul class="simple">
+<li>Full screen display is toggled by pressing <code class="kbd docutils literal"><span class="pre">f</span></code>.</li>
+<li>Snuffler has a main menu, which is accessed by pressing the right mouse
+button within the trace view.</li>
+<li>Snuffler has a command line, which is accessed by pressing <code class="kbd docutils literal"><span class="pre">:</span></code> (colon).</li>
+<li>Using the mouse wheel while holding down <code class="kbd docutils literal"><span class="pre">&lt;control&gt;</span></code> allows you to
+quickly change the number of tracks shown on display.</li>
+</ul>
+<p>How to get help:</p>
+<ul class="simple">
+<li>Press <code class="kbd docutils literal"><span class="pre">?</span></code> or select <span class="guilabel">Help</span> from the main menu.</li>
+<li>Use <code class="docutils literal"><span class="pre">snuffler</span> <span class="pre">--help</span></code> to see what command line options are available.</li>
+<li>There is a <a class="reference internal" href="manual.html"><span class="doc">Snuffler manual</span></a></li>
+</ul>
+<p>Before continuing, you should make yourself a bit familiar with basic
+navigation in Snuffler.</p>
+</div>
+<div class="section" id="big-datasets">
+<h2>Big datasets<a class="headerlink" href="#big-datasets" title="Permalink to this headline">¶</a></h2>
+<p>Snuffler will only show waveform data, when there are not too many data samples
+within the current view. Zoom out to get an overview on what is available -
+zoom in to see the waveforms. With this behaviour, it is possible to quickly
+get an overview over tens of thousands of files without any problems.</p>
+<p>Here&#8217;s an example of just a few thousand files:</p>
+<img alt="../../_images/screenshot3.png" class="align-center" src="../../_images/screenshot3.png" />
+<p>If color is continuous, so is the trace (no gaps). If there is a gap in the
+data, color changes. Which color it uses does not have any special meaning.</p>
+<p>No data is actually loaded in overview mode. But of course, all file headers
+have to be read when Snuffler encounters any new files. Fortunately, the trace
+meta information is written to a cache. So, if Snuffler is started with files
+it has seen before and which have not been modified meanwhile, startup time is
+a snap.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">By default, the cache is stored in a directory under <code class="file docutils literal"><span class="pre">/tmp</span></code>.  This
+directory is usually emptied on restart of the computer. It is possible to
+use a custom location, when you have a very large set of files and don&#8217;t want
+to loose the meta data cache on restart. This can be set with the
+<a class="reference internal" href="manual.html#cmdoption-snuffler-cache"><code class="xref std std-option docutils literal"><span class="pre">snuffler</span> <span class="pre">--cache</span></code></a> command line option.</p>
+</div>
+<p>You may now use this small example dataset <a class="reference external" href="https://github.com/downloads/emolch/pyrocko/testdata.tar">testdata.tar</a> with 153 files
+from some stations in Germany (3 days, 17 stations with 3 channels each, 23MB).</p>
+<p>Untar the file and look at the data using Snuffler:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">tar</span> <span class="o">-</span><span class="n">xvf</span> <span class="n">testdata</span><span class="o">.</span><span class="n">tar</span>
+<span class="n">snuffler</span> <span class="n">testdata</span>
+</pre></div>
+</div>
+<p>Yes, Snuffler will recurse into that directory and use all files it can read!
+Of course, you can also restrict it to use only specific files:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">snuffler</span> <span class="n">testdata</span><span class="o">/*</span><span class="n">LHZ</span><span class="o">*</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>When using shell globbing like this, you may bump into the maximum command
+line length limit. This is because the shell expands the <code class="file docutils literal"><span class="pre">*</span></code> argument
+into lots of filenames and most shells have a limit on how long a command
+line can be. If that happens, you may use the <a class="reference internal" href="manual.html#cmdoption-snuffler-pattern"><code class="xref std std-option docutils literal"><span class="pre">snuffler</span> <span class="pre">--pattern</span></code></a>
+command line option to avoid that problem:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">snuffler</span> <span class="o">--</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;.*LHZ.*&#39;</span> <span class="n">testdata</span>
+</pre></div>
+</div>
+<p class="last">The pattern argument is a regular expression, so &#8216;<code class="docutils literal"><span class="pre">.*</span></code>&#8216; is used instead
+of &#8216;<code class="docutils literal"><span class="pre">*</span></code>&#8216; and it must be protected from shell command line processing
+using quotes.</p>
+</div>
+<img alt="../../_images/screenshot4.png" class="align-center" src="../../_images/screenshot4.png" />
+<p>Colored rectangles are shown for each file, so we can immediatly see that this
+dataset is cut into day-files.  That there is no change in color at midnights
+indicates, that there is no gap in the recordings however. Take a closer look
+at 2009-09-19 00:00. Zoom in until the traces appear, filter a bit.</p>
+<p>Oh, there&#8217;s an earthquake spanning the file boundaries!</p>
+<img alt="../../_images/screenshot5.png" class="align-center" src="../../_images/screenshot5.png" />
+<p>Notice, that the filtering works seamless across the file boundaries! By
+default, Snuffler will try to connect adjacent traces. This feature can be
+turned off in the right-click menu under <span class="guilabel">Allow Degapping</span>. Turn it
+off, to see some filter artifacts at the boundary! Then turn it on again.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>When the lowpass is active  and its corner frequency is way below the
+Nyquist frequency, the signal will be downsampled first and then filtered.
+This reduces the number of samples to display on screen, allowing for a
+larger time window to be shown at once. However, downsampling and filtering
+will require some processing power, so the responsiveness of the
+application may drop when viewing long timewindows at frequencies way below
+the Nyquist frequency. You may want to downsample the whole dataset in
+advance in such a case (there is no need to work with 200Hz recordings
+when looking at e.g. long period surface waves).</p>
+<p class="last">Occasionally, the downsampling process may be disturbing. It can be turned
+off in the right-click menu under <span class="guilabel">Allow Downsampling</span>.</p>
+</div>
+</div>
+<div class="section" id="scaling">
+<h2>Scaling<a class="headerlink" href="#scaling" title="Permalink to this headline">¶</a></h2>
+<p>Several options control the relative and absolute scaling of the waveforms. The
+relative scaling mode and the scaling base can be selected in the right-click
+menu. The <span class="guilabel">Gain</span> slider in the <span class="guilabel">Main Controls</span> panel
+multiplies the traces on display by an additional factor to quickly magnify
+some small features. Normally the traces are clipped within the color boxes,
+but you may choose to turn off display of the boxes and to disable the
+clipping.</p>
+<img alt="../../_images/screenshot6.png" class="align-center" src="../../_images/screenshot6.png" />
+<p>The current scale range on each track is shown when <span class="guilabel">Show Scale
+Range</span> in the right-click menu is selected.</p>
+</div>
+<div class="section" id="events-and-station-coordinates">
+<h2>Events and station coordinates<a class="headerlink" href="#events-and-station-coordinates" title="Permalink to this headline">¶</a></h2>
+<p>Now we might like to sort the stations according to distance to the event.  To
+do this, Snuffler needs station and event coordinates. A simple way to tell
+Snuffler something about your stations is via the <a class="reference internal" href="manual.html#cmdoption-snuffler-stations"><code class="xref std std-option docutils literal"><span class="pre">snuffler</span> <span class="pre">--stations</span></code></a>
+command line option:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">snuffler</span> <span class="o">--</span><span class="n">stations</span><span class="o">=</span><span class="n">testdata</span><span class="o">/</span><span class="n">stations</span><span class="o">.</span><span class="n">txt</span> <span class="n">testdata</span>
+</pre></div>
+</div>
+<p>The <code class="file docutils literal"><span class="pre">stations.txt</span></code> file is a simple ascii table.</p>
+<p>Event information can come from various sources. In our example dataset, we are
+most likely seeing a global earthquake, so we may query one of the global
+earthquake catalogs. In the main menu select <span class="menuselection">Panels ‣ Catalog
+Search (builtin)</span>. A panel opens in the bottom part of the Snuffler window.
+Make sure you have internet access, select a minimum magnitude and hit
+<span class="guilabel">Run</span>.</p>
+<img alt="../../_images/screenshot7.png" class="align-center" src="../../_images/screenshot7.png" />
+<p>Aha, so this one is coming in from Bali!</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This catalog search feature queries the web page of the given catalog for
+the time range currently in view, so please use this in a civilized manner.
+Uneccessarily large queries may look like a denial-of-service attack to
+those running the catalogs.</p>
+</div>
+<p>You should now select the event marker with a single click. Now press <code class="kbd docutils literal"><span class="pre">e</span></code>
+(like &#8220;event&#8221;) to make this the <em>active event</em>. The <em>active event</em> is used as
+the origin for distance computations (among other things discussed later).
+There can only be one active event at a time (while several may be selected).
+To distinguish the <em>active event</em> from other events, it is marked with a box
+around its name.</p>
+<p>Now select <span class="guilabel">Sort by Distance</span> in the main menu.</p>
+<img alt="../../_images/screenshot8.png" class="align-center" src="../../_images/screenshot8.png" />
+<p>There&#8217;s your traces sorted by distance to the event.</p>
+</div>
+<div class="section" id="markers">
+<h2>Markers<a class="headerlink" href="#markers" title="Permalink to this headline">¶</a></h2>
+<p>Three different types of markers are available in Snuffler: <em>normal markers</em>,
+<em>phase markers</em>, and <em>event markers</em>. To create a new <em>normal marker</em>
+interactively, double-click the mouse to activate picking mode, then click
+where you want to put it. With click and drag, markers spanning a time interval
+may be created. The markers may either be attached to a certain trace (via
+network/station/location/channel ID) or may serve as time (span) markers only.
+The latter can be created by clicking on the time axis rather than on the
+traces. Here are some different normal markers:</p>
+<img alt="../../_images/screenshot9.png" class="align-center" src="../../_images/screenshot9.png" />
+<p>A color may be assigned to the selected markers using the number keys <code class="kbd docutils literal"><span class="pre">0</span></code>
+- <code class="kbd docutils literal"><span class="pre">5</span></code>.</p>
+<p>To enhance a <em>normal marker</em> to a <em>phase marker</em>, use the function keys
+<code class="kbd docutils literal"><span class="pre">&lt;F1&gt;</span></code> - <code class="kbd docutils literal"><span class="pre">&lt;F9&gt;</span></code>. The mapping of <code class="kbd docutils literal"><span class="pre">&lt;F&gt;</span></code> keys to phase names can be
+modified in the snuffler configuration file: <code class="file docutils literal"><span class="pre">~/.pyrocko/snuffler.pf</span></code>.
+A <em>phase marker</em> differs from a normal marker by having a phase name and in
+that it may be associated to an event.</p>
+<p>Normally, phase markers are associated to the current <em>active event</em> (see
+above). If there is no active event, you may associate them later. To
+(re)associate a phase marker to an (other) event, select both, phase marker and
+event, then press <code class="kbd docutils literal"><span class="pre">e</span></code> (use the <code class="kbd docutils literal"><span class="pre">shift</span></code> key while clicking to select
+more than one marker). <code class="kbd docutils literal"><span class="pre">&lt;F10&gt;</span></code> converts a <em>phase marker</em> back to a normal
+marker.</p>
+<p>To enhance a <em>normal marker</em> to an <em>event marker</em>, select the marker and press
+<code class="kbd docutils literal"><span class="pre">e</span></code> (the new event marker will also be the new <em>active event</em>).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Here&#8217;s a little trick: an event marker created like this will have as
+origin the coordinates of the station of the trace on which the
+original normal marker was created. This way, you can easily sort the
+traces according to their distance to this station.</p>
+</div>
+<p>A table listing all markers opens when pressing the key <code class="kbd docutils literal"><span class="pre">m</span></code>. By default,
+columns indicating the <em>type</em> (<em>T</em>), the <em>time</em> and - if available - the
+<em>magnitude</em> (<em>M</em>) of an <em>event marker</em>&#8216;s associated event are displayed.
+Further columns can be added by right-clicking the table&#8217;s headers and
+activating the desired column. Left-click on a column&#8217;s header sorts the table
+by the values given in that column. The <em>Label</em>, <em>Depth</em>, <em>Lat</em>, <em>Lon</em> and the
+<em>magnitude</em> (<em>M</em>) can be set from within the table by a double-click on the
+underlying field.</p>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="extensions.html" title="Extending Snuffler with plugins: Snufflings"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="manual.html" title="Snuffler manual"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

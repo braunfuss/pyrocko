@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The beachball Module &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The cake Module" href="cake.html" />
+    <link rel="prev" title="Reference" href="index.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyrocko.beachball">
+<span id="the-beachball-module"></span><h1>The <code class="xref py py-mod docutils literal"><span class="pre">beachball</span></code> Module<a class="headerlink" href="#module-pyrocko.beachball" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="pyrocko.beachball.plot_beachball_mpl">
+<code class="descname">plot_beachball_mpl</code><span class="sig-paren">(</span><em>mt</em>, <em>axes</em>, <em>beachball_type='deviatoric'</em>, <em>position=(0.0</em>, <em>0.0)</em>, <em>size=None</em>, <em>zorder=0</em>, <em>color_t='red'</em>, <em>color_p='white'</em>, <em>edgecolor='black'</em>, <em>linewidth=2</em>, <em>alpha=1.0</em>, <em>projection='lambert'</em>, <em>size_units='points'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/beachball.html#plot_beachball_mpl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.beachball.plot_beachball_mpl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot beachball diagram to a Matplotlib plot</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mt</strong> &#8211; <a class="reference internal" href="moment_tensor.html#pyrocko.moment_tensor.MomentTensor" title="pyrocko.moment_tensor.MomentTensor"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.moment_tensor.MomentTensor</span></code></a> object or an
+array or sequence which can be converted into an MT object</li>
+<li><strong>beachball_type</strong> &#8211; <code class="docutils literal"><span class="pre">'deviatoric'</span></code> (default), <code class="docutils literal"><span class="pre">'full'</span></code>, or <code class="docutils literal"><span class="pre">'dc'</span></code></li>
+<li><strong>position</strong> &#8211; position of the beachball in data coordinates</li>
+<li><strong>size</strong> &#8211; diameter of the beachball either in points or in data
+coordinates, depending on the <code class="docutils literal"><span class="pre">size_units</span></code> setting</li>
+<li><strong>zorder</strong> &#8211; (passed through to matplotlib drawing functions)</li>
+<li><strong>color_t</strong> &#8211; color for compressional quadrants (default: <code class="docutils literal"><span class="pre">'red'</span></code>)</li>
+<li><strong>color_p</strong> &#8211; color for extensive quadrants (default: <code class="docutils literal"><span class="pre">'white'</span></code>)</li>
+<li><strong>edgecolor</strong> &#8211; color for lines (default: <code class="docutils literal"><span class="pre">'black'</span></code>)</li>
+<li><strong>linewidth</strong> &#8211; linewidth in points (default: <code class="docutils literal"><span class="pre">2</span></code>)</li>
+<li><strong>alpha</strong> &#8211; (passed through to matplotlib drawing functions)</li>
+<li><strong>projection</strong> &#8211; <code class="docutils literal"><span class="pre">'lambert'</span></code> (default), <code class="docutils literal"><span class="pre">'stereographic'</span></code>, or
+<code class="docutils literal"><span class="pre">'orthographic'</span></code></li>
+<li><strong>size_units</strong> &#8211; <code class="docutils literal"><span class="pre">'points'</span></code> (default) or <code class="docutils literal"><span class="pre">'data'</span></code>, where the
+latter causes the beachball to be projected in the plots data
+coordinates (axes must have an aspect ratio of 1.0 or the
+beachball will be shown distorted when using this).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="cake.html" title="The cake Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Reference"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

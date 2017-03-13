@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The pile Module &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The pile_viewer Module" href="pile_viewer.html" />
+    <link rel="prev" title="The orthodrome Module" href="orthodrome.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyrocko.pile">
+<span id="the-pile-module"></span><h1>The <code class="xref py py-mod docutils literal"><span class="pre">pile</span></code> Module<a class="headerlink" href="#module-pyrocko.pile" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="pyrocko.pile.Pile">
+<em class="property">class </em><code class="descname">Pile</code><a class="reference internal" href="../../_modules/pyrocko/pile.html#Pile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile.Pile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Waveform archive lookup, data loading and caching infrastructure.</p>
+<dl class="method">
+<dt id="pyrocko.pile.Pile.chopper">
+<code class="descname">chopper</code><span class="sig-paren">(</span><em>tmin=None</em>, <em>tmax=None</em>, <em>tinc=None</em>, <em>tpad=0.0</em>, <em>group_selector=None</em>, <em>trace_selector=None</em>, <em>want_incomplete=True</em>, <em>degap=True</em>, <em>maxgap=5</em>, <em>maxlap=None</em>, <em>keep_current_files_open=False</em>, <em>accessor_id=None</em>, <em>snap=(&lt;built-in function round&gt;</em>, <em>&lt;built-in function round&gt;)</em>, <em>include_last=False</em>, <em>load_data=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile.html#Pile.chopper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile.Pile.chopper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get iterator for shifting window wise data extraction from waveform
+archive.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tmin</strong> &#8211; start time (default uses start time of available data)</li>
+<li><strong>tmax</strong> &#8211; end time (default uses end time of available data)</li>
+<li><strong>tinc</strong> &#8211; time increment (window shift time) (default uses
+<code class="docutils literal"><span class="pre">tmax-tmin</span></code>)</li>
+<li><strong>tpad</strong> &#8211; padding time appended on either side of the data windows
+(window overlap is <code class="docutils literal"><span class="pre">2*tpad</span></code>)</li>
+<li><strong>group_selector</strong> &#8211; filter callback taking <code class="xref py py-class docutils literal"><span class="pre">TracesGroup</span></code>
+objects</li>
+<li><strong>trace_selector</strong> &#8211; filter callback taking
+<a class="reference internal" href="trace.html#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.trace.Trace</span></code></a> objects</li>
+<li><strong>want_incomplete</strong> &#8211; if set to <code class="docutils literal"><span class="pre">False</span></code>, gappy/incomplete traces
+are discarded from the results</li>
+<li><strong>degap</strong> &#8211; whether to try to connect traces and to remove gaps and
+overlaps</li>
+<li><strong>maxgap</strong> &#8211; maximum gap size in samples which is filled with
+interpolated samples when <code class="docutils literal"><span class="pre">degap</span></code> is <code class="docutils literal"><span class="pre">True</span></code></li>
+<li><strong>maxlap</strong> &#8211; maximum overlap size in samples which is removed when
+<code class="docutils literal"><span class="pre">degap</span></code> is <code class="docutils literal"><span class="pre">True</span></code></li>
+<li><strong>keep_current_files_open</strong> &#8211; whether to keep cached trace data in
+memory after the iterator has ended</li>
+<li><strong>accessor_id</strong> &#8211; if given, used as a key to identify different
+points of extraction for the decision of when to release cached
+trace data (should be used when data is alternately extracted from
+more than one region / selection)</li>
+<li><strong>snap</strong> &#8211; replaces Python&#8217;s <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#round" title="(in Python v2.7)"><code class="xref py py-func docutils literal"><span class="pre">round()</span></code></a> function which is used
+to determine indices where to start and end the trace data array</li>
+<li><strong>include_last</strong> &#8211; whether to include last sample</li>
+<li><strong>load_data</strong> &#8211; whether to load the waveform data. If set to
+<code class="docutils literal"><span class="pre">False</span></code>, traces with no data samples, but with correct
+meta-information are returned</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">itererator yielding a list of <a class="reference internal" href="trace.html#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.trace.Trace</span></code></a>
+objects for every extracted time window</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile.Pile.all">
+<code class="descname">all</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile.html#Pile.all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile.Pile.all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shortcut to aggregate <a class="reference internal" href="#pyrocko.pile.Pile.chopper" title="pyrocko.pile.Pile.chopper"><code class="xref py py-meth docutils literal"><span class="pre">chopper()</span></code></a> output into a single list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile.Pile.iter_traces">
+<code class="descname">iter_traces</code><span class="sig-paren">(</span><em>load_data=False</em>, <em>return_abspath=False</em>, <em>group_selector=None</em>, <em>trace_selector=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile.html#Pile.iter_traces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile.Pile.iter_traces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate over all traces in pile.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>load_data</strong> &#8211; whether to load the waveform data, by default empty
+traces are yielded</li>
+<li><strong>return_abspath</strong> &#8211; if <code class="docutils literal"><span class="pre">True</span></code> yield tuples containing absolute
+file path and <a class="reference internal" href="trace.html#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.trace.Trace</span></code></a> objects</li>
+<li><strong>group_selector</strong> &#8211; filter callback taking <code class="xref py py-class docutils literal"><span class="pre">TracesGroup</span></code>
+objects</li>
+<li><strong>trace_selector</strong> &#8211; filter callback taking
+<a class="reference internal" href="trace.html#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.trace.Trace</span></code></a> objects</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example; yields only traces, where the station code is &#8216;HH1&#8217;:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">test_pile</span> <span class="o">=</span> <span class="n">pile</span><span class="o">.</span><span class="n">make_pile</span><span class="p">(</span><span class="s1">&#39;/local/test_trace_directory&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">test_pile</span><span class="o">.</span><span class="n">iter_traces</span><span class="p">(</span>
+        <span class="n">trace_selector</span><span class="o">=</span><span class="k">lambda</span> <span class="n">tr</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">station</span><span class="o">==</span><span class="s1">&#39;HH1&#39;</span><span class="p">):</span>
+
+    <span class="nb">print</span> <span class="n">t</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile.Pile.snuffle">
+<code class="descname">snuffle</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile.html#Pile.snuffle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile.Pile.snuffle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Visualize it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>stations</strong> &#8211; list of <cite>pyrocko.model.Station</cite> objects or <code class="docutils literal"><span class="pre">None</span></code></li>
+<li><strong>events</strong> &#8211; list of <cite>pyrocko.model.Event</cite> objects or <code class="docutils literal"><span class="pre">None</span></code></li>
+<li><strong>markers</strong> &#8211; list of <cite>pyrocko.gui_util.Marker</cite> objects or <code class="docutils literal"><span class="pre">None</span></code></li>
+<li><strong>ntracks</strong> &#8211; float, number of tracks to be shown initially
+(default: 12)</li>
+<li><strong>follow</strong> &#8211; time interval (in seconds) for real time follow mode or
+<code class="docutils literal"><span class="pre">None</span></code></li>
+<li><strong>controls</strong> &#8211; bool, whether to show the main controls (default:
+<code class="docutils literal"><span class="pre">True</span></code>)</li>
+<li><strong>opengl</strong> &#8211; bool, whether to use opengl (default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile.make_pile">
+<code class="descname">make_pile</code><span class="sig-paren">(</span><em>paths=None</em>, <em>selector=None</em>, <em>regex=None</em>, <em>fileformat='mseed'</em>, <em>cachedirname=None</em>, <em>show_progress=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile.html#make_pile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile.make_pile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create pile from given file and directory names.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>paths</strong> &#8211; filenames and/or directories to look for traces. If paths is
+<code class="docutils literal"><span class="pre">None</span></code> <code class="docutils literal"><span class="pre">sys.argv[1:]</span></code> is used.</li>
+<li><strong>selector</strong> &#8211; lambda expression taking group dict of regex match object
+as a single argument and which returns true or false to keep or reject
+a file</li>
+<li><strong>regex</strong> &#8211; regular expression which filenames have to match</li>
+<li><strong>fileformat</strong> &#8211; format of the files (&#8216;mseed&#8217;, &#8216;sac&#8217;, &#8216;kan&#8217;,
+&#8216;from_extension&#8217;, &#8216;try&#8217;)</li>
+<li><strong>cachedirname</strong> &#8211; loader cache is stored under this directory. It is
+created as neccessary.</li>
+<li><strong>show_progress</strong> &#8211; show progress bar and other progress information</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pile_viewer.html" title="The pile_viewer Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="orthodrome.html" title="The orthodrome Module"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

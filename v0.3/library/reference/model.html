@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The model Module &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The moment_tensor Module" href="moment_tensor.html" />
+    <link rel="prev" title="The io Module" href="io.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyrocko.model">
+<span id="the-model-module"></span><h1>The <code class="xref py py-mod docutils literal"><span class="pre">model</span></code> Module<a class="headerlink" href="#module-pyrocko.model" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="pyrocko.model.Event">
+<em class="property">class </em><code class="descname">Event</code><span class="sig-paren">(</span><em>lat=0.0</em>, <em>lon=0.0</em>, <em>time=0.0</em>, <em>name=''</em>, <em>depth=None</em>, <em>magnitude=None</em>, <em>magnitude_type=None</em>, <em>region=None</em>, <em>load=None</em>, <em>loadf=None</em>, <em>catalog=None</em>, <em>moment_tensor=None</em>, <em>duration=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/model.html#Event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.model.Event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Seismic event representation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>lat</strong> &#8211; latitude of hypocenter (default 0.0)</li>
+<li><strong>lon</strong> &#8211; longitude of hypocenter (default 0.0)</li>
+<li><strong>time</strong> &#8211; origin time as float in seconds after &#8216;1970-01-01 00:00:00</li>
+<li><strong>name</strong> &#8211; event identifier as string (optional)</li>
+<li><strong>depth</strong> &#8211; source depth (optional)</li>
+<li><strong>magnitude</strong> &#8211; magnitude of event (optional)</li>
+<li><strong>region</strong> &#8211; source region (optional)</li>
+<li><strong>catalog</strong> &#8211; name of catalog that lists this event (optional)</li>
+<li><strong>moment_tensor</strong> &#8211; moment tensor as
+<code class="xref py py-class docutils literal"><span class="pre">moment_tensor.MomentTensor</span></code> instance (optional)</li>
+<li><strong>duration</strong> &#8211; source duration as float (optional)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="gattribute">
+<dt id="pyrocko.model.Event.lat">
+<em class="property">♦ </em><code class="descname">lat</code><a class="headerlink" href="#pyrocko.model.Event.lat" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">0.0</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Event.lon">
+<em class="property">♦ </em><code class="descname">lon</code><a class="headerlink" href="#pyrocko.model.Event.lon" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">0.0</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Event.time">
+<em class="property">♦ </em><code class="descname">time</code><a class="headerlink" href="#pyrocko.model.Event.time" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>), <em>default:</em> <code class="docutils literal"><span class="pre">0.0</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Event.name">
+<em class="property">♦ </em><code class="descname">name</code><a class="headerlink" href="#pyrocko.model.Event.name" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">''</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Event.depth">
+<em class="property">♦ </em><code class="descname">depth</code><a class="headerlink" href="#pyrocko.model.Event.depth" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Event.magnitude">
+<em class="property">♦ </em><code class="descname">magnitude</code><a class="headerlink" href="#pyrocko.model.Event.magnitude" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Event.magnitude_type">
+<em class="property">♦ </em><code class="descname">magnitude_type</code><a class="headerlink" href="#pyrocko.model.Event.magnitude_type" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Event.region">
+<em class="property">♦ </em><code class="descname">region</code><a class="headerlink" href="#pyrocko.model.Event.region" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Event.catalog">
+<em class="property">♦ </em><code class="descname">catalog</code><a class="headerlink" href="#pyrocko.model.Event.catalog" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Event.moment_tensor">
+<em class="property">♦ </em><code class="descname">moment_tensor</code><a class="headerlink" href="#pyrocko.model.Event.moment_tensor" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="moment_tensor.html#pyrocko.moment_tensor.MomentTensor" title="pyrocko.moment_tensor.MomentTensor"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.moment_tensor.MomentTensor</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Event.duration">
+<em class="property">♦ </em><code class="descname">duration</code><a class="headerlink" href="#pyrocko.model.Event.duration" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.model.load_events">
+<code class="descname">load_events</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/model.html#load_events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.model.load_events" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read events file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> &#8211; name of file as str</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of <a class="reference internal" href="#pyrocko.model.Event" title="pyrocko.model.Event"><code class="xref py py-class docutils literal"><span class="pre">Event</span></code></a> objects</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.model.dump_events">
+<code class="descname">dump_events</code><span class="sig-paren">(</span><em>events</em>, <em>filename=None</em>, <em>stream=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/model.html#dump_events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.model.dump_events" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write events file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>events</strong> &#8211; list of <a class="reference internal" href="#pyrocko.model.Event" title="pyrocko.model.Event"><code class="xref py py-class docutils literal"><span class="pre">Event</span></code></a> objects</li>
+<li><strong>filename</strong> &#8211; name of file as str</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.model.Channel">
+<em class="property">class </em><code class="descname">Channel</code><span class="sig-paren">(</span><em>name</em>, <em>azimuth=None</em>, <em>dip=None</em>, <em>gain=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/model.html#Channel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.model.Channel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.model.Channel.name">
+<em class="property">♦ </em><code class="descname">name</code><a class="headerlink" href="#pyrocko.model.Channel.name" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Channel.azimuth">
+<em class="property">♦ </em><code class="descname">azimuth</code><a class="headerlink" href="#pyrocko.model.Channel.azimuth" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Channel.dip">
+<em class="property">♦ </em><code class="descname">dip</code><a class="headerlink" href="#pyrocko.model.Channel.dip" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Channel.gain">
+<em class="property">♦ </em><code class="descname">gain</code><a class="headerlink" href="#pyrocko.model.Channel.gain" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">1.0</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.model.Station">
+<em class="property">class </em><code class="descname">Station</code><span class="sig-paren">(</span><em>network=''</em>, <em>station=''</em>, <em>location=''</em>, <em>lat=0.0</em>, <em>lon=0.0</em>, <em>elevation=0.0</em>, <em>depth=0.0</em>, <em>name=''</em>, <em>channels=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/model.html#Station"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.model.Station" title="Permalink to this definition">¶</a></dt>
+<dd><p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.model.Station.network">
+<em class="property">♦ </em><code class="descname">network</code><a class="headerlink" href="#pyrocko.model.Station.network" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Station.station">
+<em class="property">♦ </em><code class="descname">station</code><a class="headerlink" href="#pyrocko.model.Station.station" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Station.location">
+<em class="property">♦ </em><code class="descname">location</code><a class="headerlink" href="#pyrocko.model.Station.location" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Station.lat">
+<em class="property">♦ </em><code class="descname">lat</code><a class="headerlink" href="#pyrocko.model.Station.lat" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">0.0</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Station.lon">
+<em class="property">♦ </em><code class="descname">lon</code><a class="headerlink" href="#pyrocko.model.Station.lon" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">0.0</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Station.elevation">
+<em class="property">♦ </em><code class="descname">elevation</code><a class="headerlink" href="#pyrocko.model.Station.elevation" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">0.0</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Station.depth">
+<em class="property">♦ </em><code class="descname">depth</code><a class="headerlink" href="#pyrocko.model.Station.depth" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">0.0</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Station.name">
+<em class="property">♦ </em><code class="descname">name</code><a class="headerlink" href="#pyrocko.model.Station.name" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">''</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.model.Station.channels">
+<em class="property">♦ </em><code class="descname">channels</code><a class="headerlink" href="#pyrocko.model.Station.channels" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.model.Channel" title="pyrocko.model.Channel"><code class="xref py py-class docutils literal"><span class="pre">Channel</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.model.dump_stations">
+<code class="descname">dump_stations</code><span class="sig-paren">(</span><em>stations</em>, <em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/model.html#dump_stations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.model.dump_stations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write stations file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>stations</strong> &#8211; list of <a class="reference internal" href="#pyrocko.model.Station" title="pyrocko.model.Station"><code class="xref py py-class docutils literal"><span class="pre">Station</span></code></a> objects</li>
+<li><strong>filename</strong> &#8211; filename as str</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.model.load_stations">
+<code class="descname">load_stations</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/model.html#load_stations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.model.load_stations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read stations file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> &#8211; filename</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of <a class="reference internal" href="#pyrocko.model.Station" title="pyrocko.model.Station"><code class="xref py py-class docutils literal"><span class="pre">Station</span></code></a> objects</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="moment_tensor.html" title="The moment_tensor Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="io.html" title="The io Module"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

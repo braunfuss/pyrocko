@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Accessing crustal velocity databases &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Working with the guts package" href="guts.html" />
+    <link rel="prev" title="Forward Modeling synthetic seismograms and displacements" href="gf_forward.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Examples</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="accessing-crustal-velocity-databases">
+<h1>Accessing crustal velocity databases<a class="headerlink" href="#accessing-crustal-velocity-databases" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="crust-2-0">
+<h2>Crust 2.0<a class="headerlink" href="#crust-2-0" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference external" href="http://igppweb.ucsd.edu/~gabi/rem.html">CRUST 2.0</a> is a global 2x2 degree velocity model of the earth&#8217;s crust. Each individual profile is a 7 layer 1D-model.</p>
+<p class="rubric">Citation</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><strong>Bassin, C., Laske, G. and Masters, G., The Current Limits of Resolution for Surface Wave Tomography in North America, EOS Trans AGU, 81, F897, 2000.</strong></td></tr>
+</tbody>
+</table>
+<div class="section" id="accessing-the-crust-2x2-database">
+<h3>Accessing the Crust 2x2 database<a class="headerlink" href="#accessing-the-crust-2x2-database" title="Permalink to this headline">¶</a></h3>
+<p>Here we utilize the <a class="reference internal" href="../reference/crust2x2.html#module-pyrocko.crust2x2" title="pyrocko.crust2x2"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.crust2x2</span></code></a> module to query the Crust 2.0 database</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">crust2x2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">profile</span> <span class="o">=</span> <span class="n">crust_2x2</span><span class="o">.</span><span class="n">get_profile</span><span class="p">(</span><span class="mf">23.</span><span class="p">,</span> <span class="mf">59.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">profile</span>
+
+<span class="go">type, name:              T9, thin Margin /shield  transition, 1 km seds.</span>
+<span class="go">elevation:                          -764</span>
+<span class="go">crustal thickness:                 26000</span>
+<span class="go">average vp, vs, rho:              6587.3          3695.6          2907.7</span>
+<span class="go">mantle ave. vp, vs, rho:            8200            4700            3400</span>
+
+<span class="go">              0            3810            1940             920   ice</span>
+<span class="go">            764            1500               0            1020   water</span>
+<span class="go">           1000            2500            1200            2100   soft sed.</span>
+<span class="go">              0            4000            2100            2400   hard sed.</span>
+<span class="go">           8000            6000            3400            2700   upper crust</span>
+<span class="go">           9000            6600            3700            2900   middle crust</span>
+<span class="go">           9000            7200            4000            3100   lower crust</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="inspect-the-crust2-0-database-with-cake">
+<h3>Inspect the Crust2.0 database with cake<a class="headerlink" href="#inspect-the-crust2-0-database-with-cake" title="Permalink to this headline">¶</a></h3>
+<p>We can use <a class="reference internal" href="../reference/cake.html#module-pyrocko.cake" title="pyrocko.cake"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.cake</span></code></a> to access the data and handle the velocity model with cake.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">cake</span><span class="p">,</span> <span class="n">cake_plot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">cake</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">crust2_profile</span><span class="o">=</span><span class="p">(</span><span class="mf">23.</span><span class="p">,</span> <span class="mf">59.</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cake_plot</span><span class="o">.</span><span class="n">my_model_plot</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="pyrocko.crust2 plotting" class="align-center" src="../../_images/cake_crust2.png" />
+</div>
+</div>
+<div class="section" id="global-crustal-database">
+<h2>Global Crustal Database<a class="headerlink" href="#global-crustal-database" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference external" href="https://earthquake.usgs.gov/data/crust/">Global Crustal Database</a> gathers empirical 1D velocity models from seismic reflection and refraction profiles. As of 2013 there are 138939 profiles, mainly P and fewer S wave records in the database.</p>
+<p class="rubric">Citation</p>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td><strong>W.D. Mooney, G. Laske and G. Masters, CRUST 5.1: A global crustal model at 5°x5°. J. Geophys. Res., 103, 727-747, 1998.</strong></td></tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">crustdb</span>
+
+<span class="n">cdb</span> <span class="o">=</span> <span class="n">crustdb</span><span class="o">.</span><span class="n">CrustDB</span><span class="p">()</span>
+<span class="n">europe</span> <span class="o">=</span> <span class="n">cdb</span><span class="o">.</span><span class="n">selectLocation</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="mf">52.</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="mf">20.</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">15.</span><span class="p">)</span>\
+    <span class="o">.</span><span class="n">selectMinDepth</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">europe</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_median</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">europe</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_median</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">vrange</span><span class="o">=</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">6000</span><span class="p">),</span> <span class="n">phase</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="pyrocko.crustdb.CrustDB.plot" class="align-center" src="../../_images/crustdb_plot.png" />
+<p>Other selection methods are <a class="reference internal" href="../reference/crustdb.html#pyrocko.crustdb.CrustDB.selectPolygon" title="pyrocko.crustdb.CrustDB.selectPolygon"><code class="xref py py-func docutils literal"><span class="pre">selectPolygon()</span></code></a> and
+<a class="reference internal" href="../reference/crustdb.html#pyrocko.crustdb.CrustDB.selectRegion" title="pyrocko.crustdb.CrustDB.selectRegion"><code class="xref py py-func docutils literal"><span class="pre">selectRegion()</span></code></a>.</p>
+<p>See <a class="reference internal" href="../reference/crustdb.html"><span class="doc">The crustdb Module</span></a> for more information on the API.</p>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="guts.html" title="Working with the guts package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="gf_forward.html" title="Forward Modeling synthetic seismograms and displacements"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

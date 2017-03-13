@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The crustdb Module &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The evalresp Module" href="evalresp.html" />
+    <link rel="prev" title="The crust2x2 Module" href="crust2x2.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="the-crustdb-module">
+<h1>The <code class="xref py py-mod docutils literal"><span class="pre">crustdb</span></code> Module<a class="headerlink" href="#the-crustdb-module" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference external" href="https://earthquake.usgs.gov/data/crust/">Global Crustal Database</a> gathers empirical 1D velocity models from seismic reflection and refraction profiles. As of 2013 there are 138939 profiles, mainly P and fewer S wave records in the database.</p>
+<p>See the tutorial for usage example, <a class="reference internal" href="../examples/velocity_databases.html"><span class="doc">Accessing crustal velocity databases</span></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Please cite:</p>
+<p class="last"><strong>W.D. Mooney, G. Laske and G. Masters, CRUST 5.1: A global crustal model
+at 5°x5°. J. Geophys. Res., 103, 727-747, 1998.</strong></p>
+</div>
+<dl class="class">
+<dt id="pyrocko.crustdb.CrustDB">
+<em class="property">class </em><code class="descname">CrustDB</code><span class="sig-paren">(</span><em>database_file=None</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB" title="Permalink to this definition">¶</a></dt>
+<dd><p>CrustDB  is a container for <code class="xref py py-class docutils literal"><span class="pre">VelocityProfile</span></code> and provides
+functions for spatial selection, querying, processing and visualising
+data from the Global Crustal Database.</p>
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.velocityMatrix">
+<code class="descname">velocityMatrix</code><span class="sig-paren">(</span><em>depth_range=(0</em>, <em>60000.0)</em>, <em>ddepth=100.0</em>, <em>phase='p'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.velocityMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.velocityMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a regular sampled velocity matrix</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>depth_range</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; Depth range, <code class="docutils literal"><span class="pre">(dmin,</span> <span class="pre">dmax)</span></code>,
+defaults to <code class="docutils literal"><span class="pre">(0,</span> <span class="pre">6000.)</span></code></li>
+<li><strong>ddepth</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Stepping in [m], defaults to <code class="docutils literal"><span class="pre">100.</span></code></li>
+<li><strong>phase</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Phase to calculate <code class="docutils literal"><span class="pre">p</span></code> or <code class="docutils literal"><span class="pre">s</span></code>,
+defaults to <code class="docutils literal"><span class="pre">p</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Sample depths, veloctiy matrix</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple, (sample_depth, <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.rmsRank">
+<code class="descname">rmsRank</code><span class="sig-paren">(</span><em>ref_profile</em>, <em>depth_range=(0</em>, <em>3500.0)</em>, <em>ddepth=100.0</em>, <em>phase='p'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.rmsRank"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.rmsRank" title="Permalink to this definition">¶</a></dt>
+<dd><p>Correlates <code class="docutils literal"><span class="pre">ref_profile</span></code> to each profile in the database</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ref_profile</strong> (<code class="xref py py-class docutils literal"><span class="pre">VelocityProfile</span></code>) &#8211; Reference profile</li>
+<li><strong>depth_range</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a><em>, </em><em>optional</em>) &#8211; Depth range in [m], <code class="docutils literal"><span class="pre">(dmin,</span> <span class="pre">dmax)</span></code>,
+defaults to <code class="docutils literal"><span class="pre">(0,</span> <span class="pre">35000.)</span></code></li>
+<li><strong>ddepth</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Stepping in [m], defaults to <code class="docutils literal"><span class="pre">100.</span></code></li>
+<li><strong>phase</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Phase to calculate <code class="docutils literal"><span class="pre">p</span></code> or <code class="docutils literal"><span class="pre">s</span></code>, defaults to <code class="docutils literal"><span class="pre">p</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">RMS factor length of N_profiles</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.histogram2d">
+<code class="descname">histogram2d</code><span class="sig-paren">(</span><em>depth_range=(0.0</em>, <em>60000.0)</em>, <em>vel_range=None</em>, <em>ddepth=100.0</em>, <em>dvbin=100.0</em>, <em>ddbin=2000.0</em>, <em>phase='p'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.histogram2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.histogram2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a 2D Histogram of all the velocity profiles</p>
+<p>Check <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram2d.html#numpy.histogram2d" title="(in NumPy v1.12)"><code class="xref py py-func docutils literal"><span class="pre">numpy.histogram2d()</span></code></a> for more information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>depth_range</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; Depth range in [m], <code class="docutils literal"><span class="pre">(dmin,</span> <span class="pre">dmax)</span></code>,
+defaults to <code class="docutils literal"><span class="pre">(0.,</span> <span class="pre">60000.)</span></code></li>
+<li><strong>vel_range</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; Depth range, <code class="docutils literal"><span class="pre">(vmin,</span> <span class="pre">vmax)</span></code>,
+defaults to <code class="docutils literal"><span class="pre">(5500.,</span> <span class="pre">8500.)</span></code></li>
+<li><strong>ddepth</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Stepping in [km], defaults to <code class="docutils literal"><span class="pre">100.</span></code></li>
+<li><strong>dvbin</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Bin size in velocity dimension [m/s], defaults to 100.</li>
+<li><strong>dvbin</strong> &#8211; Bin size in depth dimension [m], defaults to 2000.</li>
+<li><strong>phase</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Phase to calculate <code class="docutils literal"><span class="pre">p</span></code> or <code class="docutils literal"><span class="pre">s</span></code>, defaults to <code class="docutils literal"><span class="pre">p</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram2d.html#numpy.histogram2d" title="(in NumPy v1.12)"><code class="xref py py-func docutils literal"><span class="pre">numpy.histogram2d()</span></code></a></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.meanVelocity">
+<code class="descname">meanVelocity</code><span class="sig-paren">(</span><em>depth_range=(0.0</em>, <em>60000.0)</em>, <em>ddepth=100.0</em>, <em>phase='p'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.meanVelocity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.meanVelocity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mean velocity profile plus std variation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>depth_range</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; Depth range in [m], <code class="docutils literal"><span class="pre">(dmin,</span> <span class="pre">dmax)</span></code>,
+defaults to <code class="docutils literal"><span class="pre">(0.,</span> <span class="pre">60000.)</span></code></li>
+<li><strong>ddepth</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Stepping in [m], defaults to <code class="docutils literal"><span class="pre">100.</span></code></li>
+<li><strong>phase</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Phase to calculate <code class="docutils literal"><span class="pre">p</span></code> or <code class="docutils literal"><span class="pre">s</span></code>, defaults to <code class="docutils literal"><span class="pre">p</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">depth vector, mean velocities, standard deviations</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple of <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.modeVelocity">
+<code class="descname">modeVelocity</code><span class="sig-paren">(</span><em>depth_range=(0.0</em>, <em>60000.0)</em>, <em>ddepth=100.0</em>, <em>phase='p'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.modeVelocity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.modeVelocity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mode velocity profile plus std variation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>depth_range</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; Depth range in [m], <code class="docutils literal"><span class="pre">(dmin,</span> <span class="pre">dmax)</span></code>,
+defaults to <code class="docutils literal"><span class="pre">(0.,</span> <span class="pre">60000.)</span></code></li>
+<li><strong>ddepth</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Stepping in [m], defaults to <code class="docutils literal"><span class="pre">100.</span></code></li>
+<li><strong>phase</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Phase to calculate <code class="docutils literal"><span class="pre">p</span></code> or <code class="docutils literal"><span class="pre">s</span></code>, defaults to <code class="docutils literal"><span class="pre">p</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">depth vector, mode velocity, number of counts at each depth</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple of <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.medianVelocity">
+<code class="descname">medianVelocity</code><span class="sig-paren">(</span><em>depth_range=(0.0</em>, <em>60000.0)</em>, <em>ddepth=100.0</em>, <em>phase='p'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.medianVelocity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.medianVelocity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Median velocity profile plus std variation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>depth_range</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; Depth range in [m], <code class="docutils literal"><span class="pre">(dmin,</span> <span class="pre">dmax)</span></code>,
+defaults to <code class="docutils literal"><span class="pre">(0.,</span> <span class="pre">60000.)</span></code></li>
+<li><strong>ddepth</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Stepping in [m], defaults to <code class="docutils literal"><span class="pre">100.</span></code></li>
+<li><strong>phase</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Phase to calculate <code class="docutils literal"><span class="pre">p</span></code> or <code class="docutils literal"><span class="pre">s</span></code>, defaults to <code class="docutils literal"><span class="pre">p</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">depth vector, median velocities, standard deviations</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple of <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.plotHistogram">
+<code class="descname">plotHistogram</code><span class="sig-paren">(</span><em>vel_range=None</em>, <em>bins=36</em>, <em>phase='vp'</em>, <em>axes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.plotHistogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.plotHistogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot 1D histogram of seismic velocities in the container</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vel_range</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a><em>, </em><em>optional</em>) &#8211; Velocity range, defaults to (5.5, 8.5)</li>
+<li><strong>bins</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a><em>, </em><em>optional</em>) &#8211; bins, defaults to 30 (see <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v1.12)"><code class="xref py py-func docutils literal"><span class="pre">numpy.histogram()</span></code></a>)</li>
+<li><strong>phase</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; Property to plot out of <code class="docutils literal"><span class="pre">['vp',</span> <span class="pre">'vs']</span></code>,
+defaults to &#8216;vp&#8217;</li>
+<li><strong>figure</strong> (<code class="xref py py-class docutils literal"><span class="pre">matplotlib.Figure</span></code>, optional) &#8211; Figure to plot in, defaults to None</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>depth_range=(0</em>, <em>60000.0)</em>, <em>ddepth=100.0</em>, <em>ddbin=2000.0</em>, <em>vel_range=None</em>, <em>dvbin=100.0</em>, <em>percent=False</em>, <em>plot_mode=True</em>, <em>plot_median=True</em>, <em>plot_mean=False</em>, <em>show_cbar=True</em>, <em>aspect=0.02</em>, <em>phase='p'</em>, <em>axes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a two 2D Histogram of seismic velocities</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>depth_range</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; Depth range, <code class="docutils literal"><span class="pre">(dmin,</span> <span class="pre">dmax)</span></code>,
+defaults to <code class="docutils literal"><span class="pre">(0,</span> <span class="pre">60)</span></code></li>
+<li><strong>vel_range</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; Velocity range, <code class="docutils literal"><span class="pre">(vmin,</span> <span class="pre">vmax)</span></code></li>
+<li><strong>ddepth</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Stepping in [m], defaults to <code class="docutils literal"><span class="pre">.1</span></code></li>
+<li><strong>dvbin</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Bin size in velocity dimension [m/s], defaults to .1</li>
+<li><strong>dvbin</strong> &#8211; Bin size in depth dimension [m], defaults to 2000.</li>
+<li><strong>phase</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Phase to calculate <code class="docutils literal"><span class="pre">p</span></code> or <code class="docutils literal"><span class="pre">s</span></code>, defaults to <code class="docutils literal"><span class="pre">p</span></code></li>
+<li><strong>plot_mode</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Plot the Mode</li>
+<li><strong>plot_mean</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Plot the Mean</li>
+<li><strong>plot_median</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Plot the Median</li>
+<li><strong>axes</strong> (<code class="xref py py-class docutils literal"><span class="pre">matplotlib.Axes</span></code>) &#8211; Axes to plot into, defaults to None</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.plotVelocitySurface">
+<code class="descname">plotVelocitySurface</code><span class="sig-paren">(</span><em>v_max</em>, <em>d_min=0.0</em>, <em>d_max=6000.0</em>, <em>axes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.plotVelocitySurface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.plotVelocitySurface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a triangulated a depth surface exceeding velocity</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.exceedVelocity">
+<code class="descname">exceedVelocity</code><span class="sig-paren">(</span><em>v_max</em>, <em>d_min=0</em>, <em>d_max=60</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.exceedVelocity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.exceedVelocity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the last depth <code class="docutils literal"><span class="pre">v_max</span></code> has not been exceeded.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>v_max</strong> &#8211; maximal velocity</li>
+<li><strong>dz</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; depth is sampled in dz steps</li>
+<li><strong>d_max</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; maximum depth</li>
+<li><strong>d_min</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; minimum depth</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Lat, Lon, Depth and uid where <code class="docutils literal"><span class="pre">v_max</span></code> is exceeded</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)">list</a>(num.array)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.selectRegion">
+<code class="descname">selectRegion</code><span class="sig-paren">(</span><em>west</em>, <em>east</em>, <em>south</em>, <em>north</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.selectRegion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.selectRegion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select profiles within a region by geographic corner coordinates</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>west</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; west corner</li>
+<li><strong>east</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; east corner</li>
+<li><strong>south</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; south corner</li>
+<li><strong>north</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; north corner</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Selected profiles</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">CrustDB</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.selectPolygon">
+<code class="descname">selectPolygon</code><span class="sig-paren">(</span><em>poly</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.selectPolygon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.selectPolygon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select profiles within a polygon.</p>
+<p>The algorithm is called the <strong>Ray Casting Method</strong></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>poly</strong> &#8211; Latitude Longitude pairs of the polygon</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Selected profiles</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">CrustDB</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.selectLocation">
+<code class="descname">selectLocation</code><span class="sig-paren">(</span><em>lat</em>, <em>lon</em>, <em>radius=10</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.selectLocation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.selectLocation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select profiles at a geographic location within a <code class="docutils literal"><span class="pre">radius</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>lat</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Latitude in [deg]</li>
+<li><strong>lon</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Longitude in [deg]</li>
+<li><strong>radius</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Radius in [deg]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Selected profiles</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">CrustDB</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.selectMinLayers">
+<code class="descname">selectMinLayers</code><span class="sig-paren">(</span><em>nlayers</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.selectMinLayers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.selectMinLayers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select profiles with more than <code class="docutils literal"><span class="pre">nlayers</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nlayers</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Minimum number of layers</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Selected profiles</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">CrustDB</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.selectMaxLayers">
+<code class="descname">selectMaxLayers</code><span class="sig-paren">(</span><em>nlayers</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.selectMaxLayers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.selectMaxLayers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select profiles with more than <code class="docutils literal"><span class="pre">nlayers</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nlayers</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Maximum number of layers</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Selected profiles</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">CrustDB</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.selectMinDepth">
+<code class="descname">selectMinDepth</code><span class="sig-paren">(</span><em>depth</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.selectMinDepth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.selectMinDepth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select profiles describing layers deeper than <code class="docutils literal"><span class="pre">depth</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>depth</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Minumum depth in [m]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Selected profiles</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">CrustDB</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.selectMaxDepth">
+<code class="descname">selectMaxDepth</code><span class="sig-paren">(</span><em>depth</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.selectMaxDepth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.selectMaxDepth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select profiles describing layers shallower than <code class="docutils literal"><span class="pre">depth</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>depth</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Maximum depth in [m]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Selected profiles</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">CrustDB</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.selectVp">
+<code class="descname">selectVp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.selectVp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.selectVp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select profiles describing P Wave velocity</p>
+<p>:returns Selected profiles
+:rtype: <code class="xref py py-class docutils literal"><span class="pre">CrustDB</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.selectVs">
+<code class="descname">selectVs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.selectVs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.selectVs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select profiles describing P Wave velocity</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Selected profiles</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">CrustDB</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.exportCSV">
+<code class="descname">exportCSV</code><span class="sig-paren">(</span><em>filename=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.exportCSV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.exportCSV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export a CSV file as specified in the header below</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Export filename</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.CrustDB.exportYAML">
+<code class="descname">exportYAML</code><span class="sig-paren">(</span><em>filename=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#CrustDB.exportYAML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.CrustDB.exportYAML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exports a readable file YAML :filename:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Export filename</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.crustdb.VelocityProfile">
+<em class="property">class </em><code class="descname">VelocityProfile</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#VelocityProfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.VelocityProfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="VelocityProfile.uid">
+<em class="property">♦ </em><code class="descname">uid</code><a class="headerlink" href="#VelocityProfile.uid" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code>, <em>optional</em></p>
+<p>Unique ID of measurement</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="VelocityProfile.lat">
+<em class="property">♦ </em><code class="descname">lat</code><a class="headerlink" href="#VelocityProfile.lat" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>Latitude [deg]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="VelocityProfile.lon">
+<em class="property">♦ </em><code class="descname">lon</code><a class="headerlink" href="#VelocityProfile.lon" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>Longitude [deg]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="VelocityProfile.elevation">
+<em class="property">♦ </em><code class="descname">elevation</code><a class="headerlink" href="#VelocityProfile.elevation" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">nan</span></code></p>
+<p>Elevation [m]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="VelocityProfile.vp">
+<em class="property">♦ </em><code class="descname">vp</code><a class="headerlink" href="#VelocityProfile.vp" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
+<p>P Wave velocities [m/s]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="VelocityProfile.vs">
+<em class="property">♦ </em><code class="descname">vs</code><a class="headerlink" href="#VelocityProfile.vs" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
+<p>S Wave velocities [m/s]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="VelocityProfile.d">
+<em class="property">♦ </em><code class="descname">d</code><a class="headerlink" href="#VelocityProfile.d" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
+<p>Interface depth, top [m]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="VelocityProfile.h">
+<em class="property">♦ </em><code class="descname">h</code><a class="headerlink" href="#VelocityProfile.h" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
+<p>Interface thickness [m]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="VelocityProfile.heatflow">
+<em class="property">♦ </em><code class="descname">heatflow</code><a class="headerlink" href="#VelocityProfile.heatflow" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>Heatflow [W/m^2]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="VelocityProfile.geographical_location">
+<em class="property">♦ </em><code class="descname">geographical_location</code><a class="headerlink" href="#VelocityProfile.geographical_location" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+<p>Geographic Location</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="VelocityProfile.geological_province">
+<em class="property">♦ </em><code class="descname">geological_province</code><a class="headerlink" href="#VelocityProfile.geological_province" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+<p>Geological Province</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="VelocityProfile.geological_age">
+<em class="property">♦ </em><code class="descname">geological_age</code><a class="headerlink" href="#VelocityProfile.geological_age" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+<p>Geological Age</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="VelocityProfile.measurement_method">
+<em class="property">♦ </em><code class="descname">measurement_method</code><a class="headerlink" href="#VelocityProfile.measurement_method" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code>, <em>optional</em></p>
+<p>Measurement method</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="VelocityProfile.publication_reference">
+<em class="property">♦ </em><code class="descname">publication_reference</code><a class="headerlink" href="#VelocityProfile.publication_reference" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+<p>Publication Reference</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.VelocityProfile.interpolateProfile">
+<code class="descname">interpolateProfile</code><span class="sig-paren">(</span><em>depths</em>, <em>phase='p'</em>, <em>stepped=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#VelocityProfile.interpolateProfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.VelocityProfile.interpolateProfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a continuous velocity function at arbitrary depth</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>depth</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>) &#8211; Depths to interpolate</li>
+<li><strong>phase</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; P or S wave velocity, <strong>p</strong> or <strong>s</strong></li>
+<li><strong>stepped</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Use a stepped velocity function or gradient</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">velocities at requested depths</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.VelocityProfile.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>axes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#VelocityProfile.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.VelocityProfile.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the velocity profile, see <a class="reference internal" href="cake.html#module-pyrocko.cake" title="pyrocko.cake"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.cake</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>axes</strong> (<code class="xref py py-class docutils literal"><span class="pre">matplotlib.Axes</span></code>) &#8211; Axes to plot into.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.VelocityProfile.getLayeredModel">
+<code class="descname">getLayeredModel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#VelocityProfile.getLayeredModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.VelocityProfile.getLayeredModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a layered model, see <a class="reference internal" href="cake.html#pyrocko.cake.LayeredModel" title="pyrocko.cake.LayeredModel"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.cake.LayeredModel</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.VelocityProfile.iterLayers">
+<code class="descname">iterLayers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#VelocityProfile.iterLayers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.VelocityProfile.iterLayers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterator returns a <a class="reference internal" href="cake.html#pyrocko.cake.Material" title="pyrocko.cake.Material"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.cake.Material</span></code></a> for each layer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.crustdb.VelocityProfile.get_weeded">
+<code class="descname">get_weeded</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/crustdb.html#VelocityProfile.get_weeded"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.crustdb.VelocityProfile.get_weeded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get weeded representation of layers used in the profile.
+See <code class="xref py py-func docutils literal"><span class="pre">pyrocko.cake.get_weeded()</span></code> for details.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="evalresp.html" title="The evalresp Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="crust2x2.html" title="The crust2x2 Module"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

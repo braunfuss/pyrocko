@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The io Module &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The model Module" href="model.html" />
+    <link rel="prev" title="The ims Module" href="ims.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyrocko.io">
+<span id="the-io-module"></span><h1>The <a class="reference external" href="https://docs.python.org/2.7/library/io.html#module-io" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">io</span></code></a> Module<a class="headerlink" href="#module-pyrocko.io" title="Permalink to this headline">¶</a></h1>
+<p>Input and output of seismic traces.</p>
+<p>This module provides a simple unified interface to load and save traces to a
+few different file formats.  The data model used for the
+<a class="reference internal" href="trace.html#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.trace.Trace</span></code></a> objects in Pyrocko is most closely matched by
+the Mini-SEED file format.  However, a difference is, that Mini-SEED limits the
+length of the network, station, location, and channel codes to 2, 5, 2, and 3
+characters, respectively.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="44%" />
+<col width="15%" />
+<col width="13%" />
+<col width="10%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">format</th>
+<th class="head">format identifier</th>
+<th class="head">load</th>
+<th class="head">save</th>
+<th class="head">note</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Mini-SEED</td>
+<td>mseed</td>
+<td>yes</td>
+<td>yes</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>SAC</td>
+<td>sac</td>
+<td>yes</td>
+<td>yes</td>
+<td><a class="footnote-reference" href="#f1" id="id1">[1]</a></td>
+</tr>
+<tr class="row-even"><td>SEG Y rev1</td>
+<td>segy</td>
+<td>some</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>SEISAN</td>
+<td>seisan, seisan.l, seisan.b</td>
+<td>yes</td>
+<td>&nbsp;</td>
+<td><a class="footnote-reference" href="#f2" id="id2">[2]</a></td>
+</tr>
+<tr class="row-even"><td>KAN</td>
+<td>kan</td>
+<td>yes</td>
+<td>&nbsp;</td>
+<td><a class="footnote-reference" href="#f3" id="id3">[3]</a></td>
+</tr>
+<tr class="row-odd"><td>YAFF</td>
+<td>yaff</td>
+<td>yes</td>
+<td>yes</td>
+<td><a class="footnote-reference" href="#f4" id="id4">[4]</a></td>
+</tr>
+<tr class="row-even"><td>ASCII Table</td>
+<td>text</td>
+<td>&nbsp;</td>
+<td>yes</td>
+<td><a class="footnote-reference" href="#f5" id="id5">[5]</a></td>
+</tr>
+<tr class="row-odd"><td>GSE1</td>
+<td>gse1</td>
+<td>some</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>GSE2</td>
+<td>gse2</td>
+<td>some</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>DATACUBE</td>
+<td>datacube</td>
+<td>yes</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>SUDS</td>
+<td>suds</td>
+<td>some</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>For SAC files, the endianness is guessed. Additional header
+information is stored in the <code class="xref py py-class docutils literal"><span class="pre">Trace</span></code>&#8216;s <code class="docutils literal"><span class="pre">meta</span></code> attribute.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>Seisan waveform files can be in little (<code class="docutils literal"><span class="pre">seisan.l</span></code>) or big endian
+(<code class="docutils literal"><span class="pre">seisan.b</span></code>) format. <code class="docutils literal"><span class="pre">seisan</span></code> currently is an alias for <code class="docutils literal"><span class="pre">seisan.l</span></code>.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>The KAN file format has only been seen once by the author, and support
+for it may be removed again.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>YAFF is an in-house, experimental file format, which should not be
+released into the wild.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td>ASCII tables with two columns (time and amplitude) are output - meta
+information will be lost.</td></tr>
+</tbody>
+</table>
+<dl class="function">
+<dt id="pyrocko.io.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>filename</em>, <em>format='mseed'</em>, <em>getdata=True</em>, <em>substitutions=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/io.html#load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.io.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load traces from file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>format</strong> &#8211; format of the file (<code class="docutils literal"><span class="pre">'detect'</span></code>, <code class="docutils literal"><span class="pre">'from_extension'</span></code>, <code class="docutils literal"><span class="pre">'mseed'</span></code>, <code class="docutils literal"><span class="pre">'sac'</span></code>, <code class="docutils literal"><span class="pre">'segy'</span></code>, <code class="docutils literal"><span class="pre">'seisan'</span></code>, <code class="docutils literal"><span class="pre">'seisan.l'</span></code>, <code class="docutils literal"><span class="pre">'seisan.b'</span></code>, <code class="docutils literal"><span class="pre">'kan'</span></code>, <code class="docutils literal"><span class="pre">'yaff'</span></code>, <code class="docutils literal"><span class="pre">'gse1'</span></code>, <code class="docutils literal"><span class="pre">'gse2'</span></code>, <code class="docutils literal"><span class="pre">'gcf'</span></code>, <code class="docutils literal"><span class="pre">'datacube'</span></code>, <code class="docutils literal"><span class="pre">'suds'</span></code>)</li>
+<li><strong>getdata</strong> &#8211; if <code class="docutils literal"><span class="pre">True</span></code> (the default), read data, otherwise only read
+traces metadata</li>
+<li><strong>substitutions</strong> &#8211; dict with substitutions to be applied to the traces
+metadata</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of loaded traces</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>When <em>format</em> is set to <code class="docutils literal"><span class="pre">'detect'</span></code>, the file type is guessed from the
+first 512 bytes of the file. Only Mini-SEED, SAC, GSE1, and YAFF format are
+detected. When <em>format</em> is set to <code class="docutils literal"><span class="pre">'from_extension'</span></code>, the filename
+extension is used to decide what format should be assumed. The filename
+extensions considered are (matching is case insensitive): <code class="docutils literal"><span class="pre">'.sac'</span></code>,
+<code class="docutils literal"><span class="pre">'.kan'</span></code>, <code class="docutils literal"><span class="pre">'.sgy'</span></code>, <code class="docutils literal"><span class="pre">'.segy'</span></code>, <code class="docutils literal"><span class="pre">'.yaff'</span></code>, everything else is
+assumed to be in Mini-SEED format.</p>
+<p>This function calls <a class="reference internal" href="#pyrocko.io.iload" title="pyrocko.io.iload"><code class="xref py py-func docutils literal"><span class="pre">iload()</span></code></a> and aggregates the loaded traces in a
+list.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.io.iload">
+<code class="descname">iload</code><span class="sig-paren">(</span><em>filename</em>, <em>format='mseed'</em>, <em>getdata=True</em>, <em>substitutions=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/io.html#iload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.io.iload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load traces from file (iterator version).</p>
+<p>This function works like <a class="reference internal" href="#pyrocko.io.load" title="pyrocko.io.load"><code class="xref py py-func docutils literal"><span class="pre">load()</span></code></a>, but returns an iterator which
+yields the loaded traces.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.io.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>traces</em>, <em>filename_template</em>, <em>format='mseed'</em>, <em>additional={}</em>, <em>stations=None</em>, <em>overwrite=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/io.html#save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.io.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save traces to file(s).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>traces</strong> &#8211; a trace or an iterable of traces to store</li>
+<li><strong>filename_template</strong> &#8211; filename template with placeholders for trace
+metadata. Uses normal python &#8216;%(placeholder)s&#8217; string templates.
+The following placeholders are considered: <code class="docutils literal"><span class="pre">network</span></code>,
+<code class="docutils literal"><span class="pre">station</span></code>, <code class="docutils literal"><span class="pre">location</span></code>, <code class="docutils literal"><span class="pre">channel</span></code>, <code class="docutils literal"><span class="pre">tmin</span></code>
+(time of first sample), <code class="docutils literal"><span class="pre">tmax</span></code> (time of last sample),
+<code class="docutils literal"><span class="pre">tmin_ms</span></code>, <code class="docutils literal"><span class="pre">tmax_ms</span></code>, <code class="docutils literal"><span class="pre">tmin_us</span></code>, <code class="docutils literal"><span class="pre">tmax_us</span></code>. The versions
+with &#8216;_ms&#8217; include milliseconds, the versions with &#8216;_us&#8217; include
+microseconds.</li>
+<li><strong>format</strong> &#8211; <code class="docutils literal"><span class="pre">'mseed'</span></code>, <code class="docutils literal"><span class="pre">'sac'</span></code>, <code class="docutils literal"><span class="pre">'text'</span></code>, <code class="docutils literal"><span class="pre">'yaff'</span></code>, <code class="docutils literal"><span class="pre">'gse2'</span></code></li>
+<li><strong>additional</strong> &#8211; dict with custom template placeholder fillins.</li>
+<li><strong>overwrite'</strong> &#8211; if <code class="docutils literal"><span class="pre">False</span></code>, raise an exception if file exists</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of generated filenames</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Network, station, location, and channel codes may be silently truncated
+to file format specific maximum lengthes.</p>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="model.html" title="The model Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ims.html" title="The ims Module"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

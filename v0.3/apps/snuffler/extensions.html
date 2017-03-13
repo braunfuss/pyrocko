@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Extending Snuffler with plugins: Snufflings &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Cake" href="../cake/index.html" />
+    <link rel="prev" title="Snuffler tutorial" href="tutorial.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Applications</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Snuffler</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="extending-snuffler-with-plugins-snufflings">
+<h1>Extending Snuffler with plugins: Snufflings<a class="headerlink" href="#extending-snuffler-with-plugins-snufflings" title="Permalink to this headline">¶</a></h1>
+<p>Snufflings are small Python scripts which extend the functionality of Snuffler.
+Snuffler looks into the directory <code class="docutils literal"><span class="pre">$HOME/.snufflings</span></code> for snufflings.
+Snufflings can be reloaded at run-time using the menu entry &#8216;Reload Snufflings&#8217;
+in the main menu of Snuffler - no need to restart Snuffler when a snuffling is
+modified or added.</p>
+<p>Already existing snufflings can be downloaded from the  <a class="reference external" href="https://github.com/pyrocko/contrib-snufflings">snuffling repository</a></p>
+<div class="section" id="example-snuffling-to-show-earthquake-catalog-information-within-snuffler">
+<h2>Example Snuffling to show earthquake catalog information within Snuffler<a class="headerlink" href="#example-snuffling-to-show-earthquake-catalog-information-within-snuffler" title="Permalink to this headline">¶</a></h2>
+<p>Put the following code into <code class="docutils literal"><span class="pre">$HOME/.snufflings/geofon.py</span></code>. It will add four
+items into the <em>Snufflings</em> sub-menu of Snuffler (<em>Get GEOFON events</em>, <em>Get
+GEOFON events (&gt; M6)</em>, ...). When one of these is selected by the user, the
+<a class="reference external" href="http://geofon.gfz-potsdam.de/eqinfo/form.php">GEOFON catalog</a> is queried for
+earthquake information for the time range visible in Snuffler. For each
+earthquake found, a marker is shown in the viewer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko.snuffling</span> <span class="k">import</span> <span class="n">Snuffling</span><span class="p">,</span> <span class="n">Param</span>
+<span class="kn">from</span> <span class="nn">pyrocko.pile_viewer</span> <span class="k">import</span> <span class="n">Marker</span><span class="p">,</span> <span class="n">EventMarker</span>
+<span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">catalog</span>
+
+<span class="k">class</span> <span class="nc">GeofonEvents</span><span class="p">(</span><span class="n">Snuffling</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Get events from GEOFON catalog.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magmin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_magmin</span> <span class="o">=</span> <span class="n">magmin</span>
+        <span class="n">Snuffling</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Customization of the snuffling.&#39;&#39;&#39;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_magmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s1">&#39;Get GEOFON Events&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s1">&#39;Get GEOFON Events (&gt; M </span><span class="si">%g</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_magmin</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Main work routine of the snuffling.&#39;&#39;&#39;</span>
+
+        <span class="c1"># get time range visible in viewer</span>
+        <span class="n">viewer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span>
+        <span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span> <span class="o">=</span> <span class="n">viewer</span><span class="o">.</span><span class="n">get_time_range</span><span class="p">()</span>
+
+        <span class="c1"># download event information from GEOFON web page</span>
+        <span class="c1"># 1) get list of event names</span>
+        <span class="n">geofon</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">Geofon</span><span class="p">()</span>
+        <span class="n">event_names</span> <span class="o">=</span> <span class="n">geofon</span><span class="o">.</span><span class="n">get_event_names</span><span class="p">(</span>
+            <span class="n">time_range</span><span class="o">=</span><span class="p">(</span><span class="n">tmin</span><span class="p">,</span><span class="n">tmax</span><span class="p">),</span>
+            <span class="n">magmin</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_magmin</span><span class="p">)</span>
+
+        <span class="c1"># 2) get event information and add a marker in the snuffler window</span>
+        <span class="k">for</span> <span class="n">event_name</span> <span class="ow">in</span> <span class="n">event_names</span><span class="p">:</span>
+            <span class="n">event</span> <span class="o">=</span> <span class="n">geofon</span><span class="o">.</span><span class="n">get_event</span><span class="p">(</span><span class="n">event_name</span><span class="p">)</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="n">EventMarker</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_markers</span><span class="p">([</span><span class="n">marker</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">__snufflings__</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;Returns a list of snufflings to be exported by this module.&#39;&#39;&#39;</span>
+
+    <span class="k">return</span> <span class="p">[</span> <span class="n">GeofonEvents</span><span class="p">(),</span>
+             <span class="n">GeofonEvents</span><span class="p">(</span><span class="n">magmin</span><span class="o">=</span><span class="mi">6</span><span class="p">),</span>
+             <span class="n">GeofonEvents</span><span class="p">(</span><span class="n">magmin</span><span class="o">=</span><span class="mi">7</span><span class="p">),</span>
+             <span class="n">GeofonEvents</span><span class="p">(</span><span class="n">magmin</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="section" id="how-it-works">
+<h3>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h3>
+<p>Snuffler looks into the directory <code class="docutils literal"><span class="pre">HOME/.snufflings</span></code> for python scripts
+(<code class="docutils literal"><span class="pre">*.py</span></code>). Within each of these it tries to query the function
+<code class="docutils literal"><span class="pre">__snufflings__()</span></code> which should return a list of snuffling objects, which are
+instances of a snuffling class. A custom snuffling class is created by
+subclassing <a class="reference internal" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling" title="pyrocko.snuffling.Snuffling"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.snuffling.Snuffling</span></code></a>. Within the derived class implement
+the methods <code class="docutils literal"><span class="pre">setup()</span></code> and <code class="docutils literal"><span class="pre">call()</span></code>. <code class="docutils literal"><span class="pre">setup()</span></code> is called during
+initialization of the snuffling object, <code class="docutils literal"><span class="pre">call()</span></code> is called when the user
+selects the menu entry. You may define several snuffling classes within one
+snuffling source file. You may also return several instances of a single
+snuffling class from the <code class="docutils literal"><span class="pre">__snufflings__()</span></code> function.</p>
+<p>The <a class="reference internal" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling" title="pyrocko.snuffling.Snuffling"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.snuffling.Snuffling</span></code></a> base class documentation can also
+be accessed with the command <code class="docutils literal"><span class="pre">pydoc</span> <span class="pre">pyrocko.snuffling.Snuffling</span></code> from the
+shell. Example snufflings can be found in <a class="reference external" href="https://github.com/pyrocko/pyrocko/tree/master/src/snufflings">src/snufflings/</a>
+in the pyrocko source code. More examples may be found in the
+<a class="reference external" href="https://github.com/emolch/contrib-snufflings">contrib-snufflings</a> repository on GitHub.</p>
+</div>
+</div>
+<div class="section" id="more-examples">
+<h2>More examples<a class="headerlink" href="#more-examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="print-minimum-maximum-and-peak-to-peak-amplitudes-to-the-terminal">
+<h3>Print minimum, maximum, and peak-to-peak amplitudes to the terminal<a class="headerlink" href="#print-minimum-maximum-and-peak-to-peak-amplitudes-to-the-terminal" title="Permalink to this headline">¶</a></h3>
+<p>This is a built-in snuffling of Snuffler. It serves here as a demonstration of
+how selected trace data can be accessed from within the snuffling.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko.snuffling</span> <span class="k">import</span> <span class="n">Snuffling</span><span class="p">,</span> <span class="n">Param</span>
+<span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">trace</span>
+
+<span class="k">class</span> <span class="nc">MinMaxSnuffling</span><span class="p">(</span><span class="n">Snuffling</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;Reports minimum, maximum, and peak-to-peak values of selected data.</span>
+<span class="sd">To use it, use the picker tool to mark a region or select existing regions</span>
+<span class="sd">and call this snuffling. The values are printed via standard output to the</span>
+<span class="sd">termimal.&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Customization of the snuffling.&#39;&#39;&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s1">&#39;Minimum Maximum Peak-To-Peak&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tinc</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Main work routine of the snuffling.&#39;&#39;&#39;</span>
+
+        <span class="c1"># to select a reasonable increment for the chopping, the smallest</span>
+        <span class="c1"># sampling interval in the pile is looked at. this is only done,</span>
+        <span class="c1"># the first time the snuffling is called.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tinc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tinc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pile</span><span class="p">()</span><span class="o">.</span><span class="n">get_deltats</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mf">10000.</span>
+
+        <span class="c1"># the chopper yields lists of traces but for minmax() below, an iterator</span>
+        <span class="c1"># yielding single traces is needed; using a converter:</span>
+        <span class="k">def</span> <span class="nf">iter_single_traces</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">traces</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chopper_selected_traces</span><span class="p">(</span><span class="n">tinc</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tinc</span><span class="p">,</span>
+                                                       <span class="n">degap</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                                       <span class="n">fallback</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">tr</span>
+
+        <span class="c1"># the function minmax() in the trace module can get minima and maxima</span>
+        <span class="c1"># grouped by (network,station,location,channel):</span>
+        <span class="n">mima</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">minmax</span><span class="p">(</span><span class="n">iter_single_traces</span><span class="p">())</span>
+
+        <span class="k">for</span> <span class="n">nslc</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">mima</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="n">p2p</span> <span class="o">=</span> <span class="n">mima</span><span class="p">[</span><span class="n">nslc</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">mima</span><span class="p">[</span><span class="n">nslc</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="nb">print</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">: </span><span class="si">%12.5g</span><span class="s1"> </span><span class="si">%12.5g</span><span class="s1"> </span><span class="si">%12.5g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">nslc</span> <span class="o">+</span> <span class="n">mima</span><span class="p">[</span><span class="n">nslc</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">p2p</span><span class="p">,))</span>
+
+<span class="k">def</span> <span class="nf">__snufflings__</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;Returns a list of snufflings to be exported by this module.&#39;&#39;&#39;</span>
+
+    <span class="k">return</span> <span class="p">[</span> <span class="n">MinMaxSnuffling</span><span class="p">()</span> <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="how-to-add-simple-markers-to-the-viewer">
+<h2>How to add simple markers to the viewer<a class="headerlink" href="#how-to-add-simple-markers-to-the-viewer" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko.snuffling</span> <span class="k">import</span> <span class="n">Snuffling</span>
+<span class="kn">from</span> <span class="nn">pyrocko.pile_viewer</span> <span class="k">import</span> <span class="n">Marker</span>
+
+<span class="k">class</span> <span class="nc">Example1</span><span class="p">(</span><span class="n">Snuffling</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;Example Snuffling to demonstrate how to add markers to the viewer.</span>
+
+<span class="sd">It looks at all selected traces and puts a Marker at the peak amplitude of the</span>
+<span class="sd">raw traces. If no traces are selected all traces in view are used.  It is not</span>
+<span class="sd">affected by filter settings of the viewer.</span>
+
+<span class="sd">This works well for short continuous traces, but if longer or gappy traces are</span>
+<span class="sd">in the viewer, there may be some problems which are not</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># this sets the name for the menu entry:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s1">&#39;Example 1: mark peak amplitudes&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># remove all markers which have been previously added by this snuffling</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+
+        <span class="c1"># this is a shortcut to get selected traces or all traces in view</span>
+        <span class="k">for</span> <span class="n">traces</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chopper_selected_traces</span><span class="p">(</span><span class="n">fallback</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+            <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+                <span class="n">net</span><span class="p">,</span> <span class="n">sta</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">cha</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">nslc_id</span>
+
+                <span class="c1"># using a trace method to get time and amplitude</span>
+                <span class="n">time</span><span class="p">,</span> <span class="n">amplitude</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">absmax</span><span class="p">()</span>
+
+                <span class="c1"># the marker kind sets the color of the marker</span>
+                <span class="n">kind</span> <span class="o">=</span> <span class="mi">3</span>
+
+                <span class="c1"># create the marker object</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">Marker</span><span class="p">([</span> <span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">sta</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">cha</span><span class="p">)</span> <span class="p">],</span> <span class="n">time</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">kind</span> <span class="p">)</span>
+
+                <span class="c1"># add it to the viewer</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_marker</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">__snufflings__</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">[</span> <span class="n">Example1</span><span class="p">()</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="section" id="synthetic-seismograms-of-an-sts2-seismometer">
+<h3>Synthetic Seismograms of an STS2 seismometer<a class="headerlink" href="#synthetic-seismograms-of-an-sts2-seismometer" title="Permalink to this headline">¶</a></h3>
+<p>This snuffling demonstrates the method add_paramter() which extends the snufflings&#8217; panel by scroll bars and options to choose between predefined parameters.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">STS2</span><span class="p">:</span>
+
+    <span class="sd">&#39;&#39;&#39; Apply the STS2&#39;s transfer function which is deduced from the</span>
+<span class="sd">poles, zeros and gain of the transfer tunction. The Green&#39;s function</span>
+<span class="sd">database (gdfb) which is required for synthetic seismograms and the</span>
+<span class="sd">rake of the focal mechanism can be chosen and changed within snuffler.</span>
+<span class="sd">Two gfdbs are needed.</span>
+<span class="sd">Three synthetic seismograms of an STS2 seismometer will be the result.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+    <span class="c1"># &#39;evaluate() will apply the transfer function on each frequency.</span>
+    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">freqs</span><span class="p">):</span>
+
+        <span class="c1"># transform the frequency to angular frequency.</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="mi">2</span><span class="n">j</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">freqs</span>
+
+        <span class="n">Poles</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">3.7e-2</span><span class="o">+</span><span class="mf">3.7e-2</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.7e-2</span><span class="o">-</span><span class="mf">3.7e-2</span><span class="n">j</span><span class="p">,</span>
+                       <span class="o">-</span><span class="mf">2.51e2</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.31e2</span><span class="o">+</span><span class="mf">4.67e2</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.31e2</span><span class="o">-</span><span class="mf">4.67e2</span><span class="p">])</span>
+        <span class="n">Zeros</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="mf">6.16817e7</span>
+
+        <span class="c1"># Multiply factored polynomials of the transfer function&#39;s numerator</span>
+        <span class="c1"># and denominator.</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">ones</span><span class="p">(</span><span class="n">freqs</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span><span class="o">*</span><span class="n">K</span>
+        <span class="k">for</span> <span class="n">i_z</span> <span class="ow">in</span> <span class="n">Zeros</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">*=</span> <span class="n">w</span><span class="o">-</span><span class="n">i_z</span>
+        <span class="k">for</span> <span class="n">i_p</span> <span class="ow">in</span> <span class="n">Poles</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">/=</span> <span class="n">w</span><span class="o">-</span><span class="n">i_p</span>
+        <span class="k">return</span> <span class="n">a</span>
+
+<span class="k">class</span> <span class="nc">ParaEditCp_TF_GTTG</span><span class="p">(</span><span class="n">Snuffling</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># Give the snuffling a name:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s1">&#39;STS-2.1&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Add scrollbars of the parameters that you desire to adjust.</span>
+        <span class="c1"># 1st argument: Description that appears within the snuffling.</span>
+        <span class="c1"># 2nd argument: Name of parameter as used in the following code.</span>
+        <span class="c1"># 3rd-5th argument: default, start, stop.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="n">Param</span><span class="p">(</span><span class="s1">&#39;Strike[deg]&#39;</span><span class="p">,</span> <span class="s1">&#39;strike&#39;</span><span class="p">,</span> <span class="mf">179.</span><span class="p">,</span> <span class="o">-</span><span class="mf">180.</span><span class="p">,</span> <span class="mf">180.</span><span class="p">))</span>
+
+        <span class="c1"># The parameter &#39;Choice&#39; adds a menu to choose from different options.</span>
+        <span class="c1"># 1st argument: Description that appears within the snuffling.</span>
+        <span class="c1"># 2nd argument: Name of paramter as used in the following code.</span>
+        <span class="c1"># 3rd argument: Default</span>
+        <span class="c1"># 4th to ... argument: List containing all other options.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="n">Choice</span><span class="p">(</span><span class="s1">&#39;GFDB&#39;</span><span class="p">,</span><span class="s1">&#39;database&#39;</span><span class="p">,</span><span class="s1">&#39;gemini&#39;</span><span class="p">,[</span><span class="s1">&#39;gemini&#39;</span><span class="p">,</span><span class="s1">&#39;qseis&#39;</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_live_update</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+
+        <span class="c1"># Set up receiver configuration.</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        HH  53.456  9.9247  0</span>
+<span class="s1">        &#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+        <span class="n">receivers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">station</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">depth</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">receiver</span><span class="o">.</span><span class="n">Receiver</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span><span class="n">lon</span><span class="p">,</span> <span class="n">components</span><span class="o">=</span><span class="s1">&#39;neu&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;.</span><span class="si">%s</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="n">station</span><span class="p">)</span>
+        <span class="n">receivers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+
+        <span class="c1"># Composition of the source</span>
+        <span class="n">olat</span><span class="p">,</span> <span class="n">olon</span> <span class="o">=</span> <span class="mf">36.9800</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.5400</span>
+        <span class="n">otime</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">str_to_time</span><span class="p">(</span><span class="s1">&#39;1954-03-29 06:16:05&#39;</span><span class="p">)</span>
+
+        <span class="c1"># The gfdb can be chosen within snuffler.</span>
+        <span class="c1"># This refers to the &#39;add_parameter&#39; method.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">database</span> <span class="o">==</span> <span class="s1">&#39;gemini&#39;</span><span class="p">:</span>
+            <span class="n">db</span> <span class="o">=</span> <span class="n">gfdb</span><span class="o">.</span><span class="n">Gfdb</span><span class="p">(</span><span class="s1">&#39;/scratch/local2/gfdb_workshop_iasp91/gfdb/db&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">db</span> <span class="o">=</span> <span class="n">gfdb</span><span class="o">.</span><span class="n">Gfdb</span><span class="p">(</span><span class="s1">&#39;/scratch/local2/gfdb_building/deep/gfdb_iasp/db&#39;</span><span class="p">)</span>
+
+        <span class="n">seis</span> <span class="o">=</span> <span class="n">seismosizer</span><span class="o">.</span><span class="n">Seismosizer</span><span class="p">(</span><span class="n">hosts</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;localhost&#39;</span><span class="p">])</span>
+        <span class="n">seis</span><span class="o">.</span><span class="n">set_database</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+        <span class="n">seis</span><span class="o">.</span><span class="n">set_effective_dt</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
+        <span class="n">seis</span><span class="o">.</span><span class="n">set_local_interpolation</span><span class="p">(</span><span class="s1">&#39;bilinear&#39;</span><span class="p">)</span>
+        <span class="n">seis</span><span class="o">.</span><span class="n">set_receivers</span><span class="p">(</span><span class="n">receivers</span><span class="p">)</span>
+        <span class="n">seis</span><span class="o">.</span><span class="n">set_source_location</span><span class="p">(</span> <span class="n">olat</span><span class="p">,</span> <span class="n">olon</span><span class="p">,</span> <span class="n">otime</span><span class="p">)</span>
+        <span class="n">seis</span><span class="o">.</span><span class="n">set_source_constraints</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span><span class="mi">0</span> <span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seis</span> <span class="o">=</span> <span class="n">seis</span>
+
+        <span class="c1"># Change strike within snuffler with the added scroll bar.</span>
+        <span class="n">strike</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">strike</span>
+
+        <span class="c1"># Other focal mechism parameters are constants</span>
+        <span class="n">dip</span> <span class="o">=</span> <span class="mi">122</span><span class="p">;</span> <span class="n">rake</span> <span class="o">=</span> <span class="mi">80</span><span class="p">;</span> <span class="n">moment</span> <span class="o">=</span> <span class="mf">7.00e20</span><span class="p">;</span> <span class="n">depth</span> <span class="o">=</span> <span class="mi">650000</span><span class="p">;</span> <span class="n">risetime</span> <span class="o">=</span> <span class="mi">24</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">Source</span><span class="p">(</span><span class="s1">&#39;bilateral&#39;</span><span class="p">,</span>
+        <span class="n">sourceparams_str</span><span class="o">=</span><span class="s1">&#39;0 0 0 </span><span class="si">%g</span><span class="s1"> </span><span class="si">%g</span><span class="s1"> </span><span class="si">%g</span><span class="s1"> </span><span class="si">%g</span><span class="s1"> </span><span class="si">%g</span><span class="s1"> 0 0 0 0 1 </span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">moment</span><span class="p">,</span> <span class="n">strike</span><span class="p">,</span> <span class="n">dip</span><span class="p">,</span> <span class="n">rake</span><span class="p">,</span> <span class="n">risetime</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seis</span><span class="o">.</span><span class="n">set_source</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">recs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seis</span><span class="o">.</span><span class="n">get_receivers_snapshot</span><span class="p">(</span> <span class="n">which_seismograms</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;syn&#39;</span><span class="p">,),</span> <span class="n">which_spectra</span><span class="o">=</span><span class="p">(),</span> <span class="n">which_processing</span><span class="o">=</span><span class="s1">&#39;tapered&#39;</span><span class="p">)</span>
+
+        <span class="n">trs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">rec</span> <span class="ow">in</span> <span class="n">recs</span><span class="p">:</span>
+            <span class="n">rec</span><span class="o">.</span><span class="n">save_traces_mseed</span><span class="p">(</span><span class="n">filename_tmpl</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%(whichset)s</span><span class="s1">_</span><span class="si">%(network)s</span><span class="s1">_</span><span class="si">%(station)s</span><span class="s1">_</span><span class="si">%(location)s</span><span class="s1">_</span><span class="si">%(channel)s</span><span class="s1">.mseed&#39;</span> <span class="p">)</span>
+            <span class="n">trs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">rec</span><span class="o">.</span><span class="n">get_traces</span><span class="p">())</span>
+
+        <span class="c1"># Define fade in and out, band pass filter and cut off fader for the TF.</span>
+        <span class="n">tfade</span> <span class="o">=</span> <span class="mi">8</span>
+        <span class="n">freqlimit</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.005</span><span class="p">,</span><span class="mf">0.006</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.3</span><span class="p">)</span>
+        <span class="n">cut_off_fading</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="n">ntraces</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">trs</span><span class="p">:</span>
+            <span class="n">TF</span> <span class="o">=</span> <span class="n">STS2</span><span class="p">()</span>
+
+            <span class="c1"># Save synthetic trace after transfer function was applied.</span>
+            <span class="n">trace_filtered</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">tfade</span><span class="p">,</span> <span class="n">freqlimit</span><span class="p">,</span> <span class="n">TF</span><span class="p">,</span> <span class="n">cut_off_fading</span><span class="p">)</span>
+            <span class="c1"># Set new codes to the filtered trace to make it identifiable.</span>
+            <span class="n">rename</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;e&#39;</span><span class="p">:</span><span class="s1">&#39;BHE&#39;</span><span class="p">,</span><span class="s1">&#39;n&#39;</span><span class="p">:</span><span class="s1">&#39;BHN&#39;</span><span class="p">,</span><span class="s1">&#39;u&#39;</span><span class="p">:</span><span class="s1">&#39;BHZ&#39;</span><span class="p">}</span>
+            <span class="n">trace_filtered</span><span class="o">.</span><span class="n">set_codes</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="n">rename</span><span class="p">[</span><span class="n">trace_filtered</span><span class="o">.</span><span class="n">channel</span><span class="p">],</span> <span class="n">network</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">station</span><span class="o">=</span><span class="s1">&#39;HHHA&#39;</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="s1">&#39;syn&#39;</span><span class="p">)</span>
+            <span class="n">ntraces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trace_filtered</span><span class="p">)</span>
+
+<span class="c1">#             Extract the synthetic trace&#39;s data with get_?data() and store them.</span>
+<span class="c1">#            xval = trace_filtered.get_xdata()</span>
+<span class="c1">#            yval = trace_filtered.get_ydata()</span>
+<span class="c1">#            savetxt(&#39;synthetic_data_&#39;+trace_filtered.channel,xval)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_traces</span><span class="p">(</span><span class="n">ntraces</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seis</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="k">def</span> <span class="nf">__snufflings__</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">[</span> <span class="n">ParaEditCp_TF_GTTG</span><span class="p">()</span> <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../cake/index.html" title="Cake"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Snuffler tutorial"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

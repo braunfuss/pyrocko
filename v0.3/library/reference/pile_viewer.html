@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The pile_viewer Module &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The plot Module" href="plot.html" />
+    <link rel="prev" title="The pile Module" href="pile.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyrocko.pile_viewer">
+<span id="the-pile-viewer-module"></span><h1>The <code class="xref py py-mod docutils literal"><span class="pre">pile_viewer</span></code> Module<a class="headerlink" href="#module-pyrocko.pile_viewer" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="pyrocko.pile_viewer.detrend">
+<code class="descname">detrend</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#detrend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.detrend" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile_viewer.retrend">
+<code class="descname">retrend</code><span class="sig-paren">(</span><em>x</em>, <em>y_detrended</em>, <em>slope</em>, <em>offset</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#retrend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.retrend" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.pile_viewer.Global">
+<em class="property">class </em><code class="descname">Global</code><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#Global"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.Global" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="pyrocko.pile_viewer.Global.appOnDemand">
+<code class="descname">appOnDemand</code><em class="property"> = None</em><a class="headerlink" href="#pyrocko.pile_viewer.Global.appOnDemand" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.pile_viewer.NSLC">
+<em class="property">class </em><code class="descname">NSLC</code><span class="sig-paren">(</span><em>n</em>, <em>s</em>, <em>l=None</em>, <em>c=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#NSLC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.NSLC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.pile_viewer.m_float">
+<em class="property">class </em><code class="descname">m_float</code><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#m_float"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.m_float" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile_viewer.m_float_or_none">
+<code class="descname">m_float_or_none</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#m_float_or_none"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.m_float_or_none" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile_viewer.make_chunks">
+<code class="descname">make_chunks</code><span class="sig-paren">(</span><em>items</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#make_chunks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.make_chunks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split a list of integers into sublists of consecutive elements.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.pile_viewer.deg_float">
+<em class="property">class </em><code class="descname">deg_float</code><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#deg_float"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.deg_float" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile_viewer.deg_float_or_none">
+<code class="descname">deg_float_or_none</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#deg_float_or_none"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.deg_float_or_none" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.pile_viewer.sector_int">
+<em class="property">class </em><code class="descname">sector_int</code><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#sector_int"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.sector_int" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile_viewer.num_to_html">
+<code class="descname">num_to_html</code><span class="sig-paren">(</span><em>num</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#num_to_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.num_to_html" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.pile_viewer.Timer">
+<em class="property">class </em><code class="descname">Timer</code><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#Timer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.Timer" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pyrocko.pile_viewer.Timer.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#Timer.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.Timer.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.Timer.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#Timer.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.Timer.stop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.Timer.get">
+<code class="descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#Timer.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.Timer.get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.pile_viewer.Integrator">
+<em class="property">class </em><code class="descname">Integrator</code><span class="sig-paren">(</span><em>basepile=None</em>, <em>tinc=360.0</em>, <em>tpad=0.0</em>, <em>storepath=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#Integrator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.Integrator" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pyrocko.pile_viewer.Integrator.process">
+<code class="descname">process</code><span class="sig-paren">(</span><em>iblock</em>, <em>tmin</em>, <em>tmax</em>, <em>traces</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#Integrator.process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.Integrator.process" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.pile_viewer.ObjectStyle">
+<em class="property">class </em><code class="descname">ObjectStyle</code><span class="sig-paren">(</span><em>frame_pen</em>, <em>fill_brush</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#ObjectStyle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.ObjectStyle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile_viewer.get_working_system_time_range">
+<code class="descname">get_working_system_time_range</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#get_working_system_time_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.get_working_system_time_range" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile_viewer.is_working_time">
+<code class="descname">is_working_time</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#is_working_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.is_working_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile_viewer.fancy_time_ax_format">
+<code class="descname">fancy_time_ax_format</code><span class="sig-paren">(</span><em>inc</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#fancy_time_ax_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.fancy_time_ax_format" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile_viewer.day_start">
+<code class="descname">day_start</code><span class="sig-paren">(</span><em>timestamp</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#day_start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.day_start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile_viewer.month_start">
+<code class="descname">month_start</code><span class="sig-paren">(</span><em>timestamp</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#month_start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.month_start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile_viewer.year_start">
+<code class="descname">year_start</code><span class="sig-paren">(</span><em>timestamp</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#year_start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.year_start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile_viewer.time_nice_value">
+<code class="descname">time_nice_value</code><span class="sig-paren">(</span><em>inc0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#time_nice_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.time_nice_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.pile_viewer.TimeScaler">
+<em class="property">class </em><code class="descname">TimeScaler</code><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#TimeScaler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.TimeScaler" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pyrocko.pile_viewer.TimeScaler.make_scale">
+<code class="descname">make_scale</code><span class="sig-paren">(</span><em>data_range</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#TimeScaler.make_scale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.TimeScaler.make_scale" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.TimeScaler.make_ticks">
+<code class="descname">make_ticks</code><span class="sig-paren">(</span><em>data_range</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#TimeScaler.make_ticks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.TimeScaler.make_ticks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile_viewer.need_l1_tick">
+<code class="descname">need_l1_tick</code><span class="sig-paren">(</span><em>tt</em>, <em>ms</em>, <em>l1_trig</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#need_l1_tick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.need_l1_tick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile_viewer.tick_to_labels">
+<code class="descname">tick_to_labels</code><span class="sig-paren">(</span><em>tick</em>, <em>inc</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#tick_to_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.tick_to_labels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile_viewer.l1_l2_tick">
+<code class="descname">l1_l2_tick</code><span class="sig-paren">(</span><em>tick</em>, <em>inc</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#l1_l2_tick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.l1_l2_tick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.pile_viewer.TimeAx">
+<em class="property">class </em><code class="descname">TimeAx</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#TimeAx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.TimeAx" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pyrocko.pile_viewer.TimeAx.drawit">
+<code class="descname">drawit</code><span class="sig-paren">(</span><em>p</em>, <em>xprojection</em>, <em>yprojection</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#TimeAx.drawit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.TimeAx.drawit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.pile_viewer.Projection">
+<em class="property">class </em><code class="descname">Projection</code><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#Projection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.Projection" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pyrocko.pile_viewer.Projection.set_in_range">
+<code class="descname">set_in_range</code><span class="sig-paren">(</span><em>xmin</em>, <em>xmax</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#Projection.set_in_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.Projection.set_in_range" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.Projection.get_in_range">
+<code class="descname">get_in_range</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#Projection.get_in_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.Projection.get_in_range" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.Projection.set_out_range">
+<code class="descname">set_out_range</code><span class="sig-paren">(</span><em>umin</em>, <em>umax</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#Projection.set_out_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.Projection.set_out_range" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.Projection.get_out_range">
+<code class="descname">get_out_range</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#Projection.get_out_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.Projection.get_out_range" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.Projection.clipped">
+<code class="descname">clipped</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#Projection.clipped"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.Projection.clipped" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.Projection.rev">
+<code class="descname">rev</code><span class="sig-paren">(</span><em>u</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#Projection.rev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.Projection.rev" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.Projection.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#Projection.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.Projection.copy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile_viewer.add_radiobuttongroup">
+<code class="descname">add_radiobuttongroup</code><span class="sig-paren">(</span><em>menu</em>, <em>menudef</em>, <em>obj</em>, <em>target</em>, <em>default=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#add_radiobuttongroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.add_radiobuttongroup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile_viewer.sort_actions">
+<code class="descname">sort_actions</code><span class="sig-paren">(</span><em>menu</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#sort_actions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.sort_actions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="pyrocko.pile_viewer.PileViewerMainException">
+<em class="property">exception </em><code class="descname">PileViewerMainException</code><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewerMainException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMainException" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.pile_viewer.MakePileViewerMainClass">
+<code class="descname">MakePileViewerMainClass</code><span class="sig-paren">(</span><em>base</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#MakePileViewerMainClass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.MakePileViewerMainClass" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.pile_viewer.PileViewerMain">
+<em class="property">class </em><code class="descname">PileViewerMain</code><span class="sig-paren">(</span><em>pile</em>, <em>ntracks_shown_max</em>, <em>panel_parent</em>, <em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.about">
+<code class="descname">about</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.about" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.add_blacklist_pattern">
+<code class="descname">add_blacklist_pattern</code><span class="sig-paren">(</span><em>pattern</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.add_blacklist_pattern" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.add_event">
+<code class="descname">add_event</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.add_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.add_events">
+<code class="descname">add_events</code><span class="sig-paren">(</span><em>events</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.add_events" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.add_marker">
+<code class="descname">add_marker</code><span class="sig-paren">(</span><em>marker</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.add_marker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.add_markers">
+<code class="descname">add_markers</code><span class="sig-paren">(</span><em>markers</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.add_markers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.add_panel_toggler">
+<code class="descname">add_panel_toggler</code><span class="sig-paren">(</span><em>item</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.add_panel_toggler" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.add_shadow_pile">
+<code class="descname">add_shadow_pile</code><span class="sig-paren">(</span><em>shadow_pile</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.add_shadow_pile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.add_snuffling">
+<code class="descname">add_snuffling</code><span class="sig-paren">(</span><em>snuffling</em>, <em>reloaded=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.add_snuffling" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.add_snuffling_help_menuitem">
+<code class="descname">add_snuffling_help_menuitem</code><span class="sig-paren">(</span><em>item</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.add_snuffling_help_menuitem" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.add_snuffling_menuitem">
+<code class="descname">add_snuffling_menuitem</code><span class="sig-paren">(</span><em>item</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.add_snuffling_menuitem" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.add_stations">
+<code class="descname">add_stations</code><span class="sig-paren">(</span><em>stations</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.add_stations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.add_traces">
+<code class="descname">add_traces</code><span class="sig-paren">(</span><em>traces</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.add_traces" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.animate_picking">
+<code class="descname">animate_picking</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.animate_picking" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.apply_scaling_hooks">
+<code class="descname">apply_scaling_hooks</code><span class="sig-paren">(</span><em>data_ranges</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.apply_scaling_hooks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.associate_phases_to_events">
+<code class="descname">associate_phases_to_events</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.associate_phases_to_events" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.clean_update">
+<code class="descname">clean_update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.clean_update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.clear_blacklist">
+<code class="descname">clear_blacklist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.clear_blacklist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.content_deltat_range">
+<code class="descname">content_deltat_range</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.content_deltat_range" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.content_time_range">
+<code class="descname">content_time_range</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.content_time_range" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.deactivate_event_marker">
+<code class="descname">deactivate_event_marker</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.deactivate_event_marker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.deselect_all">
+<code class="descname">deselect_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.deselect_all" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.determine_box_styles">
+<code class="descname">determine_box_styles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.determine_box_styles" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.distances_3d_changed">
+<code class="descname">distances_3d_changed</code><span class="sig-paren">(</span><em>ignore</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.distances_3d_changed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.dragEnterEvent">
+<code class="descname">dragEnterEvent</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.dragEnterEvent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.draw_trace_boxes">
+<code class="descname">draw_trace_boxes</code><span class="sig-paren">(</span><em>p</em>, <em>time_projection</em>, <em>track_projections</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.draw_trace_boxes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.draw_visible_markers">
+<code class="descname">draw_visible_markers</code><span class="sig-paren">(</span><em>markers</em>, <em>p</em>, <em>vcenter_projection</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.draw_visible_markers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw non-overlapping <code class="docutils literal"><span class="pre">markers</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.drawit">
+<code class="descname">drawit</code><span class="sig-paren">(</span><em>p</em>, <em>printmode=False</em>, <em>w=None</em>, <em>h=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.drawit" title="Permalink to this definition">¶</a></dt>
+<dd><p>This performs the actual drawing.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.dropEvent">
+<code class="descname">dropEvent</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.dropEvent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.emit_selected_markers">
+<code class="descname">emit_selected_markers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.emit_selected_markers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.fail">
+<code class="descname">fail</code><span class="sig-paren">(</span><em>reason</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.fail" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.follow">
+<code class="descname">follow</code><span class="sig-paren">(</span><em>tlen</em>, <em>interval=50</em>, <em>lapse=None</em>, <em>tmax_start=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.follow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.follow_update">
+<code class="descname">follow_update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.follow_update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.following">
+<code class="descname">following</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.following" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.following_interrupted">
+<code class="descname">following_interrupted</code><span class="sig-paren">(</span><em>now=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.following_interrupted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.gain_change">
+<code class="descname">gain_change</code><span class="sig-paren">(</span><em>value</em>, <em>ignore</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.gain_change" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.get_active_event">
+<code class="descname">get_active_event</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.get_active_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.get_active_event_marker">
+<code class="descname">get_active_event_marker</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.get_active_event_marker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.get_markers">
+<code class="descname">get_markers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.get_markers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.get_nslc_ids_for_track">
+<code class="descname">get_nslc_ids_for_track</code><span class="sig-paren">(</span><em>ftrack</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.get_nslc_ids_for_track" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.get_panel_parent">
+<code class="descname">get_panel_parent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.get_panel_parent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.get_phase_name">
+<code class="descname">get_phase_name</code><span class="sig-paren">(</span><em>kind</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.get_phase_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.get_pile">
+<code class="descname">get_pile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.get_pile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.get_quick_filter_patterns">
+<code class="descname">get_quick_filter_patterns</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.get_quick_filter_patterns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.get_station">
+<code class="descname">get_station</code><span class="sig-paren">(</span><em>sk</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.get_station" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.get_time_range">
+<code class="descname">get_time_range</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.get_time_range" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.go_to_event_by_name">
+<code class="descname">go_to_event_by_name</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.go_to_event_by_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.go_to_selection">
+<code class="descname">go_to_selection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.go_to_selection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.go_to_time">
+<code class="descname">go_to_time</code><span class="sig-paren">(</span><em>t</em>, <em>tlen=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.go_to_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.handle_fkeys">
+<code class="descname">handle_fkeys</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.handle_fkeys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.has_station">
+<code class="descname">has_station</code><span class="sig-paren">(</span><em>station</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.has_station" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.help">
+<code class="descname">help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.help" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.highpass_change">
+<code class="descname">highpass_change</code><span class="sig-paren">(</span><em>value</em>, <em>ignore=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.highpass_change" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.hoovering">
+<code class="descname">hoovering</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.hoovering" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.inputline_changed">
+<code class="descname">inputline_changed</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.inputline_changed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.inputline_finished">
+<code class="descname">inputline_finished</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.inputline_finished" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.interrupt_following">
+<code class="descname">interrupt_following</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.interrupt_following" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.iter_snuffling_modules">
+<code class="descname">iter_snuffling_modules</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.iter_snuffling_modules" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.keyPressEvent">
+<code class="descname">keyPressEvent</code><span class="sig-paren">(</span><em>key_event</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.keyPressEvent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>paths</em>, <em>regex=None</em>, <em>format='from_extension'</em>, <em>cache_dir=None</em>, <em>force_cache=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.load" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.load_queued">
+<code class="descname">load_queued</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.load_queued" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.load_soon">
+<code class="descname">load_soon</code><span class="sig-paren">(</span><em>paths</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.load_soon" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.lowpass_change">
+<code class="descname">lowpass_change</code><span class="sig-paren">(</span><em>value</em>, <em>ignore=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.lowpass_change" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.make_good_looking_time_range">
+<code class="descname">make_good_looking_time_range</code><span class="sig-paren">(</span><em>tmin</em>, <em>tmax</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.make_good_looking_time_range" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.marker_under_cursor">
+<code class="descname">marker_under_cursor</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.marker_under_cursor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.mouseDoubleClickEvent">
+<code class="descname">mouseDoubleClickEvent</code><span class="sig-paren">(</span><em>mouse_ev</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.mouseDoubleClickEvent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.mouseMoveEvent">
+<code class="descname">mouseMoveEvent</code><span class="sig-paren">(</span><em>mouse_ev</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.mouseMoveEvent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.mousePressEvent">
+<code class="descname">mousePressEvent</code><span class="sig-paren">(</span><em>mouse_ev</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.mousePressEvent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.mouseReleaseEvent">
+<code class="descname">mouseReleaseEvent</code><span class="sig-paren">(</span><em>mouse_ev</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.mouseReleaseEvent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.myclose">
+<code class="descname">myclose</code><span class="sig-paren">(</span><em>return_tag=''</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.myclose" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.nslc_ids_under_cursor">
+<code class="descname">nslc_ids_under_cursor</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.nslc_ids_under_cursor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.nudge_selected_markers">
+<code class="descname">nudge_selected_markers</code><span class="sig-paren">(</span><em>npixels</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.nudge_selected_markers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.open_link">
+<code class="descname">open_link</code><span class="sig-paren">(</span><em>link</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.open_link" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.open_stations">
+<code class="descname">open_stations</code><span class="sig-paren">(</span><em>_=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.open_stations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.open_waveform_directory">
+<code class="descname">open_waveform_directory</code><span class="sig-paren">(</span><em>_=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.open_waveform_directory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.open_waveforms">
+<code class="descname">open_waveforms</code><span class="sig-paren">(</span><em>_=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.open_waveforms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.paintEvent">
+<code class="descname">paintEvent</code><span class="sig-paren">(</span><em>paint_ev</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.paintEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called by QT whenever widget needs to be painted</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.passband_check">
+<code class="descname">passband_check</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.passband_check" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.periodical">
+<code class="descname">periodical</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.periodical" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.pile_changed">
+<code class="descname">pile_changed</code><span class="sig-paren">(</span><em>what</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.pile_changed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.post_process_hooks">
+<code class="descname">post_process_hooks</code><span class="sig-paren">(</span><em>traces</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.post_process_hooks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.pre_process_hooks">
+<code class="descname">pre_process_hooks</code><span class="sig-paren">(</span><em>traces</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.pre_process_hooks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.prepare_cutout2">
+<code class="descname">prepare_cutout2</code><span class="sig-paren">(</span><em>tmin</em>, <em>tmax</em>, <em>trace_selector=None</em>, <em>degap=True</em>, <em>nmax=6000</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.prepare_cutout2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.printit">
+<code class="descname">printit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.printit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.read_events">
+<code class="descname">read_events</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.read_events" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open QFileDialog to open, read and add
+<a class="reference internal" href="model.html#pyrocko.model.Event" title="pyrocko.model.Event"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.model.Event</span></code></a> instances and their marker
+representation to the pile viewer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.read_markers">
+<code class="descname">read_markers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.read_markers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open QFileDialog to open, read and add markers to the pile viewer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.release_data">
+<code class="descname">release_data</code><span class="sig-paren">(</span><em>tickets</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.release_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.remove_blacklist_pattern">
+<code class="descname">remove_blacklist_pattern</code><span class="sig-paren">(</span><em>pattern</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.remove_blacklist_pattern" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.remove_marker">
+<code class="descname">remove_marker</code><span class="sig-paren">(</span><em>marker</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.remove_marker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a <code class="docutils literal"><span class="pre">marker</span></code> from the <a class="reference internal" href="#pyrocko.pile_viewer.PileViewer" title="pyrocko.pile_viewer.PileViewer"><code class="xref py py-class docutils literal"><span class="pre">PileViewer</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>marker</strong> &#8211; <code class="xref py py-class docutils literal"><span class="pre">Marker</span></code> (or subclass) instance</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.remove_marker_from_menu">
+<code class="descname">remove_marker_from_menu</code><span class="sig-paren">(</span><em>istart</em>, <em>istop</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.remove_marker_from_menu" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.remove_markers">
+<code class="descname">remove_markers</code><span class="sig-paren">(</span><em>markers</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.remove_markers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a list of <code class="docutils literal"><span class="pre">markers</span></code> from the <a class="reference internal" href="#pyrocko.pile_viewer.PileViewer" title="pyrocko.pile_viewer.PileViewer"><code class="xref py py-class docutils literal"><span class="pre">PileViewer</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>markers</strong> &#8211; list of <code class="xref py py-class docutils literal"><span class="pre">Marker</span></code> (or subclass)
+instances</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.remove_panel_toggler">
+<code class="descname">remove_panel_toggler</code><span class="sig-paren">(</span><em>item</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.remove_panel_toggler" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.remove_scaling_hook">
+<code class="descname">remove_scaling_hook</code><span class="sig-paren">(</span><em>k</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.remove_scaling_hook" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.remove_scaling_hooks">
+<code class="descname">remove_scaling_hooks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.remove_scaling_hooks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.remove_shadow_piles">
+<code class="descname">remove_shadow_piles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.remove_shadow_piles" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.remove_snuffling">
+<code class="descname">remove_snuffling</code><span class="sig-paren">(</span><em>snuffling</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.remove_snuffling" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.remove_snuffling_help_menuitem">
+<code class="descname">remove_snuffling_help_menuitem</code><span class="sig-paren">(</span><em>item</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.remove_snuffling_help_menuitem" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.remove_snuffling_menuitem">
+<code class="descname">remove_snuffling_menuitem</code><span class="sig-paren">(</span><em>item</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.remove_snuffling_menuitem" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.rot_change">
+<code class="descname">rot_change</code><span class="sig-paren">(</span><em>value</em>, <em>ignore</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.rot_change" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.s_sortingmode_change">
+<code class="descname">s_sortingmode_change</code><span class="sig-paren">(</span><em>ignore=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.s_sortingmode_change" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.savesvg">
+<code class="descname">savesvg</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.savesvg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.scaling_base_change">
+<code class="descname">scaling_base_change</code><span class="sig-paren">(</span><em>ignore=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.scaling_base_change" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.scalingmode_change">
+<code class="descname">scalingmode_change</code><span class="sig-paren">(</span><em>ignore=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.scalingmode_change" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.scroll_tracks">
+<code class="descname">scroll_tracks</code><span class="sig-paren">(</span><em>shift</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.scroll_tracks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.see_data_params">
+<code class="descname">see_data_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.see_data_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.selected_markers">
+<code class="descname">selected_markers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.selected_markers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_active_event">
+<code class="descname">set_active_event</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_active_event" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_active_event_marker">
+<code class="descname">set_active_event_marker</code><span class="sig-paren">(</span><em>event_marker</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_active_event_marker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_error_message">
+<code class="descname">set_error_message</code><span class="sig-paren">(</span><em>key</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_error_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_event_marker_as_origin">
+<code class="descname">set_event_marker_as_origin</code><span class="sig-paren">(</span><em>ignore</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_event_marker_as_origin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_gathering">
+<code class="descname">set_gathering</code><span class="sig-paren">(</span><em>gather=None</em>, <em>order=None</em>, <em>color=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_gathering" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_markers">
+<code class="descname">set_markers</code><span class="sig-paren">(</span><em>markers</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_markers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_ntracks">
+<code class="descname">set_ntracks</code><span class="sig-paren">(</span><em>ntracks</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_ntracks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_origin">
+<code class="descname">set_origin</code><span class="sig-paren">(</span><em>location</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_origin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_panel_parent">
+<code class="descname">set_panel_parent</code><span class="sig-paren">(</span><em>panel_parent</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_panel_parent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_phase_kind">
+<code class="descname">set_phase_kind</code><span class="sig-paren">(</span><em>markers</em>, <em>kind</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_phase_kind" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_quick_filter">
+<code class="descname">set_quick_filter</code><span class="sig-paren">(</span><em>filter_func</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_quick_filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_quick_filter_patterns">
+<code class="descname">set_quick_filter_patterns</code><span class="sig-paren">(</span><em>patterns</em>, <em>inputline=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_quick_filter_patterns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_scaling_hook">
+<code class="descname">set_scaling_hook</code><span class="sig-paren">(</span><em>k</em>, <em>hook</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_scaling_hook" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_selected_markers">
+<code class="descname">set_selected_markers</code><span class="sig-paren">(</span><em>markers</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_selected_markers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a list of markers selected</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>markers</strong> &#8211; list of markers</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_sortingmode_change_delay_time">
+<code class="descname">set_sortingmode_change_delay_time</code><span class="sig-paren">(</span><em>dt</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_sortingmode_change_delay_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_stations">
+<code class="descname">set_stations</code><span class="sig-paren">(</span><em>stations</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_stations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_time_range">
+<code class="descname">set_time_range</code><span class="sig-paren">(</span><em>tmin</em>, <em>tmax</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_time_range" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_trace_filter">
+<code class="descname">set_trace_filter</code><span class="sig-paren">(</span><em>filter_func</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_trace_filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_tracks_range">
+<code class="descname">set_tracks_range</code><span class="sig-paren">(</span><em>range</em>, <em>start=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_tracks_range" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.set_visible_marker_kinds">
+<code class="descname">set_visible_marker_kinds</code><span class="sig-paren">(</span><em>kinds</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.set_visible_marker_kinds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.setup_snufflings">
+<code class="descname">setup_snufflings</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.setup_snufflings" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.show_doc">
+<code class="descname">show_doc</code><span class="sig-paren">(</span><em>name</em>, <em>labels</em>, <em>target='panel'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.show_doc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.sortingmode_change">
+<code class="descname">sortingmode_change</code><span class="sig-paren">(</span><em>ignore=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.sortingmode_change" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.sortingmode_change_delayed">
+<code class="descname">sortingmode_change_delayed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.sortingmode_change_delayed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.ssort">
+<code class="descname">ssort</code><span class="sig-paren">(</span><em>tr</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.ssort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.start_picking">
+<code class="descname">start_picking</code><span class="sig-paren">(</span><em>ignore</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.start_picking" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.station_attrib">
+<code class="descname">station_attrib</code><span class="sig-paren">(</span><em>tr</em>, <em>getter</em>, <em>default_getter</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.station_attrib" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.station_key">
+<code class="descname">station_key</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.station_key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.station_latlon">
+<code class="descname">station_latlon</code><span class="sig-paren">(</span><em>tr</em>, <em>default_getter=&lt;function &lt;lambda&gt; at 0xcacbd70&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.station_latlon" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.stop_picking">
+<code class="descname">stop_picking</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>abort=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.stop_picking" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.time_fractional_digits">
+<code class="descname">time_fractional_digits</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.time_fractional_digits" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.tobedrawn">
+<code class="descname">tobedrawn</code><span class="sig-paren">(</span><em>markers</em>, <em>uminmax</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.tobedrawn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns two lists of indices:
+first indicates which markers should be labeled.
+second indicates which markers should be drawn.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.toggle_main_controls">
+<code class="descname">toggle_main_controls</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.toggle_main_controls" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.toggle_marker_editor">
+<code class="descname">toggle_marker_editor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.toggle_marker_editor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.toggletest">
+<code class="descname">toggletest</code><span class="sig-paren">(</span><em>checked</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.toggletest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.unfollow">
+<code class="descname">unfollow</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.unfollow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.update_picking">
+<code class="descname">update_picking</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>doshift=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.update_picking" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.update_status">
+<code class="descname">update_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.update_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.update_trace_filter">
+<code class="descname">update_trace_filter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.update_trace_filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.visible_length_change">
+<code class="descname">visible_length_change</code><span class="sig-paren">(</span><em>ignore=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.visible_length_change" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.wheelEvent">
+<code class="descname">wheelEvent</code><span class="sig-paren">(</span><em>wheel_event</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.wheelEvent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.write_markers">
+<code class="descname">write_markers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.write_markers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.write_selected_markers">
+<code class="descname">write_selected_markers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.write_selected_markers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.ypart">
+<code class="descname">ypart</code><span class="sig-paren">(</span><em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.ypart" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewerMain.zoom_tracks">
+<code class="descname">zoom_tracks</code><span class="sig-paren">(</span><em>anchor</em>, <em>delta</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.pile_viewer.PileViewerMain.zoom_tracks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyrocko.pile_viewer.GLPileViewerMain">
+<code class="descname">GLPileViewerMain</code><a class="headerlink" href="#pyrocko.pile_viewer.GLPileViewerMain" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#pyrocko.pile_viewer.PileViewerMain" title="pyrocko.pile_viewer.PileViewerMain"><code class="xref py py-class docutils literal"><span class="pre">PileViewerMain</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.pile_viewer.LineEditWithAbort">
+<em class="property">class </em><code class="descname">LineEditWithAbort</code><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#LineEditWithAbort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.LineEditWithAbort" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pyrocko.pile_viewer.LineEditWithAbort.keyPressEvent">
+<code class="descname">keyPressEvent</code><span class="sig-paren">(</span><em>key_event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#LineEditWithAbort.keyPressEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.LineEditWithAbort.keyPressEvent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.pile_viewer.PileViewer">
+<em class="property">class </em><code class="descname">PileViewer</code><span class="sig-paren">(</span><em>pile</em>, <em>ntracks_shown_max=20</em>, <em>use_opengl=False</em>, <em>panel_parent=None</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer" title="Permalink to this definition">¶</a></dt>
+<dd><p>PileViewerMain + Controls + Inputline</p>
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.get_progressbars">
+<code class="descname">get_progressbars</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.get_progressbars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.get_progressbars" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.inputline_show">
+<code class="descname">inputline_show</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.inputline_show"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.inputline_show" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.inputline_set_error">
+<code class="descname">inputline_set_error</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.inputline_set_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.inputline_set_error" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.inputline_clear_error">
+<code class="descname">inputline_clear_error</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.inputline_clear_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.inputline_clear_error" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.inputline_changed">
+<code class="descname">inputline_changed</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.inputline_changed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.inputline_changed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.inputline_returnpressed">
+<code class="descname">inputline_returnpressed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.inputline_returnpressed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.inputline_returnpressed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.inputline_aborted">
+<code class="descname">inputline_aborted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.inputline_aborted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.inputline_aborted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hide the input line.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.save_inputline_history">
+<code class="descname">save_inputline_history</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.save_inputline_history"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.save_inputline_history" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save input line history to &#8220;$HOME/.pyrocko/.snuffler_history.pf&#8221;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.load_inputline_history">
+<code class="descname">load_inputline_history</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.load_inputline_history"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.load_inputline_history" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load input line history from &#8220;$HOME/.pyrocko/.snuffler_history.pf&#8221;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.step_through_history">
+<code class="descname">step_through_history</code><span class="sig-paren">(</span><em>ud=1</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.step_through_history"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.step_through_history" title="Permalink to this definition">¶</a></dt>
+<dd><p>Step through input line history and set the input line text.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.inputline_finished">
+<code class="descname">inputline_finished</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.inputline_finished"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.inputline_finished" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.tracks_range_changed">
+<code class="descname">tracks_range_changed</code><span class="sig-paren">(</span><em>ntracks</em>, <em>ilo</em>, <em>ihi</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.tracks_range_changed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.tracks_range_changed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.scrollbar_changed">
+<code class="descname">scrollbar_changed</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.scrollbar_changed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.scrollbar_changed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.controls">
+<code class="descname">controls</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.controls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.controls" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.marker_editor">
+<code class="descname">marker_editor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.marker_editor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.marker_editor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.adjust_controls">
+<code class="descname">adjust_controls</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.adjust_controls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.adjust_controls" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.setup_snufflings">
+<code class="descname">setup_snufflings</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.setup_snufflings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.setup_snufflings" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.get_view">
+<code class="descname">get_view</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.get_view"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.get_view" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.update_contents">
+<code class="descname">update_contents</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.update_contents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.update_contents" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyrocko.pile_viewer.PileViewer.get_pile">
+<code class="descname">get_pile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/pile_viewer.html#PileViewer.get_pile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.pile_viewer.PileViewer.get_pile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="plot.html" title="The plot Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pile.html" title="The pile Module"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,2131 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The ims Module &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The io Module" href="io.html" />
+    <link rel="prev" title="The hamster_pile Module" href="hamster_pile.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyrocko.ims">
+<span id="the-ims-module"></span><h1>The <code class="xref py py-mod docutils literal"><span class="pre">ims</span></code> Module<a class="headerlink" href="#module-pyrocko.ims" title="Permalink to this headline">¶</a></h1>
+<p>Module to read and write GSE2.0, GSE2.1, and IMS1.0 files.</p>
+<dl class="exception">
+<dt id="pyrocko.ims.SerializeError">
+<em class="property">exception </em><code class="descname">SerializeError</code><a class="reference internal" href="../../_modules/pyrocko/ims.html#SerializeError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.SerializeError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/exceptions.html#exceptions.Exception" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></a></p>
+<p>Raised when serialization of an IMS/GSE2 object fails.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyrocko.ims.DeserializeError">
+<em class="property">exception </em><code class="descname">DeserializeError</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#DeserializeError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.DeserializeError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2.7/library/exceptions.html#exceptions.Exception" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></a></p>
+<p>Raised when deserialization of an IMS/GSE2 object fails.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.Section">
+<em class="property">class </em><code class="descname">Section</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#Section"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.Section" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Base class for top level sections in IMS/GSE2 files.</p>
+<p>Sections as understood by this implementation typically correspond to a
+DATA_TYPE section in IMS/GSE2 but for some types a finer granularity has
+been chosen.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.Block">
+<em class="property">class </em><code class="descname">Block</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#Block"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.Block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Base class for IMS/GSE2 data blocks / lines.</p>
+<p>Blocks as understood by this implementation usually correspond to
+individual logical lines in the IMS/GSE2 file.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.FreeFormatLine">
+<em class="property">class </em><code class="descname">FreeFormatLine</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#FreeFormatLine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.FreeFormatLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Base class for IMS/GSE2 free format lines.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.DataType">
+<em class="property">class </em><code class="descname">DataType</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#DataType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.DataType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of a DATA_TYPE line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.DataType.type">
+<em class="property">♦ </em><code class="descname">type</code><a class="headerlink" href="#pyrocko.ims.DataType.type" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.DataType.subtype">
+<em class="property">♦ </em><code class="descname">subtype</code><a class="headerlink" href="#pyrocko.ims.DataType.subtype" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.DataType.format">
+<em class="property">♦ </em><code class="descname">format</code><a class="headerlink" href="#pyrocko.ims.DataType.format" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.DataType.subformat">
+<em class="property">♦ </em><code class="descname">subformat</code><a class="headerlink" href="#pyrocko.ims.DataType.subformat" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.FTPFile">
+<em class="property">class </em><code class="descname">FTPFile</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#FTPFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.FTPFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.FreeFormatLine" title="pyrocko.ims.FreeFormatLine"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.FreeFormatLine</span></code></a></p>
+<p>Representation of an FTP_FILE line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.FTPFile.net_address">
+<em class="property">♦ </em><code class="descname">net_address</code><a class="headerlink" href="#pyrocko.ims.FTPFile.net_address" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FTPFile.login_mode">
+<em class="property">♦ </em><code class="descname">login_mode</code><a class="headerlink" href="#pyrocko.ims.FTPFile.login_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FTPFile.directory">
+<em class="property">♦ </em><code class="descname">directory</code><a class="headerlink" href="#pyrocko.ims.FTPFile.directory" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FTPFile.file">
+<em class="property">♦ </em><code class="descname">file</code><a class="headerlink" href="#pyrocko.ims.FTPFile.file" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.WaveformSubformat">
+<em class="property">class </em><code class="descname">WaveformSubformat</code><span class="sig-paren">(</span><em>dummy</em><span class="sig-paren">)</span> &rarr; str<a class="reference internal" href="../../_modules/pyrocko/ims.html#WaveformSubformat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.WaveformSubformat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code></p>
+<p>Any <code class="docutils literal"><span class="pre">str</span></code> out of <code class="docutils literal"><span class="pre">['INT',</span> <span class="pre">'CM6',</span> <span class="pre">'CM8',</span> <span class="pre">'AU6',</span> <span class="pre">'AU8']</span></code>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.WID2">
+<em class="property">class </em><code class="descname">WID2</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#WID2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.WID2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of a WID2 line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.WID2.time">
+<em class="property">♦ </em><code class="descname">time</code><a class="headerlink" href="#pyrocko.ims.WID2.time" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.WID2.station">
+<em class="property">♦ </em><code class="descname">station</code><a class="headerlink" href="#pyrocko.ims.WID2.station" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>station code (5 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.WID2.channel">
+<em class="property">♦ </em><code class="descname">channel</code><a class="headerlink" href="#pyrocko.ims.WID2.channel" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>channel code (3 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.WID2.location">
+<em class="property">♦ </em><code class="descname">location</code><a class="headerlink" href="#pyrocko.ims.WID2.location" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">''</span></code></p>
+<p>location code (aux_id, 4 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.WID2.sub_format">
+<em class="property">♦ </em><code class="descname">sub_format</code><a class="headerlink" href="#pyrocko.ims.WID2.sub_format" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<a class="reference internal" href="#pyrocko.ims.WaveformSubformat" title="pyrocko.ims.WaveformSubformat"><code class="xref py py-class docutils literal"><span class="pre">WaveformSubformat</span></code></a>), <em>default:</em> <code class="docutils literal"><span class="pre">'CM6'</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.WID2.nsamples">
+<em class="property">♦ </em><code class="descname">nsamples</code><a class="headerlink" href="#pyrocko.ims.WID2.nsamples" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">0</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.WID2.sample_rate">
+<em class="property">♦ </em><code class="descname">sample_rate</code><a class="headerlink" href="#pyrocko.ims.WID2.sample_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">1.0</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.WID2.calibration_factor">
+<em class="property">♦ </em><code class="descname">calibration_factor</code><a class="headerlink" href="#pyrocko.ims.WID2.calibration_factor" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>system sensitivity (m/count) at reference period (calibration_period)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.WID2.calibration_period">
+<em class="property">♦ </em><code class="descname">calibration_period</code><a class="headerlink" href="#pyrocko.ims.WID2.calibration_period" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>calibration reference period [s]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.WID2.instrument_type">
+<em class="property">♦ </em><code class="descname">instrument_type</code><a class="headerlink" href="#pyrocko.ims.WID2.instrument_type" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">''</span></code></p>
+<p>instrument type (6 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.WID2.horizontal_angle">
+<em class="property">♦ </em><code class="descname">horizontal_angle</code><a class="headerlink" href="#pyrocko.ims.WID2.horizontal_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>horizontal orientation of sensor, clockwise from north [deg]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.WID2.vertical_angle">
+<em class="property">♦ </em><code class="descname">vertical_angle</code><a class="headerlink" href="#pyrocko.ims.WID2.vertical_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>vertical orientation of sensor from vertical [deg]</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.OUT2">
+<em class="property">class </em><code class="descname">OUT2</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#OUT2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.OUT2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of an OUT2 line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.OUT2.time">
+<em class="property">♦ </em><code class="descname">time</code><a class="headerlink" href="#pyrocko.ims.OUT2.time" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.OUT2.station">
+<em class="property">♦ </em><code class="descname">station</code><a class="headerlink" href="#pyrocko.ims.OUT2.station" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>station code (5 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.OUT2.channel">
+<em class="property">♦ </em><code class="descname">channel</code><a class="headerlink" href="#pyrocko.ims.OUT2.channel" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>channel code (3 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.OUT2.location">
+<em class="property">♦ </em><code class="descname">location</code><a class="headerlink" href="#pyrocko.ims.OUT2.location" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">''</span></code></p>
+<p>location code (aux_id, 4 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.OUT2.duration">
+<em class="property">♦ </em><code class="descname">duration</code><a class="headerlink" href="#pyrocko.ims.OUT2.duration" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.DLY2">
+<em class="property">class </em><code class="descname">DLY2</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#DLY2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.DLY2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of a DLY2 line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.DLY2.time">
+<em class="property">♦ </em><code class="descname">time</code><a class="headerlink" href="#pyrocko.ims.DLY2.time" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.DLY2.station">
+<em class="property">♦ </em><code class="descname">station</code><a class="headerlink" href="#pyrocko.ims.DLY2.station" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>station code (5 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.DLY2.channel">
+<em class="property">♦ </em><code class="descname">channel</code><a class="headerlink" href="#pyrocko.ims.DLY2.channel" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>channel code (3 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.DLY2.location">
+<em class="property">♦ </em><code class="descname">location</code><a class="headerlink" href="#pyrocko.ims.DLY2.location" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">''</span></code></p>
+<p>location code (aux_id, 4 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.DLY2.queue_duration">
+<em class="property">♦ </em><code class="descname">queue_duration</code><a class="headerlink" href="#pyrocko.ims.DLY2.queue_duration" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>duration of queue [s]</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.DAT2">
+<em class="property">class </em><code class="descname">DAT2</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#DAT2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.DAT2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of a DAT2 line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.DAT2.raw_data">
+<em class="property">♦ </em><code class="descname">raw_data</code><a class="headerlink" href="#pyrocko.ims.DAT2.raw_data" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">str</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.STA2">
+<em class="property">class </em><code class="descname">STA2</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#STA2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.STA2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of a STA2 line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.STA2.network">
+<em class="property">♦ </em><code class="descname">network</code><a class="headerlink" href="#pyrocko.ims.STA2.network" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>network code (9 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.STA2.lat">
+<em class="property">♦ </em><code class="descname">lat</code><a class="headerlink" href="#pyrocko.ims.STA2.lat" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.STA2.lon">
+<em class="property">♦ </em><code class="descname">lon</code><a class="headerlink" href="#pyrocko.ims.STA2.lon" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.STA2.coordinate_system">
+<em class="property">♦ </em><code class="descname">coordinate_system</code><a class="headerlink" href="#pyrocko.ims.STA2.coordinate_system" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">'WGS-84'</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.STA2.elevation">
+<em class="property">♦ </em><code class="descname">elevation</code><a class="headerlink" href="#pyrocko.ims.STA2.elevation" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>elevation [m]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.STA2.depth">
+<em class="property">♦ </em><code class="descname">depth</code><a class="headerlink" href="#pyrocko.ims.STA2.depth" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>emplacement depth [m]</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.CHK2">
+<em class="property">class </em><code class="descname">CHK2</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#CHK2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.CHK2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of a CHK2 line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.CHK2.checksum">
+<em class="property">♦ </em><code class="descname">checksum</code><a class="headerlink" href="#pyrocko.ims.CHK2.checksum" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.EID2">
+<em class="property">class </em><code class="descname">EID2</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#EID2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.EID2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of an EID2 line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.EID2.event_id">
+<em class="property">♦ </em><code class="descname">event_id</code><a class="headerlink" href="#pyrocko.ims.EID2.event_id" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>event ID (8 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.EID2.bulletin_type">
+<em class="property">♦ </em><code class="descname">bulletin_type</code><a class="headerlink" href="#pyrocko.ims.EID2.bulletin_type" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>bulletin type (9 characters)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.BEA2">
+<em class="property">class </em><code class="descname">BEA2</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#BEA2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.BEA2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of a BEA2 line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.BEA2.beam_id">
+<em class="property">♦ </em><code class="descname">beam_id</code><a class="headerlink" href="#pyrocko.ims.BEA2.beam_id" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>beam ID (12 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BEA2.azimuth">
+<em class="property">♦ </em><code class="descname">azimuth</code><a class="headerlink" href="#pyrocko.ims.BEA2.azimuth" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BEA2.slowness">
+<em class="property">♦ </em><code class="descname">slowness</code><a class="headerlink" href="#pyrocko.ims.BEA2.slowness" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.Network">
+<em class="property">class </em><code class="descname">Network</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#Network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.Network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of an entry in a NETWORK section.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.Network.network">
+<em class="property">♦ </em><code class="descname">network</code><a class="headerlink" href="#pyrocko.ims.Network.network" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>network code (9 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Network.description">
+<em class="property">♦ </em><code class="descname">description</code><a class="headerlink" href="#pyrocko.ims.Network.description" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>description</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.Station">
+<em class="property">class </em><code class="descname">Station</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#Station"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.Station" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of an entry in a STATION section.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.Station.network">
+<em class="property">♦ </em><code class="descname">network</code><a class="headerlink" href="#pyrocko.ims.Station.network" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>network code (9 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Station.station">
+<em class="property">♦ </em><code class="descname">station</code><a class="headerlink" href="#pyrocko.ims.Station.station" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>station code (5 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Station.type">
+<em class="property">♦ </em><code class="descname">type</code><a class="headerlink" href="#pyrocko.ims.Station.type" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>station type (4 characters) (1C: single component, 3C: three-component, hfa: high frequency array, lpa: long period array)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Station.lat">
+<em class="property">♦ </em><code class="descname">lat</code><a class="headerlink" href="#pyrocko.ims.Station.lat" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Station.lon">
+<em class="property">♦ </em><code class="descname">lon</code><a class="headerlink" href="#pyrocko.ims.Station.lon" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Station.coordinate_system">
+<em class="property">♦ </em><code class="descname">coordinate_system</code><a class="headerlink" href="#pyrocko.ims.Station.coordinate_system" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">'WGS-84'</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Station.elevation">
+<em class="property">♦ </em><code class="descname">elevation</code><a class="headerlink" href="#pyrocko.ims.Station.elevation" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>elevation [m]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Station.tmin">
+<em class="property">♦ </em><code class="descname">tmin</code><a class="headerlink" href="#pyrocko.ims.Station.tmin" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Station.tmax">
+<em class="property">♦ </em><code class="descname">tmax</code><a class="headerlink" href="#pyrocko.ims.Station.tmax" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>), <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.Channel">
+<em class="property">class </em><code class="descname">Channel</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#Channel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.Channel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of an entry in a CHANNEL section.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.Channel.network">
+<em class="property">♦ </em><code class="descname">network</code><a class="headerlink" href="#pyrocko.ims.Channel.network" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>network code (9 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Channel.station">
+<em class="property">♦ </em><code class="descname">station</code><a class="headerlink" href="#pyrocko.ims.Channel.station" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>station code (5 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Channel.channel">
+<em class="property">♦ </em><code class="descname">channel</code><a class="headerlink" href="#pyrocko.ims.Channel.channel" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>channel code (3 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Channel.location">
+<em class="property">♦ </em><code class="descname">location</code><a class="headerlink" href="#pyrocko.ims.Channel.location" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">''</span></code></p>
+<p>location code (aux_id, 4 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Channel.lat">
+<em class="property">♦ </em><code class="descname">lat</code><a class="headerlink" href="#pyrocko.ims.Channel.lat" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Channel.lon">
+<em class="property">♦ </em><code class="descname">lon</code><a class="headerlink" href="#pyrocko.ims.Channel.lon" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Channel.coordinate_system">
+<em class="property">♦ </em><code class="descname">coordinate_system</code><a class="headerlink" href="#pyrocko.ims.Channel.coordinate_system" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">'WGS-84'</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Channel.elevation">
+<em class="property">♦ </em><code class="descname">elevation</code><a class="headerlink" href="#pyrocko.ims.Channel.elevation" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>elevation [m]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Channel.depth">
+<em class="property">♦ </em><code class="descname">depth</code><a class="headerlink" href="#pyrocko.ims.Channel.depth" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>emplacement depth [m]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Channel.horizontal_angle">
+<em class="property">♦ </em><code class="descname">horizontal_angle</code><a class="headerlink" href="#pyrocko.ims.Channel.horizontal_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>horizontal orientation of sensor, clockwise from north [deg]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Channel.vertical_angle">
+<em class="property">♦ </em><code class="descname">vertical_angle</code><a class="headerlink" href="#pyrocko.ims.Channel.vertical_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>vertical orientation of sensor from vertical [deg]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Channel.sample_rate">
+<em class="property">♦ </em><code class="descname">sample_rate</code><a class="headerlink" href="#pyrocko.ims.Channel.sample_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Channel.instrument_type">
+<em class="property">♦ </em><code class="descname">instrument_type</code><a class="headerlink" href="#pyrocko.ims.Channel.instrument_type" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">''</span></code></p>
+<p>instrument type (6 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Channel.tmin">
+<em class="property">♦ </em><code class="descname">tmin</code><a class="headerlink" href="#pyrocko.ims.Channel.tmin" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Channel.tmax">
+<em class="property">♦ </em><code class="descname">tmax</code><a class="headerlink" href="#pyrocko.ims.Channel.tmax" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>), <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.BeamGroup">
+<em class="property">class </em><code class="descname">BeamGroup</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#BeamGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.BeamGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of an entry in a BEAM group table.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamGroup.beam_group">
+<em class="property">♦ </em><code class="descname">beam_group</code><a class="headerlink" href="#pyrocko.ims.BeamGroup.beam_group" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>beam group (8 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamGroup.station">
+<em class="property">♦ </em><code class="descname">station</code><a class="headerlink" href="#pyrocko.ims.BeamGroup.station" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>station code (5 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamGroup.channel">
+<em class="property">♦ </em><code class="descname">channel</code><a class="headerlink" href="#pyrocko.ims.BeamGroup.channel" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>channel code (3 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamGroup.location">
+<em class="property">♦ </em><code class="descname">location</code><a class="headerlink" href="#pyrocko.ims.BeamGroup.location" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">''</span></code></p>
+<p>location code (aux_id, 4 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamGroup.weight">
+<em class="property">♦ </em><code class="descname">weight</code><a class="headerlink" href="#pyrocko.ims.BeamGroup.weight" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code>, <em>optional</em></p>
+<p>weight used for this component when the beam was formed</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamGroup.delay">
+<em class="property">♦ </em><code class="descname">delay</code><a class="headerlink" href="#pyrocko.ims.BeamGroup.delay" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>beam delay for this component [s] (used for meabs formed by non-plane waves)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.BeamType">
+<em class="property">class </em><code class="descname">BeamType</code><span class="sig-paren">(</span><em>dummy</em><span class="sig-paren">)</span> &rarr; str<a class="reference internal" href="../../_modules/pyrocko/ims.html#BeamType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.BeamType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code></p>
+<p>Any <code class="docutils literal"><span class="pre">str</span></code> out of <code class="docutils literal"><span class="pre">['inc',</span> <span class="pre">'coh']</span></code>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.FilterType">
+<em class="property">class </em><code class="descname">FilterType</code><span class="sig-paren">(</span><em>dummy</em><span class="sig-paren">)</span> &rarr; str<a class="reference internal" href="../../_modules/pyrocko/ims.html#FilterType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.FilterType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code></p>
+<p>Any <code class="docutils literal"><span class="pre">str</span></code> out of <code class="docutils literal"><span class="pre">['BP',</span> <span class="pre">'LP',</span> <span class="pre">'HP',</span> <span class="pre">'BR']</span></code>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.BeamParameters">
+<em class="property">class </em><code class="descname">BeamParameters</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#BeamParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.BeamParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of an entry in a BEAM parameters table.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamParameters.beam_id">
+<em class="property">♦ </em><code class="descname">beam_id</code><a class="headerlink" href="#pyrocko.ims.BeamParameters.beam_id" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamParameters.beam_group">
+<em class="property">♦ </em><code class="descname">beam_group</code><a class="headerlink" href="#pyrocko.ims.BeamParameters.beam_group" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamParameters.type">
+<em class="property">♦ </em><code class="descname">type</code><a class="headerlink" href="#pyrocko.ims.BeamParameters.type" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<a class="reference internal" href="#pyrocko.ims.BeamType" title="pyrocko.ims.BeamType"><code class="xref py py-class docutils literal"><span class="pre">BeamType</span></code></a>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamParameters.is_rotated">
+<em class="property">♦ </em><code class="descname">is_rotated</code><a class="headerlink" href="#pyrocko.ims.BeamParameters.is_rotated" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">bool</span></code></p>
+<p>rotation flag</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamParameters.azimuth">
+<em class="property">♦ </em><code class="descname">azimuth</code><a class="headerlink" href="#pyrocko.ims.BeamParameters.azimuth" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>azimuth used to steer the beam [deg] (clockwise from North)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamParameters.slowness">
+<em class="property">♦ </em><code class="descname">slowness</code><a class="headerlink" href="#pyrocko.ims.BeamParameters.slowness" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>slowness used to steer the beam [s/deg]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamParameters.phase">
+<em class="property">♦ </em><code class="descname">phase</code><a class="headerlink" href="#pyrocko.ims.BeamParameters.phase" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>phase used to set the beam slowness for origin-based beams (8 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamParameters.filter_fmin">
+<em class="property">♦ </em><code class="descname">filter_fmin</code><a class="headerlink" href="#pyrocko.ims.BeamParameters.filter_fmin" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>low frequency cut-off for the beam filter [Hz]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamParameters.filter_fmax">
+<em class="property">♦ </em><code class="descname">filter_fmax</code><a class="headerlink" href="#pyrocko.ims.BeamParameters.filter_fmax" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>high frequency cut-off for the beam filter [Hz]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamParameters.filter_order">
+<em class="property">♦ </em><code class="descname">filter_order</code><a class="headerlink" href="#pyrocko.ims.BeamParameters.filter_order" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code></p>
+<p>order of the beam filter</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamParameters.filter_is_zero_phase">
+<em class="property">♦ </em><code class="descname">filter_is_zero_phase</code><a class="headerlink" href="#pyrocko.ims.BeamParameters.filter_is_zero_phase" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">bool</span></code></p>
+<p>flag to indicate zero-phase filtering</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamParameters.filter_type">
+<em class="property">♦ </em><code class="descname">filter_type</code><a class="headerlink" href="#pyrocko.ims.BeamParameters.filter_type" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<a class="reference internal" href="#pyrocko.ims.FilterType" title="pyrocko.ims.FilterType"><code class="xref py py-class docutils literal"><span class="pre">FilterType</span></code></a>)</p>
+<p>type of filtering</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamParameters.tmin">
+<em class="property">♦ </em><code class="descname">tmin</code><a class="headerlink" href="#pyrocko.ims.BeamParameters.tmin" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>)</p>
+<p>start date of beam use</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamParameters.tmax">
+<em class="property">♦ </em><code class="descname">tmax</code><a class="headerlink" href="#pyrocko.ims.BeamParameters.tmax" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>), <em>optional</em></p>
+<p>end date of beam use</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.OutageReportPeriod">
+<em class="property">class </em><code class="descname">OutageReportPeriod</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#OutageReportPeriod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.OutageReportPeriod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of a the report period of an OUTAGE section.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.OutageReportPeriod.tmin">
+<em class="property">♦ </em><code class="descname">tmin</code><a class="headerlink" href="#pyrocko.ims.OutageReportPeriod.tmin" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.OutageReportPeriod.tmax">
+<em class="property">♦ </em><code class="descname">tmax</code><a class="headerlink" href="#pyrocko.ims.OutageReportPeriod.tmax" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.Outage">
+<em class="property">class </em><code class="descname">Outage</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#Outage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.Outage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of an entry in the OUTAGE section table.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.Outage.network">
+<em class="property">♦ </em><code class="descname">network</code><a class="headerlink" href="#pyrocko.ims.Outage.network" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>network code (9 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Outage.station">
+<em class="property">♦ </em><code class="descname">station</code><a class="headerlink" href="#pyrocko.ims.Outage.station" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>station code (5 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Outage.channel">
+<em class="property">♦ </em><code class="descname">channel</code><a class="headerlink" href="#pyrocko.ims.Outage.channel" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>channel code (3 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Outage.location">
+<em class="property">♦ </em><code class="descname">location</code><a class="headerlink" href="#pyrocko.ims.Outage.location" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">''</span></code></p>
+<p>location code (aux_id, 4 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Outage.tmin">
+<em class="property">♦ </em><code class="descname">tmin</code><a class="headerlink" href="#pyrocko.ims.Outage.tmin" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Outage.tmax">
+<em class="property">♦ </em><code class="descname">tmax</code><a class="headerlink" href="#pyrocko.ims.Outage.tmax" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Outage.duration">
+<em class="property">♦ </em><code class="descname">duration</code><a class="headerlink" href="#pyrocko.ims.Outage.duration" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Outage.comment">
+<em class="property">♦ </em><code class="descname">comment</code><a class="headerlink" href="#pyrocko.ims.Outage.comment" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.CAL2">
+<em class="property">class </em><code class="descname">CAL2</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#CAL2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.CAL2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of a CAL2 line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.CAL2.station">
+<em class="property">♦ </em><code class="descname">station</code><a class="headerlink" href="#pyrocko.ims.CAL2.station" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>station code (5 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.CAL2.channel">
+<em class="property">♦ </em><code class="descname">channel</code><a class="headerlink" href="#pyrocko.ims.CAL2.channel" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+<p>channel code (3 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.CAL2.location">
+<em class="property">♦ </em><code class="descname">location</code><a class="headerlink" href="#pyrocko.ims.CAL2.location" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">''</span></code></p>
+<p>location code (aux_id, 4 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.CAL2.instrument_type">
+<em class="property">♦ </em><code class="descname">instrument_type</code><a class="headerlink" href="#pyrocko.ims.CAL2.instrument_type" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">''</span></code></p>
+<p>instrument type (6 characters)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.CAL2.calibration_factor">
+<em class="property">♦ </em><code class="descname">calibration_factor</code><a class="headerlink" href="#pyrocko.ims.CAL2.calibration_factor" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>system sensitivity (m/count) at reference period (calibration_period)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.CAL2.calibration_period">
+<em class="property">♦ </em><code class="descname">calibration_period</code><a class="headerlink" href="#pyrocko.ims.CAL2.calibration_period" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>calibration reference period [s]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.CAL2.sample_rate">
+<em class="property">♦ </em><code class="descname">sample_rate</code><a class="headerlink" href="#pyrocko.ims.CAL2.sample_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>system output sample rate [Hz]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.CAL2.tmin">
+<em class="property">♦ </em><code class="descname">tmin</code><a class="headerlink" href="#pyrocko.ims.CAL2.tmin" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>)</p>
+<p>effective start date and time</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.CAL2.tmax">
+<em class="property">♦ </em><code class="descname">tmax</code><a class="headerlink" href="#pyrocko.ims.CAL2.tmax" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>), <em>optional</em></p>
+<p>effective end date and time</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.CAL2.comments">
+<em class="property">♦ </em><code class="descname">comments</code><a class="headerlink" href="#pyrocko.ims.CAL2.comments" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">str</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.Units">
+<em class="property">class </em><code class="descname">Units</code><span class="sig-paren">(</span><em>dummy</em><span class="sig-paren">)</span> &rarr; str<a class="reference internal" href="../../_modules/pyrocko/ims.html#Units"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.Units" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code></p>
+<p>Any <code class="docutils literal"><span class="pre">str</span></code> out of <code class="docutils literal"><span class="pre">['V',</span> <span class="pre">'A',</span> <span class="pre">'C']</span></code>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.Stage">
+<em class="property">class </em><code class="descname">Stage</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#Stage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.Stage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Base class for IMS/GSE2 response stages.</p>
+<p>Available response stages are <a class="reference internal" href="#pyrocko.ims.PAZ2" title="pyrocko.ims.PAZ2"><code class="xref py py-class docutils literal"><span class="pre">PAZ2</span></code></a>, <a class="reference internal" href="#pyrocko.ims.FAP2" title="pyrocko.ims.FAP2"><code class="xref py py-class docutils literal"><span class="pre">FAP2</span></code></a>,
+<a class="reference internal" href="#pyrocko.ims.GEN2" title="pyrocko.ims.GEN2"><code class="xref py py-class docutils literal"><span class="pre">GEN2</span></code></a>, <a class="reference internal" href="#pyrocko.ims.DIG2" title="pyrocko.ims.DIG2"><code class="xref py py-class docutils literal"><span class="pre">DIG2</span></code></a>, and <a class="reference internal" href="#pyrocko.ims.FIR2" title="pyrocko.ims.FIR2"><code class="xref py py-class docutils literal"><span class="pre">FIR2</span></code></a>.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.Stage.stage_number">
+<em class="property">♦ </em><code class="descname">stage_number</code><a class="headerlink" href="#pyrocko.ims.Stage.stage_number" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code></p>
+<p>stage sequence number</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.PAZ2Data">
+<em class="property">class </em><code class="descname">PAZ2Data</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#PAZ2Data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.PAZ2Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of the complex numbers in PAZ2 sections.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.PAZ2Data.real">
+<em class="property">♦ </em><code class="descname">real</code><a class="headerlink" href="#pyrocko.ims.PAZ2Data.real" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.PAZ2Data.imag">
+<em class="property">♦ </em><code class="descname">imag</code><a class="headerlink" href="#pyrocko.ims.PAZ2Data.imag" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.PAZ2">
+<em class="property">class </em><code class="descname">PAZ2</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#PAZ2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.PAZ2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Stage" title="pyrocko.ims.Stage"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Stage</span></code></a></p>
+<p>Representation of a PAZ2 line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.PAZ2.output_units">
+<em class="property">♦ </em><code class="descname">output_units</code><a class="headerlink" href="#pyrocko.ims.PAZ2.output_units" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<a class="reference internal" href="#pyrocko.ims.Units" title="pyrocko.ims.Units"><code class="xref py py-class docutils literal"><span class="pre">Units</span></code></a>)</p>
+<p>output units code (V=volts, A=amps, C=counts)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.PAZ2.scale_factor">
+<em class="property">♦ </em><code class="descname">scale_factor</code><a class="headerlink" href="#pyrocko.ims.PAZ2.scale_factor" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>scale factor [ouput units/input units]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.PAZ2.decimation">
+<em class="property">♦ </em><code class="descname">decimation</code><a class="headerlink" href="#pyrocko.ims.PAZ2.decimation" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code>, <em>optional</em></p>
+<p>decimation</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.PAZ2.correction">
+<em class="property">♦ </em><code class="descname">correction</code><a class="headerlink" href="#pyrocko.ims.PAZ2.correction" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>group correction applied [s]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.PAZ2.npoles">
+<em class="property">♦ </em><code class="descname">npoles</code><a class="headerlink" href="#pyrocko.ims.PAZ2.npoles" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code></p>
+<p>number of poles</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.PAZ2.nzeros">
+<em class="property">♦ </em><code class="descname">nzeros</code><a class="headerlink" href="#pyrocko.ims.PAZ2.nzeros" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code></p>
+<p>number of zeros</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.PAZ2.description">
+<em class="property">♦ </em><code class="descname">description</code><a class="headerlink" href="#pyrocko.ims.PAZ2.description" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">''</span></code></p>
+<p>description</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.PAZ2.poles">
+<em class="property">♦ </em><code class="descname">poles</code><a class="headerlink" href="#pyrocko.ims.PAZ2.poles" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">complex</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.PAZ2.zeros">
+<em class="property">♦ </em><code class="descname">zeros</code><a class="headerlink" href="#pyrocko.ims.PAZ2.zeros" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">complex</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.PAZ2.comments">
+<em class="property">♦ </em><code class="descname">comments</code><a class="headerlink" href="#pyrocko.ims.PAZ2.comments" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">str</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.FAP2Data">
+<em class="property">class </em><code class="descname">FAP2Data</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#FAP2Data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.FAP2Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of the data tuples in FAP2 section.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.FAP2Data.frequency">
+<em class="property">♦ </em><code class="descname">frequency</code><a class="headerlink" href="#pyrocko.ims.FAP2Data.frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FAP2Data.amplitude">
+<em class="property">♦ </em><code class="descname">amplitude</code><a class="headerlink" href="#pyrocko.ims.FAP2Data.amplitude" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FAP2Data.phase">
+<em class="property">♦ </em><code class="descname">phase</code><a class="headerlink" href="#pyrocko.ims.FAP2Data.phase" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.FAP2">
+<em class="property">class </em><code class="descname">FAP2</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#FAP2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.FAP2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Stage" title="pyrocko.ims.Stage"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Stage</span></code></a></p>
+<p>Representation of a FAP2 line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.FAP2.output_units">
+<em class="property">♦ </em><code class="descname">output_units</code><a class="headerlink" href="#pyrocko.ims.FAP2.output_units" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<a class="reference internal" href="#pyrocko.ims.Units" title="pyrocko.ims.Units"><code class="xref py py-class docutils literal"><span class="pre">Units</span></code></a>)</p>
+<p>output units code (V=volts, A=amps, C=counts)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FAP2.decimation">
+<em class="property">♦ </em><code class="descname">decimation</code><a class="headerlink" href="#pyrocko.ims.FAP2.decimation" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code>, <em>optional</em></p>
+<p>decimation</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FAP2.correction">
+<em class="property">♦ </em><code class="descname">correction</code><a class="headerlink" href="#pyrocko.ims.FAP2.correction" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>group correction applied [s]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FAP2.ntrip">
+<em class="property">♦ </em><code class="descname">ntrip</code><a class="headerlink" href="#pyrocko.ims.FAP2.ntrip" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code></p>
+<p>number of frequency, amplitude, phase triplets</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FAP2.description">
+<em class="property">♦ </em><code class="descname">description</code><a class="headerlink" href="#pyrocko.ims.FAP2.description" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">''</span></code></p>
+<p>description</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FAP2.frequencies">
+<em class="property">♦ </em><code class="descname">frequencies</code><a class="headerlink" href="#pyrocko.ims.FAP2.frequencies" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">float</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+<p>frequency [Hz]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FAP2.amplitudes">
+<em class="property">♦ </em><code class="descname">amplitudes</code><a class="headerlink" href="#pyrocko.ims.FAP2.amplitudes" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">float</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+<p>amplitude [input untits/output units]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FAP2.phases">
+<em class="property">♦ </em><code class="descname">phases</code><a class="headerlink" href="#pyrocko.ims.FAP2.phases" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">float</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+<p>phase delay [degrees]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FAP2.comments">
+<em class="property">♦ </em><code class="descname">comments</code><a class="headerlink" href="#pyrocko.ims.FAP2.comments" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">str</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.GEN2Data">
+<em class="property">class </em><code class="descname">GEN2Data</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#GEN2Data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.GEN2Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of a data tuple in GEN2 section.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.GEN2Data.corner">
+<em class="property">♦ </em><code class="descname">corner</code><a class="headerlink" href="#pyrocko.ims.GEN2Data.corner" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>corner frequency [Hz]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.GEN2Data.slope">
+<em class="property">♦ </em><code class="descname">slope</code><a class="headerlink" href="#pyrocko.ims.GEN2Data.slope" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>slope above corner [dB/decate]</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.GEN2">
+<em class="property">class </em><code class="descname">GEN2</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#GEN2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.GEN2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Stage" title="pyrocko.ims.Stage"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Stage</span></code></a></p>
+<p>Representation of a GEN2 line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.GEN2.output_units">
+<em class="property">♦ </em><code class="descname">output_units</code><a class="headerlink" href="#pyrocko.ims.GEN2.output_units" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<a class="reference internal" href="#pyrocko.ims.Units" title="pyrocko.ims.Units"><code class="xref py py-class docutils literal"><span class="pre">Units</span></code></a>)</p>
+<p>output units code (V=volts, A=amps, C=counts)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.GEN2.calibration_factor">
+<em class="property">♦ </em><code class="descname">calibration_factor</code><a class="headerlink" href="#pyrocko.ims.GEN2.calibration_factor" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>system sensitivity (m/count) at reference period (calibration_period)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.GEN2.calibration_period">
+<em class="property">♦ </em><code class="descname">calibration_period</code><a class="headerlink" href="#pyrocko.ims.GEN2.calibration_period" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>calibration reference period [s]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.GEN2.decimation">
+<em class="property">♦ </em><code class="descname">decimation</code><a class="headerlink" href="#pyrocko.ims.GEN2.decimation" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code>, <em>optional</em></p>
+<p>decimation</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.GEN2.correction">
+<em class="property">♦ </em><code class="descname">correction</code><a class="headerlink" href="#pyrocko.ims.GEN2.correction" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>group correction applied [s]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.GEN2.ncorners">
+<em class="property">♦ </em><code class="descname">ncorners</code><a class="headerlink" href="#pyrocko.ims.GEN2.ncorners" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code></p>
+<p>number of corners</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.GEN2.description">
+<em class="property">♦ </em><code class="descname">description</code><a class="headerlink" href="#pyrocko.ims.GEN2.description" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">''</span></code></p>
+<p>description</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.GEN2.corners">
+<em class="property">♦ </em><code class="descname">corners</code><a class="headerlink" href="#pyrocko.ims.GEN2.corners" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">float</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+<p>corner frequencies [Hz]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.GEN2.slopes">
+<em class="property">♦ </em><code class="descname">slopes</code><a class="headerlink" href="#pyrocko.ims.GEN2.slopes" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">float</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+<p>slopes above corners [dB/decade]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.GEN2.comments">
+<em class="property">♦ </em><code class="descname">comments</code><a class="headerlink" href="#pyrocko.ims.GEN2.comments" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">str</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.DIG2">
+<em class="property">class </em><code class="descname">DIG2</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#DIG2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.DIG2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Stage" title="pyrocko.ims.Stage"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Stage</span></code></a></p>
+<p>Representation of a DIG2 line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.DIG2.sensitivity">
+<em class="property">♦ </em><code class="descname">sensitivity</code><a class="headerlink" href="#pyrocko.ims.DIG2.sensitivity" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>sensitivity [counts/input units]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.DIG2.sample_rate">
+<em class="property">♦ </em><code class="descname">sample_rate</code><a class="headerlink" href="#pyrocko.ims.DIG2.sample_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>digitizer sample rate [Hz]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.DIG2.description">
+<em class="property">♦ </em><code class="descname">description</code><a class="headerlink" href="#pyrocko.ims.DIG2.description" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">''</span></code></p>
+<p>description</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.DIG2.comments">
+<em class="property">♦ </em><code class="descname">comments</code><a class="headerlink" href="#pyrocko.ims.DIG2.comments" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">str</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.SymmetryFlag">
+<em class="property">class </em><code class="descname">SymmetryFlag</code><span class="sig-paren">(</span><em>dummy</em><span class="sig-paren">)</span> &rarr; str<a class="reference internal" href="../../_modules/pyrocko/ims.html#SymmetryFlag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.SymmetryFlag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code></p>
+<p>Any <code class="docutils literal"><span class="pre">str</span></code> out of <code class="docutils literal"><span class="pre">['A',</span> <span class="pre">'B',</span> <span class="pre">'C']</span></code>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.FIR2Data">
+<em class="property">class </em><code class="descname">FIR2Data</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#FIR2Data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.FIR2Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Representation of a line of coefficients in a FIR2 section.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.FIR2Data.factors">
+<em class="property">♦ </em><code class="descname">factors</code><a class="headerlink" href="#pyrocko.ims.FIR2Data.factors" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">float</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.FIR2">
+<em class="property">class </em><code class="descname">FIR2</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#FIR2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.FIR2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Stage" title="pyrocko.ims.Stage"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Stage</span></code></a></p>
+<p>Representation of a FIR2 line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.FIR2.gain">
+<em class="property">♦ </em><code class="descname">gain</code><a class="headerlink" href="#pyrocko.ims.FIR2.gain" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>filter gain (relative factor, not in dB)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FIR2.decimation">
+<em class="property">♦ </em><code class="descname">decimation</code><a class="headerlink" href="#pyrocko.ims.FIR2.decimation" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code>, <em>optional</em></p>
+<p>decimation</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FIR2.correction">
+<em class="property">♦ </em><code class="descname">correction</code><a class="headerlink" href="#pyrocko.ims.FIR2.correction" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>group correction applied [s]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FIR2.symmetry">
+<em class="property">♦ </em><code class="descname">symmetry</code><a class="headerlink" href="#pyrocko.ims.FIR2.symmetry" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<a class="reference internal" href="#pyrocko.ims.SymmetryFlag" title="pyrocko.ims.SymmetryFlag"><code class="xref py py-class docutils literal"><span class="pre">SymmetryFlag</span></code></a>)</p>
+<p>symmetry flag (A=asymmetric, B=symmetric (odd), C=symmetric (even))</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FIR2.nfactors">
+<em class="property">♦ </em><code class="descname">nfactors</code><a class="headerlink" href="#pyrocko.ims.FIR2.nfactors" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code></p>
+<p>number of factors</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FIR2.description">
+<em class="property">♦ </em><code class="descname">description</code><a class="headerlink" href="#pyrocko.ims.FIR2.description" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">''</span></code></p>
+<p>description</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FIR2.comments">
+<em class="property">♦ </em><code class="descname">comments</code><a class="headerlink" href="#pyrocko.ims.FIR2.comments" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">str</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.FIR2.factors">
+<em class="property">♦ </em><code class="descname">factors</code><a class="headerlink" href="#pyrocko.ims.FIR2.factors" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">float</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.Begin">
+<em class="property">class </em><code class="descname">Begin</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#Begin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.Begin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.FreeFormatLine" title="pyrocko.ims.FreeFormatLine"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.FreeFormatLine</span></code></a></p>
+<p>Representation of a BEGIN line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.Begin.version">
+<em class="property">♦ </em><code class="descname">version</code><a class="headerlink" href="#pyrocko.ims.Begin.version" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.MessageType">
+<em class="property">class </em><code class="descname">MessageType</code><span class="sig-paren">(</span><em>dummy</em><span class="sig-paren">)</span> &rarr; str<a class="reference internal" href="../../_modules/pyrocko/ims.html#MessageType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.MessageType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code></p>
+<p>Any <code class="docutils literal"><span class="pre">str</span></code> out of <code class="docutils literal"><span class="pre">['REQUEST',</span> <span class="pre">'DATA',</span> <span class="pre">'SUBSCRIPTION']</span></code>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.MsgType">
+<em class="property">class </em><code class="descname">MsgType</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#MsgType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.MsgType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.FreeFormatLine" title="pyrocko.ims.FreeFormatLine"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.FreeFormatLine</span></code></a></p>
+<p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.MsgType.type">
+<em class="property">♦ </em><code class="descname">type</code><a class="headerlink" href="#pyrocko.ims.MsgType.type" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<a class="reference internal" href="#pyrocko.ims.MessageType" title="pyrocko.ims.MessageType"><code class="xref py py-class docutils literal"><span class="pre">MessageType</span></code></a>)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.MsgID">
+<em class="property">class </em><code class="descname">MsgID</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#MsgID"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.MsgID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.FreeFormatLine" title="pyrocko.ims.FreeFormatLine"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.FreeFormatLine</span></code></a></p>
+<p>Representation of a MSG_ID line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.MsgID.msg_id_string">
+<em class="property">♦ </em><code class="descname">msg_id_string</code><a class="headerlink" href="#pyrocko.ims.MsgID.msg_id_string" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.MsgID.msg_id_source">
+<em class="property">♦ </em><code class="descname">msg_id_source</code><a class="headerlink" href="#pyrocko.ims.MsgID.msg_id_source" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.RefID">
+<em class="property">class </em><code class="descname">RefID</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#RefID"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.RefID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.FreeFormatLine" title="pyrocko.ims.FreeFormatLine"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.FreeFormatLine</span></code></a></p>
+<p>Representation of a REF_ID line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.RefID.msg_id_string">
+<em class="property">♦ </em><code class="descname">msg_id_string</code><a class="headerlink" href="#pyrocko.ims.RefID.msg_id_string" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.RefID.msg_id_source">
+<em class="property">♦ </em><code class="descname">msg_id_source</code><a class="headerlink" href="#pyrocko.ims.RefID.msg_id_source" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.RefID.sequence_number">
+<em class="property">♦ </em><code class="descname">sequence_number</code><a class="headerlink" href="#pyrocko.ims.RefID.sequence_number" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.RefID.total_number">
+<em class="property">♦ </em><code class="descname">total_number</code><a class="headerlink" href="#pyrocko.ims.RefID.total_number" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code>, <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.LogSection">
+<em class="property">class </em><code class="descname">LogSection</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#LogSection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.LogSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Section" title="pyrocko.ims.Section"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Section</span></code></a></p>
+<p>Representation of a DATA_TYPE LOG section.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.LogSection.lines">
+<em class="property">♦ </em><code class="descname">lines</code><a class="headerlink" href="#pyrocko.ims.LogSection.lines" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">str</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.ErrorLogSection">
+<em class="property">class </em><code class="descname">ErrorLogSection</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#ErrorLogSection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.ErrorLogSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.LogSection" title="pyrocko.ims.LogSection"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.LogSection</span></code></a></p>
+<p>Representation of a DATA_TYPE ERROR_LOG section.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.FTPLogSection">
+<em class="property">class </em><code class="descname">FTPLogSection</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#FTPLogSection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.FTPLogSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Section" title="pyrocko.ims.Section"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Section</span></code></a></p>
+<p>Representation of a DATA_TYPE FTP_LOG section.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.FTPLogSection.ftp_file">
+<em class="property">♦ </em><code class="descname">ftp_file</code><a class="headerlink" href="#pyrocko.ims.FTPLogSection.ftp_file" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.FTPFile" title="pyrocko.ims.FTPFile"><code class="xref py py-class docutils literal"><span class="pre">FTPFile</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.WID2Section">
+<em class="property">class </em><code class="descname">WID2Section</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#WID2Section"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.WID2Section" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Section" title="pyrocko.ims.Section"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Section</span></code></a></p>
+<p>Representation of a WID2/STA2/EID2/BEA2/DAT2/CHK2 group.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.WID2Section.wid2">
+<em class="property">♦ </em><code class="descname">wid2</code><a class="headerlink" href="#pyrocko.ims.WID2Section.wid2" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.WID2" title="pyrocko.ims.WID2"><code class="xref py py-class docutils literal"><span class="pre">WID2</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.WID2Section.sta2">
+<em class="property">♦ </em><code class="descname">sta2</code><a class="headerlink" href="#pyrocko.ims.WID2Section.sta2" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.STA2" title="pyrocko.ims.STA2"><code class="xref py py-class docutils literal"><span class="pre">STA2</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.WID2Section.eid2s">
+<em class="property">♦ </em><code class="descname">eid2s</code><a class="headerlink" href="#pyrocko.ims.WID2Section.eid2s" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.ims.EID2" title="pyrocko.ims.EID2"><code class="xref py py-class docutils literal"><span class="pre">EID2</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.WID2Section.bea2">
+<em class="property">♦ </em><code class="descname">bea2</code><a class="headerlink" href="#pyrocko.ims.WID2Section.bea2" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.BEA2" title="pyrocko.ims.BEA2"><code class="xref py py-class docutils literal"><span class="pre">BEA2</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.WID2Section.dat2">
+<em class="property">♦ </em><code class="descname">dat2</code><a class="headerlink" href="#pyrocko.ims.WID2Section.dat2" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.DAT2" title="pyrocko.ims.DAT2"><code class="xref py py-class docutils literal"><span class="pre">DAT2</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.WID2Section.chk2">
+<em class="property">♦ </em><code class="descname">chk2</code><a class="headerlink" href="#pyrocko.ims.WID2Section.chk2" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.CHK2" title="pyrocko.ims.CHK2"><code class="xref py py-class docutils literal"><span class="pre">CHK2</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.OUT2Section">
+<em class="property">class </em><code class="descname">OUT2Section</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#OUT2Section"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.OUT2Section" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Section" title="pyrocko.ims.Section"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Section</span></code></a></p>
+<p>Representation of a OUT2/STA2 group.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.OUT2Section.out2">
+<em class="property">♦ </em><code class="descname">out2</code><a class="headerlink" href="#pyrocko.ims.OUT2Section.out2" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.OUT2" title="pyrocko.ims.OUT2"><code class="xref py py-class docutils literal"><span class="pre">OUT2</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.OUT2Section.sta2">
+<em class="property">♦ </em><code class="descname">sta2</code><a class="headerlink" href="#pyrocko.ims.OUT2Section.sta2" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.STA2" title="pyrocko.ims.STA2"><code class="xref py py-class docutils literal"><span class="pre">STA2</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.DLY2Section">
+<em class="property">class </em><code class="descname">DLY2Section</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#DLY2Section"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.DLY2Section" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Section" title="pyrocko.ims.Section"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Section</span></code></a></p>
+<p>Representation of a DLY2/STA2 group.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.DLY2Section.dly2">
+<em class="property">♦ </em><code class="descname">dly2</code><a class="headerlink" href="#pyrocko.ims.DLY2Section.dly2" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.DLY2" title="pyrocko.ims.DLY2"><code class="xref py py-class docutils literal"><span class="pre">DLY2</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.DLY2Section.sta2">
+<em class="property">♦ </em><code class="descname">sta2</code><a class="headerlink" href="#pyrocko.ims.DLY2Section.sta2" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.STA2" title="pyrocko.ims.STA2"><code class="xref py py-class docutils literal"><span class="pre">STA2</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.WaveformSection">
+<em class="property">class </em><code class="descname">WaveformSection</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#WaveformSection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.WaveformSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Section" title="pyrocko.ims.Section"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Section</span></code></a></p>
+<p>Representation of a DATA_TYPE WAVEFORM line.</p>
+<p>Any subsequent WID2/OUT2/DLY2 groups are handled as indepenent sections, so
+this type just serves as a dummy to read/write the DATA_TYPE WAVEFORM
+header.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.WaveformSection.datatype">
+<em class="property">♦ </em><code class="descname">datatype</code><a class="headerlink" href="#pyrocko.ims.WaveformSection.datatype" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.DataType" title="pyrocko.ims.DataType"><code class="xref py py-class docutils literal"><span class="pre">DataType</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.TableSection">
+<em class="property">class </em><code class="descname">TableSection</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#TableSection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.TableSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Section" title="pyrocko.ims.Section"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Section</span></code></a></p>
+<p>Base class for table style sections.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.NetworkSection">
+<em class="property">class </em><code class="descname">NetworkSection</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#NetworkSection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.NetworkSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.TableSection" title="pyrocko.ims.TableSection"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.TableSection</span></code></a></p>
+<p>Representation of a DATA_TYPE NETWORK section.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.NetworkSection.networks">
+<em class="property">♦ </em><code class="descname">networks</code><a class="headerlink" href="#pyrocko.ims.NetworkSection.networks" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.ims.Network" title="pyrocko.ims.Network"><code class="xref py py-class docutils literal"><span class="pre">Network</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.StationSection">
+<em class="property">class </em><code class="descname">StationSection</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#StationSection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.StationSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.TableSection" title="pyrocko.ims.TableSection"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.TableSection</span></code></a></p>
+<p>Representation of a DATA_TYPE STATION section.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.StationSection.stations">
+<em class="property">♦ </em><code class="descname">stations</code><a class="headerlink" href="#pyrocko.ims.StationSection.stations" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.ims.Station" title="pyrocko.ims.Station"><code class="xref py py-class docutils literal"><span class="pre">Station</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.ChannelSection">
+<em class="property">class </em><code class="descname">ChannelSection</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#ChannelSection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.ChannelSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.TableSection" title="pyrocko.ims.TableSection"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.TableSection</span></code></a></p>
+<p>Representation of a DATA_TYPE CHANNEL section.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.ChannelSection.channels">
+<em class="property">♦ </em><code class="descname">channels</code><a class="headerlink" href="#pyrocko.ims.ChannelSection.channels" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.ims.Channel" title="pyrocko.ims.Channel"><code class="xref py py-class docutils literal"><span class="pre">Channel</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.BeamSection">
+<em class="property">class </em><code class="descname">BeamSection</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#BeamSection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.BeamSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Section" title="pyrocko.ims.Section"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Section</span></code></a></p>
+<p>Representation of a DATA_TYPE BEAM section.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamSection.group">
+<em class="property">♦ </em><code class="descname">group</code><a class="headerlink" href="#pyrocko.ims.BeamSection.group" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.ims.BeamGroup" title="pyrocko.ims.BeamGroup"><code class="xref py py-class docutils literal"><span class="pre">BeamGroup</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.BeamSection.parameters">
+<em class="property">♦ </em><code class="descname">parameters</code><a class="headerlink" href="#pyrocko.ims.BeamSection.parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.ims.BeamParameters" title="pyrocko.ims.BeamParameters"><code class="xref py py-class docutils literal"><span class="pre">BeamParameters</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.CAL2Section">
+<em class="property">class </em><code class="descname">CAL2Section</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#CAL2Section"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.CAL2Section" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Section" title="pyrocko.ims.Section"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Section</span></code></a></p>
+<p>Representation of a CAL2 + stages group in a response section.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.CAL2Section.cal2">
+<em class="property">♦ </em><code class="descname">cal2</code><a class="headerlink" href="#pyrocko.ims.CAL2Section.cal2" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.CAL2" title="pyrocko.ims.CAL2"><code class="xref py py-class docutils literal"><span class="pre">CAL2</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.CAL2Section.stages">
+<em class="property">♦ </em><code class="descname">stages</code><a class="headerlink" href="#pyrocko.ims.CAL2Section.stages" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.ims.Stage" title="pyrocko.ims.Stage"><code class="xref py py-class docutils literal"><span class="pre">Stage</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.ResponseSection">
+<em class="property">class </em><code class="descname">ResponseSection</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#ResponseSection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.ResponseSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Section" title="pyrocko.ims.Section"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Section</span></code></a></p>
+<p>Representation of a DATA_TYPE RESPONSE line.</p>
+<p>Any subsequent CAL2+stages groups are handled as indepenent sections, so
+this type just serves as a dummy to read/write the DATA_TYPE RESPONSE
+header.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.ResponseSection.datatype">
+<em class="property">♦ </em><code class="descname">datatype</code><a class="headerlink" href="#pyrocko.ims.ResponseSection.datatype" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.DataType" title="pyrocko.ims.DataType"><code class="xref py py-class docutils literal"><span class="pre">DataType</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.OutageSection">
+<em class="property">class </em><code class="descname">OutageSection</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#OutageSection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.OutageSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Section" title="pyrocko.ims.Section"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Section</span></code></a></p>
+<p>Representation of a DATA_TYPE OUTAGE section.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.OutageSection.report_period">
+<em class="property">♦ </em><code class="descname">report_period</code><a class="headerlink" href="#pyrocko.ims.OutageSection.report_period" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.OutageReportPeriod" title="pyrocko.ims.OutageReportPeriod"><code class="xref py py-class docutils literal"><span class="pre">OutageReportPeriod</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.OutageSection.outages">
+<em class="property">♦ </em><code class="descname">outages</code><a class="headerlink" href="#pyrocko.ims.OutageSection.outages" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.ims.Outage" title="pyrocko.ims.Outage"><code class="xref py py-class docutils literal"><span class="pre">Outage</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.BulletinTitle">
+<em class="property">class </em><code class="descname">BulletinTitle</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#BulletinTitle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.BulletinTitle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.BulletinTitle.title">
+<em class="property">♦ </em><code class="descname">title</code><a class="headerlink" href="#pyrocko.ims.BulletinTitle.title" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.Origin">
+<em class="property">class </em><code class="descname">Origin</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#Origin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.Origin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.time">
+<em class="property">♦ </em><code class="descname">time</code><a class="headerlink" href="#pyrocko.ims.Origin.time" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>)</p>
+<p>epicenter date and time</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.time_fixed">
+<em class="property">♦ </em><code class="descname">time_fixed</code><a class="headerlink" href="#pyrocko.ims.Origin.time_fixed" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code>), <em>optional</em></p>
+<p>fixed flag, <code class="docutils literal"><span class="pre">&quot;f&quot;</span></code> if fixed origin time solution, <code class="docutils literal"><span class="pre">None</span></code> if not</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.time_error">
+<em class="property">♦ </em><code class="descname">time_error</code><a class="headerlink" href="#pyrocko.ims.Origin.time_error" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>origin time error [seconds], <code class="docutils literal"><span class="pre">None</span></code> if fixed origin time</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.residual">
+<em class="property">♦ </em><code class="descname">residual</code><a class="headerlink" href="#pyrocko.ims.Origin.residual" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>root mean square of time residuals [seconds]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.lat">
+<em class="property">♦ </em><code class="descname">lat</code><a class="headerlink" href="#pyrocko.ims.Origin.lat" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>latitude</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.lon">
+<em class="property">♦ </em><code class="descname">lon</code><a class="headerlink" href="#pyrocko.ims.Origin.lon" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>longitude</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.lat_lon_fixed">
+<em class="property">♦ </em><code class="descname">lat_lon_fixed</code><a class="headerlink" href="#pyrocko.ims.Origin.lat_lon_fixed" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code>), <em>optional</em></p>
+<p>fixed flag, <code class="docutils literal"><span class="pre">&quot;f&quot;</span></code> if fixed epicenter solution, <code class="docutils literal"><span class="pre">None</span></code> if not</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.ellipse_semi_major_axis">
+<em class="property">♦ </em><code class="descname">ellipse_semi_major_axis</code><a class="headerlink" href="#pyrocko.ims.Origin.ellipse_semi_major_axis" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>semi-major axis of 90% c. i. ellipse or its estimate [m], <code class="docutils literal"><span class="pre">None</span></code> if fixed</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.ellipse_semi_minor_axis">
+<em class="property">♦ </em><code class="descname">ellipse_semi_minor_axis</code><a class="headerlink" href="#pyrocko.ims.Origin.ellipse_semi_minor_axis" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>semi-minor axis of 90% c. i. ellipse or its estimate [m], <code class="docutils literal"><span class="pre">None</span></code> if fixed</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.ellipse_strike">
+<em class="property">♦ </em><code class="descname">ellipse_strike</code><a class="headerlink" href="#pyrocko.ims.Origin.ellipse_strike" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>strike of 90% c. i. ellipse [0-360], <code class="docutils literal"><span class="pre">None</span></code> if fixed</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.depth">
+<em class="property">♦ </em><code class="descname">depth</code><a class="headerlink" href="#pyrocko.ims.Origin.depth" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+<p>depth [m]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.depth_fixed">
+<em class="property">♦ </em><code class="descname">depth_fixed</code><a class="headerlink" href="#pyrocko.ims.Origin.depth_fixed" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code>), <em>optional</em></p>
+<p>fixed flag, <code class="docutils literal"><span class="pre">&quot;f&quot;</span></code> fixed depth station, &#8220;d&#8221; depth phases, <code class="docutils literal"><span class="pre">None</span></code> if not fixed depth</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.depth_error">
+<em class="property">♦ </em><code class="descname">depth_error</code><a class="headerlink" href="#pyrocko.ims.Origin.depth_error" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>depth error [m], 90% c. i., <code class="docutils literal"><span class="pre">None</span></code> if fixed depth</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.nphases">
+<em class="property">♦ </em><code class="descname">nphases</code><a class="headerlink" href="#pyrocko.ims.Origin.nphases" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code>, <em>optional</em></p>
+<p>number of defining phases</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.nstations">
+<em class="property">♦ </em><code class="descname">nstations</code><a class="headerlink" href="#pyrocko.ims.Origin.nstations" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code>, <em>optional</em></p>
+<p>number of defining stations</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.azimuthal_gap">
+<em class="property">♦ </em><code class="descname">azimuthal_gap</code><a class="headerlink" href="#pyrocko.ims.Origin.azimuthal_gap" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>gap in azimuth coverage [deg]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.distance_min">
+<em class="property">♦ </em><code class="descname">distance_min</code><a class="headerlink" href="#pyrocko.ims.Origin.distance_min" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>distance to closest station [deg]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.distance_max">
+<em class="property">♦ </em><code class="descname">distance_max</code><a class="headerlink" href="#pyrocko.ims.Origin.distance_max" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+<p>distance to furthest station [deg]</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.analysis_type">
+<em class="property">♦ </em><code class="descname">analysis_type</code><a class="headerlink" href="#pyrocko.ims.Origin.analysis_type" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code>), <em>optional</em></p>
+<p>analysis type, <code class="docutils literal"><span class="pre">&quot;a&quot;</span></code> automatic, <code class="docutils literal"><span class="pre">&quot;m&quot;</span></code> manual, <code class="docutils literal"><span class="pre">&quot;g&quot;</span></code> guess</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.location_method">
+<em class="property">♦ </em><code class="descname">location_method</code><a class="headerlink" href="#pyrocko.ims.Origin.location_method" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code>), <em>optional</em></p>
+<p>location method, <code class="docutils literal"><span class="pre">&quot;i&quot;</span></code> inversion, <code class="docutils literal"><span class="pre">&quot;p&quot;</span></code> pattern, <code class="docutils literal"><span class="pre">&quot;g&quot;</span></code> ground truth, <code class="docutils literal"><span class="pre">&quot;o&quot;</span></code> other</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.event_type">
+<em class="property">♦ </em><code class="descname">event_type</code><a class="headerlink" href="#pyrocko.ims.Origin.event_type" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code>), <em>optional</em></p>
+<p>event type, <code class="docutils literal"><span class="pre">&quot;de&quot;</span></code> ??, <code class="docutils literal"><span class="pre">&quot;fe&quot;</span></code> ??, <code class="docutils literal"><span class="pre">&quot;ke&quot;</span></code> known earthquake, <code class="docutils literal"><span class="pre">&quot;ki&quot;</span></code> known induced event, <code class="docutils literal"><span class="pre">&quot;km&quot;</span></code> known mine explosion, <code class="docutils literal"><span class="pre">&quot;kn&quot;</span></code> known nuclear explosion, <code class="docutils literal"><span class="pre">&quot;kr&quot;</span></code> known rockburst, <code class="docutils literal"><span class="pre">&quot;kx&quot;</span></code> known experimental explosion, <code class="docutils literal"><span class="pre">&quot;ls&quot;</span></code> landslide, <code class="docutils literal"><span class="pre">&quot;se&quot;</span></code> suspected earthquake, <code class="docutils literal"><span class="pre">&quot;si&quot;</span></code> suspected induced event, <code class="docutils literal"><span class="pre">&quot;sm&quot;</span></code> suspected mine explosion, <code class="docutils literal"><span class="pre">&quot;sn&quot;</span></code> suspected nuclear explosion, <code class="docutils literal"><span class="pre">&quot;sr&quot;</span></code> suspected rockburst, <code class="docutils literal"><span class="pre">&quot;sx&quot;</span></code> suspected experimental explosion, <code class="docutils literal"><span class="pre">&quot;uk&quot;</span></code> unknown</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.author">
+<em class="property">♦ </em><code class="descname">author</code><a class="headerlink" href="#pyrocko.ims.Origin.author" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">'author</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">origin'</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.Origin.origin_id">
+<em class="property">♦ </em><code class="descname">origin_id</code><a class="headerlink" href="#pyrocko.ims.Origin.origin_id" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">'origin</span> <span class="pre">identification'</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.OriginSection">
+<em class="property">class </em><code class="descname">OriginSection</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#OriginSection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.OriginSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.TableSection" title="pyrocko.ims.TableSection"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.TableSection</span></code></a></p>
+<p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.OriginSection.origins">
+<em class="property">♦ </em><code class="descname">origins</code><a class="headerlink" href="#pyrocko.ims.OriginSection.origins" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.ims.Origin" title="pyrocko.ims.Origin"><code class="xref py py-class docutils literal"><span class="pre">Origin</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.EventTitle">
+<em class="property">class </em><code class="descname">EventTitle</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#EventTitle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.EventTitle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Block" title="pyrocko.ims.Block"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Block</span></code></a></p>
+<p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.EventTitle.event_id">
+<em class="property">♦ </em><code class="descname">event_id</code><a class="headerlink" href="#pyrocko.ims.EventTitle.event_id" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.EventTitle.region">
+<em class="property">♦ </em><code class="descname">region</code><a class="headerlink" href="#pyrocko.ims.EventTitle.region" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.EventSection">
+<em class="property">class </em><code class="descname">EventSection</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#EventSection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.EventSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Section" title="pyrocko.ims.Section"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Section</span></code></a></p>
+<p>Groups Event, Arrival, ...</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.EventSection.event_title">
+<em class="property">♦ </em><code class="descname">event_title</code><a class="headerlink" href="#pyrocko.ims.EventSection.event_title" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.EventTitle" title="pyrocko.ims.EventTitle"><code class="xref py py-class docutils literal"><span class="pre">EventTitle</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.EventSection.origin_section">
+<em class="property">♦ </em><code class="descname">origin_section</code><a class="headerlink" href="#pyrocko.ims.EventSection.origin_section" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.OriginSection" title="pyrocko.ims.OriginSection"><code class="xref py py-class docutils literal"><span class="pre">OriginSection</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.EventsSection">
+<em class="property">class </em><code class="descname">EventsSection</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#EventsSection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.EventsSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Section" title="pyrocko.ims.Section"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Section</span></code></a></p>
+<p>Representation of a DATA_TYPE EVENT section.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.EventsSection.bulletin_title">
+<em class="property">♦ </em><code class="descname">bulletin_title</code><a class="headerlink" href="#pyrocko.ims.EventsSection.bulletin_title" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.BulletinTitle" title="pyrocko.ims.BulletinTitle"><code class="xref py py-class docutils literal"><span class="pre">BulletinTitle</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.EventsSection.event_sections">
+<em class="property">♦ </em><code class="descname">event_sections</code><a class="headerlink" href="#pyrocko.ims.EventsSection.event_sections" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.ims.EventSection" title="pyrocko.ims.EventSection"><code class="xref py py-class docutils literal"><span class="pre">EventSection</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.BulletinSection">
+<em class="property">class </em><code class="descname">BulletinSection</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#BulletinSection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.BulletinSection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.EventsSection" title="pyrocko.ims.EventsSection"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.EventsSection</span></code></a></p>
+<p>Representation of a DATA_TYPE BULLETIN section.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.MessageHeader">
+<em class="property">class </em><code class="descname">MessageHeader</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#MessageHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.MessageHeader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.Section" title="pyrocko.ims.Section"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.Section</span></code></a></p>
+<p>Representation of a BEGIN/MSG_TYPE/MSG_ID/REF_ID group.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.MessageHeader.version">
+<em class="property">♦ </em><code class="descname">version</code><a class="headerlink" href="#pyrocko.ims.MessageHeader.version" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.MessageHeader.type">
+<em class="property">♦ </em><code class="descname">type</code><a class="headerlink" href="#pyrocko.ims.MessageHeader.type" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.MessageHeader.msg_id">
+<em class="property">♦ </em><code class="descname">msg_id</code><a class="headerlink" href="#pyrocko.ims.MessageHeader.msg_id" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.MsgID" title="pyrocko.ims.MsgID"><code class="xref py py-class docutils literal"><span class="pre">MsgID</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.ims.MessageHeader.ref_id">
+<em class="property">♦ </em><code class="descname">ref_id</code><a class="headerlink" href="#pyrocko.ims.MessageHeader.ref_id" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.ims.RefID" title="pyrocko.ims.RefID"><code class="xref py py-class docutils literal"><span class="pre">RefID</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.TimeStamp">
+<em class="property">class </em><code class="descname">TimeStamp</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#TimeStamp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.TimeStamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.FreeFormatLine" title="pyrocko.ims.FreeFormatLine"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.FreeFormatLine</span></code></a></p>
+<p>Representation of a TIME_STAMP line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.TimeStamp.value">
+<em class="property">♦ </em><code class="descname">value</code><a class="headerlink" href="#pyrocko.ims.TimeStamp.value" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.Stop">
+<em class="property">class </em><code class="descname">Stop</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#Stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.Stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.FreeFormatLine" title="pyrocko.ims.FreeFormatLine"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.FreeFormatLine</span></code></a></p>
+<p>Representation of a STOP line.</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.Stop.dummy">
+<em class="property">♦ </em><code class="descname">dummy</code><a class="headerlink" href="#pyrocko.ims.Stop.dummy" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.ims.XW01">
+<em class="property">class </em><code class="descname">XW01</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#XW01"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.XW01" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.ims.FreeFormatLine" title="pyrocko.ims.FreeFormatLine"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.ims.FreeFormatLine</span></code></a></p>
+<p>Representation of a XW01 line (which is a relict from GSE1).</p>
+<dl class="gattribute">
+<dt id="pyrocko.ims.XW01.dummy">
+<em class="property">♦ </em><code class="descname">dummy</code><a class="headerlink" href="#pyrocko.ims.XW01.dummy" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.ims.iload">
+<code class="descname">iload</code><span class="sig-paren">(</span><em>source</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.ims.iload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load IMS/GSE2 information from given source(s)</p>
+<p>The <code class="docutils literal"><span class="pre">source</span></code> can be specified as the name of a IMS/GSE2 file, the name of a
+directory containing IMS/GSE2 files, a glob pattern of IMS/GSE2 files, an open
+filehandle or an iterator yielding any of the forementioned sources.</p>
+<p>This function behaves as a generator yielding <a class="reference internal" href="#pyrocko.ims.Section" title="pyrocko.ims.Section"><code class="xref py py-class docutils literal"><span class="pre">Section</span></code></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.ims.iload_dirname">
+<code class="descname">iload_dirname</code><span class="sig-paren">(</span><em>dirname</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.ims.iload_dirname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read IMS/GSE2 information from directory of IMS/GSE2 files.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.ims.iload_filename">
+<code class="descname">iload_filename</code><span class="sig-paren">(</span><em>filename</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.ims.iload_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read IMS/GSE2 information from named file.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.ims.iload_glob">
+<code class="descname">iload_glob</code><span class="sig-paren">(</span><em>pattern</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.ims.iload_glob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read IMS/GSE2 information from files matching a glob pattern.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.ims.iload_fh">
+<code class="descname">iload_fh</code><span class="sig-paren">(</span><em>f</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#iload_fh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.iload_fh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load IMS/GSE2 records from open file handle.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.ims.iload_string">
+<code class="descname">iload_string</code><span class="sig-paren">(</span><em>s</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#iload_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.iload_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read IMS/GSE2 sections from string.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.ims.dump_fh">
+<code class="descname">dump_fh</code><span class="sig-paren">(</span><em>sections</em>, <em>f</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#dump_fh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.dump_fh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dump IMS/GSE2 sections to open file handle.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.ims.dump_string">
+<code class="descname">dump_string</code><span class="sig-paren">(</span><em>sections</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/ims.html#dump_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.ims.dump_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write IMS/GSE2 sections to string.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="io.html" title="The io Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="hamster_pile.html" title="The hamster_pile Module"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Geodesic functions &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Plotting functions" href="plotting.html" />
+    <link rel="prev" title="Earthquake catalog search" href="catalog_search.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Examples</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="geodesic-functions">
+<h1>Geodesic functions<a class="headerlink" href="#geodesic-functions" title="Permalink to this headline">¶</a></h1>
+<p>Pyrocko&#8217;s <a class="reference internal" href="../reference/orthodrome.html#module-pyrocko.orthodrome" title="pyrocko.orthodrome"><code class="xref py py-class docutils literal"><span class="pre">orthodrome</span></code></a> module offers geodesic functions to solve a variety of common geodetic problems, like distance and angle calculation on a spheroid.</p>
+<div class="section" id="distance-between-points-on-earth">
+<h2>Distance between points on earth<a class="headerlink" href="#distance-between-points-on-earth" title="Permalink to this headline">¶</a></h2>
+<p>In this example we use <a class="reference internal" href="../reference/orthodrome.html#pyrocko.orthodrome.distance_accurate50m" title="pyrocko.orthodrome.distance_accurate50m"><code class="xref py py-func docutils literal"><span class="pre">distance_accurate50m()</span></code></a> and <a class="reference internal" href="../reference/model.html#module-pyrocko.model" title="pyrocko.model"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.model</span></code></a> to calculate the distance between two points on earth.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">orthodrome</span><span class="p">,</span> <span class="n">model</span>
+
+<span class="n">e</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="mf">20.</span><span class="p">)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Station</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="mf">15.</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="mf">120.</span><span class="p">)</span>
+
+<span class="c1"># one possibility:</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">orthodrome</span><span class="o">.</span><span class="n">distance_accurate50m</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s1">&#39;Distance between e and s is </span><span class="si">%g</span><span class="s1"> km&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="o">/</span><span class="mf">1000.</span><span class="p">)</span>
+
+<span class="c1"># another possibility:</span>
+<span class="n">s</span><span class="o">.</span><span class="n">set_event_relative_data</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s1">&#39;Distance between e and s is </span><span class="si">%g</span><span class="s1"> km&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">dist_m</span><span class="o">/</span><span class="mf">1000.</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This can also be serialised for multiple coordinates stored in <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> through <a class="reference internal" href="../reference/orthodrome.html#pyrocko.orthodrome.distance_accurate50m_numpy" title="pyrocko.orthodrome.distance_accurate50m_numpy"><code class="xref py py-func docutils literal"><span class="pre">distance_accurate50m_numpy()</span></code></a>.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
+<span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">orthodrome</span>
+
+<span class="n">ncoords</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<span class="c1"># First set of coordinates</span>
+<span class="n">lats_a</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random_integers</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="n">ncoords</span><span class="p">)</span>
+<span class="n">lons_a</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random_integers</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="n">ncoords</span><span class="p">)</span>
+
+<span class="c1"># Second set of coordinates</span>
+<span class="n">lats_b</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random_integers</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="n">ncoords</span><span class="p">)</span>
+<span class="n">lons_b</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random_integers</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="n">ncoords</span><span class="p">)</span>
+
+<span class="n">orthodrome</span><span class="o">.</span><span class="n">distance_accurate50m_numpy</span><span class="p">(</span><span class="n">lats_a</span><span class="p">,</span> <span class="n">lons_a</span><span class="p">,</span> <span class="n">lats_b</span><span class="p">,</span> <span class="n">lons_b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="azimuth-and-backazimuth">
+<h2>Azimuth and backazimuth<a class="headerlink" href="#azimuth-and-backazimuth" title="Permalink to this headline">¶</a></h2>
+<p>Calculation of azimuths and backazimuths between two points on a spherical earth.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">orthodrome</span>
+
+<span class="c1"># For a single point</span>
+<span class="n">orthodrome</span><span class="o">.</span><span class="n">azibazi</span><span class="p">(</span><span class="mf">49.1</span><span class="p">,</span> <span class="mf">20.5</span><span class="p">,</span> <span class="mf">45.4</span><span class="p">,</span> <span class="mf">22.3</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="mf">161.05973376168285</span><span class="p">,</span> <span class="o">-</span><span class="mf">17.617746351508035</span><span class="p">)</span>  <span class="c1"># Azimuth and backazimuth</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
+
+<span class="n">ncoords</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="c1"># First set of coordinates</span>
+<span class="n">lats_a</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random_integers</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="n">ncoords</span><span class="p">)</span>
+<span class="n">lons_a</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random_integers</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="n">ncoords</span><span class="p">)</span>
+
+<span class="c1"># Second set of coordinates</span>
+<span class="n">lats_b</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random_integers</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="n">ncoords</span><span class="p">)</span>
+<span class="n">lons_b</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random_integers</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="n">ncoords</span><span class="p">)</span>
+
+<span class="n">orthodrome</span><span class="o">.</span><span class="n">azibazi_numpy</span><span class="p">(</span><span class="n">lats_a</span><span class="p">,</span> <span class="n">lons_a</span><span class="p">,</span> <span class="n">lats_b</span><span class="p">,</span> <span class="n">lons_b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="conversion-to-carthesian-coordinates">
+<h2>Conversion to carthesian coordinates<a class="headerlink" href="#conversion-to-carthesian-coordinates" title="Permalink to this headline">¶</a></h2>
+<p>Given two sets of coordinates, <a class="reference internal" href="../reference/orthodrome.html#pyrocko.orthodrome.latlon_to_ne" title="pyrocko.orthodrome.latlon_to_ne"><code class="xref py py-func docutils literal"><span class="pre">latlon_to_ne()</span></code></a> returns the distance in meters in north/east direction.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">orthodrome</span>
+
+<span class="c1"># option 1, coordinates as floats</span>
+<span class="n">north_m</span><span class="p">,</span> <span class="n">east_m</span> <span class="o">=</span> <span class="n">orthodrome</span><span class="o">.</span><span class="n">latlon_to_ne</span><span class="p">(</span>
+    <span class="mf">10.3</span><span class="p">,</span>   <span class="c1"># origin latitude</span>
+    <span class="mf">12.4</span><span class="p">,</span>   <span class="c1"># origin longitude</span>
+    <span class="mf">10.5</span><span class="p">,</span>   <span class="c1"># target latitude</span>
+    <span class="mf">12.6</span><span class="p">)</span>   <span class="c1"># target longitude</span>
+
+<span class="nb">print</span> <span class="n">north_m</span><span class="p">,</span> <span class="n">east_m</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="mf">22199.7843582</span> <span class="mf">21821.3511789</span>
+
+<span class="c1"># option 2, coordinates from instances with &#39;lon&#39; and &#39;lat&#39; attributes</span>
+
+<span class="kn">from</span> <span class="nn">pyrocko.gf</span> <span class="k">import</span> <span class="n">seismosizer</span>
+
+<span class="n">source</span> <span class="o">=</span> <span class="n">seismosizer</span><span class="o">.</span><span class="n">DCSource</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="mf">10.3</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="mf">12.4</span><span class="p">)</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">seismosizer</span><span class="o">.</span><span class="n">Target</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="mf">10.5</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="mf">12.6</span><span class="p">)</span>
+
+<span class="n">north_m</span><span class="p">,</span> <span class="n">east_m</span> <span class="o">=</span> <span class="n">orthodrome</span><span class="o">.</span><span class="n">latlon_to_ne</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="n">north_m</span><span class="p">,</span> <span class="n">east_m</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="mf">22199.7843582</span> <span class="mf">21821.3511789</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="relative-carthesian-coordinates-to-latitude-and-longitude">
+<h2>Relative carthesian coordinates to latitude and longitude<a class="headerlink" href="#relative-carthesian-coordinates-to-latitude-and-longitude" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">orthodrome</span>
+
+<span class="c1"># arguments: origin lat, origin lon, north [m], east [m]</span>
+<span class="nb">print</span> <span class="s2">&quot;latitude: </span><span class="si">%s</span><span class="s2">, longitude: </span><span class="si">%s</span><span class="s2"> &quot;</span> <span class="o">%</span> <span class="n">orthodrome</span><span class="o">.</span><span class="n">ne_to_latlon</span><span class="p">(</span><span class="mf">10.3</span><span class="p">,</span> <span class="mf">12.4</span><span class="p">,</span> <span class="mf">22200.</span><span class="p">,</span> <span class="mf">21821.</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">latitude</span><span class="p">:</span> <span class="mf">10.4995878932</span><span class="p">,</span> <span class="n">longitude</span><span class="p">:</span> <span class="mf">12.5995823469</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="plotting.html" title="Plotting functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="catalog_search.html" title="Earthquake catalog search"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

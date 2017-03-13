@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The orthodrome Module &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The pile Module" href="pile.html" />
+    <link rel="prev" title="The moment_tensor Module" href="moment_tensor.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyrocko.orthodrome">
+<span id="the-orthodrome-module"></span><h1>The <code class="xref py py-mod docutils literal"><span class="pre">orthodrome</span></code> Module<a class="headerlink" href="#module-pyrocko.orthodrome" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="pyrocko.orthodrome.float_array_broadcast">
+<code class="descname">float_array_broadcast</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#float_array_broadcast"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.float_array_broadcast" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.orthodrome.Loc">
+<em class="property">class </em><code class="descname">Loc</code><span class="sig-paren">(</span><em>lat</em>, <em>lon</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#Loc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.Loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple location representation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attrib lat:</th><td class="field-body">Latitude degree</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attrib lon:</th><td class="field-body">Longitude degree</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.clip">
+<code class="descname">clip</code><span class="sig-paren">(</span><em>x</em>, <em>mi</em>, <em>ma</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#clip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.clip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clipping data array <code class="docutils literal"><span class="pre">x</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>) &#8211; Continunous data to be clipped</li>
+<li><strong>mi</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Clip minimum</li>
+<li><strong>ma</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Clip maximum</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Clipped data</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.wrap">
+<code class="descname">wrap</code><span class="sig-paren">(</span><em>x</em>, <em>mi</em>, <em>ma</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#wrap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.wrap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapping continuous data to fundamental phase values.</p>
+<div class="math">
+<p><span class="math">x_{\mathrm{wrapped}} = x_{\mathrm{cont},i} -             \frac{ x_{\mathrm{cont},i} - r_{\mathrm{min}} }                  { r_{\mathrm{max}} -  r_{\mathrm{min}}}             \cdot ( r_{\mathrm{max}} -  r_{\mathrm{min}}),\ \quad
+x_{\mathrm{wrapped}}\; \in
+    \;[ r_{\mathrm{min}},\, r_{\mathrm{max}}].</span></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>) &#8211; Continunous data to be wrapped</li>
+<li><strong>mi</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Minimum value of wrapped data</li>
+<li><strong>ma</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Maximum value of wrapped data</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Wrapped data</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.cosdelta">
+<code class="descname">cosdelta</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#cosdelta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.cosdelta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cosine of the angular distance between two points <code class="docutils literal"><span class="pre">a</span></code> and <code class="docutils literal"><span class="pre">b</span></code> on
+a sphere.</p>
+<p>This function (find implementation below) returns the cosine of the
+distance angle &#8216;delta&#8217; between two points <code class="docutils literal"><span class="pre">a</span></code> and <code class="docutils literal"><span class="pre">b</span></code>, coordinates of
+which are expected to be given in geographical coordinates and in degrees.
+For numerical stability a maximum of 1.0 is enforced.</p>
+<div class="math">
+<p><span class="math">A_{\mathrm{lat'}} = \frac{ \pi}{180} \cdot A_{lat}, \quad         A_{\mathrm{lon'}} = \frac{ \pi}{180} \cdot A_{lon}, \quad         B_{\mathrm{lat'}} = \frac{ \pi}{180} \cdot B_{lat}, \quad         B_{\mathrm{lon'}} = \frac{ \pi}{180} \cdot B_{lon}\\[0.5cm]
+
+\cos(\Delta) = \min( 1.0, \quad  \sin( A_{\mathrm{lat'}})                      \sin( B_{\mathrm{lat'}} ) +                      \cos(A_{\mathrm{lat'}})  \cos( B_{\mathrm{lat'}} )                      \cos( B_{\mathrm{lon'}} - A_{\mathrm{lon'}} )</span></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>a</strong> (<a class="reference internal" href="#pyrocko.orthodrome.Loc" title="pyrocko.orthodrome.Loc"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.orthodrome.Loc</span></code></a>) &#8211; Location point A</li>
+<li><strong>b</strong> (<a class="reference internal" href="#pyrocko.orthodrome.Loc" title="pyrocko.orthodrome.Loc"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.orthodrome.Loc</span></code></a>) &#8211; Location point B</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">cosdelta</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)">float</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.cosdelta_numpy">
+<code class="descname">cosdelta_numpy</code><span class="sig-paren">(</span><em>a_lats</em>, <em>a_lons</em>, <em>b_lats</em>, <em>b_lons</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#cosdelta_numpy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.cosdelta_numpy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cosine of the angular distance between two points <code class="docutils literal"><span class="pre">a</span></code> and <code class="docutils literal"><span class="pre">b</span></code>
+on a sphere.</p>
+<p>This function returns the cosines of the distance
+angles <em>delta</em> between two points <code class="docutils literal"><span class="pre">a</span></code> and <code class="docutils literal"><span class="pre">b</span></code> given as
+<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>.
+The coordinates are expected to be given in geographical coordinates
+and in degrees. For numerical stability a maximum of <code class="docutils literal"><span class="pre">1.0</span></code> is enforced.</p>
+<p>Please find the details of the implementation in the documentation of
+the function <a class="reference internal" href="#pyrocko.orthodrome.cosdelta" title="pyrocko.orthodrome.cosdelta"><code class="xref py py-func docutils literal"><span class="pre">pyrocko.orthodrome.cosdelta()</span></code></a> above.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>a_lats</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>) &#8211; Latitudes (degree) point A</li>
+<li><strong>a_lons</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>) &#8211; Longitudes (degree) point A</li>
+<li><strong>b_lats</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>) &#8211; Latitudes (degree) point B</li>
+<li><strong>b_lons</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point B</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">cosdelta</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.azimuth">
+<code class="descname">azimuth</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#azimuth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.azimuth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Azimuth calculation</p>
+<p>This function (find implementation below) returns azimuth ...
+between points <code class="docutils literal"><span class="pre">a</span></code> and <code class="docutils literal"><span class="pre">b</span></code>, coordinates of
+which are expected to be given in geographical coordinates and in degrees.</p>
+<div class="math">
+<p><span class="math">A_{\mathrm{lat'}} = \frac{ \pi}{180} \cdot A_{lat}, \quad         A_{\mathrm{lon'}} = \frac{ \pi}{180} \cdot A_{lon}, \quad         B_{\mathrm{lat'}} = \frac{ \pi}{180} \cdot B_{lat}, \quad         B_{\mathrm{lon'}} = \frac{ \pi}{180} \cdot B_{lon}\\
+
+\varphi_{\mathrm{azi},AB} = \frac{180}{\pi} \arctan \left[ \frac{                \cos( A_{\mathrm{lat'}}) \cos( B_{\mathrm{lat'}} )                 \sin(B_{\mathrm{lon'}} - A_{\mathrm{lon'}} )}                 {\sin ( B_{\mathrm{lat'}} ) - \sin( A_{\mathrm{lat'}}                   cosdelta) } \right]</span></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>a</strong> (<a class="reference internal" href="#pyrocko.orthodrome.Loc" title="pyrocko.orthodrome.Loc"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.orthodrome.Loc</span></code></a>) &#8211; Location point A</li>
+<li><strong>b</strong> (<a class="reference internal" href="#pyrocko.orthodrome.Loc" title="pyrocko.orthodrome.Loc"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.orthodrome.Loc</span></code></a>) &#8211; Location point B</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Azimuth in degree</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.azimuth_numpy">
+<code class="descname">azimuth_numpy</code><span class="sig-paren">(</span><em>a_lats</em>, <em>a_lons</em>, <em>b_lats</em>, <em>b_lons</em>, <em>_cosdelta=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#azimuth_numpy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.azimuth_numpy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculation of the azimuth (<em>track angle</em>) from a location A towards B.</p>
+<p>This function returns azimuths (<em>track angles</em>) from locations A towards B
+given in <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>. Coordinates are expected to be given in
+geographical coordinates and in degrees.</p>
+<p>Please find the details of the implementation in the documentation of the
+function <a class="reference internal" href="#pyrocko.orthodrome.azimuth" title="pyrocko.orthodrome.azimuth"><code class="xref py py-func docutils literal"><span class="pre">pyrocko.orthodrome.azimuth()</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>a_lats</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Latitudes (degree) point A</li>
+<li><strong>a_lons</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point A</li>
+<li><strong>b_lats</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Latitudes (degree) point B</li>
+<li><strong>b_lons</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point B</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Azimuths in degrees</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.azibazi">
+<code class="descname">azibazi</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#azibazi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.azibazi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.azibazi_numpy">
+<code class="descname">azibazi_numpy</code><span class="sig-paren">(</span><em>a_lats</em>, <em>a_lons</em>, <em>b_lats</em>, <em>b_lons</em>, <em>implementation='c'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#azibazi_numpy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.azibazi_numpy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.azidist_numpy">
+<code class="descname">azidist_numpy</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#azidist_numpy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.azidist_numpy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculation of the azimuth (<em>track angle</em>) and the distance from
+locations A towards B on a sphere.</p>
+<p>The assisting functions used are <a class="reference internal" href="#pyrocko.orthodrome.cosdelta" title="pyrocko.orthodrome.cosdelta"><code class="xref py py-func docutils literal"><span class="pre">pyrocko.orthodrome.cosdelta()</span></code></a> and
+<a class="reference internal" href="#pyrocko.orthodrome.azimuth" title="pyrocko.orthodrome.azimuth"><code class="xref py py-func docutils literal"><span class="pre">pyrocko.orthodrome.azimuth()</span></code></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>a_lats</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Latitudes (degree) point A</li>
+<li><strong>a_lons</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point A</li>
+<li><strong>b_lats</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Latitudes (degree) point B</li>
+<li><strong>b_lons</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point B</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Azimuths in degrees, distances in degrees</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(2xN)</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.distance_accurate50m">
+<code class="descname">distance_accurate50m</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#distance_accurate50m"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.distance_accurate50m" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accurate distance calculation based on a spheroid of rotation.</p>
+<p>Function returns distance in meter between points A and B, coordinates of
+which must be given in geographical coordinates and in degrees.
+The returned distance should be accurate to 50,m using WGS84.
+Values for the Earth&#8217;s equator radius and the Earth&#8217;s oblateness
+(<code class="docutils literal"><span class="pre">f_oblate</span></code>) are defined in the pyrocko configuration file
+<code class="xref py py-class docutils literal"><span class="pre">pyrocko.config</span></code>.</p>
+<p>From wikipedia (<a class="reference external" href="http://de.wikipedia.org/wiki/Orthodrome">http://de.wikipedia.org/wiki/Orthodrome</a>), based on:</p>
+<p><code class="docutils literal"><span class="pre">Meeus,</span> <span class="pre">J.:</span> <span class="pre">Astronomical</span> <span class="pre">Algorithms,</span> <span class="pre">S</span> <span class="pre">85,</span> <span class="pre">Willmann-Bell,</span>
+<span class="pre">Richmond</span> <span class="pre">2000</span> <span class="pre">(2nd</span> <span class="pre">ed.,</span> <span class="pre">2nd</span> <span class="pre">printing),</span> <span class="pre">ISBN</span> <span class="pre">0-943396-61-1</span></code></p>
+<div class="math">
+<p><span class="math">F = \frac{\pi}{180}                             \frac{(A_{lat} + B_{lat})}{2}, \quad         G = \frac{\pi}{180}                              \frac{(A_{lat} - B_{lat})}{2}, \quad         l = \frac{\pi}{180}                             \frac{(A_{lon} - B_{lon})}{2} \quad         \\[0.5cm]
+S = \sin^2(G) \cdot \cos^2(l) +               \cos^2(F) \cdot \sin^2(l), \quad \quad
+C = \cos^2(G) \cdot \cos^2(l) +                   \sin^2(F) \cdot \sin^2(l)</span></p>
+</div><div class="math">
+<p><span class="math">w = \arctan \left( \sqrt{ \frac{S}{C}} \right) , \quad         r =  \sqrt{\frac{S}{C} }</span></p>
+</div><p>The spherical-earth distance D between A and B, can be given with:</p>
+<div class="math">
+<p><span class="math">D_{sphere} = 2w \cdot R_{equator}</span></p>
+</div><p>The oblateness of the Earth requires some correction with
+correction factors h1 and h2:</p>
+<blockquote>
+<div><div class="math">
+<p><span class="math">h_1 = \frac{3r - 1}{2C}, \quad         h_2 = \frac{3r +1 }{2S}\\[0.5cm]
+
+D = D_{\mathrm{sphere}} \cdot [ 1 + h_1 \,f_{\mathrm{oblate}}                  \cdot \sin^2(F)                  \cos^2(G) - h_2\, f_{\mathrm{oblate}}                  \cdot \cos^2(F) \sin^2(G)]</span></p>
+</div></div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>a</strong> (<a class="reference internal" href="#pyrocko.orthodrome.Loc" title="pyrocko.orthodrome.Loc"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.orthodrome.Loc</span></code></a>) &#8211; Location point A</li>
+<li><strong>b</strong> (<a class="reference internal" href="#pyrocko.orthodrome.Loc" title="pyrocko.orthodrome.Loc"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.orthodrome.Loc</span></code></a>) &#8211; Location point B</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Distance in meter</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)">float</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.distance_accurate50m_numpy">
+<code class="descname">distance_accurate50m_numpy</code><span class="sig-paren">(</span><em>a_lats</em>, <em>a_lons</em>, <em>b_lats</em>, <em>b_lons</em>, <em>implementation='c'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#distance_accurate50m_numpy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.distance_accurate50m_numpy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accurate distance calculation based on a spheroid of rotation.</p>
+<p>Function returns distance in meter between points <code class="docutils literal"><span class="pre">a</span></code> and <code class="docutils literal"><span class="pre">b</span></code>,
+coordinates of which must be given in geographical coordinates and in
+degrees.
+The returned distance should be accurate to 50,m using WGS84.
+Values for the Earth&#8217;s equator radius and the Earth&#8217;s oblateness
+(<code class="docutils literal"><span class="pre">f_oblate</span></code>) are defined in the pyrocko configuration file
+<code class="xref py py-class docutils literal"><span class="pre">pyrocko.config</span></code>.</p>
+<p>From wikipedia (<a class="reference external" href="http://de.wikipedia.org/wiki/Orthodrome">http://de.wikipedia.org/wiki/Orthodrome</a>), based on:</p>
+<p><code class="docutils literal"><span class="pre">Meeus,</span> <span class="pre">J.:</span> <span class="pre">Astronomical</span> <span class="pre">Algorithms,</span> <span class="pre">S</span> <span class="pre">85,</span> <span class="pre">Willmann-Bell,</span>
+<span class="pre">Richmond</span> <span class="pre">2000</span> <span class="pre">(2nd</span> <span class="pre">ed.,</span> <span class="pre">2nd</span> <span class="pre">printing),</span> <span class="pre">ISBN</span> <span class="pre">0-943396-61-1</span></code></p>
+<div class="math">
+<p><span class="math">F_i = \frac{\pi}{180}                            \frac{(a_{lat,i} + a_{lat,i})}{2}, \quad         G_i = \frac{\pi}{180}                             \frac{(a_{lat,i} - b_{lat,i})}{2}, \quad         l_i= \frac{\pi}{180}                             \frac{(a_{lon,i} - b_{lon,i})}{2} \\[0.5cm]
+S_i = \sin^2(G_i) \cdot \cos^2(l_i) +               \cos^2(F_i) \cdot \sin^2(l_i), \quad \quad
+C_i = \cos^2(G_i) \cdot \cos^2(l_i) +                   \sin^2(F_i) \cdot \sin^2(l_i)</span></p>
+</div><div class="math">
+<p><span class="math">w_i = \arctan \left( \sqrt{\frac{S_i}{C_i}} \right), \quad         r_i =  \sqrt{\frac{S_i}{C_i} }</span></p>
+</div><p>The spherical-earth distance <code class="docutils literal"><span class="pre">D</span></code> between <code class="docutils literal"><span class="pre">a</span></code> and <code class="docutils literal"><span class="pre">b</span></code>,
+can be given with:</p>
+<div class="math">
+<p><span class="math">D_{\mathrm{sphere},i} = 2w_i \cdot R_{\mathrm{equator}}</span></p>
+</div><p>The oblateness of the Earth requires some correction with
+correction factors <code class="docutils literal"><span class="pre">h1</span></code> and <code class="docutils literal"><span class="pre">h2</span></code>:</p>
+<blockquote>
+<div><div class="math">
+<p><span class="math">h_{1.i} = \frac{3r - 1}{2C_i}, \quad         h_{2,i} = \frac{3r +1 }{2S_i}\\[0.5cm]
+
+D_{AB,i} = D_{\mathrm{sphere},i} \cdot [1 + h_{1,i}
+    \,f_{\mathrm{oblate}}             \cdot \sin^2(F_i)             \cos^2(G_i) - h_{2,i}\, f_{\mathrm{oblate}}             \cdot \cos^2(F_i) \sin^2(G_i)]</span></p>
+</div></div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>a_lats</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Latitudes (degree) point A</li>
+<li><strong>a_lons</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point A</li>
+<li><strong>b_lats</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Latitudes (degree) point B</li>
+<li><strong>b_lons</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point B</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Distances in degrees</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.ne_to_latlon">
+<code class="descname">ne_to_latlon</code><span class="sig-paren">(</span><em>lat0</em>, <em>lon0</em>, <em>north_m</em>, <em>east_m</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#ne_to_latlon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.ne_to_latlon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform local cartesian coordinates to latitude and longitude.</p>
+<p>From east and north coordinates (<code class="docutils literal"><span class="pre">x</span></code> and <code class="docutils literal"><span class="pre">y</span></code> coordinate
+<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>)  relative to a reference differences in
+longitude and latitude are calculated, which are effectively changes in
+azimuth and distance, respectively:</p>
+<div class="math">
+<p><span class="math">\text{distance change:}\; \Delta {\bf{a}} &amp;= \sqrt{{\bf{y}}^2 +                                            {\bf{x}}^2 }/ \mathrm{R_E},
+
+\text{azimuth change:}\; \Delta \bf{\gamma} &amp;= \arctan( \bf{x}                                                           / \bf{y}).</span></p>
+</div><p>The projection used preserves the azimuths of the input points.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>lat0</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Latitude origin of the cartesian coordinate system.</li>
+<li><strong>lon0</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Longitude origin of the cartesian coordinate system.</li>
+<li><strong>north_m</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Northing distances from origin in meters.</li>
+<li><strong>east_m</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Easting distances from origin in meters.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Array with latitudes and longitudes</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(2xN)</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.azidist_to_latlon">
+<code class="descname">azidist_to_latlon</code><span class="sig-paren">(</span><em>lat0</em>, <em>lon0</em>, <em>azimuth_deg</em>, <em>distance_deg</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#azidist_to_latlon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.azidist_to_latlon" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Durchreichen??).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.azidist_to_latlon_rad">
+<code class="descname">azidist_to_latlon_rad</code><span class="sig-paren">(</span><em>lat0</em>, <em>lon0</em>, <em>azimuth_rad</em>, <em>distance_rad</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#azidist_to_latlon_rad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.azidist_to_latlon_rad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Absolute latitudes and longitudes are calculated from relative changes.</p>
+<p>For numerical stability a range between of <code class="docutils literal"><span class="pre">-1.0</span></code> and <code class="docutils literal"><span class="pre">1.0</span></code> is
+enforced for <code class="docutils literal"><span class="pre">c</span></code> and <code class="docutils literal"><span class="pre">alpha</span></code>.</p>
+<div class="math">
+<p><span class="math">\Delta {\bf a}_i \; \text{and} \; \Delta \gamma_i \;             \text{are relative distances and azimuths from lat0 and lon0 for                 \textit{i} source points of a finite source.}</span></p>
+</div><div class="math">
+<p><span class="math">\mathrm{b} &amp;= \frac{\pi}{2} -\frac{\pi}{180} \;\mathrm{lat_0}\\
+{\bf c}_i &amp;=\arccos[\; \cos(\Delta {\bf{a}}_i) \cos(\mathrm{b})               + |\Delta \gamma_i| \,\sin(\Delta {\bf a}_i)
+        \sin(\mathrm{b})\; ] \\
+\mathrm{lat}_i &amp;=  \frac{180}{\pi}                            \left(\frac{\pi}{2} - {\bf c}_i \right)</span></p>
+</div><div class="math">
+<p><span class="math">\alpha_i &amp;= \arcsin \left[ \; \frac{ \sin(\Delta {\bf a}_i )                          \sin(|\Delta \gamma_i|)}{\sin({\bf c}_i)}\;
+                 \right] \\
+\alpha_i &amp;= \begin{cases}
+         \alpha_i, &amp;\text{if}  \; \cos(\Delta {\bf a}_i) -                  \cos(\mathrm{b}) \cos({\bf{c}}_i) &gt; 0, \;                  \text{else} \\
+         \pi - \alpha_i, &amp; \text{if} \; \alpha_i &gt; 0,\;
+         \text{else}\\
+        -\pi - \alpha_i, &amp; \text{if} \; \alpha_i &lt; 0.
+        \end{cases} \\
+\mathrm{lon}_i &amp;=   \mathrm{lon_0} +              \frac{180}{\pi} \, \frac{\Delta \gamma_i }{|\Delta \gamma_i|}                             \cdot \alpha_i                               \text{, with $\alpha_i \in [-\pi,\pi]$}</span></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>lat0</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Latitude origin of the cartesian coordinate system.</li>
+<li><strong>lon0</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Longitude origin of the cartesian coordinate system.</li>
+<li><strong>distance_rad</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Distances from origin in radians.</li>
+<li><strong>azimuth_rad</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Azimuth from radians.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Array with latitudes and longitudes</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(2xN)</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.ne_to_latlon_alternative_method">
+<code class="descname">ne_to_latlon_alternative_method</code><span class="sig-paren">(</span><em>lat0</em>, <em>lon0</em>, <em>north_m</em>, <em>east_m</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#ne_to_latlon_alternative_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.ne_to_latlon_alternative_method" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform local cartesian coordinates to latitude and longitude.</p>
+<p>Like <a class="reference internal" href="#pyrocko.orthodrome.ne_to_latlon" title="pyrocko.orthodrome.ne_to_latlon"><code class="xref py py-func docutils literal"><span class="pre">pyrocko.orthodrome.ne_to_latlon()</span></code></a>,
+but this method (implementation below), although it should be numerically
+more stable, suffers problems at points which are <em>across the pole</em>
+as seen from the cartesian origin.</p>
+<div class="math">
+<p><span class="math">\text{distance change:}\; \Delta {{\bf a}_i} &amp;=\sqrt{{\bf{y}}^2_i +
+                                {\bf{x}}^2_i }/ \mathrm{R_E},\\
+\text{azimuth change:}\; \Delta {\bf \gamma}_i &amp;=
+                                \arctan( {\bf x}_i {\bf y}_i). \\
+\mathrm{b} &amp;= \frac{\pi}{2} -\frac{\pi}{180} \;\mathrm{lat_0}\\</span></p>
+</div><div class="math">
+<p><span class="math">{{\bf z}_1}_i &amp;= \cos{\left( \frac{\Delta {\bf a}_i -                             \mathrm{b}}{2} \right)}                             \cos {\left( \frac{|\gamma_i|}{2} \right) }\\
+{{\bf n}_1}_i &amp;= \cos{\left( \frac{\Delta {\bf a}_i +                             \mathrm{b}}{2} \right)}                            \sin {\left( \frac{|\gamma_i|}{2} \right) }\\
+{{\bf z}_2}_i &amp;= \sin{\left( \frac{\Delta {\bf a}_i -                             \mathrm{b}}{2} \right)}                            \cos {\left( \frac{|\gamma_i|}{2} \right) }\\
+{{\bf n}_2}_i &amp;= \sin{\left( \frac{\Delta {\bf a}_i +                             \mathrm{b}}{2} \right)}                            \sin {\left( \frac{|\gamma_i|}{2} \right) }\\
+{{\bf t}_1}_i &amp;= \arctan{\left( \frac{{{\bf z}_1}_i}                                     {{{\bf n}_1}_i} \right) }\\
+{{\bf t}_2}_i &amp;= \arctan{\left( \frac{{{\bf z}_2}_i}                                     {{{\bf n}_2}_i} \right) } \\[0.5cm]
+c &amp;= \begin{cases}
+      2 \cdot \arccos \left( {{\bf z}_1}_i / \sin({{\bf t}_1}_i)                               \right),\; \text{if }                               |\sin({{\bf t}_1}_i)| &gt;                                 |\sin({{\bf t}_2}_i)|,\; \text{else} \\
+      2 \cdot \arcsin{\left( {{\bf z}_2}_i /                                  \sin({{\bf t}_2}_i) \right)}.
+     \end{cases}\\</span></p>
+</div><div class="math">
+<p><span class="math">{\bf {lat}}_i  &amp;= \frac{180}{ \pi } \left( \frac{\pi}{2}                                               - {\bf {c}}_i \right) \\
+{\bf {lon}}_i &amp;=  {\bf {lon}}_0 + \frac{180}{ \pi }                                       \frac{\gamma_i}{|\gamma_i|},                                      \text{ with}\; \gamma \in [-\pi,\pi]</span></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>lat0</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Latitude origin of the cartesian coordinate system.</li>
+<li><strong>lon0</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Longitude origin of the cartesian coordinate system.</li>
+<li><strong>north_m</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Northing distances from origin in meters.</li>
+<li><strong>east_m</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Easting distances from origin in meters.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Array with latitudes and longitudes</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(2xN)</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.latlon_to_ne">
+<code class="descname">latlon_to_ne</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#latlon_to_ne"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.latlon_to_ne" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relative cartesian coordinates with respect to a reference location.</p>
+<p>For two locations, a reference location A and another location B, given in
+geographical coordinates in degrees, the corresponding cartesian
+coordinates are calculated.
+Assisting functions are <code class="xref py py-func docutils literal"><span class="pre">pyrocko.orthodrome.azimuth'</span> <span class="pre">and</span>
+<span class="pre">:py:func:`pyrocko.orthodrome.distance_accurate50m()</span></code></p>
+<div class="math">
+<p><span class="math">D_{AB} &amp;= \mathrm{distance\_accurate50m(}A, B \mathrm{)}, \quad                         \varphi_{\mathrm{azi},AB} = \mathrm{azimuth(}A,B                             \mathrm{)}\\[0.3cm]
+
+n &amp;= D_{AB} \cdot \cos( \frac{\pi }{180}                                     \varphi_{\mathrm{azi},AB} )\\
+e &amp;= D_{AB} \cdot \sin( \frac{\pi }{180} \varphi_{\mathrm{azi},AB})</span></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>refloc</strong> (<a class="reference internal" href="#pyrocko.orthodrome.Loc" title="pyrocko.orthodrome.Loc"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.orthodrome.Loc</span></code></a>) &#8211; Location reference point</li>
+<li><strong>loc</strong> (<a class="reference internal" href="#pyrocko.orthodrome.Loc" title="pyrocko.orthodrome.Loc"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.orthodrome.Loc</span></code></a>) &#8211; Location of interest</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Northing and easting from refloc to location</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)">tuple</a>, <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)">float</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.latlon_to_ne_numpy">
+<code class="descname">latlon_to_ne_numpy</code><span class="sig-paren">(</span><em>lat0</em>, <em>lon0</em>, <em>lat</em>, <em>lon</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#latlon_to_ne_numpy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.latlon_to_ne_numpy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relative cartesian coordinates with respect to a reference location.</p>
+<p>For two locations, a reference location (<code class="docutils literal"><span class="pre">lat0</span></code>, <code class="docutils literal"><span class="pre">lon0</span></code>) and another
+location B, given in geographical coordinates in degrees,
+the corresponding cartesian coordinates are calculated.
+Assisting functions are <a class="reference internal" href="#pyrocko.orthodrome.azimuth" title="pyrocko.orthodrome.azimuth"><code class="xref py py-func docutils literal"><span class="pre">azimuth()</span></code></a>
+and <a class="reference internal" href="#pyrocko.orthodrome.distance_accurate50m" title="pyrocko.orthodrome.distance_accurate50m"><code class="xref py py-func docutils literal"><span class="pre">distance_accurate50m()</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>lat0</strong> &#8211; reference location latitude</li>
+<li><strong>lon0</strong> &#8211; reference location longitude</li>
+<li><strong>lat</strong> &#8211; absolute location latitude</li>
+<li><strong>lon</strong> &#8211; absolute location longitude</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">(n,</span> <span class="pre">e)</span></code>: relative north and east positions</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(2xN)</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Implemented formulations:</p>
+<blockquote>
+<div><div class="math">
+<p><span class="math">D_{AB} &amp;= \mathrm{distance\_accurate50m(}A, B \mathrm{)}, \quad            \varphi_{\mathrm{azi},AB} = \mathrm{azimuth(}A,B                                                 \mathrm{)}\\[0.3cm]
+
+n &amp;= D_{AB} \cdot \cos( \frac{\pi }{180} \varphi_{                                                 \mathrm{azi},AB} )\\
+e &amp;= D_{AB} \cdot \sin( \frac{\pi }{180} \varphi_{                                                 \mathrm{azi},AB} )</span></p>
+</div></div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.get_wgs84">
+<code class="descname">get_wgs84</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#get_wgs84"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.get_wgs84" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.amap">
+<code class="descname">amap</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#amap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.amap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.ne_to_latlon2">
+<code class="descname">ne_to_latlon2</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#ne_to_latlon2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.ne_to_latlon2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.latlon_to_ne2">
+<code class="descname">latlon_to_ne2</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#latlon_to_ne2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.latlon_to_ne2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.distance_accurate15nm">
+<code class="descname">distance_accurate15nm</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#distance_accurate15nm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.distance_accurate15nm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.positive_region">
+<code class="descname">positive_region</code><span class="sig-paren">(</span><em>region</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#positive_region"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.positive_region" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize parameterization of a rectangular geographical region.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>region</strong> &#8211; <code class="docutils literal"><span class="pre">(west,</span> <span class="pre">east,</span> <span class="pre">south,</span> <span class="pre">north)</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">(west,</span> <span class="pre">east,</span> <span class="pre">south,</span> <span class="pre">north)</span></code>, where <code class="docutils literal"><span class="pre">west</span> <span class="pre">&lt;=</span> <span class="pre">east</span></code> and
+where <code class="docutils literal"><span class="pre">west</span></code> and <code class="docutils literal"><span class="pre">east</span></code> are in the range <code class="docutils literal"><span class="pre">[-180.,</span> <span class="pre">180.+360.[</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.points_in_region">
+<code class="descname">points_in_region</code><span class="sig-paren">(</span><em>p</em>, <em>region</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#points_in_region"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.points_in_region" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check what points are contained in a rectangular geographical region.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>p</strong> &#8211; NumPy array of shape <code class="docutils literal"><span class="pre">(N,</span> <span class="pre">2)</span></code> where each row is a
+<code class="docutils literal"><span class="pre">(lat,</span> <span class="pre">lon)</span></code> pair [deg]</li>
+<li><strong>region</strong> &#8211; <code class="docutils literal"><span class="pre">(west,</span> <span class="pre">east,</span> <span class="pre">south,</span> <span class="pre">north)</span></code> [deg]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">NumPy array of shape <code class="docutils literal"><span class="pre">(N)</span></code>, type <code class="docutils literal"><span class="pre">bool</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.point_in_region">
+<code class="descname">point_in_region</code><span class="sig-paren">(</span><em>p</em>, <em>region</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#point_in_region"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.point_in_region" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a point is contained in a rectangular geographical region.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>p</strong> &#8211; <code class="docutils literal"><span class="pre">(lat,</span> <span class="pre">lon)</span></code> [deg]</li>
+<li><strong>region</strong> &#8211; <code class="docutils literal"><span class="pre">(west,</span> <span class="pre">east,</span> <span class="pre">south,</span> <span class="pre">north)</span></code> [deg]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><code class="docutils literal"><span class="pre">bool</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.radius_to_region">
+<code class="descname">radius_to_region</code><span class="sig-paren">(</span><em>lat</em>, <em>lon</em>, <em>radius</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#radius_to_region"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.radius_to_region" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a rectangular region which fully contains a given circular region.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>lat</strong><strong>,</strong><strong>lon</strong> &#8211; center of circular region [deg]</li>
+<li><strong>radius</strong> &#8211; radius of circular region [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">rectangular region as <code class="docutils literal"><span class="pre">(east,</span> <span class="pre">west,</span> <span class="pre">south,</span> <span class="pre">north)</span></code> [deg]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.orthodrome.geographic_midpoint">
+<code class="descname">geographic_midpoint</code><span class="sig-paren">(</span><em>lats</em>, <em>lons</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#geographic_midpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.geographic_midpoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate geographic midpoints by finding the center of gravity.</p>
+<p>This method suffers from instabilities if points are centered around the
+poles.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>lats</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; array of latitudes</li>
+<li><strong>lons</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; array of longitudes</li>
+<li><strong>weights</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; array weighting factors (optional)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Latitudes and longitudes of the modpoints</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(2xN)</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pile.html" title="The pile Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="moment_tensor.html" title="The moment_tensor Module"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

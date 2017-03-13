@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The pyrocko.fdsn Subpackage &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The pyrocko.gf Subpackage" href="gf.html" />
+    <link rel="prev" title="The util Module" href="util.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyrocko.fdsn">
+<span id="the-pyrocko-fdsn-subpackage"></span><h1>The <a class="reference internal" href="#module-pyrocko.fdsn" title="pyrocko.fdsn"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.fdsn</span></code></a> Subpackage<a class="headerlink" href="#module-pyrocko.fdsn" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-pyrocko.fdsn.station">
+<span id="the-pyrocko-fdsn-station-module"></span><h2>The <a class="reference internal" href="#module-pyrocko.fdsn.station" title="pyrocko.fdsn.station"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.fdsn.station</span></code></a> Module<a class="headerlink" href="#module-pyrocko.fdsn.station" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyrocko.fdsn.station.DummyAwareOptionalTimestamp">
+<em class="property">class </em><code class="descname">DummyAwareOptionalTimestamp</code><span class="sig-paren">(</span><em>dummy</em><span class="sig-paren">)</span> &rarr; float<a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#DummyAwareOptionalTimestamp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.DummyAwareOptionalTimestamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Undocumented.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Nominal">
+<em class="property">class </em><code class="descname">Nominal</code><span class="sig-paren">(</span><em>dummy</em><span class="sig-paren">)</span> &rarr; str<a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Nominal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Nominal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code></p>
+<p>Any <code class="docutils literal"><span class="pre">str</span></code> out of <code class="docutils literal"><span class="pre">['NOMINAL',</span> <span class="pre">'CALCULATED']</span></code>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Email">
+<em class="property">class </em><code class="descname">Email</code><span class="sig-paren">(</span><em>dummy</em><span class="sig-paren">)</span> &rarr; unicode<a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Email"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Email" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.UnicodePattern</span></code></p>
+<p>Any <code class="docutils literal"><span class="pre">unicode</span></code> matching pattern <code class="docutils literal"><span class="pre">u'[\\w\\.\\-_]+&#64;[\\w\\.\\-_]+'</span></code>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.RestrictedStatus">
+<em class="property">class </em><code class="descname">RestrictedStatus</code><span class="sig-paren">(</span><em>dummy</em><span class="sig-paren">)</span> &rarr; str<a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#RestrictedStatus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.RestrictedStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code></p>
+<p>Any <code class="docutils literal"><span class="pre">str</span></code> out of <code class="docutils literal"><span class="pre">['open',</span> <span class="pre">'closed',</span> <span class="pre">'partial']</span></code>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Type">
+<em class="property">class </em><code class="descname">Type</code><span class="sig-paren">(</span><em>dummy</em><span class="sig-paren">)</span> &rarr; str<a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code></p>
+<p>Any <code class="docutils literal"><span class="pre">str</span></code> out of <code class="docutils literal"><span class="pre">['TRIGGERED',</span> <span class="pre">'CONTINUOUS',</span> <span class="pre">'HEALTH',</span> <span class="pre">'GEOPHYSICAL',</span> <span class="pre">'WEATHER',</span> <span class="pre">'FLAG',</span> <span class="pre">'SYNTHESIZED',</span> <span class="pre">'INPUT',</span> <span class="pre">'EXPERIMENTAL',</span> <span class="pre">'MAINTENANCE',</span> <span class="pre">'BEAM']</span></code>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.PzTransferFunction">
+<em class="property">class </em><code class="descname">PzTransferFunction</code><span class="sig-paren">(</span><em>dummy</em><span class="sig-paren">)</span> &rarr; str<a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#PzTransferFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.PzTransferFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code></p>
+<p>Any <code class="docutils literal"><span class="pre">str</span></code> out of <code class="docutils literal"><span class="pre">['LAPLACE</span> <span class="pre">(RADIANS/SECOND)',</span> <span class="pre">'LAPLACE</span> <span class="pre">(HERTZ)',</span> <span class="pre">'DIGITAL</span> <span class="pre">(Z-TRANSFORM)']</span></code>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Symmetry">
+<em class="property">class </em><code class="descname">Symmetry</code><span class="sig-paren">(</span><em>dummy</em><span class="sig-paren">)</span> &rarr; str<a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Symmetry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Symmetry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code></p>
+<p>Any <code class="docutils literal"><span class="pre">str</span></code> out of <code class="docutils literal"><span class="pre">['NONE',</span> <span class="pre">'EVEN',</span> <span class="pre">'ODD']</span></code>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.CfTransferFunction">
+<em class="property">class </em><code class="descname">CfTransferFunction</code><span class="sig-paren">(</span><em>dummy</em><span class="sig-paren">)</span> &rarr; str<a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#CfTransferFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.CfTransferFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code></p>
+<p>Any <code class="docutils literal"><span class="pre">str</span></code> out of <code class="docutils literal"><span class="pre">['ANALOG</span> <span class="pre">(RADIANS/SECOND)',</span> <span class="pre">'ANALOG</span> <span class="pre">(HERTZ)',</span> <span class="pre">'DIGITAL']</span></code>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Approximation">
+<em class="property">class </em><code class="descname">Approximation</code><span class="sig-paren">(</span><em>dummy</em><span class="sig-paren">)</span> &rarr; str<a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Approximation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Approximation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.StringChoice</span></code></p>
+<p>Any <code class="docutils literal"><span class="pre">str</span></code> out of <code class="docutils literal"><span class="pre">['MACLAURIN']</span></code>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Site">
+<em class="property">class </em><code class="descname">Site</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Site"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Site" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Description of a site location using name and optional
+geopolitical boundaries (country, city, etc.).</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Site.name">
+<em class="property">♦ </em><code class="descname">name</code><a class="headerlink" href="#pyrocko.fdsn.station.Site.name" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">unicode</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Site.description">
+<em class="property">♦ </em><code class="descname">description</code><a class="headerlink" href="#pyrocko.fdsn.station.Site.description" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">unicode</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Site.town">
+<em class="property">♦ </em><code class="descname">town</code><a class="headerlink" href="#pyrocko.fdsn.station.Site.town" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">unicode</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Site.county">
+<em class="property">♦ </em><code class="descname">county</code><a class="headerlink" href="#pyrocko.fdsn.station.Site.county" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">unicode</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Site.region">
+<em class="property">♦ </em><code class="descname">region</code><a class="headerlink" href="#pyrocko.fdsn.station.Site.region" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">unicode</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Site.country">
+<em class="property">♦ </em><code class="descname">country</code><a class="headerlink" href="#pyrocko.fdsn.station.Site.country" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">unicode</span></code>, <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.ExternalReference">
+<em class="property">class </em><code class="descname">ExternalReference</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#ExternalReference"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.ExternalReference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>This type contains a URI and description for external data that
+users may want to reference in StationXML.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.ExternalReference.uri">
+<em class="property">♦ </em><code class="descname">uri</code><a class="headerlink" href="#pyrocko.fdsn.station.ExternalReference.uri" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.ExternalReference.description">
+<em class="property">♦ </em><code class="descname">description</code><a class="headerlink" href="#pyrocko.fdsn.station.ExternalReference.description" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">unicode</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Units">
+<em class="property">class </em><code class="descname">Units</code><span class="sig-paren">(</span><em>name=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Units"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Units" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>A type to document units. Corresponds to SEED blockette 34.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Units.name">
+<em class="property">♦ </em><code class="descname">name</code><a class="headerlink" href="#pyrocko.fdsn.station.Units.name" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Units.description">
+<em class="property">♦ </em><code class="descname">description</code><a class="headerlink" href="#pyrocko.fdsn.station.Units.description" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">unicode</span></code>, <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Counter">
+<em class="property">class </em><code class="descname">Counter</code><span class="sig-paren">(</span><em>dummy</em><span class="sig-paren">)</span> &rarr; int<a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Counter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Counter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Int</span></code></p>
+<p>Undocumented.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.SampleRateRatio">
+<em class="property">class </em><code class="descname">SampleRateRatio</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#SampleRateRatio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.SampleRateRatio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Sample rate expressed as number of samples in a number of
+seconds.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.SampleRateRatio.number_samples">
+<em class="property">♦ </em><code class="descname">number_samples</code><a class="headerlink" href="#pyrocko.fdsn.station.SampleRateRatio.number_samples" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.SampleRateRatio.number_seconds">
+<em class="property">♦ </em><code class="descname">number_seconds</code><a class="headerlink" href="#pyrocko.fdsn.station.SampleRateRatio.number_seconds" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Gain">
+<em class="property">class </em><code class="descname">Gain</code><span class="sig-paren">(</span><em>value=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Gain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Gain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Complex type for sensitivity and frequency ranges. This complex
+type can be used to represent both overall sensitivities and
+individual stage gains. The FrequencyRangeGroup is an optional
+construct that defines a pass band in Hertz ( FrequencyStart and
+FrequencyEnd) in which the SensitivityValue is valid within the
+number of decibels specified in FrequencyDBVariation.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Gain.value">
+<em class="property">♦ </em><code class="descname">value</code><a class="headerlink" href="#pyrocko.fdsn.station.Gain.value" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Gain.frequency">
+<em class="property">♦ </em><code class="descname">frequency</code><a class="headerlink" href="#pyrocko.fdsn.station.Gain.frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.NumeratorCoefficient">
+<em class="property">class </em><code class="descname">NumeratorCoefficient</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#NumeratorCoefficient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.NumeratorCoefficient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.NumeratorCoefficient.i">
+<em class="property">♦ </em><code class="descname">i</code><a class="headerlink" href="#pyrocko.fdsn.station.NumeratorCoefficient.i" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.NumeratorCoefficient.value">
+<em class="property">♦ </em><code class="descname">value</code><a class="headerlink" href="#pyrocko.fdsn.station.NumeratorCoefficient.value" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.FloatNoUnit">
+<em class="property">class </em><code class="descname">FloatNoUnit</code><span class="sig-paren">(</span><em>value=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#FloatNoUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.FloatNoUnit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.FloatNoUnit.plus_error">
+<em class="property">♦ </em><code class="descname">plus_error</code><a class="headerlink" href="#pyrocko.fdsn.station.FloatNoUnit.plus_error" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.FloatNoUnit.minus_error">
+<em class="property">♦ </em><code class="descname">minus_error</code><a class="headerlink" href="#pyrocko.fdsn.station.FloatNoUnit.minus_error" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.FloatNoUnit.value">
+<em class="property">♦ </em><code class="descname">value</code><a class="headerlink" href="#pyrocko.fdsn.station.FloatNoUnit.value" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.FloatWithUnit">
+<em class="property">class </em><code class="descname">FloatWithUnit</code><span class="sig-paren">(</span><em>value=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#FloatWithUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.FloatWithUnit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.FloatNoUnit" title="pyrocko.fdsn.station.FloatNoUnit"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.FloatNoUnit</span></code></a></p>
+<p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.FloatWithUnit.unit">
+<em class="property">♦ </em><code class="descname">unit</code><a class="headerlink" href="#pyrocko.fdsn.station.FloatWithUnit.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Equipment">
+<em class="property">class </em><code class="descname">Equipment</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Equipment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Equipment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Equipment.resource_id">
+<em class="property">♦ </em><code class="descname">resource_id</code><a class="headerlink" href="#pyrocko.fdsn.station.Equipment.resource_id" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Equipment.type">
+<em class="property">♦ </em><code class="descname">type</code><a class="headerlink" href="#pyrocko.fdsn.station.Equipment.type" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Equipment.description">
+<em class="property">♦ </em><code class="descname">description</code><a class="headerlink" href="#pyrocko.fdsn.station.Equipment.description" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">unicode</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Equipment.manufacturer">
+<em class="property">♦ </em><code class="descname">manufacturer</code><a class="headerlink" href="#pyrocko.fdsn.station.Equipment.manufacturer" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">unicode</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Equipment.vendor">
+<em class="property">♦ </em><code class="descname">vendor</code><a class="headerlink" href="#pyrocko.fdsn.station.Equipment.vendor" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">unicode</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Equipment.model">
+<em class="property">♦ </em><code class="descname">model</code><a class="headerlink" href="#pyrocko.fdsn.station.Equipment.model" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">unicode</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Equipment.serial_number">
+<em class="property">♦ </em><code class="descname">serial_number</code><a class="headerlink" href="#pyrocko.fdsn.station.Equipment.serial_number" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Equipment.installation_date">
+<em class="property">♦ </em><code class="descname">installation_date</code><a class="headerlink" href="#pyrocko.fdsn.station.Equipment.installation_date" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>), <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Equipment.removal_date">
+<em class="property">♦ </em><code class="descname">removal_date</code><a class="headerlink" href="#pyrocko.fdsn.station.Equipment.removal_date" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.DummyAwareOptionalTimestamp" title="pyrocko.fdsn.station.DummyAwareOptionalTimestamp"><code class="xref py py-class docutils literal"><span class="pre">DummyAwareOptionalTimestamp</span></code></a>), <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Equipment.calibration_date_list">
+<em class="property">♦ </em><code class="descname">calibration_date_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Equipment.calibration_date_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>) objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.PhoneNumber">
+<em class="property">class </em><code class="descname">PhoneNumber</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#PhoneNumber"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.PhoneNumber" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.PhoneNumber.description">
+<em class="property">♦ </em><code class="descname">description</code><a class="headerlink" href="#pyrocko.fdsn.station.PhoneNumber.description" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">unicode</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.PhoneNumber.country_code">
+<em class="property">♦ </em><code class="descname">country_code</code><a class="headerlink" href="#pyrocko.fdsn.station.PhoneNumber.country_code" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.PhoneNumber.area_code">
+<em class="property">♦ </em><code class="descname">area_code</code><a class="headerlink" href="#pyrocko.fdsn.station.PhoneNumber.area_code" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.PhoneNumber.phone_number">
+<em class="property">♦ </em><code class="descname">phone_number</code><a class="headerlink" href="#pyrocko.fdsn.station.PhoneNumber.phone_number" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.PhoneNumber" title="pyrocko.fdsn.station.PhoneNumber"><code class="xref py py-class docutils literal"><span class="pre">PhoneNumber</span></code></a>)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.BaseFilter">
+<em class="property">class </em><code class="descname">BaseFilter</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#BaseFilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.BaseFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>The BaseFilter is derived by all filters.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.BaseFilter.resource_id">
+<em class="property">♦ </em><code class="descname">resource_id</code><a class="headerlink" href="#pyrocko.fdsn.station.BaseFilter.resource_id" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.BaseFilter.name">
+<em class="property">♦ </em><code class="descname">name</code><a class="headerlink" href="#pyrocko.fdsn.station.BaseFilter.name" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.BaseFilter.description">
+<em class="property">♦ </em><code class="descname">description</code><a class="headerlink" href="#pyrocko.fdsn.station.BaseFilter.description" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">unicode</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.BaseFilter.input_units">
+<em class="property">♦ </em><code class="descname">input_units</code><a class="headerlink" href="#pyrocko.fdsn.station.BaseFilter.input_units" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Units" title="pyrocko.fdsn.station.Units"><code class="xref py py-class docutils literal"><span class="pre">Units</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.BaseFilter.output_units">
+<em class="property">♦ </em><code class="descname">output_units</code><a class="headerlink" href="#pyrocko.fdsn.station.BaseFilter.output_units" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Units" title="pyrocko.fdsn.station.Units"><code class="xref py py-class docutils literal"><span class="pre">Units</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Sensitivity">
+<em class="property">class </em><code class="descname">Sensitivity</code><span class="sig-paren">(</span><em>value=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Sensitivity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Sensitivity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.Gain" title="pyrocko.fdsn.station.Gain"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.Gain</span></code></a></p>
+<p>Sensitivity and frequency ranges. The FrequencyRangeGroup is an
+optional construct that defines a pass band in Hertz
+(FrequencyStart and FrequencyEnd) in which the SensitivityValue is
+valid within the number of decibels specified in
+FrequencyDBVariation.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Sensitivity.input_units">
+<em class="property">♦ </em><code class="descname">input_units</code><a class="headerlink" href="#pyrocko.fdsn.station.Sensitivity.input_units" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Units" title="pyrocko.fdsn.station.Units"><code class="xref py py-class docutils literal"><span class="pre">Units</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Sensitivity.output_units">
+<em class="property">♦ </em><code class="descname">output_units</code><a class="headerlink" href="#pyrocko.fdsn.station.Sensitivity.output_units" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Units" title="pyrocko.fdsn.station.Units"><code class="xref py py-class docutils literal"><span class="pre">Units</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Sensitivity.frequency_start">
+<em class="property">♦ </em><code class="descname">frequency_start</code><a class="headerlink" href="#pyrocko.fdsn.station.Sensitivity.frequency_start" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Sensitivity.frequency_end">
+<em class="property">♦ </em><code class="descname">frequency_end</code><a class="headerlink" href="#pyrocko.fdsn.station.Sensitivity.frequency_end" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Sensitivity.frequency_db_variation">
+<em class="property">♦ </em><code class="descname">frequency_db_variation</code><a class="headerlink" href="#pyrocko.fdsn.station.Sensitivity.frequency_db_variation" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Coefficient">
+<em class="property">class </em><code class="descname">Coefficient</code><span class="sig-paren">(</span><em>value=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Coefficient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Coefficient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.FloatNoUnit" title="pyrocko.fdsn.station.FloatNoUnit"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.FloatNoUnit</span></code></a></p>
+<p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Coefficient.number">
+<em class="property">♦ </em><code class="descname">number</code><a class="headerlink" href="#pyrocko.fdsn.station.Coefficient.number" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.Counter" title="pyrocko.fdsn.station.Counter"><code class="xref py py-class docutils literal"><span class="pre">Counter</span></code></a>), <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.PoleZero">
+<em class="property">class </em><code class="descname">PoleZero</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#PoleZero"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.PoleZero" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Complex numbers used as poles or zeros in channel response.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.PoleZero.number">
+<em class="property">♦ </em><code class="descname">number</code><a class="headerlink" href="#pyrocko.fdsn.station.PoleZero.number" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.PoleZero.real">
+<em class="property">♦ </em><code class="descname">real</code><a class="headerlink" href="#pyrocko.fdsn.station.PoleZero.real" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.FloatNoUnit" title="pyrocko.fdsn.station.FloatNoUnit"><code class="xref py py-class docutils literal"><span class="pre">FloatNoUnit</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.PoleZero.imaginary">
+<em class="property">♦ </em><code class="descname">imaginary</code><a class="headerlink" href="#pyrocko.fdsn.station.PoleZero.imaginary" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.FloatNoUnit" title="pyrocko.fdsn.station.FloatNoUnit"><code class="xref py py-class docutils literal"><span class="pre">FloatNoUnit</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.ClockDrift">
+<em class="property">class </em><code class="descname">ClockDrift</code><span class="sig-paren">(</span><em>value=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#ClockDrift"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.ClockDrift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.FloatWithUnit" title="pyrocko.fdsn.station.FloatWithUnit"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.FloatWithUnit</span></code></a></p>
+<p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.ClockDrift.unit">
+<em class="property">♦ </em><code class="descname">unit</code><a class="headerlink" href="#pyrocko.fdsn.station.ClockDrift.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">'SECONDS/SAMPLE'</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Second">
+<em class="property">class </em><code class="descname">Second</code><span class="sig-paren">(</span><em>value=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Second"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Second" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.FloatWithUnit" title="pyrocko.fdsn.station.FloatWithUnit"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.FloatWithUnit</span></code></a></p>
+<p>A time value in seconds.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Second.unit">
+<em class="property">♦ </em><code class="descname">unit</code><a class="headerlink" href="#pyrocko.fdsn.station.Second.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">'SECONDS'</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Voltage">
+<em class="property">class </em><code class="descname">Voltage</code><span class="sig-paren">(</span><em>value=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Voltage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Voltage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.FloatWithUnit" title="pyrocko.fdsn.station.FloatWithUnit"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.FloatWithUnit</span></code></a></p>
+<p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Voltage.unit">
+<em class="property">♦ </em><code class="descname">unit</code><a class="headerlink" href="#pyrocko.fdsn.station.Voltage.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">'VOLTS'</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Angle">
+<em class="property">class </em><code class="descname">Angle</code><span class="sig-paren">(</span><em>value=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.FloatWithUnit" title="pyrocko.fdsn.station.FloatWithUnit"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.FloatWithUnit</span></code></a></p>
+<p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Angle.unit">
+<em class="property">♦ </em><code class="descname">unit</code><a class="headerlink" href="#pyrocko.fdsn.station.Angle.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">'DEGREES'</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Azimuth">
+<em class="property">class </em><code class="descname">Azimuth</code><span class="sig-paren">(</span><em>value=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Azimuth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Azimuth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.FloatWithUnit" title="pyrocko.fdsn.station.FloatWithUnit"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.FloatWithUnit</span></code></a></p>
+<p>Instrument azimuth, degrees clockwise from North.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Azimuth.unit">
+<em class="property">♦ </em><code class="descname">unit</code><a class="headerlink" href="#pyrocko.fdsn.station.Azimuth.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">'DEGREES'</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Dip">
+<em class="property">class </em><code class="descname">Dip</code><span class="sig-paren">(</span><em>value=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Dip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Dip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.FloatWithUnit" title="pyrocko.fdsn.station.FloatWithUnit"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.FloatWithUnit</span></code></a></p>
+<p>Instrument dip in degrees down from horizontal. Together
+azimuth and dip describe the direction of the sensitive axis of
+the instrument.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Dip.unit">
+<em class="property">♦ </em><code class="descname">unit</code><a class="headerlink" href="#pyrocko.fdsn.station.Dip.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">'DEGREES'</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Distance">
+<em class="property">class </em><code class="descname">Distance</code><span class="sig-paren">(</span><em>value=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.FloatWithUnit" title="pyrocko.fdsn.station.FloatWithUnit"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.FloatWithUnit</span></code></a></p>
+<p>Extension of FloatWithUnit for distances, elevations, and depths.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Distance.unit">
+<em class="property">♦ </em><code class="descname">unit</code><a class="headerlink" href="#pyrocko.fdsn.station.Distance.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">'METERS'</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Frequency">
+<em class="property">class </em><code class="descname">Frequency</code><span class="sig-paren">(</span><em>value=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Frequency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.FloatWithUnit" title="pyrocko.fdsn.station.FloatWithUnit"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.FloatWithUnit</span></code></a></p>
+<p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Frequency.unit">
+<em class="property">♦ </em><code class="descname">unit</code><a class="headerlink" href="#pyrocko.fdsn.station.Frequency.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">'HERTZ'</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.SampleRate">
+<em class="property">class </em><code class="descname">SampleRate</code><span class="sig-paren">(</span><em>value=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#SampleRate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.SampleRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.FloatWithUnit" title="pyrocko.fdsn.station.FloatWithUnit"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.FloatWithUnit</span></code></a></p>
+<p>Sample rate in samples per second.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.SampleRate.unit">
+<em class="property">♦ </em><code class="descname">unit</code><a class="headerlink" href="#pyrocko.fdsn.station.SampleRate.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">'SAMPLES/S'</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Person">
+<em class="property">class </em><code class="descname">Person</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Person"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Person" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Representation of a person&#8217;s contact information. A person can
+belong to multiple agencies and have multiple email addresses and
+phone numbers.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Person.name_list">
+<em class="property">♦ </em><code class="descname">name_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Person.name_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">unicode</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Person.agency_list">
+<em class="property">♦ </em><code class="descname">agency_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Person.agency_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">unicode</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Person.email_list">
+<em class="property">♦ </em><code class="descname">email_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Person.email_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">unicode</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.Email" title="pyrocko.fdsn.station.Email"><code class="xref py py-class docutils literal"><span class="pre">Email</span></code></a>) objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Person.phone_list">
+<em class="property">♦ </em><code class="descname">phone_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Person.phone_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.PhoneNumber" title="pyrocko.fdsn.station.PhoneNumber"><code class="xref py py-class docutils literal"><span class="pre">PhoneNumber</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.FIR">
+<em class="property">class </em><code class="descname">FIR</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#FIR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.FIR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.BaseFilter" title="pyrocko.fdsn.station.BaseFilter"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.BaseFilter</span></code></a></p>
+<p>Response: FIR filter. Corresponds to SEED blockette 61. FIR
+filters are also commonly documented using the Coefficients
+element.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.FIR.symmetry">
+<em class="property">♦ </em><code class="descname">symmetry</code><a class="headerlink" href="#pyrocko.fdsn.station.FIR.symmetry" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.Symmetry" title="pyrocko.fdsn.station.Symmetry"><code class="xref py py-class docutils literal"><span class="pre">Symmetry</span></code></a>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.FIR.numerator_coefficient_list">
+<em class="property">♦ </em><code class="descname">numerator_coefficient_list</code><a class="headerlink" href="#pyrocko.fdsn.station.FIR.numerator_coefficient_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.NumeratorCoefficient" title="pyrocko.fdsn.station.NumeratorCoefficient"><code class="xref py py-class docutils literal"><span class="pre">NumeratorCoefficient</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Coefficients">
+<em class="property">class </em><code class="descname">Coefficients</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Coefficients"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Coefficients" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.BaseFilter" title="pyrocko.fdsn.station.BaseFilter"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.BaseFilter</span></code></a></p>
+<p>Response: coefficients for FIR filter. Laplace transforms or
+IIR filters can be expressed using type as well but the
+PolesAndZeros should be used instead. Corresponds to SEED
+blockette 54.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Coefficients.cf_transfer_function_type">
+<em class="property">♦ </em><code class="descname">cf_transfer_function_type</code><a class="headerlink" href="#pyrocko.fdsn.station.Coefficients.cf_transfer_function_type" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.CfTransferFunction" title="pyrocko.fdsn.station.CfTransferFunction"><code class="xref py py-class docutils literal"><span class="pre">CfTransferFunction</span></code></a>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Coefficients.numerator_list">
+<em class="property">♦ </em><code class="descname">numerator_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Coefficients.numerator_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.FloatWithUnit" title="pyrocko.fdsn.station.FloatWithUnit"><code class="xref py py-class docutils literal"><span class="pre">FloatWithUnit</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Coefficients.denominator_list">
+<em class="property">♦ </em><code class="descname">denominator_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Coefficients.denominator_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.FloatWithUnit" title="pyrocko.fdsn.station.FloatWithUnit"><code class="xref py py-class docutils literal"><span class="pre">FloatWithUnit</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Latitude">
+<em class="property">class </em><code class="descname">Latitude</code><span class="sig-paren">(</span><em>value=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Latitude"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Latitude" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.FloatWithUnit" title="pyrocko.fdsn.station.FloatWithUnit"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.FloatWithUnit</span></code></a></p>
+<p>Type for latitude coordinate.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Latitude.unit">
+<em class="property">♦ </em><code class="descname">unit</code><a class="headerlink" href="#pyrocko.fdsn.station.Latitude.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">'DEGREES'</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Latitude.datum">
+<em class="property">♦ </em><code class="descname">datum</code><a class="headerlink" href="#pyrocko.fdsn.station.Latitude.datum" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">'WGS84'</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Longitude">
+<em class="property">class </em><code class="descname">Longitude</code><span class="sig-paren">(</span><em>value=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Longitude"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Longitude" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.FloatWithUnit" title="pyrocko.fdsn.station.FloatWithUnit"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.FloatWithUnit</span></code></a></p>
+<p>Type for longitude coordinate.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Longitude.unit">
+<em class="property">♦ </em><code class="descname">unit</code><a class="headerlink" href="#pyrocko.fdsn.station.Longitude.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">'DEGREES'</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Longitude.datum">
+<em class="property">♦ </em><code class="descname">datum</code><a class="headerlink" href="#pyrocko.fdsn.station.Longitude.datum" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em>, <em>default:</em> <code class="docutils literal"><span class="pre">'WGS84'</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.PolesZeros">
+<em class="property">class </em><code class="descname">PolesZeros</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#PolesZeros"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.PolesZeros" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.BaseFilter" title="pyrocko.fdsn.station.BaseFilter"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.BaseFilter</span></code></a></p>
+<p>Response: complex poles and zeros. Corresponds to SEED
+blockette 53.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.PolesZeros.pz_transfer_function_type">
+<em class="property">♦ </em><code class="descname">pz_transfer_function_type</code><a class="headerlink" href="#pyrocko.fdsn.station.PolesZeros.pz_transfer_function_type" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.PzTransferFunction" title="pyrocko.fdsn.station.PzTransferFunction"><code class="xref py py-class docutils literal"><span class="pre">PzTransferFunction</span></code></a>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.PolesZeros.normalization_factor">
+<em class="property">♦ </em><code class="descname">normalization_factor</code><a class="headerlink" href="#pyrocko.fdsn.station.PolesZeros.normalization_factor" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">1.0</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.PolesZeros.normalization_frequency">
+<em class="property">♦ </em><code class="descname">normalization_frequency</code><a class="headerlink" href="#pyrocko.fdsn.station.PolesZeros.normalization_frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Frequency" title="pyrocko.fdsn.station.Frequency"><code class="xref py py-class docutils literal"><span class="pre">Frequency</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.PolesZeros.zero_list">
+<em class="property">♦ </em><code class="descname">zero_list</code><a class="headerlink" href="#pyrocko.fdsn.station.PolesZeros.zero_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.PoleZero" title="pyrocko.fdsn.station.PoleZero"><code class="xref py py-class docutils literal"><span class="pre">PoleZero</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.PolesZeros.pole_list">
+<em class="property">♦ </em><code class="descname">pole_list</code><a class="headerlink" href="#pyrocko.fdsn.station.PolesZeros.pole_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.PoleZero" title="pyrocko.fdsn.station.PoleZero"><code class="xref py py-class docutils literal"><span class="pre">PoleZero</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.ResponseListElement">
+<em class="property">class </em><code class="descname">ResponseListElement</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#ResponseListElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.ResponseListElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.ResponseListElement.frequency">
+<em class="property">♦ </em><code class="descname">frequency</code><a class="headerlink" href="#pyrocko.fdsn.station.ResponseListElement.frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Frequency" title="pyrocko.fdsn.station.Frequency"><code class="xref py py-class docutils literal"><span class="pre">Frequency</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.ResponseListElement.amplitude">
+<em class="property">♦ </em><code class="descname">amplitude</code><a class="headerlink" href="#pyrocko.fdsn.station.ResponseListElement.amplitude" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.FloatWithUnit" title="pyrocko.fdsn.station.FloatWithUnit"><code class="xref py py-class docutils literal"><span class="pre">FloatWithUnit</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.ResponseListElement.phase">
+<em class="property">♦ </em><code class="descname">phase</code><a class="headerlink" href="#pyrocko.fdsn.station.ResponseListElement.phase" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Angle" title="pyrocko.fdsn.station.Angle"><code class="xref py py-class docutils literal"><span class="pre">Angle</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Polynomial">
+<em class="property">class </em><code class="descname">Polynomial</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Polynomial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Polynomial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.BaseFilter" title="pyrocko.fdsn.station.BaseFilter"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.BaseFilter</span></code></a></p>
+<p>Response: expressed as a polynomial (allows non-linear sensors
+to be described). Corresponds to SEED blockette 62. Can be used to
+describe a stage of acquisition or a complete system.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Polynomial.approximation_type">
+<em class="property">♦ </em><code class="descname">approximation_type</code><a class="headerlink" href="#pyrocko.fdsn.station.Polynomial.approximation_type" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.Approximation" title="pyrocko.fdsn.station.Approximation"><code class="xref py py-class docutils literal"><span class="pre">Approximation</span></code></a>), <em>default:</em> <code class="docutils literal"><span class="pre">'MACLAURIN'</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Polynomial.frequency_lower_bound">
+<em class="property">♦ </em><code class="descname">frequency_lower_bound</code><a class="headerlink" href="#pyrocko.fdsn.station.Polynomial.frequency_lower_bound" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Frequency" title="pyrocko.fdsn.station.Frequency"><code class="xref py py-class docutils literal"><span class="pre">Frequency</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Polynomial.frequency_upper_bound">
+<em class="property">♦ </em><code class="descname">frequency_upper_bound</code><a class="headerlink" href="#pyrocko.fdsn.station.Polynomial.frequency_upper_bound" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Frequency" title="pyrocko.fdsn.station.Frequency"><code class="xref py py-class docutils literal"><span class="pre">Frequency</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Polynomial.approximation_lower_bound">
+<em class="property">♦ </em><code class="descname">approximation_lower_bound</code><a class="headerlink" href="#pyrocko.fdsn.station.Polynomial.approximation_lower_bound" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Polynomial.approximation_upper_bound">
+<em class="property">♦ </em><code class="descname">approximation_upper_bound</code><a class="headerlink" href="#pyrocko.fdsn.station.Polynomial.approximation_upper_bound" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Polynomial.maximum_error">
+<em class="property">♦ </em><code class="descname">maximum_error</code><a class="headerlink" href="#pyrocko.fdsn.station.Polynomial.maximum_error" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Polynomial.coefficient_list">
+<em class="property">♦ </em><code class="descname">coefficient_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Polynomial.coefficient_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.Coefficient" title="pyrocko.fdsn.station.Coefficient"><code class="xref py py-class docutils literal"><span class="pre">Coefficient</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Decimation">
+<em class="property">class </em><code class="descname">Decimation</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Decimation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Decimation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Corresponds to SEED blockette 57.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Decimation.input_sample_rate">
+<em class="property">♦ </em><code class="descname">input_sample_rate</code><a class="headerlink" href="#pyrocko.fdsn.station.Decimation.input_sample_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Frequency" title="pyrocko.fdsn.station.Frequency"><code class="xref py py-class docutils literal"><span class="pre">Frequency</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Decimation.factor">
+<em class="property">♦ </em><code class="descname">factor</code><a class="headerlink" href="#pyrocko.fdsn.station.Decimation.factor" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Decimation.offset">
+<em class="property">♦ </em><code class="descname">offset</code><a class="headerlink" href="#pyrocko.fdsn.station.Decimation.offset" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Decimation.delay">
+<em class="property">♦ </em><code class="descname">delay</code><a class="headerlink" href="#pyrocko.fdsn.station.Decimation.delay" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.FloatWithUnit" title="pyrocko.fdsn.station.FloatWithUnit"><code class="xref py py-class docutils literal"><span class="pre">FloatWithUnit</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Decimation.correction">
+<em class="property">♦ </em><code class="descname">correction</code><a class="headerlink" href="#pyrocko.fdsn.station.Decimation.correction" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.FloatWithUnit" title="pyrocko.fdsn.station.FloatWithUnit"><code class="xref py py-class docutils literal"><span class="pre">FloatWithUnit</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Operator">
+<em class="property">class </em><code class="descname">Operator</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Operator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Operator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Operator.agency_list">
+<em class="property">♦ </em><code class="descname">agency_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Operator.agency_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">unicode</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Operator.contact_list">
+<em class="property">♦ </em><code class="descname">contact_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Operator.contact_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.Person" title="pyrocko.fdsn.station.Person"><code class="xref py py-class docutils literal"><span class="pre">Person</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Operator.web_site">
+<em class="property">♦ </em><code class="descname">web_site</code><a class="headerlink" href="#pyrocko.fdsn.station.Operator.web_site" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Comment">
+<em class="property">class </em><code class="descname">Comment</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Comment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Comment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Container for a comment or log entry. Corresponds to SEED
+blockettes 31, 51 and 59.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Comment.id">
+<em class="property">♦ </em><code class="descname">id</code><a class="headerlink" href="#pyrocko.fdsn.station.Comment.id" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.Counter" title="pyrocko.fdsn.station.Counter"><code class="xref py py-class docutils literal"><span class="pre">Counter</span></code></a>), <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Comment.value">
+<em class="property">♦ </em><code class="descname">value</code><a class="headerlink" href="#pyrocko.fdsn.station.Comment.value" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">unicode</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Comment.begin_effective_time">
+<em class="property">♦ </em><code class="descname">begin_effective_time</code><a class="headerlink" href="#pyrocko.fdsn.station.Comment.begin_effective_time" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>), <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Comment.end_effective_time">
+<em class="property">♦ </em><code class="descname">end_effective_time</code><a class="headerlink" href="#pyrocko.fdsn.station.Comment.end_effective_time" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.DummyAwareOptionalTimestamp" title="pyrocko.fdsn.station.DummyAwareOptionalTimestamp"><code class="xref py py-class docutils literal"><span class="pre">DummyAwareOptionalTimestamp</span></code></a>), <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Comment.author_list">
+<em class="property">♦ </em><code class="descname">author_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Comment.author_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.Person" title="pyrocko.fdsn.station.Person"><code class="xref py py-class docutils literal"><span class="pre">Person</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.ResponseList">
+<em class="property">class </em><code class="descname">ResponseList</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#ResponseList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.ResponseList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.BaseFilter" title="pyrocko.fdsn.station.BaseFilter"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.BaseFilter</span></code></a></p>
+<p>Response: list of frequency, amplitude and phase values.
+Corresponds to SEED blockette 55.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.ResponseList.response_list_element_list">
+<em class="property">♦ </em><code class="descname">response_list_element_list</code><a class="headerlink" href="#pyrocko.fdsn.station.ResponseList.response_list_element_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.ResponseListElement" title="pyrocko.fdsn.station.ResponseListElement"><code class="xref py py-class docutils literal"><span class="pre">ResponseListElement</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Log">
+<em class="property">class </em><code class="descname">Log</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Container for log entries.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Log.entry_list">
+<em class="property">♦ </em><code class="descname">entry_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Log.entry_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.Comment" title="pyrocko.fdsn.station.Comment"><code class="xref py py-class docutils literal"><span class="pre">Comment</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.ResponseStage">
+<em class="property">class </em><code class="descname">ResponseStage</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#ResponseStage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.ResponseStage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>This complex type represents channel response and covers SEED
+blockettes 53 to 56.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.ResponseStage.number">
+<em class="property">♦ </em><code class="descname">number</code><a class="headerlink" href="#pyrocko.fdsn.station.ResponseStage.number" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.Counter" title="pyrocko.fdsn.station.Counter"><code class="xref py py-class docutils literal"><span class="pre">Counter</span></code></a>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.ResponseStage.resource_id">
+<em class="property">♦ </em><code class="descname">resource_id</code><a class="headerlink" href="#pyrocko.fdsn.station.ResponseStage.resource_id" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.ResponseStage.poles_zeros_list">
+<em class="property">♦ </em><code class="descname">poles_zeros_list</code><a class="headerlink" href="#pyrocko.fdsn.station.ResponseStage.poles_zeros_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.PolesZeros" title="pyrocko.fdsn.station.PolesZeros"><code class="xref py py-class docutils literal"><span class="pre">PolesZeros</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.ResponseStage.coefficients_list">
+<em class="property">♦ </em><code class="descname">coefficients_list</code><a class="headerlink" href="#pyrocko.fdsn.station.ResponseStage.coefficients_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.Coefficients" title="pyrocko.fdsn.station.Coefficients"><code class="xref py py-class docutils literal"><span class="pre">Coefficients</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.ResponseStage.response_list">
+<em class="property">♦ </em><code class="descname">response_list</code><a class="headerlink" href="#pyrocko.fdsn.station.ResponseStage.response_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.ResponseList" title="pyrocko.fdsn.station.ResponseList"><code class="xref py py-class docutils literal"><span class="pre">ResponseList</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.ResponseStage.fir">
+<em class="property">♦ </em><code class="descname">fir</code><a class="headerlink" href="#pyrocko.fdsn.station.ResponseStage.fir" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.FIR" title="pyrocko.fdsn.station.FIR"><code class="xref py py-class docutils literal"><span class="pre">FIR</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.ResponseStage.polynomial">
+<em class="property">♦ </em><code class="descname">polynomial</code><a class="headerlink" href="#pyrocko.fdsn.station.ResponseStage.polynomial" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Polynomial" title="pyrocko.fdsn.station.Polynomial"><code class="xref py py-class docutils literal"><span class="pre">Polynomial</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.ResponseStage.decimation">
+<em class="property">♦ </em><code class="descname">decimation</code><a class="headerlink" href="#pyrocko.fdsn.station.ResponseStage.decimation" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Decimation" title="pyrocko.fdsn.station.Decimation"><code class="xref py py-class docutils literal"><span class="pre">Decimation</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.ResponseStage.stage_gain">
+<em class="property">♦ </em><code class="descname">stage_gain</code><a class="headerlink" href="#pyrocko.fdsn.station.ResponseStage.stage_gain" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Gain" title="pyrocko.fdsn.station.Gain"><code class="xref py py-class docutils literal"><span class="pre">Gain</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Response">
+<em class="property">class </em><code class="descname">Response</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Response.resource_id">
+<em class="property">♦ </em><code class="descname">resource_id</code><a class="headerlink" href="#pyrocko.fdsn.station.Response.resource_id" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Response.instrument_sensitivity">
+<em class="property">♦ </em><code class="descname">instrument_sensitivity</code><a class="headerlink" href="#pyrocko.fdsn.station.Response.instrument_sensitivity" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Sensitivity" title="pyrocko.fdsn.station.Sensitivity"><code class="xref py py-class docutils literal"><span class="pre">Sensitivity</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Response.instrument_polynomial">
+<em class="property">♦ </em><code class="descname">instrument_polynomial</code><a class="headerlink" href="#pyrocko.fdsn.station.Response.instrument_polynomial" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Polynomial" title="pyrocko.fdsn.station.Polynomial"><code class="xref py py-class docutils literal"><span class="pre">Polynomial</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Response.stage_list">
+<em class="property">♦ </em><code class="descname">stage_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Response.stage_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.ResponseStage" title="pyrocko.fdsn.station.ResponseStage"><code class="xref py py-class docutils literal"><span class="pre">ResponseStage</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.BaseNode">
+<em class="property">class </em><code class="descname">BaseNode</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#BaseNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.BaseNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>A base node type for derivation from: Network, Station and
+Channel types.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.BaseNode.code">
+<em class="property">♦ </em><code class="descname">code</code><a class="headerlink" href="#pyrocko.fdsn.station.BaseNode.code" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.BaseNode.start_date">
+<em class="property">♦ </em><code class="descname">start_date</code><a class="headerlink" href="#pyrocko.fdsn.station.BaseNode.start_date" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>), <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.BaseNode.end_date">
+<em class="property">♦ </em><code class="descname">end_date</code><a class="headerlink" href="#pyrocko.fdsn.station.BaseNode.end_date" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.DummyAwareOptionalTimestamp" title="pyrocko.fdsn.station.DummyAwareOptionalTimestamp"><code class="xref py py-class docutils literal"><span class="pre">DummyAwareOptionalTimestamp</span></code></a>), <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.BaseNode.restricted_status">
+<em class="property">♦ </em><code class="descname">restricted_status</code><a class="headerlink" href="#pyrocko.fdsn.station.BaseNode.restricted_status" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.RestrictedStatus" title="pyrocko.fdsn.station.RestrictedStatus"><code class="xref py py-class docutils literal"><span class="pre">RestrictedStatus</span></code></a>), <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.BaseNode.alternate_code">
+<em class="property">♦ </em><code class="descname">alternate_code</code><a class="headerlink" href="#pyrocko.fdsn.station.BaseNode.alternate_code" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.BaseNode.historical_code">
+<em class="property">♦ </em><code class="descname">historical_code</code><a class="headerlink" href="#pyrocko.fdsn.station.BaseNode.historical_code" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.BaseNode.description">
+<em class="property">♦ </em><code class="descname">description</code><a class="headerlink" href="#pyrocko.fdsn.station.BaseNode.description" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">unicode</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.BaseNode.comment_list">
+<em class="property">♦ </em><code class="descname">comment_list</code><a class="headerlink" href="#pyrocko.fdsn.station.BaseNode.comment_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.Comment" title="pyrocko.fdsn.station.Comment"><code class="xref py py-class docutils literal"><span class="pre">Comment</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Channel">
+<em class="property">class </em><code class="descname">Channel</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Channel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Channel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.BaseNode" title="pyrocko.fdsn.station.BaseNode"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.BaseNode</span></code></a></p>
+<p>Equivalent to SEED blockette 52 and parent element for the
+related the response blockettes.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.location_code">
+<em class="property">♦ </em><code class="descname">location_code</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.location_code" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.external_reference_list">
+<em class="property">♦ </em><code class="descname">external_reference_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.external_reference_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.ExternalReference" title="pyrocko.fdsn.station.ExternalReference"><code class="xref py py-class docutils literal"><span class="pre">ExternalReference</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.latitude">
+<em class="property">♦ </em><code class="descname">latitude</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.latitude" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Latitude" title="pyrocko.fdsn.station.Latitude"><code class="xref py py-class docutils literal"><span class="pre">Latitude</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.longitude">
+<em class="property">♦ </em><code class="descname">longitude</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.longitude" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Longitude" title="pyrocko.fdsn.station.Longitude"><code class="xref py py-class docutils literal"><span class="pre">Longitude</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.elevation">
+<em class="property">♦ </em><code class="descname">elevation</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.elevation" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Distance" title="pyrocko.fdsn.station.Distance"><code class="xref py py-class docutils literal"><span class="pre">Distance</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.depth">
+<em class="property">♦ </em><code class="descname">depth</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.depth" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Distance" title="pyrocko.fdsn.station.Distance"><code class="xref py py-class docutils literal"><span class="pre">Distance</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.azimuth">
+<em class="property">♦ </em><code class="descname">azimuth</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.azimuth" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Azimuth" title="pyrocko.fdsn.station.Azimuth"><code class="xref py py-class docutils literal"><span class="pre">Azimuth</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.dip">
+<em class="property">♦ </em><code class="descname">dip</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.dip" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Dip" title="pyrocko.fdsn.station.Dip"><code class="xref py py-class docutils literal"><span class="pre">Dip</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.type_list">
+<em class="property">♦ </em><code class="descname">type_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.type_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <code class="docutils literal"><span class="pre">str</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.Type" title="pyrocko.fdsn.station.Type"><code class="xref py py-class docutils literal"><span class="pre">Type</span></code></a>) objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.sample_rate">
+<em class="property">♦ </em><code class="descname">sample_rate</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.sample_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.SampleRate" title="pyrocko.fdsn.station.SampleRate"><code class="xref py py-class docutils literal"><span class="pre">SampleRate</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.sample_rate_ratio">
+<em class="property">♦ </em><code class="descname">sample_rate_ratio</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.sample_rate_ratio" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.SampleRateRatio" title="pyrocko.fdsn.station.SampleRateRatio"><code class="xref py py-class docutils literal"><span class="pre">SampleRateRatio</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.storage_format">
+<em class="property">♦ </em><code class="descname">storage_format</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.storage_format" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.clock_drift">
+<em class="property">♦ </em><code class="descname">clock_drift</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.clock_drift" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.ClockDrift" title="pyrocko.fdsn.station.ClockDrift"><code class="xref py py-class docutils literal"><span class="pre">ClockDrift</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.calibration_units">
+<em class="property">♦ </em><code class="descname">calibration_units</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.calibration_units" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Units" title="pyrocko.fdsn.station.Units"><code class="xref py py-class docutils literal"><span class="pre">Units</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.sensor">
+<em class="property">♦ </em><code class="descname">sensor</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.sensor" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Equipment" title="pyrocko.fdsn.station.Equipment"><code class="xref py py-class docutils literal"><span class="pre">Equipment</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.pre_amplifier">
+<em class="property">♦ </em><code class="descname">pre_amplifier</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.pre_amplifier" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Equipment" title="pyrocko.fdsn.station.Equipment"><code class="xref py py-class docutils literal"><span class="pre">Equipment</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.data_logger">
+<em class="property">♦ </em><code class="descname">data_logger</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.data_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Equipment" title="pyrocko.fdsn.station.Equipment"><code class="xref py py-class docutils literal"><span class="pre">Equipment</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.equipment">
+<em class="property">♦ </em><code class="descname">equipment</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.equipment" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Equipment" title="pyrocko.fdsn.station.Equipment"><code class="xref py py-class docutils literal"><span class="pre">Equipment</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Channel.response">
+<em class="property">♦ </em><code class="descname">response</code><a class="headerlink" href="#pyrocko.fdsn.station.Channel.response" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Response" title="pyrocko.fdsn.station.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Station">
+<em class="property">class </em><code class="descname">Station</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Station"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Station" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.BaseNode" title="pyrocko.fdsn.station.BaseNode"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.BaseNode</span></code></a></p>
+<p>This type represents a Station epoch. It is common to only have
+a single station epoch with the station&#8217;s creation and termination
+dates as the epoch start and end dates.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Station.latitude">
+<em class="property">♦ </em><code class="descname">latitude</code><a class="headerlink" href="#pyrocko.fdsn.station.Station.latitude" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Latitude" title="pyrocko.fdsn.station.Latitude"><code class="xref py py-class docutils literal"><span class="pre">Latitude</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Station.longitude">
+<em class="property">♦ </em><code class="descname">longitude</code><a class="headerlink" href="#pyrocko.fdsn.station.Station.longitude" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Longitude" title="pyrocko.fdsn.station.Longitude"><code class="xref py py-class docutils literal"><span class="pre">Longitude</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Station.elevation">
+<em class="property">♦ </em><code class="descname">elevation</code><a class="headerlink" href="#pyrocko.fdsn.station.Station.elevation" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Distance" title="pyrocko.fdsn.station.Distance"><code class="xref py py-class docutils literal"><span class="pre">Distance</span></code></a></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Station.site">
+<em class="property">♦ </em><code class="descname">site</code><a class="headerlink" href="#pyrocko.fdsn.station.Station.site" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Site" title="pyrocko.fdsn.station.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Station.vault">
+<em class="property">♦ </em><code class="descname">vault</code><a class="headerlink" href="#pyrocko.fdsn.station.Station.vault" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">unicode</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Station.geology">
+<em class="property">♦ </em><code class="descname">geology</code><a class="headerlink" href="#pyrocko.fdsn.station.Station.geology" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">unicode</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Station.equipment_list">
+<em class="property">♦ </em><code class="descname">equipment_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Station.equipment_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.Equipment" title="pyrocko.fdsn.station.Equipment"><code class="xref py py-class docutils literal"><span class="pre">Equipment</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Station.operator_list">
+<em class="property">♦ </em><code class="descname">operator_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Station.operator_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.Operator" title="pyrocko.fdsn.station.Operator"><code class="xref py py-class docutils literal"><span class="pre">Operator</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Station.creation_date">
+<em class="property">♦ </em><code class="descname">creation_date</code><a class="headerlink" href="#pyrocko.fdsn.station.Station.creation_date" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>), <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Station.termination_date">
+<em class="property">♦ </em><code class="descname">termination_date</code><a class="headerlink" href="#pyrocko.fdsn.station.Station.termination_date" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.DummyAwareOptionalTimestamp" title="pyrocko.fdsn.station.DummyAwareOptionalTimestamp"><code class="xref py py-class docutils literal"><span class="pre">DummyAwareOptionalTimestamp</span></code></a>), <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Station.total_number_channels">
+<em class="property">♦ </em><code class="descname">total_number_channels</code><a class="headerlink" href="#pyrocko.fdsn.station.Station.total_number_channels" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.Counter" title="pyrocko.fdsn.station.Counter"><code class="xref py py-class docutils literal"><span class="pre">Counter</span></code></a>), <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Station.selected_number_channels">
+<em class="property">♦ </em><code class="descname">selected_number_channels</code><a class="headerlink" href="#pyrocko.fdsn.station.Station.selected_number_channels" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.Counter" title="pyrocko.fdsn.station.Counter"><code class="xref py py-class docutils literal"><span class="pre">Counter</span></code></a>), <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Station.external_reference_list">
+<em class="property">♦ </em><code class="descname">external_reference_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Station.external_reference_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.ExternalReference" title="pyrocko.fdsn.station.ExternalReference"><code class="xref py py-class docutils literal"><span class="pre">ExternalReference</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Station.channel_list">
+<em class="property">♦ </em><code class="descname">channel_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Station.channel_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.Channel" title="pyrocko.fdsn.station.Channel"><code class="xref py py-class docutils literal"><span class="pre">Channel</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.Network">
+<em class="property">class </em><code class="descname">Network</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#Network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.Network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pyrocko.fdsn.station.BaseNode" title="pyrocko.fdsn.station.BaseNode"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.BaseNode</span></code></a></p>
+<p>This type represents the Network layer, all station metadata is
+contained within this element. The official name of the network or
+other descriptive information can be included in the Description
+element. The Network can contain 0 or more Stations.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Network.total_number_stations">
+<em class="property">♦ </em><code class="descname">total_number_stations</code><a class="headerlink" href="#pyrocko.fdsn.station.Network.total_number_stations" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.Counter" title="pyrocko.fdsn.station.Counter"><code class="xref py py-class docutils literal"><span class="pre">Counter</span></code></a>), <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Network.selected_number_stations">
+<em class="property">♦ </em><code class="descname">selected_number_stations</code><a class="headerlink" href="#pyrocko.fdsn.station.Network.selected_number_stations" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">int</span></code> (<a class="reference internal" href="#pyrocko.fdsn.station.Counter" title="pyrocko.fdsn.station.Counter"><code class="xref py py-class docutils literal"><span class="pre">Counter</span></code></a>), <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.Network.station_list">
+<em class="property">♦ </em><code class="descname">station_list</code><a class="headerlink" href="#pyrocko.fdsn.station.Network.station_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.Station" title="pyrocko.fdsn.station.Station"><code class="xref py py-class docutils literal"><span class="pre">Station</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyrocko.fdsn.station.FDSNStationXML">
+<em class="property">class </em><code class="descname">FDSNStationXML</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/station.html#FDSNStationXML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.station.FDSNStationXML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
+<p>Top-level type for Station XML. Required field are Source
+(network ID of the institution sending the message) and one or
+more Network containers or one or more Station containers.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.FDSNStationXML.schema_version">
+<em class="property">♦ </em><code class="descname">schema_version</code><a class="headerlink" href="#pyrocko.fdsn.station.FDSNStationXML.schema_version" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code>, <em>default:</em> <code class="docutils literal"><span class="pre">1.0</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.FDSNStationXML.source">
+<em class="property">♦ </em><code class="descname">source</code><a class="headerlink" href="#pyrocko.fdsn.station.FDSNStationXML.source" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.FDSNStationXML.sender">
+<em class="property">♦ </em><code class="descname">sender</code><a class="headerlink" href="#pyrocko.fdsn.station.FDSNStationXML.sender" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.FDSNStationXML.module">
+<em class="property">♦ </em><code class="descname">module</code><a class="headerlink" href="#pyrocko.fdsn.station.FDSNStationXML.module" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.FDSNStationXML.module_uri">
+<em class="property">♦ </em><code class="descname">module_uri</code><a class="headerlink" href="#pyrocko.fdsn.station.FDSNStationXML.module_uri" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code>, <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.FDSNStationXML.created">
+<em class="property">♦ </em><code class="descname">created</code><a class="headerlink" href="#pyrocko.fdsn.station.FDSNStationXML.created" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.station.FDSNStationXML.network_list">
+<em class="property">♦ </em><code class="descname">network_list</code><a class="headerlink" href="#pyrocko.fdsn.station.FDSNStationXML.network_list" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">list</span></code> of <a class="reference internal" href="#pyrocko.fdsn.station.Network" title="pyrocko.fdsn.station.Network"><code class="xref py py-class docutils literal"><span class="pre">Network</span></code></a> objects, <em>default:</em> <code class="docutils literal"><span class="pre">[]</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyrocko.fdsn.resp">
+<span id="the-pyrocko-fdsn-resp-module"></span><h2>The <a class="reference internal" href="#module-pyrocko.fdsn.resp" title="pyrocko.fdsn.resp"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.fdsn.resp</span></code></a> Module<a class="headerlink" href="#module-pyrocko.fdsn.resp" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyrocko.fdsn.resp.ChannelResponse">
+<em class="property">class </em><code class="descname">ChannelResponse</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/resp.html#ChannelResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.resp.ChannelResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Response information + channel codes and time span.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.resp.ChannelResponse.codes">
+<em class="property">♦ </em><code class="descname">codes</code><a class="headerlink" href="#pyrocko.fdsn.resp.ChannelResponse.codes" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">tuple</span></code> of 4 <code class="docutils literal"><span class="pre">str</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">('',</span> <span class="pre">'',</span> <span class="pre">'',</span> <span class="pre">'')</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.resp.ChannelResponse.start_date">
+<em class="property">♦ </em><code class="descname">start_date</code><a class="headerlink" href="#pyrocko.fdsn.resp.ChannelResponse.start_date" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.resp.ChannelResponse.end_date">
+<em class="property">♦ </em><code class="descname">end_date</code><a class="headerlink" href="#pyrocko.fdsn.resp.ChannelResponse.end_date" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>)</p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.resp.ChannelResponse.response">
+<em class="property">♦ </em><code class="descname">response</code><a class="headerlink" href="#pyrocko.fdsn.resp.ChannelResponse.response" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyrocko.fdsn.station.Response" title="pyrocko.fdsn.station.Response"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.Response</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.fdsn.resp.iload_fh">
+<code class="descname">iload_fh</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/resp.html#iload_fh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.resp.iload_fh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read RESP information from open file handle.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.fdsn.resp.make_stationxml">
+<code class="descname">make_stationxml</code><span class="sig-paren">(</span><em>pyrocko_stations</em>, <em>channel_responses</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/resp.html#make_stationxml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.resp.make_stationxml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create stationxml from pyrocko station list and RESP information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pyrocko_stations</strong> &#8211; list of <a class="reference internal" href="model.html#pyrocko.model.Station" title="pyrocko.model.Station"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.model.Station</span></code></a> objects</li>
+<li><strong>channel_responses</strong> &#8211; iterable yielding <a class="reference internal" href="#pyrocko.fdsn.resp.ChannelResponse" title="pyrocko.fdsn.resp.ChannelResponse"><code class="xref py py-class docutils literal"><span class="pre">ChannelResponse</span></code></a>
+objects</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#pyrocko.fdsn.station.FDSNStationXML" title="pyrocko.fdsn.station.FDSNStationXML"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.FDSNStationXML</span></code></a> object with
+merged information</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>If no station information is available for any response information, it
+is skipped and a warning is emitted.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.fdsn.resp.iload">
+<code class="descname">iload</code><span class="sig-paren">(</span><em>source</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.fdsn.resp.iload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load RESP information from given source(s)</p>
+<p>The <code class="docutils literal"><span class="pre">source</span></code> can be specified as the name of a RESP file, the name of a
+directory containing RESP files, a glob pattern of RESP files, an open
+filehandle or an iterator yielding any of the forementioned sources.</p>
+<p>This function behaves as a generator yielding <a class="reference internal" href="#pyrocko.fdsn.resp.ChannelResponse" title="pyrocko.fdsn.resp.ChannelResponse"><code class="xref py py-class docutils literal"><span class="pre">ChannelResponse</span></code></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.fdsn.resp.iload_dirname">
+<code class="descname">iload_dirname</code><span class="sig-paren">(</span><em>dirname</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.fdsn.resp.iload_dirname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read RESP information from directory of RESP files.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.fdsn.resp.iload_filename">
+<code class="descname">iload_filename</code><span class="sig-paren">(</span><em>filename</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.fdsn.resp.iload_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read RESP information from named file.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.fdsn.resp.iload_glob">
+<code class="descname">iload_glob</code><span class="sig-paren">(</span><em>pattern</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.fdsn.resp.iload_glob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read RESP information from files matching a glob pattern.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyrocko.fdsn.enhanced_sacpz">
+<span id="the-pyrocko-fdsn-enhanced-sacpz-module"></span><h2>The <a class="reference internal" href="#module-pyrocko.fdsn.enhanced_sacpz" title="pyrocko.fdsn.enhanced_sacpz"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.fdsn.enhanced_sacpz</span></code></a> Module<a class="headerlink" href="#module-pyrocko.fdsn.enhanced_sacpz" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse">
+<em class="property">class </em><code class="descname">EnhancedSacPzResponse</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/enhanced_sacpz.html#EnhancedSacPzResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Undocumented.</p>
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.codes">
+<em class="property">♦ </em><code class="descname">codes</code><a class="headerlink" href="#pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.codes" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">tuple</span></code> of 4 <code class="docutils literal"><span class="pre">str</span></code> objects, <em>default:</em> <code class="docutils literal"><span class="pre">(None,</span> <span class="pre">None,</span> <span class="pre">None,</span> <span class="pre">None)</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.tmin">
+<em class="property">♦ </em><code class="descname">tmin</code><a class="headerlink" href="#pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.tmin" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>), <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.tmax">
+<em class="property">♦ </em><code class="descname">tmax</code><a class="headerlink" href="#pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.tmax" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Timestamp</span></code>), <em>optional</em></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.lat">
+<em class="property">♦ </em><code class="descname">lat</code><a class="headerlink" href="#pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.lat" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.lon">
+<em class="property">♦ </em><code class="descname">lon</code><a class="headerlink" href="#pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.lon" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.elevation">
+<em class="property">♦ </em><code class="descname">elevation</code><a class="headerlink" href="#pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.elevation" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.depth">
+<em class="property">♦ </em><code class="descname">depth</code><a class="headerlink" href="#pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.depth" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.dip">
+<em class="property">♦ </em><code class="descname">dip</code><a class="headerlink" href="#pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.dip" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.azimuth">
+<em class="property">♦ </em><code class="descname">azimuth</code><a class="headerlink" href="#pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.azimuth" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">float</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.input_unit">
+<em class="property">♦ </em><code class="descname">input_unit</code><a class="headerlink" href="#pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.input_unit" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.output_unit">
+<em class="property">♦ </em><code class="descname">output_unit</code><a class="headerlink" href="#pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.output_unit" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">str</span></code></p>
+</dd></dl>
+
+<dl class="gattribute">
+<dt id="pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.response">
+<em class="property">♦ </em><code class="descname">response</code><a class="headerlink" href="#pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse.response" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="trace.html#pyrocko.trace.PoleZeroResponse" title="pyrocko.trace.PoleZeroResponse"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.trace.PoleZeroResponse</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.fdsn.enhanced_sacpz.make_stationxml">
+<code class="descname">make_stationxml</code><span class="sig-paren">(</span><em>responses</em>, <em>inconsistencies='warn'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/fdsn/enhanced_sacpz.html#make_stationxml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.fdsn.enhanced_sacpz.make_stationxml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create stationxml from &#8220;enhanced&#8221; SACPZ information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>responses</strong> &#8211; iterable yielding
+<a class="reference internal" href="#pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse" title="pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse"><code class="xref py py-class docutils literal"><span class="pre">EnhancedSacPzResponse</span></code></a> objects</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#pyrocko.fdsn.station.FDSNStationXML" title="pyrocko.fdsn.station.FDSNStationXML"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.fdsn.station.FDSNStationXML</span></code></a> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.fdsn.enhanced_sacpz.iload">
+<code class="descname">iload</code><span class="sig-paren">(</span><em>source</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.fdsn.enhanced_sacpz.iload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load SACPZ information from given source(s)</p>
+<p>The <code class="docutils literal"><span class="pre">source</span></code> can be specified as the name of a SACPZ file, the name of a
+directory containing SACPZ files, a glob pattern of SACPZ files, an open
+filehandle or an iterator yielding any of the forementioned sources.</p>
+<p>This function behaves as a generator yielding <a class="reference internal" href="#pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse" title="pyrocko.fdsn.enhanced_sacpz.EnhancedSacPzResponse"><code class="xref py py-class docutils literal"><span class="pre">EnhancedSacPzResponse</span></code></a> objects.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.fdsn.enhanced_sacpz.iload_dirname">
+<code class="descname">iload_dirname</code><span class="sig-paren">(</span><em>dirname</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.fdsn.enhanced_sacpz.iload_dirname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read SACPZ information from directory of SACPZ files.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.fdsn.enhanced_sacpz.iload_filename">
+<code class="descname">iload_filename</code><span class="sig-paren">(</span><em>filename</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.fdsn.enhanced_sacpz.iload_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read SACPZ information from named file.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.fdsn.enhanced_sacpz.iload_glob">
+<code class="descname">iload_glob</code><span class="sig-paren">(</span><em>pattern</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyrocko.fdsn.enhanced_sacpz.iload_glob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read SACPZ information from files matching a glob pattern.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyrocko.fdsn.ws">
+<span id="the-pyrocko-fdsn-ws-module"></span><h2>The <a class="reference internal" href="#module-pyrocko.fdsn.ws" title="pyrocko.fdsn.ws"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.fdsn.ws</span></code></a> Module<a class="headerlink" href="#module-pyrocko.fdsn.ws" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="gf.html" title="The pyrocko.gf Subpackage"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="util.html" title="The util Module"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

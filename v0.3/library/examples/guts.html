@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Working with the guts package &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Reference" href="../reference/index.html" />
+    <link rel="prev" title="Accessing crustal velocity databases" href="velocity_databases.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Examples</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="working-with-the-guts-package">
+<h1>Working with the guts package<a class="headerlink" href="#working-with-the-guts-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction-to-guts">
+<h2>Introduction to guts<a class="headerlink" href="#introduction-to-guts" title="Permalink to this headline">¶</a></h2>
+<p>Guts is a <a class="reference external" href="https://github.com/emolch/guts">Lightweight declarative YAML and XML data binding for Python</a> (the link provides a basic introduction
+and usage tutorial).</p>
+</div>
+<div class="section" id="guts-and-pyrocko">
+<h2>guts and pyrocko<a class="headerlink" href="#guts-and-pyrocko" title="Permalink to this headline">¶</a></h2>
+<p>When building add-on functionality to pyrocko, objects that will be
+in/ex-ported can use the guts wrapping to conform easily to prycoko standards.
+There is some overhead, so only certain items implement the guts package in
+the base pyrocko project.  One add-on functionality that implement it is the
+<code class="docutils literal"><span class="pre">fomosto</span> <span class="pre">report</span></code> command.  Within it, the base class
+<code class="xref py py-class docutils literal"><span class="pre">pyrocko.fomosto_report.GeensFunctionTest</span></code>
+and a small utility class <code class="xref py py-class docutils literal"><span class="pre">pyrocko.fomosto_report.SensoryArray</span></code> are
+implemented with guts.  We shall look at
+<code class="xref py py-class docutils literal"><span class="pre">pyrocko.fomosto_report.SensoryArray</span></code> below.</p>
+</div>
+<div class="section" id="implementing-guts">
+<h2>Implementing guts<a class="headerlink" href="#implementing-guts" title="Permalink to this headline">¶</a></h2>
+<p>When creating a class that implements <code class="xref py py-mod docutils literal"><span class="pre">pyrocko.guts</span></code>, first determine
+which attribute are important to the class.  In the case of
+<code class="xref py py-class docutils literal"><span class="pre">pyrocko.fomosto_report.SensoryArray</span></code> those attributes are:
+<code class="docutils literal"><span class="pre">distance_min</span></code>, <code class="docutils literal"><span class="pre">distance_max</span></code>, <code class="docutils literal"><span class="pre">strike</span></code>, and <code class="docutils literal"><span class="pre">sensor_count</span></code>.  Now
+create the class and attributes, where the attributes are defined as guts
+types (good practice is to define a <code class="docutils literal"><span class="pre">guts_prefix</span></code> to the module, as it helps
+with in/ex-porting).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko.guts</span> <span class="k">import</span> <span class="n">load</span><span class="p">,</span> <span class="n">Object</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Int</span><span class="p">,</span> <span class="n">String</span>
+<span class="kn">from</span> <span class="nn">pyrocko.gf</span> <span class="k">import</span> <span class="n">Target</span>
+
+<span class="n">guts_prefix</span> <span class="o">=</span> <span class="s1">&#39;gft&#39;</span>
+
+<span class="k">class</span> <span class="nc">SensorArray</span><span class="p">(</span><span class="n">Target</span><span class="p">):</span>
+
+    <span class="n">distance_min</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
+    <span class="n">distance_max</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
+    <span class="n">strike</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
+    <span class="n">sensor_count</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+    <span class="c1"># this attribute is only used in this example</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="c1"># call the guts initilizer</span>
+        <span class="n">Object</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As you can see only one type has a default value, so when initializing the
+object if values do not get passed in for the attributes without default
+values, then the <code class="docutils literal"><span class="pre">guts</span></code> initializer will throw an error.</p>
+<p>Other attributes whose values are desired to be keep through in/ex-porting,
+but do not need to be initialized by default can have the <code class="docutils literal"><span class="pre">optional</span></code>
+parameter set to <code class="docutils literal"><span class="pre">True</span></code>.  This will allow them to be exported with when the
+attribute has been assigned a value.</p>
+</div>
+<div class="section" id="usage-examples">
+<h2>Usage examples<a class="headerlink" href="#usage-examples" title="Permalink to this headline">¶</a></h2>
+<p>Now that a class has been defined (and imported) we can see how to use it.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sa1</span> <span class="o">=</span> <span class="n">SensorArray</span><span class="p">(</span><span class="n">distance_min</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">distance_max</span><span class="o">=</span><span class="mf">100e3</span><span class="p">,</span> <span class="n">strike</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+<span class="n">sa2</span> <span class="o">=</span> <span class="n">SensorArray</span><span class="p">(</span><span class="n">distance_min</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">distance_max</span><span class="o">=</span><span class="mf">100e3</span><span class="p">,</span> <span class="n">strike</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
+                  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Sensor array 2&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="n">sa1</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">output would look like</span>
+<span class="sd">--- !gft.SensorArray</span>
+<span class="sd"># properies defined by the base type Target</span>
+<span class="sd">depth: 0.0</span>
+<span class="sd">codes: [&#39;&#39;, STA, &#39;&#39;, Z]</span>
+<span class="sd">elevation: 0.0</span>
+<span class="sd">interpolation: nearest_neighbor</span>
+
+<span class="sd"># attributes defined within the SensorArray class</span>
+<span class="sd">distance_min: 1000.0</span>
+<span class="sd">distance_max: 100000.0</span>
+<span class="sd">strike: 0.0</span>
+<span class="sd">sensor_count: 50</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="nb">print</span> <span class="n">sa2</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">output would look like</span>
+<span class="sd">--- !gft.SensorArray</span>
+<span class="sd"># properies defined by the base type Target</span>
+<span class="sd">depth: 0.0</span>
+<span class="sd">codes: [&#39;&#39;, STA, &#39;&#39;, Z]</span>
+<span class="sd">elevation: 0.0</span>
+<span class="sd">interpolation: nearest_neighbor</span>
+
+<span class="sd"># attributes defined within the SensorArray class</span>
+<span class="sd">distance_min: 1000.0</span>
+<span class="sd">distance_max: 100000.0</span>
+<span class="sd">strike: 0.0</span>
+<span class="sd">sensor_count: 50</span>
+<span class="sd">name: Sensor array 2</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="c1"># export the object definition to a file</span>
+<span class="n">sa1</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;sensorarray1&#39;</span><span class="p">)</span>
+
+<span class="c1"># import object definition from file</span>
+<span class="n">sa3</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s1">&#39;sensorarray1&#39;</span><span class="p">)</span>
+<span class="n">sa3</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Sensor array 3&#39;</span>
+<span class="nb">print</span> <span class="n">sa3</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">output would look like</span>
+<span class="sd">--- !gft.SensorArray</span>
+<span class="sd"># properies defined by the base type Target</span>
+<span class="sd">depth: 0.0</span>
+<span class="sd">codes: [&#39;&#39;, STA, &#39;&#39;, Z]</span>
+<span class="sd">elevation: 0.0</span>
+<span class="sd">interpolation: nearest_neighbor</span>
+
+<span class="sd"># attributes defined within the SensorArray class</span>
+<span class="sd">distance_min: 1000.0</span>
+<span class="sd">distance_max: 100000.0</span>
+<span class="sd">strike: 0.0</span>
+<span class="sd">sensor_count: 50</span>
+<span class="sd">name: Sensory array 3</span>
+<span class="sd">&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../reference/index.html" title="Reference"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="velocity_databases.html" title="Accessing crustal velocity databases"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

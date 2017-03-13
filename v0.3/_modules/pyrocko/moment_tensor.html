@@ -54,19 +54,19 @@
           <div class="body" role="main">
             
   <h1>Source code for pyrocko.moment_tensor</h1><div class="highlight"><pre>
-<span class="kn">import</span> <span class="nn">random</span>
+<span></span><span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
 
 <span class="kn">from</span> <span class="nn">pyrocko.guts</span> <span class="k">import</span> <span class="n">Object</span><span class="p">,</span> <span class="n">Float</span>
 
-<span class="n">guts_prefix</span> <span class="o">=</span> <span class="s">&#39;pf&#39;</span>
+<span class="n">guts_prefix</span> <span class="o">=</span> <span class="s1">&#39;pf&#39;</span>
 
-<span class="n">dynecm</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">7</span>
+<span class="n">dynecm</span> <span class="o">=</span> <span class="mf">1e-7</span>
 
 
 <span class="k">def</span> <span class="nf">random_axis</span><span class="p">():</span>
-    <span class="k">while</span> <span class="k">True</span><span class="p">:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="n">axis</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="mf">1.0</span>
         <span class="n">uabs</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
         <span class="k">if</span> <span class="mf">0.001</span> <span class="o">&lt;</span> <span class="n">uabs</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
@@ -86,7 +86,7 @@
         <span class="n">uabs</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
         <span class="n">ux</span><span class="p">,</span> <span class="n">uy</span><span class="p">,</span> <span class="n">uz</span> <span class="o">=</span> <span class="n">axis</span> <span class="o">/</span> <span class="n">uabs</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="k">False</span>
+        <span class="k">assert</span> <span class="kc">False</span>
 
     <span class="n">ct</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d2r</span><span class="o">*</span><span class="n">angle</span><span class="p">)</span>
     <span class="n">st</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">d2r</span><span class="o">*</span><span class="n">angle</span><span class="p">)</span>
@@ -97,11 +97,11 @@
         <span class="p">])</span>
 
 
-<span class="k">def</span> <span class="nf">random_rotation</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">random_rotation</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-    <span class="c"># after Arvo 1992 - &quot;Fast random rotation matrices&quot;</span>
+    <span class="c1"># after Arvo 1992 - &quot;Fast random rotation matrices&quot;</span>
 
-    <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span> <span class="o">=</span> <span class="n">x</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -152,7 +152,7 @@
     <span class="k">return</span> <span class="n">num</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
 
 
-<div class="viewcode-block" id="symmat6"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.symmat6">[docs]</a><span class="k">def</span> <span class="nf">symmat6</span><span class="p">(</span><span class="o">*</span><span class="n">vals</span><span class="p">):</span>
+<div class="viewcode-block" id="symmat6"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.symmat6">[docs]</a><span class="k">def</span> <span class="nf">symmat6</span><span class="p">(</span><span class="o">*</span><span class="n">vals</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Create symmetric 3x3 matrix from its 6 non-redundant values.</span>
 
 <span class="sd">    vals = [ Axx, Ayy, Azz, Axy, Axz, Ayz ]&#39;&#39;&#39;</span>
@@ -162,7 +162,7 @@
                        <span class="p">[</span><span class="n">vals</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">vals</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">vals</span><span class="p">[</span><span class="mi">2</span><span class="p">]]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="values_to_matrix"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.values_to_matrix">[docs]</a><span class="k">def</span> <span class="nf">values_to_matrix</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+<div class="viewcode-block" id="values_to_matrix"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.values_to_matrix">[docs]</a><span class="k">def</span> <span class="nf">values_to_matrix</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Convert anything to moment tensor represented as a NumPy matrix.</span>
 
 <span class="sd">    Transforms :py:class:`MomentTensor` objects, tuples, lists and NumPy arrays</span>
@@ -209,13 +209,13 @@
         <span class="k">elif</span> <span class="n">values</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">num</span><span class="o">.</span><span class="n">asmatrix</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
 
-    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;cannot convert object to 3x3 matrix&#39;</span><span class="p">)</span></div>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;cannot convert object to 3x3 matrix&#39;</span><span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">moment_to_magnitude</span><span class="p">(</span><span class="n">moment</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">num</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">moment</span><span class="o">*</span><span class="mf">1.0e7</span><span class="p">)</span><span class="o">/</span><span class="mf">1.5</span> <span class="o">-</span> <span class="mf">10.7</span>
-    <span class="c"># global CMT uses 10.7333333... instead of 10.7, based on [Kanamori 1977]</span>
-    <span class="c"># 10.7 comes from [Hanks and Kanamori 1979]</span>
+    <span class="c1"># global CMT uses 10.7333333... instead of 10.7, based on [Kanamori 1977]</span>
+    <span class="c1"># 10.7 comes from [Hanks and Kanamori 1979]</span>
 
 
 <span class="k">def</span> <span class="nf">magnitude_to_moment</span><span class="p">(</span><span class="n">magnitude</span><span class="p">):</span>
@@ -225,7 +225,7 @@
 <span class="n">magnitude_1Nm</span> <span class="o">=</span> <span class="n">moment_to_magnitude</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="euler_to_matrix"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.euler_to_matrix">[docs]</a><span class="k">def</span> <span class="nf">euler_to_matrix</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+<div class="viewcode-block" id="euler_to_matrix"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.euler_to_matrix">[docs]</a><span class="k">def</span> <span class="nf">euler_to_matrix</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Given euler angle triplet, create rotation matrix</span>
 
 <span class="sd">    Given coordinate system `(x,y,z)` and rotated system `(xs,ys,zs)`</span>
@@ -258,7 +258,7 @@
     <span class="k">return</span> <span class="n">mat</span></div>
 
 
-<div class="viewcode-block" id="matrix_to_euler"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.matrix_to_euler">[docs]</a><span class="k">def</span> <span class="nf">matrix_to_euler</span><span class="p">(</span><span class="n">rotmat</span><span class="p">):</span>
+<div class="viewcode-block" id="matrix_to_euler"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.matrix_to_euler">[docs]</a><span class="k">def</span> <span class="nf">matrix_to_euler</span><span class="p">(</span><span class="n">rotmat</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Inverse of euler_to_matrix().&#39;&#39;&#39;</span>
 
     <span class="n">ex</span> <span class="o">=</span> <span class="n">cvec</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)</span>
@@ -266,7 +266,7 @@
     <span class="n">exs</span> <span class="o">=</span> <span class="n">rotmat</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">ex</span>
     <span class="n">ezs</span> <span class="o">=</span> <span class="n">rotmat</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">ez</span>
     <span class="n">enodes</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">ez</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">ezs</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-    <span class="k">if</span> <span class="n">num</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">enodes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">10</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">num</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">enodes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">:</span>
         <span class="n">enodes</span> <span class="o">=</span> <span class="n">exs</span>
     <span class="n">enodess</span> <span class="o">=</span> <span class="n">rotmat</span><span class="o">*</span><span class="n">enodes</span>
     <span class="n">cos_alpha</span> <span class="o">=</span> <span class="nb">float</span><span class="p">((</span><span class="n">ez</span><span class="o">.</span><span class="n">T</span><span class="o">*</span><span class="n">ezs</span><span class="p">))</span>
@@ -283,7 +283,7 @@
     <span class="k">return</span> <span class="n">unique_euler</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="unique_euler"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.unique_euler">[docs]</a><span class="k">def</span> <span class="nf">unique_euler</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+<div class="viewcode-block" id="unique_euler"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.unique_euler">[docs]</a><span class="k">def</span> <span class="nf">unique_euler</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Uniquify euler angle triplet.</span>
 
 <span class="sd">Put euler angles into ranges compatible with (dip,strike,-rake) in seismology:</span>
@@ -317,21 +317,21 @@
     <span class="n">beta</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span>  <span class="mf">2.0</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span>
     <span class="n">gamma</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">gamma</span><span class="o">+</span><span class="n">pi</span><span class="p">,</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span><span class="o">-</span><span class="n">pi</span>
 
-    <span class="c"># If dip is exactly 90 degrees, one is still</span>
-    <span class="c"># free to choose between looking at the plane from either side.</span>
-    <span class="c"># Choose to look at such that beta is in the range [0,180)</span>
+    <span class="c1"># If dip is exactly 90 degrees, one is still</span>
+    <span class="c1"># free to choose between looking at the plane from either side.</span>
+    <span class="c1"># Choose to look at such that beta is in the range [0,180)</span>
 
-    <span class="c"># This should prevent some problems, when dip is close to 90 degrees:</span>
-    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">10</span><span class="p">:</span>
+    <span class="c1"># This should prevent some problems, when dip is close to 90 degrees:</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">:</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">pi</span>
 
-    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">beta</span> <span class="o">-</span> <span class="n">pi</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">10</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">beta</span> <span class="o">-</span> <span class="n">pi</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">:</span>
         <span class="n">beta</span> <span class="o">=</span> <span class="n">pi</span>
 
-    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">beta</span> <span class="o">-</span> <span class="mf">2.</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">10</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">beta</span> <span class="o">-</span> <span class="mf">2.</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">:</span>
         <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.</span>
 
-    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">10</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">:</span>
         <span class="n">beta</span> <span class="o">=</span> <span class="mf">0.</span>
 
     <span class="k">if</span> <span class="n">alpha</span> <span class="o">==</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">pi</span> <span class="ow">and</span> <span class="n">beta</span> <span class="o">&gt;=</span> <span class="n">pi</span><span class="p">:</span>
@@ -341,7 +341,7 @@
         <span class="k">assert</span> <span class="mf">0.</span> <span class="o">&lt;=</span> <span class="n">beta</span> <span class="o">&lt;</span> <span class="n">pi</span>
         <span class="k">assert</span> <span class="o">-</span><span class="n">pi</span> <span class="o">&lt;=</span> <span class="n">gamma</span> <span class="o">&lt;</span> <span class="n">pi</span>
 
-    <span class="k">if</span> <span class="n">alpha</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">7</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">alpha</span> <span class="o">&lt;</span> <span class="mf">1e-7</span><span class="p">:</span>
         <span class="n">beta</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">beta</span> <span class="o">+</span> <span class="n">gamma</span><span class="p">,</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span>
         <span class="n">gamma</span> <span class="o">=</span> <span class="mf">0.</span>
 
@@ -366,12 +366,12 @@
 <span class="n">d2r</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">r2d</span>
 
 
-<span class="k">def</span> <span class="nf">random_mt</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">scalar_moment</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">magnitude</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">random_mt</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scalar_moment</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">magnitude</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-    <span class="k">if</span> <span class="n">magnitude</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">magnitude</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">scalar_moment</span> <span class="o">=</span> <span class="n">magnitude_to_moment</span><span class="p">(</span><span class="n">magnitude</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
 
     <span class="n">evals</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mf">2.</span> <span class="o">-</span> <span class="mf">1.0</span>
@@ -384,8 +384,8 @@
     <span class="k">return</span> <span class="n">to6</span><span class="p">(</span><span class="n">random_mt</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
 
 
-<span class="k">def</span> <span class="nf">random_dc</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">scalar_moment</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">magnitude</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">magnitude</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">random_dc</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scalar_moment</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">magnitude</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">magnitude</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">scalar_moment</span> <span class="o">=</span> <span class="n">magnitude_to_moment</span><span class="p">(</span><span class="n">magnitude</span><span class="p">)</span>
 
     <span class="n">rotmat</span> <span class="o">=</span> <span class="n">random_rotation</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -393,9 +393,9 @@
 
 
 <span class="k">def</span> <span class="nf">sm</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
-    <span class="k">return</span> <span class="s">&quot;/ %5.2F %5.2F %5.2F </span><span class="se">\\\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span> <span class="o">+</span> \
-        <span class="s">&quot;| %5.2F %5.2F %5.2F |</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span> <span class="o">+</span> \
-        <span class="s">&quot;</span><span class="se">\\</span><span class="s"> %5.2F %5.2F %5.2F /</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="k">return</span> <span class="s2">&quot;/ </span><span class="si">%5.2F</span><span class="s2"> </span><span class="si">%5.2F</span><span class="s2"> </span><span class="si">%5.2F</span><span class="s2"> </span><span class="se">\\\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span> <span class="o">+</span> \
+        <span class="s2">&quot;| </span><span class="si">%5.2F</span><span class="s2"> </span><span class="si">%5.2F</span><span class="s2"> </span><span class="si">%5.2F</span><span class="s2"> |</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span> <span class="o">+</span> \
+        <span class="s2">&quot;</span><span class="se">\\</span><span class="s2"> </span><span class="si">%5.2F</span><span class="s2"> </span><span class="si">%5.2F</span><span class="s2"> </span><span class="si">%5.2F</span><span class="s2"> /</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 
 
 <span class="k">def</span> <span class="nf">as_mt</span><span class="p">(</span><span class="n">mt</span><span class="p">):</span>
@@ -405,7 +405,7 @@
         <span class="k">return</span> <span class="n">MomentTensor</span><span class="o">.</span><span class="n">from_values</span><span class="p">(</span><span class="n">mt</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="MomentTensor"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor">[docs]</a><span class="k">class</span> <span class="nc">MomentTensor</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor">[docs]</a><span class="k">class</span> <span class="nc">MomentTensor</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
 
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Moment tensor object</span>
@@ -424,14 +424,14 @@
     <span class="n">mne__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
     <span class="n">mnd__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">)</span>
     <span class="n">med__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
-    <span class="n">strike1__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>  <span class="c"># read-only</span>
-    <span class="n">dip1__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>  <span class="c"># read-only</span>
-    <span class="n">rake1__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>  <span class="c"># read-only</span>
-    <span class="n">strike2__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>  <span class="c"># read-only</span>
-    <span class="n">dip2__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>  <span class="c"># read-only</span>
-    <span class="n">rake2__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>  <span class="c"># read-only</span>
-    <span class="n">moment__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>  <span class="c"># read-only</span>
-    <span class="n">magnitude__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>  <span class="c"># read-only</span>
+    <span class="n">strike1__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># read-only</span>
+    <span class="n">dip1__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># read-only</span>
+    <span class="n">rake1__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># read-only</span>
+    <span class="n">strike2__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># read-only</span>
+    <span class="n">dip2__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># read-only</span>
+    <span class="n">rake2__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># read-only</span>
+    <span class="n">moment__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># read-only</span>
+    <span class="n">magnitude__</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># read-only</span>
 
     <span class="n">_flip_dc</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
         <span class="p">[[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
@@ -443,7 +443,7 @@
     <span class="n">_u_evals</span><span class="p">,</span> <span class="n">_u_evecs</span> <span class="o">=</span> <span class="n">eigh_check</span><span class="p">(</span><span class="n">_m_unrot</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="MomentTensor.random_dc"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.random_dc">[docs]</a>    <span class="k">def</span> <span class="nf">random_dc</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">scalar_moment</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">magnitude</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.random_dc"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.random_dc">[docs]</a>    <span class="k">def</span> <span class="nf">random_dc</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scalar_moment</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">magnitude</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Create random oriented double-couple moment tensor</span>
 
@@ -453,7 +453,7 @@
             <span class="n">m</span><span class="o">=</span><span class="n">random_dc</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">scalar_moment</span><span class="o">=</span><span class="n">scalar_moment</span><span class="p">,</span> <span class="n">magnitude</span><span class="o">=</span><span class="n">magnitude</span><span class="p">))</span></div>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="MomentTensor.random_mt"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.random_mt">[docs]</a>    <span class="k">def</span> <span class="nf">random_mt</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">scalar_moment</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">magnitude</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.random_mt"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.random_mt">[docs]</a>    <span class="k">def</span> <span class="nf">random_mt</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scalar_moment</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">magnitude</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Create random moment tensor</span>
 
@@ -465,7 +465,7 @@
             <span class="n">m</span><span class="o">=</span><span class="n">random_mt</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">scalar_moment</span><span class="o">=</span><span class="n">scalar_moment</span><span class="p">,</span> <span class="n">magnitude</span><span class="o">=</span><span class="n">magnitude</span><span class="p">))</span></div>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="MomentTensor.from_values"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.from_values">[docs]</a>    <span class="k">def</span> <span class="nf">from_values</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.from_values"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.from_values">[docs]</a>    <span class="k">def</span> <span class="nf">from_values</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Alternative constructor for moment tensor objects</span>
 
@@ -487,37 +487,37 @@
         <span class="k">return</span> <span class="n">MomentTensor</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="n">m</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">m_up_south_east</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">m_up_south_east</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">strike</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dip</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">rake</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">scalar_moment</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span>
-            <span class="n">mnn</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">mee</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">mdd</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">mne</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">mnd</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">med</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
-            <span class="n">strike1</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">dip1</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">rake1</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
-            <span class="n">strike2</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">dip2</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">rake2</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
-            <span class="n">magnitude</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">moment</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
+            <span class="n">mnn</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mee</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mdd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mne</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mnd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">med</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">strike1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dip1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rake1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">strike2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dip2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rake2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">magnitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">moment</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-        <span class="n">Object</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_props</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
+        <span class="n">Object</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_props</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">mxx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span> <span class="k">for</span> <span class="n">mxx</span> <span class="ow">in</span> <span class="p">(</span><span class="n">mnn</span><span class="p">,</span> <span class="n">mee</span><span class="p">,</span> <span class="n">mdd</span><span class="p">,</span> <span class="n">mne</span><span class="p">,</span> <span class="n">mnd</span><span class="p">,</span> <span class="n">med</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">mxx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">mxx</span> <span class="ow">in</span> <span class="p">(</span><span class="n">mnn</span><span class="p">,</span> <span class="n">mee</span><span class="p">,</span> <span class="n">mdd</span><span class="p">,</span> <span class="n">mne</span><span class="p">,</span> <span class="n">mnd</span><span class="p">,</span> <span class="n">med</span><span class="p">)):</span>
             <span class="n">m</span> <span class="o">=</span> <span class="n">symmat6</span><span class="p">(</span><span class="n">mnn</span><span class="p">,</span> <span class="n">mee</span><span class="p">,</span> <span class="n">mdd</span><span class="p">,</span> <span class="n">mne</span><span class="p">,</span> <span class="n">mnd</span><span class="p">,</span> <span class="n">med</span><span class="p">)</span>
 
         <span class="n">strike</span> <span class="o">=</span> <span class="n">d2r</span><span class="o">*</span><span class="n">strike</span>
         <span class="n">dip</span> <span class="o">=</span> <span class="n">d2r</span><span class="o">*</span><span class="n">dip</span>
         <span class="n">rake</span> <span class="o">=</span> <span class="n">d2r</span><span class="o">*</span><span class="n">rake</span>
 
-        <span class="k">if</span> <span class="n">m_up_south_east</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">m_up_south_east</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_up_south_east</span> <span class="o">*</span> <span class="n">m_up_south_east</span> <span class="o">*</span> \
                 <span class="bp">self</span><span class="o">.</span><span class="n">_to_up_south_east</span><span class="o">.</span><span class="n">T</span>
 
-        <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span>
                     <span class="n">strike1</span><span class="p">,</span> <span class="n">dip1</span><span class="p">,</span> <span class="n">rake1</span><span class="p">,</span> <span class="n">strike2</span><span class="p">,</span> <span class="n">dip2</span><span class="p">,</span> <span class="n">rake2</span><span class="p">)):</span>
                 <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                    <span class="s">&#39;strike1, dip1, rake1, strike2, dip2, rake2 are read-only &#39;</span>
-                    <span class="s">&#39;properties&#39;</span><span class="p">)</span>
+                    <span class="s1">&#39;strike1, dip1, rake1, strike2, dip2, rake2 are read-only &#39;</span>
+                    <span class="s1">&#39;properties&#39;</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">moment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">moment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">scalar_moment</span> <span class="o">=</span> <span class="n">moment</span>
 
-            <span class="k">if</span> <span class="n">magnitude</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">magnitude</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">scalar_moment</span> <span class="o">=</span> <span class="n">magnitude_to_moment</span><span class="p">(</span><span class="n">magnitude</span><span class="p">)</span>
 
             <span class="n">rotmat1</span> <span class="o">=</span> <span class="n">euler_to_matrix</span><span class="p">(</span><span class="n">dip</span><span class="p">,</span> <span class="n">strike</span><span class="p">,</span> <span class="o">-</span><span class="n">rake</span><span class="p">)</span>
@@ -631,7 +631,7 @@
     <span class="k">def</span> <span class="nf">rake2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">both_strike_dip_rake</span><span class="p">()[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
 
-<div class="viewcode-block" id="MomentTensor.both_strike_dip_rake"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.both_strike_dip_rake">[docs]</a>    <span class="k">def</span> <span class="nf">both_strike_dip_rake</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.both_strike_dip_rake"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.both_strike_dip_rake">[docs]</a>    <span class="k">def</span> <span class="nf">both_strike_dip_rake</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Get both possible (strike,dip,rake) triplets.&#39;&#39;&#39;</span>
         <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">rotmat</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rotmats</span><span class="p">:</span>
@@ -640,19 +640,19 @@
 
         <span class="k">return</span> <span class="n">results</span></div>
 
-<div class="viewcode-block" id="MomentTensor.p_axis"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.p_axis">[docs]</a>    <span class="k">def</span> <span class="nf">p_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.p_axis"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.p_axis">[docs]</a>    <span class="k">def</span> <span class="nf">p_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Get direction of p axis.&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_m_eigenvecs</span><span class="o">.</span><span class="n">T</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="MomentTensor.t_axis"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.t_axis">[docs]</a>    <span class="k">def</span> <span class="nf">t_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.t_axis"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.t_axis">[docs]</a>    <span class="k">def</span> <span class="nf">t_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Get direction of t axis.&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_m_eigenvecs</span><span class="o">.</span><span class="n">T</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="MomentTensor.null_axis"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.null_axis">[docs]</a>    <span class="k">def</span> <span class="nf">null_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.null_axis"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.null_axis">[docs]</a>    <span class="k">def</span> <span class="nf">null_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Get diretion of the null axis.&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_m_eigenvecs</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="MomentTensor.eigenvals"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.eigenvals">[docs]</a>    <span class="k">def</span> <span class="nf">eigenvals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.eigenvals"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.eigenvals">[docs]</a>    <span class="k">def</span> <span class="nf">eigenvals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Get the eigenvalues of the moment tensor in accending order.</span>
 
@@ -661,7 +661,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_m_eigenvals</span></div>
 
-<div class="viewcode-block" id="MomentTensor.eigensystem"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.eigensystem">[docs]</a>    <span class="k">def</span> <span class="nf">eigensystem</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.eigensystem"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.eigensystem">[docs]</a>    <span class="k">def</span> <span class="nf">eigensystem</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Get the eigenvalues and eigenvectors of the moment tensor.</span>
 
@@ -673,15 +673,15 @@
         <span class="n">ep</span><span class="p">,</span> <span class="n">en</span><span class="p">,</span> <span class="n">et</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_m_eigenvals</span>
         <span class="k">return</span> <span class="n">ep</span><span class="p">,</span> <span class="n">en</span><span class="p">,</span> <span class="n">et</span><span class="p">,</span> <span class="n">vp</span><span class="p">,</span> <span class="n">vn</span><span class="p">,</span> <span class="n">vt</span></div>
 
-<div class="viewcode-block" id="MomentTensor.both_slip_vectors"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.both_slip_vectors">[docs]</a>    <span class="k">def</span> <span class="nf">both_slip_vectors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.both_slip_vectors"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.both_slip_vectors">[docs]</a>    <span class="k">def</span> <span class="nf">both_slip_vectors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Get both possible slip directions.&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">rotmat</span><span class="o">*</span><span class="n">cvec</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)</span> <span class="k">for</span> <span class="n">rotmat</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rotmats</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="MomentTensor.m"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.m">[docs]</a>    <span class="k">def</span> <span class="nf">m</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.m"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.m">[docs]</a>    <span class="k">def</span> <span class="nf">m</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Get plain moment tensor as 3x3 matrix.&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_m</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="MomentTensor.m6"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.m6">[docs]</a>    <span class="k">def</span> <span class="nf">m6</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.m6"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.m6">[docs]</a>    <span class="k">def</span> <span class="nf">m6</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Get the moment tensor as a six-element array.</span>
 
@@ -689,29 +689,29 @@
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">to6</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_m</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="MomentTensor.m_up_south_east"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.m_up_south_east">[docs]</a>    <span class="k">def</span> <span class="nf">m_up_south_east</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.m_up_south_east"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.m_up_south_east">[docs]</a>    <span class="k">def</span> <span class="nf">m_up_south_east</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Get moment tensor in up-south-east convention as 3x3 matrix.&#39;&#39;&#39;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_up_south_east</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_m</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_up_south_east</span></div>
 
-<div class="viewcode-block" id="MomentTensor.m6_up_south_east"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.m6_up_south_east">[docs]</a>    <span class="k">def</span> <span class="nf">m6_up_south_east</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.m6_up_south_east"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.m6_up_south_east">[docs]</a>    <span class="k">def</span> <span class="nf">m6_up_south_east</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Get moment tensor in up-south-east convention as a six-element array.</span>
 
 <span class="sd">        :returns: ``(muu, mss, mee, mus, mue, mse)``</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">to6</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_up_south_east</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="MomentTensor.m_plain_double_couple"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.m_plain_double_couple">[docs]</a>    <span class="k">def</span> <span class="nf">m_plain_double_couple</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.m_plain_double_couple"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.m_plain_double_couple">[docs]</a>    <span class="k">def</span> <span class="nf">m_plain_double_couple</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Get plain double couple with same scalar moment as moment tensor.&#39;&#39;&#39;</span>
         <span class="n">rotmat1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rotmats</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">rotmat1</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">MomentTensor</span><span class="o">.</span><span class="n">_m_unrot</span> <span class="o">*</span> <span class="n">rotmat1</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalar_moment</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">m</span></div>
 
-<div class="viewcode-block" id="MomentTensor.moment_magnitude"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.moment_magnitude">[docs]</a>    <span class="k">def</span> <span class="nf">moment_magnitude</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.moment_magnitude"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.moment_magnitude">[docs]</a>    <span class="k">def</span> <span class="nf">moment_magnitude</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Get moment magnitude of moment tensor.&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">moment_to_magnitude</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scalar_moment</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="MomentTensor.scalar_moment"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.scalar_moment">[docs]</a>    <span class="k">def</span> <span class="nf">scalar_moment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.scalar_moment"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.scalar_moment">[docs]</a>    <span class="k">def</span> <span class="nf">scalar_moment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Get the scalar moment of the moment tensor (Frobenius norm based)</span>
 
@@ -743,10 +743,10 @@
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">mexp</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_m</span><span class="p">)))))</span>
         <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_m</span><span class="o">/</span><span class="n">mexp</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;Scalar Moment [Nm]: M0 = %g (Mw = %3.1f)</span>
-<span class="s">Moment Tensor [Nm]: Mnn = %6.3f,  Mee = %6.3f, Mdd = %6.3f,</span>
-<span class="s">                    Mne = %6.3f,  Mnd = %6.3f, Med = %6.3f    [ x %g ]</span>
-<span class="s">&#39;&#39;&#39;</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;Scalar Moment [Nm]: M0 = </span><span class="si">%g</span><span class="s1"> (Mw = </span><span class="si">%3.1f</span><span class="s1">)</span>
+<span class="s1">Moment Tensor [Nm]: Mnn = </span><span class="si">%6.3f</span><span class="s1">,  Mee = </span><span class="si">%6.3f</span><span class="s1">, Mdd = </span><span class="si">%6.3f</span><span class="s1">,</span>
+<span class="s1">                    Mne = </span><span class="si">%6.3f</span><span class="s1">,  Mnd = </span><span class="si">%6.3f</span><span class="s1">, Med = </span><span class="si">%6.3f</span><span class="s1">    [ x </span><span class="si">%g</span><span class="s1"> ]</span>
+<span class="s1">&#39;&#39;&#39;</span> <span class="o">%</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">scalar_moment</span><span class="p">(),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">moment_magnitude</span><span class="p">(),</span>
             <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
@@ -756,15 +756,15 @@
         <span class="k">return</span> <span class="n">s</span>
 
     <span class="k">def</span> <span class="nf">str_fault_planes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sdr</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">both_strike_dip_rake</span><span class="p">()):</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="s">&#39;Fault plane %i [deg]: &#39;</span> \
-                 <span class="s">&#39;strike = %3.0f, dip = %3.0f, slip-rake = %4.0f</span><span class="se">\n</span><span class="s">&#39;</span> \
+            <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;Fault plane </span><span class="si">%i</span><span class="s1"> [deg]: &#39;</span> \
+                 <span class="s1">&#39;strike = </span><span class="si">%3.0f</span><span class="s1">, dip = </span><span class="si">%3.0f</span><span class="s1">, slip-rake = </span><span class="si">%4.0f</span><span class="se">\n</span><span class="s1">&#39;</span> \
                  <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">sdr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sdr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sdr</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">s</span>
 
-<div class="viewcode-block" id="MomentTensor.deviatoric"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.deviatoric">[docs]</a>    <span class="k">def</span> <span class="nf">deviatoric</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.deviatoric"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.deviatoric">[docs]</a>    <span class="k">def</span> <span class="nf">deviatoric</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Get deviatoric part of moment tensor.</span>
 
@@ -779,7 +779,7 @@
         <span class="n">mt</span> <span class="o">=</span> <span class="n">MomentTensor</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="n">m_devi</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">mt</span></div>
 
-<div class="viewcode-block" id="MomentTensor.standard_decomposition"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.MomentTensor.standard_decomposition">[docs]</a>    <span class="k">def</span> <span class="nf">standard_decomposition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MomentTensor.standard_decomposition"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.MomentTensor.standard_decomposition">[docs]</a>    <span class="k">def</span> <span class="nf">standard_decomposition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Decompose moment tensor into isotropic, DC and CLVD components.</span>
 
 <span class="sd">        Standard decomposition according to e.g. Jost and Herrmann 1989 is</span>
@@ -794,7 +794,7 @@
 <span class="sd">            ]</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="n">epsilon</span> <span class="o">=</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">6</span>
+        <span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1e-6</span>
 
         <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">()</span>
 
@@ -874,9 +874,9 @@
         <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tqz</span><span class="p">)</span>
         <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;should not reach this line, check theory!&#39;</span><span class="p">)</span>
-        <span class="c"># q[0] = max(0.5 * math.sqrt(tqx), eps)</span>
-        <span class="c"># q[1:] = p[2] - b[1], p[0] + t[1], b[0] + t[2]</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;should not reach this line, check theory!&#39;</span><span class="p">)</span>
+        <span class="c1"># q[0] = max(0.5 * math.sqrt(tqx), eps)</span>
+        <span class="c1"># q[1:] = p[2] - b[1], p[0] + t[1], b[0] + t[2]</span>
 
     <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">/=</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
@@ -888,7 +888,7 @@
 <span class="n">_pbt2tpb</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">matrix</span><span class="p">(((</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)))</span>
 
 
-<div class="viewcode-block" id="kagan_angle"><a class="viewcode-back" href="../../reference_moment_tensor.html#pyrocko.moment_tensor.kagan_angle">[docs]</a><span class="k">def</span> <span class="nf">kagan_angle</span><span class="p">(</span><span class="n">mt1</span><span class="p">,</span> <span class="n">mt2</span><span class="p">):</span>
+<div class="viewcode-block" id="kagan_angle"><a class="viewcode-back" href="../../library/reference/moment_tensor.html#pyrocko.moment_tensor.kagan_angle">[docs]</a><span class="k">def</span> <span class="nf">kagan_angle</span><span class="p">(</span><span class="n">mt1</span><span class="p">,</span> <span class="n">mt2</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Given two moment tensors, return the Kagan angle in degrees.</span>
 
@@ -907,7 +907,7 @@
     <span class="k">return</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">r2d</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">qk</span><span class="p">)))</span></div>
 
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
 
     <span class="kn">import</span> <span class="nn">sys</span>
     <span class="n">v</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>

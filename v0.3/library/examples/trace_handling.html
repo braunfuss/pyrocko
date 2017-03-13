@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Seismic traces &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Dataset management" href="dataset_management.html" />
+    <link rel="prev" title="Examples" href="index.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Examples</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="seismic-traces">
+<h1>Seismic traces<a class="headerlink" href="#seismic-traces" title="Permalink to this headline">¶</a></h1>
+<p>Pyrocko can be used to handle and process seismic waveform data. The following
+examples describe usage of the <a class="reference internal" href="../reference/io.html#module-pyrocko.io" title="pyrocko.io"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.io</span></code></a> module to read and write
+seismological waveform data and the <a class="reference internal" href="../reference/trace.html#module-pyrocko.trace" title="pyrocko.trace"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.trace</span></code></a> module which offers
+basic signal processing functionality.</p>
+<p>Supported seismological waveform formats are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="44%" />
+<col width="15%" />
+<col width="13%" />
+<col width="10%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">format</th>
+<th class="head">format identifier</th>
+<th class="head">load</th>
+<th class="head">save</th>
+<th class="head">note</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>MiniSEED</td>
+<td>mseed</td>
+<td>yes</td>
+<td>yes</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>SAC</td>
+<td>sac</td>
+<td>yes</td>
+<td>yes</td>
+<td><a class="footnote-reference" href="#f1" id="id1">[1]</a></td>
+</tr>
+<tr class="row-even"><td>SEG Y rev1</td>
+<td>segy</td>
+<td>some</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>SEISAN</td>
+<td>seisan, seisan.l, seisan.b</td>
+<td>yes</td>
+<td>&nbsp;</td>
+<td><a class="footnote-reference" href="#f2" id="id2">[2]</a></td>
+</tr>
+<tr class="row-even"><td>KAN</td>
+<td>kan</td>
+<td>yes</td>
+<td>&nbsp;</td>
+<td><a class="footnote-reference" href="#f3" id="id3">[3]</a></td>
+</tr>
+<tr class="row-odd"><td>YAFF</td>
+<td>yaff</td>
+<td>yes</td>
+<td>yes</td>
+<td><a class="footnote-reference" href="#f4" id="id4">[4]</a></td>
+</tr>
+<tr class="row-even"><td>ASCII Table</td>
+<td>text</td>
+<td>&nbsp;</td>
+<td>yes</td>
+<td><a class="footnote-reference" href="#f5" id="id5">[5]</a></td>
+</tr>
+<tr class="row-odd"><td>GSE1</td>
+<td>gse1</td>
+<td>some</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>GSE2</td>
+<td>gse2</td>
+<td>yes</td>
+<td>yes</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>DATACUBE</td>
+<td>datacube</td>
+<td>yes</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>SUDS</td>
+<td>suds</td>
+<td>some</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>For SAC files, the endianness is guessed. Additional header
+information is stored in the <a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a>&#8216;s <code class="docutils literal"><span class="pre">meta</span></code> attribute.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>Seisan waveform files can be in little (<code class="docutils literal"><span class="pre">seisan.l</span></code>) or big endian
+(<code class="docutils literal"><span class="pre">seisan.b</span></code>) format. <code class="docutils literal"><span class="pre">seisan</span></code> currently is an alias for <code class="docutils literal"><span class="pre">seisan.l</span></code>.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>The KAN file format has only been seen once by the author, and support
+for it may be removed again.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>YAFF is an in-house, experimental file format, which should not be
+released into the wild.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td>ASCII tables with two columns (time and amplitude) are output - meta
+information will be lost.</td></tr>
+</tbody>
+</table>
+<div class="section" id="load-filter-and-save">
+<h2>Load, filter and save<a class="headerlink" href="#load-filter-and-save" title="Permalink to this headline">¶</a></h2>
+<p>Read a test file <a class="reference download internal" href="../../_downloads/test.mseed" download=""><code class="xref download docutils literal"><span class="pre">test.mseed</span></code></a> with
+<a class="reference internal" href="../reference/io.html#pyrocko.io.load" title="pyrocko.io.load"><code class="xref py py-func docutils literal"><span class="pre">pyrocko.io.load()</span></code></a>, containing a three component seismogram, apply
+Butterworth lowpass filter to the seismograms and dump the results to a new
+file with <a class="reference internal" href="../reference/io.html#pyrocko.io.save" title="pyrocko.io.save"><code class="xref py py-meth docutils literal"><span class="pre">pyrocko.io.save()</span></code></a>.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span>
+
+<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+    <span class="n">tr</span><span class="o">.</span><span class="n">lowpass</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">)</span>   <span class="c1"># 4th order, 0.02 Hz</span>
+
+<span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="s1">&#39;filtered.mseed&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Other filtering methods are <a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace.highpass" title="pyrocko.trace.Trace.highpass"><code class="xref py py-meth docutils literal"><span class="pre">pyrocko.trace.Trace.highpass()</span></code></a> and
+<a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace.bandpass" title="pyrocko.trace.Trace.bandpass"><code class="xref py py-meth docutils literal"><span class="pre">pyrocko.trace.Trace.bandpass()</span></code></a>.</p>
+<p>If more than a single file should be read, it is much more convenient to use
+Pyrocko&#8217;s <a class="reference internal" href="../reference/pile.html#module-pyrocko.pile" title="pyrocko.pile"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.pile</span></code></a> module instead of <a class="reference internal" href="../reference/io.html#pyrocko.io.load" title="pyrocko.io.load"><code class="xref py py-func docutils literal"><span class="pre">pyrocko.io.load()</span></code></a>. See
+section <a class="reference internal" href="dataset_management.html"><span class="doc">Dataset management</span></a> for examples on how to use
+it.</p>
+</div>
+<div class="section" id="visual-inspection-of-traces">
+<h2>Visual inspection of traces<a class="headerlink" href="#visual-inspection-of-traces" title="Permalink to this headline">¶</a></h2>
+<p>To visualize a single <a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a> object, use its
+<a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace.snuffle" title="pyrocko.trace.Trace.snuffle"><code class="xref py py-meth docutils literal"><span class="pre">snuffle()</span></code></a> method. To look at a list of traces, use
+the <a class="reference internal" href="../reference/trace.html#pyrocko.trace.snuffle" title="pyrocko.trace.snuffle"><code class="xref py py-func docutils literal"><span class="pre">pyrocko.trace.snuffle()</span></code></a> function. If you want to see the contents of
+a pile, the <a class="reference internal" href="../reference/pile.html#pyrocko.pile.Pile.snuffle" title="pyrocko.pile.Pile.snuffle"><code class="xref py py-meth docutils literal"><span class="pre">pyrocko.pile.Pile.snuffle()</span></code></a> method is your friend.
+Alternatively, you could of course save the traces to file and use the
+standalone <a class="reference internal" href="../../apps/snuffler/index.html"><span class="doc">Snuffler</span></a> to look at them.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span><span class="p">,</span> <span class="n">trace</span><span class="p">,</span> <span class="n">pile</span>
+
+<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">)</span>
+<span class="n">traces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">snuffle</span><span class="p">()</span> <span class="c1"># look at a single trace</span>
+<span class="n">trace</span><span class="o">.</span><span class="n">snuffle</span><span class="p">(</span><span class="n">traces</span><span class="p">)</span> <span class="c1"># look at a bunch of traces</span>
+
+<span class="c1"># do something with the traces:</span>
+<span class="n">new_traces</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+    <span class="n">new</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">new</span><span class="o">.</span><span class="n">whiten</span><span class="p">()</span>
+    <span class="c1"># to allow the viewer to distinguish the traces</span>
+    <span class="n">new</span><span class="o">.</span><span class="n">set_location</span><span class="p">(</span><span class="s1">&#39;whitened&#39;</span><span class="p">)</span>
+    <span class="n">new_traces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
+
+<span class="n">trace</span><span class="o">.</span><span class="n">snuffle</span><span class="p">(</span><span class="n">traces</span> <span class="o">+</span> <span class="n">new_traces</span><span class="p">)</span>
+
+<span class="c1"># it is also possible to &#39;snuffle&#39; a pile:</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">pile</span><span class="o">.</span><span class="n">make_pile</span><span class="p">([</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">])</span>
+<span class="n">p</span><span class="o">.</span><span class="n">snuffle</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If needed, station meta-information, event information, and marker objects can
+be passed into any of the <code class="docutils literal"><span class="pre">snuffle()</span></code> methods and  functions using keyword
+arguments.</p>
+</div>
+<div class="section" id="creating-a-trace-object-from-scratch">
+<h2>Creating a trace object from scratch<a class="headerlink" href="#creating-a-trace-object-from-scratch" title="Permalink to this headline">¶</a></h2>
+<p>Creates two <a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a> objects, fills them with noise (using
+<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.random.html#numpy.random.random" title="(in NumPy v1.12)"><code class="xref py py-func docutils literal"><span class="pre">numpy.random.random()</span></code></a>) and saves them with <a class="reference internal" href="../reference/io.html#pyrocko.io.save" title="pyrocko.io.save"><code class="xref py py-func docutils literal"><span class="pre">save()</span></code></a> to a
+single or to split files. For each <a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a> object the
+station name is defined, the channel name, the sampling interval (0.5 s) and
+the time onset (<code class="docutils literal"><span class="pre">tmin</span></code>).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">trace</span><span class="p">,</span> <span class="n">util</span><span class="p">,</span> <span class="n">io</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
+
+<span class="n">nsamples</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">tmin</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">str_to_time</span><span class="p">(</span><span class="s1">&#39;2010-02-20 15:15:30.100&#39;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">nsamples</span><span class="p">)</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="s1">&#39;TEST&#39;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="n">deltat</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span> <span class="n">ydata</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="s1">&#39;TEST&#39;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="n">deltat</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span> <span class="n">ydata</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">([</span><span class="n">t1</span><span class="p">,</span><span class="n">t2</span><span class="p">],</span> <span class="s1">&#39;my_precious_traces.mseed&#39;</span><span class="p">)</span>            <span class="c1"># all traces in one file</span>
+<span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">([</span><span class="n">t1</span><span class="p">,</span><span class="n">t2</span><span class="p">],</span> <span class="s1">&#39;my_precious_trace_</span><span class="si">%(channel)s</span><span class="s1">.mseed&#39;</span><span class="p">)</span> <span class="c1"># each file one channel</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="extracting-part-of-a-trace-trimming">
+<h2>Extracting part of a trace (trimming)<a class="headerlink" href="#extracting-part-of-a-trace-trimming" title="Permalink to this headline">¶</a></h2>
+<p>Trimming is achieved with the <a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace.chop" title="pyrocko.trace.Trace.chop"><code class="xref py py-meth docutils literal"><span class="pre">chop()</span></code></a> method. Here we
+cut 10 s from the beginning and the end of the example trace
+(<a class="reference download internal" href="../../_downloads/test.mseed" download=""><code class="xref download docutils literal"><span class="pre">test.mseed</span></code></a>).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span>
+
+<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">)</span>
+<span class="n">tr</span> <span class="o">=</span> <span class="n">traces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># reference first trace as tr</span>
+<span class="nb">print</span> <span class="s1">&#39;original:&#39;</span><span class="p">,</span> <span class="n">tr</span>
+
+<span class="c1"># extract a copy of a part of tr</span>
+<span class="n">tr_extracted</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">chop</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">tmin</span><span class="o">+</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">tmax</span><span class="o">-</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s1">&#39;extracted:&#39;</span><span class="p">,</span> <span class="n">tr_extracted</span>
+
+<span class="c1"># in-place operation modifies tr itself</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">chop</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">tmin</span><span class="o">+</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">tmax</span><span class="o">-</span><span class="mf">10.0</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s1">&#39;modified:&#39;</span><span class="p">,</span> <span class="n">tr</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="time-shifting-a-trace">
+<h2>Time shifting a trace<a class="headerlink" href="#time-shifting-a-trace" title="Permalink to this headline">¶</a></h2>
+<p>This example demonstrates how to time shift a trace by a given relative time or
+to a given absolute onset time with <a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace.shift" title="pyrocko.trace.Trace.shift"><code class="xref py py-meth docutils literal"><span class="pre">pyrocko.trace.Trace.shift()</span></code></a>.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span><span class="p">,</span> <span class="n">util</span>
+
+<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">)</span>
+<span class="n">tr</span> <span class="o">=</span> <span class="n">traces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># shift by 10 seconds backward in time</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mf">10.0</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">tr</span>
+
+<span class="c1"># shift to a new absolute onset time</span>
+<span class="n">tmin_new</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">str_to_time</span><span class="p">(</span><span class="s1">&#39;2009-04-06 01:32:42.000&#39;</span><span class="p">)</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">tmin_new</span> <span class="o">-</span> <span class="n">tr</span><span class="o">.</span><span class="n">tmin</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">tr</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="resampling-a-trace">
+<h2>Resampling a trace<a class="headerlink" href="#resampling-a-trace" title="Permalink to this headline">¶</a></h2>
+<p>Example for downsampling a trace in a file to a sampling rate with
+<a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace.downsample_to" title="pyrocko.trace.Trace.downsample_to"><code class="xref py py-meth docutils literal"><span class="pre">pyrocko.trace.Trace.downsample_to()</span></code></a>.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span><span class="p">,</span> <span class="n">trace</span>
+
+<span class="n">tr1</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">tr2</span> <span class="o">=</span> <span class="n">tr1</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">tr2</span><span class="o">.</span><span class="n">downsample_to</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+
+<span class="c1"># make them distinguishable</span>
+<span class="n">tr1</span><span class="o">.</span><span class="n">set_location</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">)</span>
+<span class="n">tr2</span><span class="o">.</span><span class="n">set_location</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">)</span>
+
+<span class="c1"># visualize with Snuffler</span>
+<span class="n">trace</span><span class="o">.</span><span class="n">snuffle</span><span class="p">([</span><span class="n">tr1</span><span class="p">,</span> <span class="n">tr2</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>To overlay the traces in Snuffler, right-click the mouse button and</p>
+<ul class="simple">
+<li>check &#8216;<em>Subsort ... (Grouped by Location)</em>&#8216;</li>
+<li>uncheck &#8216;<em>Show Boxes</em>&#8216;</li>
+<li>check &#8216;<em>Common Scale</em>&#8216;</li>
+</ul>
+</div>
+<div class="section" id="convert-sac-to-miniseed">
+<h2>Convert SAC to MiniSEED<a class="headerlink" href="#convert-sac-to-miniseed" title="Permalink to this headline">¶</a></h2>
+<p>A very basic SAC to MiniSEED converter:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+    <span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;sac&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.sac&#39;</span><span class="p">):</span>
+        <span class="n">out_filename</span> <span class="o">=</span> <span class="n">filename</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.mseed&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">out_filename</span> <span class="o">=</span> <span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;.mseed&#39;</span>
+
+    <span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="n">out_filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="convert-miniseed-to-ascii">
+<h2>Convert MiniSEED to ASCII<a class="headerlink" href="#convert-miniseed-to-ascii" title="Permalink to this headline">¶</a></h2>
+<p>An inefficient, non-portable, non-header-preserving, but simple, method to
+convert some MiniSEED traces to ASCII tables:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span>
+
+<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">it</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">traces</span><span class="p">):</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test-</span><span class="si">%i</span><span class="s1">.txt&#39;</span> <span class="o">%</span> <span class="n">it</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">tim</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">get_xdata</span><span class="p">(),</span> <span class="n">t</span><span class="o">.</span><span class="n">get_ydata</span><span class="p">()):</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span> <span class="s1">&#39;</span><span class="si">%20f</span><span class="s1"> </span><span class="si">%20g</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tim</span><span class="p">,</span><span class="n">val</span><span class="p">)</span> <span class="p">)</span>
+
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="finding-the-comparative-misfits-of-mulitple-traces">
+<h2>Finding the comparative misfits of mulitple traces<a class="headerlink" href="#finding-the-comparative-misfits-of-mulitple-traces" title="Permalink to this headline">¶</a></h2>
+<p>Three traces will be created, where one will be the used as a reference trace
+(<code class="docutils literal"><span class="pre">rt</span></code>).  Using <a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace.misfit" title="pyrocko.trace.Trace.misfit"><code class="xref py py-meth docutils literal"><span class="pre">pyrocko.trace.Trace.misfit()</span></code></a>, we can find the misfits
+of the other two traces (<code class="docutils literal"><span class="pre">tt1</span></code> and <code class="docutils literal"><span class="pre">tt2</span></code>) in comparision to <code class="docutils literal"><span class="pre">rt</span></code>.
+Traces <code class="docutils literal"><span class="pre">rt</span></code> and <code class="docutils literal"><span class="pre">tt1</span></code> will have the same y-data, so the misfit between
+them will be zero.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">trace</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">sqrt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
+
+<span class="c1"># Let&#39;s create three traces: One trace as the reference (rt) and two as test</span>
+<span class="c1"># traces (tt1 and tt2):</span>
+<span class="n">ydata1</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">ydata2</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">rt</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="s1">&#39;REF&#39;</span><span class="p">,</span> <span class="n">ydata</span><span class="o">=</span><span class="n">ydata1</span><span class="p">)</span>
+<span class="n">candidate1</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="s1">&#39;TT1&#39;</span><span class="p">,</span> <span class="n">ydata</span><span class="o">=</span><span class="n">ydata1</span><span class="p">)</span>
+<span class="n">candidate2</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="s1">&#39;TT2&#39;</span><span class="p">,</span> <span class="n">ydata</span><span class="o">=</span><span class="n">ydata2</span><span class="p">)</span>
+
+<span class="c1"># Define a fader to apply before fft.</span>
+<span class="n">taper</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">CosFader</span><span class="p">(</span><span class="n">xfade</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
+
+<span class="c1"># Define a frequency response to apply before performing the inverse fft.</span>
+<span class="c1"># This can be basically any funtion, as long as it contains a function called</span>
+<span class="c1"># *evaluate*, which evaluates the frequency response function at a given list</span>
+<span class="c1"># of frequencies.</span>
+<span class="c1"># Please refer to the :class:`FrequencyResponse` class or its subclasses for</span>
+<span class="c1"># examples.</span>
+<span class="c1"># However, we are going to use a butterworth low-pass filter in this example.</span>
+<span class="n">bw_filter</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">ButterworthResponse</span><span class="p">(</span><span class="n">corner</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+                                      <span class="n">order</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                      <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;low&#39;</span><span class="p">)</span>
+
+<span class="c1"># Combine all information in one misfit setup:</span>
+<span class="n">setup</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">MisfitSetup</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;An Example Setup&#39;</span><span class="p">,</span>
+                          <span class="n">norm</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                          <span class="n">taper</span><span class="o">=</span><span class="n">taper</span><span class="p">,</span>
+                          <span class="nb">filter</span><span class="o">=</span><span class="n">bw_filter</span><span class="p">,</span>
+                          <span class="n">domain</span><span class="o">=</span><span class="s1">&#39;time_domain&#39;</span><span class="p">)</span>
+
+<span class="c1"># Calculate misfits of each candidate against the reference trace:</span>
+<span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="p">[</span><span class="n">candidate1</span><span class="p">,</span> <span class="n">candidate2</span><span class="p">]:</span>
+    <span class="n">misfit</span> <span class="o">=</span> <span class="n">rt</span><span class="o">.</span><span class="n">misfit</span><span class="p">(</span><span class="n">candidate</span><span class="o">=</span><span class="n">candidate</span><span class="p">,</span> <span class="n">setup</span><span class="o">=</span><span class="n">setup</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="s1">&#39;misfit: </span><span class="si">%s</span><span class="s1">, normalization: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">misfit</span>
+
+<span class="c1"># Finally, dump the misfit setup that has been used as a yaml file for later</span>
+<span class="c1"># re-use:</span>
+<span class="n">setup</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;my_misfit_setup.txt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If we wanted to reload our misfit setup, <code class="xref py py-mod docutils literal"><span class="pre">pyrocko.guts</span></code> provides the
+<code class="docutils literal"><span class="pre">iload_all()</span></code> method for that purpose:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko.guts</span> <span class="k">import</span> <span class="n">load</span>
+<span class="kn">from</span> <span class="nn">pyrocko.trace</span> <span class="k">import</span> <span class="n">MisfitSetup</span>
+
+<span class="n">setup</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;my_misfit_setup.txt&#39;</span><span class="p">)</span>
+
+<span class="c1"># now we can change, for example, the domain:</span>
+<span class="n">setup</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="s1">&#39;frequency_domain&#39;</span>
+
+<span class="nb">print</span> <span class="n">setup</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="restitute-to-displacement-using-poles-and-zeros">
+<h2>Restitute to displacement using poles and zeros<a class="headerlink" href="#restitute-to-displacement-using-poles-and-zeros" title="Permalink to this headline">¶</a></h2>
+<p>Often we want to deconvolve instrument responses from seismograms. The method
+<a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace.transfer" title="pyrocko.trace.Trace.transfer"><code class="xref py py-meth docutils literal"><span class="pre">pyrocko.trace.Trace.transfer()</span></code></a> implements a convolution with a transfer
+function in the frequency domain. This method takes as argument a transfer
+function object which &#8216;knows&#8217; how to compute values of the transfer function at
+given frequencies. The trace module provides a few different transfer
+functions, but it is also possible to write a custom transfer function. For a
+transfer function given as poles and zeros, we can use instances of the class
+<a class="reference internal" href="../reference/trace.html#pyrocko.trace.PoleZeroResponse" title="pyrocko.trace.PoleZeroResponse"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.trace.PoleZeroResponse</span></code></a>. There is also a class
+<code class="xref py py-class docutils literal"><span class="pre">pyrocko.trace.InverseEvalrespResponse</span></code>, which uses the common <code class="docutils literal"><span class="pre">RESP</span></code>
+files through the <code class="docutils literal"><span class="pre">evalresp</span></code> library.</p>
+<p>Here is a complete example using a SAC pole-zero file
+(<a class="reference download internal" href="../../_downloads/STS2-Generic.polezero.txt" download=""><code class="xref download docutils literal"><span class="pre">STS2-Generic.polezero.txt</span></code></a>) to
+deconvolve the transfer function from an example seismogram:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">pz</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">trace</span>
+
+<span class="c1"># read poles and zeros from SAC format pole-zero file</span>
+<span class="n">zeros</span><span class="p">,</span> <span class="n">poles</span><span class="p">,</span> <span class="n">constant</span> <span class="o">=</span> <span class="n">pz</span><span class="o">.</span><span class="n">read_sac_zpk</span><span class="p">(</span><span class="s1">&#39;STS2-Generic.polezero.txt&#39;</span><span class="p">)</span>
+
+<span class="n">zeros</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.0</span><span class="n">j</span><span class="p">)</span>  <span class="c1"># one more for displacement</span>
+
+<span class="c1"># create pole-zero response function object for restitution, so poles and zeros</span>
+<span class="c1"># from the response file are swapped here.</span>
+<span class="n">rest_sts2</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">PoleZeroResponse</span><span class="p">(</span><span class="n">poles</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="mf">1.</span><span class="o">/</span><span class="n">constant</span><span class="p">)</span>
+
+<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">)</span>
+<span class="n">out_traces</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+
+    <span class="n">displacement</span> <span class="o">=</span>  <span class="n">trace</span><span class="o">.</span><span class="n">transfer</span><span class="p">(</span>
+        <span class="mf">1000.</span><span class="p">,</span>                       <span class="c1"># rise and fall of time domain taper in [s]</span>
+        <span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.002</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">),</span>     <span class="c1"># frequency domain taper in [Hz]</span>
+        <span class="n">transfer_function</span><span class="o">=</span><span class="n">rest_sts2</span><span class="p">)</span>
+
+    <span class="c1"># change channel id, so we can distinguish the traces in a trace viewer.</span>
+    <span class="n">displacement</span><span class="o">.</span><span class="n">set_codes</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="o">+</span><span class="n">trace</span><span class="o">.</span><span class="n">channel</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="n">out_traces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">displacement</span><span class="p">)</span>
+
+<span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">out_traces</span><span class="p">,</span> <span class="s1">&#39;displacement.mseed&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dataset_management.html" title="Dataset management"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Examples"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

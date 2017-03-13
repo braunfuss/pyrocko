@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Traveltime calculation and raytracing &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Calculation of Green’s function databases" href="gf_store.html" />
+    <link rel="prev" title="Plotting functions" href="plotting.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Examples</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="traveltime-calculation-and-raytracing">
+<h1>Traveltime calculation and raytracing<a class="headerlink" href="#traveltime-calculation-and-raytracing" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="travel-time-table-interpolation">
+<h2>Travel time table interpolation<a class="headerlink" href="#travel-time-table-interpolation" title="Permalink to this headline">¶</a></h2>
+<p>This example demonstrates how to interpolate and query travel time tables.</p>
+<dl class="docutils">
+<dt>Classes covered in this example:</dt>
+<dd><ul class="first last simple">
+<li><code class="xref py py-class docutils literal"><span class="pre">pyrocko.spit.SPTree</span></code> (interpolation of travel time tables)</li>
+<li><a class="reference internal" href="../reference/gf.html#pyrocko.gf.meta.TPDef" title="pyrocko.gf.meta.TPDef"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.gf.meta.TPDef</span></code></a> (phase definitions)</li>
+<li><a class="reference internal" href="../reference/gf.html#pyrocko.gf.meta.Timing" title="pyrocko.gf.meta.Timing"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.gf.meta.Timing</span></code></a> (onset definition to query the travel
+time tables)</li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">spit</span><span class="p">,</span> <span class="n">cake</span>
+<span class="kn">from</span> <span class="nn">pyrocko.gf</span> <span class="k">import</span> <span class="n">meta</span>
+
+
+<span class="c1"># Define a list of phases.</span>
+<span class="n">phase_defs</span> <span class="o">=</span> <span class="p">[</span><span class="n">meta</span><span class="o">.</span><span class="n">TPDef</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="n">definition</span><span class="o">=</span><span class="s1">&#39;p&#39;</span><span class="p">),</span>
+              <span class="n">meta</span><span class="o">.</span><span class="n">TPDef</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="n">definition</span><span class="o">=</span><span class="s1">&#39;P&#39;</span><span class="p">)]</span>
+
+<span class="c1"># Load a velocity model. In this example use the default AK135.</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">cake</span><span class="o">.</span><span class="n">load_model</span><span class="p">()</span>
+
+<span class="c1"># Time and space tolerance thresholds defining the accuracy of the</span>
+<span class="c1"># :py:class:`pyrocko.spit.SPTree`.</span>
+<span class="n">t_tolerance</span> <span class="o">=</span> <span class="mf">0.1</span>                           <span class="c1"># in seconds</span>
+<span class="n">x_tolerance</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mf">100.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">))</span>       <span class="c1"># in meters</span>
+
+<span class="c1"># Boundaries of the grid.</span>
+<span class="n">xmin</span> <span class="o">=</span> <span class="mf">0.</span>
+<span class="n">xmax</span> <span class="o">=</span> <span class="mi">20000</span>
+<span class="n">zmin</span> <span class="o">=</span> <span class="mf">0.</span>
+<span class="n">zmax</span> <span class="o">=</span> <span class="mi">11000</span>
+<span class="n">x_bounds</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">array</span><span class="p">(((</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">),</span> <span class="p">(</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">)))</span>
+
+<span class="c1"># In this example the receiver is located at the surface.</span>
+<span class="n">receiver_depth</span> <span class="o">=</span> <span class="mf">0.</span>
+
+<span class="n">interpolated_tts</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">phase_def</span> <span class="ow">in</span> <span class="n">phase_defs</span><span class="p">:</span>
+    <span class="n">v_horizontal</span> <span class="o">=</span> <span class="n">phase_def</span><span class="o">.</span><span class="n">horizontal_velocities</span>
+
+    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Calculate arrival using source and receiver location</span>
+<span class="sd">        defined by *args*. To be evaluated by the SPTree instance.&#39;&#39;&#39;</span>
+        <span class="n">source_depth</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">args</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Calculate arrivals</span>
+        <span class="n">rays</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">arrivals</span><span class="p">(</span>
+            <span class="n">phases</span><span class="o">=</span><span class="n">phase_def</span><span class="o">.</span><span class="n">phases</span><span class="p">,</span>
+            <span class="n">distances</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="o">*</span><span class="n">cake</span><span class="o">.</span><span class="n">m2d</span><span class="p">],</span>
+            <span class="n">zstart</span><span class="o">=</span><span class="n">source_depth</span><span class="p">,</span>
+            <span class="n">zstop</span><span class="o">=</span><span class="n">receiver_depth</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">ray</span> <span class="ow">in</span> <span class="n">rays</span><span class="p">:</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ray</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">v_horizontal</span><span class="p">:</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="p">(</span><span class="n">v</span><span class="o">*</span><span class="mf">1000.</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">t</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># Creat a :py:class:`pyrocko.spit.SPTree` interpolator.</span>
+    <span class="n">sptree</span> <span class="o">=</span> <span class="n">spit</span><span class="o">.</span><span class="n">SPTree</span><span class="p">(</span>
+        <span class="n">f</span><span class="o">=</span><span class="n">evaluate</span><span class="p">,</span>
+        <span class="n">ftol</span><span class="o">=</span><span class="n">t_tolerance</span><span class="p">,</span>
+        <span class="n">xbounds</span><span class="o">=</span><span class="n">x_bounds</span><span class="p">,</span>
+        <span class="n">xtols</span><span class="o">=</span><span class="n">x_tolerance</span><span class="p">)</span>
+
+    <span class="c1"># Store the result in a dictionary which is later used to retrieve an</span>
+    <span class="c1"># SPTree (value) for each phase_id (key).</span>
+    <span class="n">interpolated_tts</span><span class="p">[</span><span class="n">phase_def</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">sptree</span>
+
+    <span class="c1"># Dump the sptree for later reuse:</span>
+    <span class="n">sptree</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;sptree_</span><span class="si">%s</span><span class="s1">.yaml&#39;</span> <span class="o">%</span> <span class="n">phase_def</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+<span class="c1"># Define a :py:class:`pyrocko.gf.meta.Timing` instance.</span>
+<span class="n">timing</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">Timing</span><span class="p">(</span><span class="s1">&#39;first(p|P)&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># If only one interpolated onset is need at a time you can retrieve</span>
+<span class="c1"># that value as follows:</span>
+<span class="c1"># First argument has to be a function which takes a requested *phase_id*</span>
+<span class="c1"># and returns the associated :py:class:`pyrocko.spit.SPTree` instance.</span>
+<span class="c1"># Second argument is a tuple of distance and source depth.</span>
+<span class="n">z_want</span> <span class="o">=</span> <span class="mf">5000.</span>
+<span class="n">x_want</span> <span class="o">=</span> <span class="mf">2000.</span>
+<span class="n">one_onset</span> <span class="o">=</span> <span class="n">timing</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">interpolated_tts</span><span class="p">[</span><span class="n">x</span><span class="p">],</span>
+                            <span class="p">(</span><span class="n">z_want</span><span class="p">,</span> <span class="n">x_want</span><span class="p">))</span>
+<span class="nb">print</span> <span class="s1">&#39;a single arrival: &#39;</span><span class="p">,</span> <span class="n">one_onset</span>
+
+
+<span class="c1"># But if you have many locations for which you would like to calculate the</span>
+<span class="c1"># onset time the following is the preferred way as it is much faster</span>
+<span class="c1"># on large coordinate arrays.</span>
+<span class="c1"># x_want is now an array of 10000 distances</span>
+<span class="n">x_want</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+
+<span class="c1"># Coords is set up of distances-depth-pairs</span>
+<span class="n">coords</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">x_want</span><span class="p">,</span> <span class="n">num</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">z_want</span><span class="p">,</span> <span class="n">x_want</span><span class="o">.</span><span class="n">shape</span><span class="p">)))</span><span class="o">.</span><span class="n">T</span>
+
+<span class="c1"># *interpolate_many* then interpolates onset times for each of these</span>
+<span class="c1"># pairs.</span>
+<span class="n">tts</span> <span class="o">=</span> <span class="n">interpolated_tts</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">interpolate_many</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+
+<span class="c1"># Plot distance vs. onset time</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_want</span><span class="p">,</span> <span class="n">tts</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="gf_store.html" title="Calculation of Green’s function databases"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="plotting.html" title="Plotting functions"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>

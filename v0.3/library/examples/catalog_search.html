@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Earthquake catalog search &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Geodesic functions" href="orthodrome.html" />
+    <link rel="prev" title="Downloading seismic data (FDSN)" href="fdsn_download.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Examples</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="earthquake-catalog-search">
+<h1>Earthquake catalog search<a class="headerlink" href="#earthquake-catalog-search" title="Permalink to this headline">¶</a></h1>
+<p>Pyrocko provides access to some online earthquake catalogs via the
+<a class="reference internal" href="../reference/catalog.html#module-pyrocko.catalog" title="pyrocko.catalog"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.catalog</span></code></a> module.</p>
+<div class="section" id="searching-the-globalcmt-catalog">
+<h2>Searching the GlobalCMT catalog<a class="headerlink" href="#searching-the-globalcmt-catalog" title="Permalink to this headline">¶</a></h2>
+<p>This example demonstrates how to query the <a class="reference external" href="http://www.globalcmt.org/">GlobalCMT</a> <a class="footnote-reference" href="#f1" id="id1">[1]</a> database for events which occurred in 2011
+in northern Chile.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">catalog</span><span class="p">,</span> <span class="n">util</span><span class="p">,</span> <span class="n">model</span>
+
+<span class="n">tmin</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">str_to_time</span><span class="p">(</span><span class="s1">&#39;2011-01-01 00:00:00&#39;</span><span class="p">)</span>  <span class="c1"># beginning time of query</span>
+<span class="n">tmax</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">str_to_time</span><span class="p">(</span><span class="s1">&#39;2011-12-31 23:59:59&#39;</span><span class="p">)</span>
+
+<span class="c1"># create an instance of the global CMT catalog</span>
+<span class="n">global_cmt_catalog</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">GlobalCMT</span><span class="p">()</span>
+
+<span class="c1"># query the catalog</span>
+<span class="n">events</span> <span class="o">=</span> <span class="n">global_cmt_catalog</span><span class="o">.</span><span class="n">get_events</span><span class="p">(</span>
+    <span class="n">time_range</span><span class="o">=</span><span class="p">(</span><span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span><span class="p">),</span>
+    <span class="n">magmin</span><span class="o">=</span><span class="mf">2.</span><span class="p">,</span>
+    <span class="n">latmin</span><span class="o">=-</span><span class="mf">35.</span><span class="p">,</span>
+    <span class="n">latmax</span><span class="o">=-</span><span class="mf">20.</span><span class="p">,</span>
+    <span class="n">lonmin</span><span class="o">=-</span><span class="mf">76.</span><span class="p">,</span>
+    <span class="n">lonmax</span><span class="o">=-</span><span class="mf">65.</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="s1">&#39;Downloaded </span><span class="si">%s</span><span class="s1"> events&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s1">&#39;The last one is:&#39;</span>
+<span class="nb">print</span> <span class="n">events</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># dump events to catalog</span>
+<span class="n">model</span><span class="o">.</span><span class="n">dump_events</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="s1">&#39;northern_chile_events.txt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We expect to see the following output:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>Downloaded 53 events
+The last one is
+--- !pf.Event
+lat: -28.03
+lon: -71.55
+time: 2011-12-07 22:23:14.250000
+name: 201112072223A
+depth: 22800.0
+magnitude: 6.106838394015895
+region: NEAR COAST OF NORTHERN C
+catalog: gCMT
+moment_tensor: !pf.MomentTensor
+  mnn: 1.16e+17
+  mee: -1.24e+18
+  mdd: 1.1200000000000001e+18
+  mne: 1.29e+17
+  mnd: 1.61e+17
+  med: 1.0900000000000001e+18
+  strike1: 16.540029329929244
+  dip1: 24.774772153067424
+  rake1: 109.14904335232158
+  strike2: 175.61123518070136
+  dip2: 66.6800337700307
+  rake2: 81.39111828783355
+  moment: 1.622772319211786e+18
+  magnitude: 6.106838394015895
+duration: 5.4
+</pre></div>
+</div>
+</div>
+<div class="section" id="search-for-an-event-in-geofon-catalog">
+<h2>Search for an event in Geofon catalog<a class="headerlink" href="#search-for-an-event-in-geofon-catalog" title="Permalink to this headline">¶</a></h2>
+<p>Search for an event name only in the <a class="reference external" href="http://geofon.gfz-potsdam.de">Geofon</a>
+catalog <a class="footnote-reference" href="#f2" id="id2">[2]</a> using <a class="reference internal" href="../reference/catalog.html#pyrocko.catalog.Geofon" title="pyrocko.catalog.Geofon"><code class="xref py py-meth docutils literal"><span class="pre">Geofon()</span></code></a>, with a given magnitude
+range and timeframe.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">catalog</span><span class="p">,</span> <span class="n">util</span>
+
+<span class="n">tmin</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">ctimegm</span><span class="p">(</span><span class="s1">&#39;2010-01-12 21:50:00&#39;</span><span class="p">)</span>
+<span class="n">tmax</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">ctimegm</span><span class="p">(</span><span class="s1">&#39;2010-01-13 03:17:00&#39;</span><span class="p">)</span>  <span class="c1"># ending time of query</span>
+<span class="n">mag</span> <span class="o">=</span> <span class="mf">6.</span>                                    <span class="c1"># minimum magntiude (open end)</span>
+
+<span class="c1"># download event information from GEOFON web page</span>
+
+<span class="n">geofon</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">Geofon</span><span class="p">()</span>
+<span class="n">event_names</span> <span class="o">=</span> <span class="n">geofon</span><span class="o">.</span><span class="n">get_event_names</span><span class="p">(</span>
+    <span class="n">time_range</span><span class="o">=</span><span class="p">(</span><span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span><span class="p">),</span>
+    <span class="n">magmin</span><span class="o">=</span><span class="n">mag</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">event_name</span> <span class="ow">in</span> <span class="n">event_names</span><span class="p">:</span>
+    <span class="n">event</span> <span class="o">=</span> <span class="n">geofon</span><span class="o">.</span><span class="n">get_event</span><span class="p">(</span><span class="n">event_name</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="n">event</span>
+</pre></div>
+</div>
+<p>We expect to see the following output (in YAML format):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>--- !pf.Event
+lat: 18.37
+lon: -72.55
+time: 2010-01-12 21:53:11
+name: gfz2010avtm
+depth: 17000.0
+magnitude: 7.2
+region: Haiti Region
+catalog: GEOFON
+</pre></div>
+</div>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Dziewonski, A. M., T.-A. Chou and J. H. Woodhouse, Determination of earthquake source parameters from waveform data for studies of global and regional seismicity, J. Geophys. Res., 86, 2825-2852, 1981. doi:10.1029/JB086iB04p02825</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>GEOFON Data Centre (1993): GEOFON Seismic Network. Deutsches GeoForschungsZentrum GFZ. Other/Seismic Network. doi:10.14470/TR560404.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="orthodrome.html" title="Geodesic functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="fdsn_download.html" title="Downloading seismic data (FDSN)"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>
