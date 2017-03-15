@@ -88,7 +88,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>) &#8211; Continunous data to be clipped</li>
+<li><strong>x</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>) &#8211; Continunous data to be clipped</li>
 <li><strong>mi</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Clip minimum</li>
 <li><strong>ma</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Clip maximum</li>
 </ul>
@@ -97,7 +97,7 @@
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Clipped data</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></p>
 </td>
 </tr>
 </tbody>
@@ -117,7 +117,7 @@ x_{\mathrm{wrapped}}\; \in
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>) &#8211; Continunous data to be wrapped</li>
+<li><strong>x</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>) &#8211; Continunous data to be wrapped</li>
 <li><strong>mi</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Minimum value of wrapped data</li>
 <li><strong>ma</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Maximum value of wrapped data</li>
 </ul>
@@ -126,7 +126,7 @@ x_{\mathrm{wrapped}}\; \in
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Wrapped data</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></p>
 </td>
 </tr>
 </tbody>
@@ -173,7 +173,7 @@ For numerical stability a maximum of 1.0 is enforced.</p>
 on a sphere.</p>
 <p>This function returns the cosines of the distance
 angles <em>delta</em> between two points <code class="docutils literal"><span class="pre">a</span></code> and <code class="docutils literal"><span class="pre">b</span></code> given as
-<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>.
+<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>.
 The coordinates are expected to be given in geographical coordinates
 and in degrees. For numerical stability a maximum of <code class="docutils literal"><span class="pre">1.0</span></code> is enforced.</p>
 <p>Please find the details of the implementation in the documentation of
@@ -183,10 +183,10 @@ the function <a class="reference internal" href="#pyrocko.orthodrome.cosdelta" t
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>a_lats</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>) &#8211; Latitudes (degree) point A</li>
-<li><strong>a_lons</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>) &#8211; Longitudes (degree) point A</li>
-<li><strong>b_lats</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>) &#8211; Latitudes (degree) point B</li>
-<li><strong>b_lons</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point B</li>
+<li><strong>a_lats</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>) &#8211; Latitudes (degree) point A</li>
+<li><strong>a_lons</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>) &#8211; Longitudes (degree) point A</li>
+<li><strong>b_lats</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>) &#8211; Latitudes (degree) point B</li>
+<li><strong>b_lons</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point B</li>
 </ul>
 </td>
 </tr>
@@ -230,7 +230,7 @@ which are expected to be given in geographical coordinates and in degrees.</p>
 <code class="descname">azimuth_numpy</code><span class="sig-paren">(</span><em>a_lats</em>, <em>a_lons</em>, <em>b_lats</em>, <em>b_lons</em>, <em>_cosdelta=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#azimuth_numpy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.azimuth_numpy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculation of the azimuth (<em>track angle</em>) from a location A towards B.</p>
 <p>This function returns azimuths (<em>track angles</em>) from locations A towards B
-given in <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>. Coordinates are expected to be given in
+given in <code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>. Coordinates are expected to be given in
 geographical coordinates and in degrees.</p>
 <p>Please find the details of the implementation in the documentation of the
 function <a class="reference internal" href="#pyrocko.orthodrome.azimuth" title="pyrocko.orthodrome.azimuth"><code class="xref py py-func docutils literal"><span class="pre">pyrocko.orthodrome.azimuth()</span></code></a>.</p>
@@ -239,17 +239,17 @@ function <a class="reference internal" href="#pyrocko.orthodrome.azimuth" title=
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>a_lats</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Latitudes (degree) point A</li>
-<li><strong>a_lons</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point A</li>
-<li><strong>b_lats</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Latitudes (degree) point B</li>
-<li><strong>b_lons</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point B</li>
+<li><strong>a_lats</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Latitudes (degree) point A</li>
+<li><strong>a_lons</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point A</li>
+<li><strong>b_lats</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Latitudes (degree) point B</li>
+<li><strong>b_lons</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point B</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Azimuths in degrees</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code></p>
 </td>
 </tr>
 </tbody>
@@ -278,17 +278,17 @@ locations A towards B on a sphere.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>a_lats</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Latitudes (degree) point A</li>
-<li><strong>a_lons</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point A</li>
-<li><strong>b_lats</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Latitudes (degree) point B</li>
-<li><strong>b_lons</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point B</li>
+<li><strong>a_lats</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Latitudes (degree) point A</li>
+<li><strong>a_lons</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point A</li>
+<li><strong>b_lats</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Latitudes (degree) point B</li>
+<li><strong>b_lons</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point B</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Azimuths in degrees, distances in degrees</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(2xN)</span></code></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(2xN)</span></code></p>
 </td>
 </tr>
 </tbody>
@@ -383,17 +383,17 @@ D_{AB,i} = D_{\mathrm{sphere},i} \cdot [1 + h_{1,i}
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>a_lats</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Latitudes (degree) point A</li>
-<li><strong>a_lons</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point A</li>
-<li><strong>b_lats</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Latitudes (degree) point B</li>
-<li><strong>b_lons</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point B</li>
+<li><strong>a_lats</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Latitudes (degree) point A</li>
+<li><strong>a_lons</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point A</li>
+<li><strong>b_lats</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Latitudes (degree) point B</li>
+<li><strong>b_lons</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Longitudes (degree) point B</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Distances in degrees</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code></p>
 </td>
 </tr>
 </tbody>
@@ -405,7 +405,7 @@ D_{AB,i} = D_{\mathrm{sphere},i} \cdot [1 + h_{1,i}
 <code class="descname">ne_to_latlon</code><span class="sig-paren">(</span><em>lat0</em>, <em>lon0</em>, <em>north_m</em>, <em>east_m</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/orthodrome.html#ne_to_latlon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.orthodrome.ne_to_latlon" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transform local cartesian coordinates to latitude and longitude.</p>
 <p>From east and north coordinates (<code class="docutils literal"><span class="pre">x</span></code> and <code class="docutils literal"><span class="pre">y</span></code> coordinate
-<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>)  relative to a reference differences in
+<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>)  relative to a reference differences in
 longitude and latitude are calculated, which are effectively changes in
 azimuth and distance, respectively:</p>
 <div class="math">
@@ -420,15 +420,15 @@ azimuth and distance, respectively:</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>lat0</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Latitude origin of the cartesian coordinate system.</li>
 <li><strong>lon0</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Longitude origin of the cartesian coordinate system.</li>
-<li><strong>north_m</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Northing distances from origin in meters.</li>
-<li><strong>east_m</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Easting distances from origin in meters.</li>
+<li><strong>north_m</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Northing distances from origin in meters.</li>
+<li><strong>east_m</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Easting distances from origin in meters.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Array with latitudes and longitudes</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(2xN)</span></code></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(2xN)</span></code></p>
 </td>
 </tr>
 </tbody>
@@ -471,15 +471,15 @@ enforced for <code class="docutils literal"><span class="pre">c</span></code> an
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>lat0</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Latitude origin of the cartesian coordinate system.</li>
 <li><strong>lon0</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Longitude origin of the cartesian coordinate system.</li>
-<li><strong>distance_rad</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Distances from origin in radians.</li>
-<li><strong>azimuth_rad</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Azimuth from radians.</li>
+<li><strong>distance_rad</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Distances from origin in radians.</li>
+<li><strong>azimuth_rad</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Azimuth from radians.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Array with latitudes and longitudes</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(2xN)</span></code></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(2xN)</span></code></p>
 </td>
 </tr>
 </tbody>
@@ -521,15 +521,15 @@ c &amp;= \begin{cases}
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>lat0</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Latitude origin of the cartesian coordinate system.</li>
 <li><strong>lon0</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Longitude origin of the cartesian coordinate system.</li>
-<li><strong>north_m</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Northing distances from origin in meters.</li>
-<li><strong>east_m</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Easting distances from origin in meters.</li>
+<li><strong>north_m</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Northing distances from origin in meters.</li>
+<li><strong>east_m</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; Easting distances from origin in meters.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Array with latitudes and longitudes</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(2xN)</span></code></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(2xN)</span></code></p>
 </td>
 </tr>
 </tbody>
@@ -594,7 +594,7 @@ and <a class="reference internal" href="#pyrocko.orthodrome.distance_accurate50m
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">(n,</span> <span class="pre">e)</span></code>: relative north and east positions</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(2xN)</span></code></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(2xN)</span></code></p>
 </td>
 </tr>
 </tbody>
@@ -726,16 +726,16 @@ poles.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>lats</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; array of latitudes</li>
-<li><strong>lons</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; array of longitudes</li>
-<li><strong>weights</strong> (<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; array weighting factors (optional)</li>
+<li><strong>lats</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; array of latitudes</li>
+<li><strong>lons</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; array of longitudes</li>
+<li><strong>weights</strong> (<code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(N)</span></code>) &#8211; array weighting factors (optional)</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Latitudes and longitudes of the modpoints</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a>, <code class="docutils literal"><span class="pre">(2xN)</span></code></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code>, <code class="docutils literal"><span class="pre">(2xN)</span></code></p>
 </td>
 </tr>
 </tbody>
