@@ -173,7 +173,7 @@
 <span class="k">def</span> <span class="nf">discretize_rect_source</span><span class="p">(</span><span class="n">deltas</span><span class="p">,</span> <span class="n">deltat</span><span class="p">,</span> <span class="n">strike</span><span class="p">,</span> <span class="n">dip</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span>
                            <span class="n">anchor</span><span class="p">,</span> <span class="n">velocity</span><span class="p">,</span> <span class="n">stf</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                            <span class="n">nucleation_x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nucleation_y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                           <span class="n">tref</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+                           <span class="n">tref</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">decimation_factor</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 
     <span class="k">if</span> <span class="n">stf</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">stf</span> <span class="o">=</span> <span class="n">STF</span><span class="p">()</span>
@@ -184,8 +184,8 @@
     <span class="n">l</span> <span class="o">=</span> <span class="n">length</span>
     <span class="n">w</span> <span class="o">=</span> <span class="n">width</span>
 
-    <span class="n">nl</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">l</span> <span class="o">/</span> <span class="n">mindeltagf</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
-    <span class="n">nw</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">w</span> <span class="o">/</span> <span class="n">mindeltagf</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">nl</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="mf">2.</span><span class="o">/</span><span class="n">decimation_factor</span><span class="p">)</span> <span class="o">*</span> <span class="n">num</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">l</span> <span class="o">/</span> <span class="n">mindeltagf</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">nw</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="mf">2.</span><span class="o">/</span><span class="n">decimation_factor</span><span class="p">)</span> <span class="o">*</span> <span class="n">num</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">w</span> <span class="o">/</span> <span class="n">mindeltagf</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
 
     <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">nl</span><span class="o">*</span><span class="n">nw</span><span class="p">)</span>
 
@@ -1493,6 +1493,10 @@
         <span class="n">default</span><span class="o">=</span><span class="s1">&#39;nearest_neighbor&#39;</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Shear moduli interpolation technique to discretize slip&#39;</span><span class="p">)</span>
 
+    <span class="n">decimation_factor</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
+        <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">base_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">DCSource</span><span class="o">.</span><span class="n">base_key</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>
@@ -1519,7 +1523,8 @@
         <span class="n">points</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">amplitudes</span><span class="p">,</span> <span class="n">dl</span><span class="p">,</span> <span class="n">dw</span> <span class="o">=</span> <span class="n">discretize_rect_source</span><span class="p">(</span>
             <span class="n">store</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">deltas</span><span class="p">,</span> <span class="n">store</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">deltat</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">strike</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dip</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">anchor</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">,</span> <span class="n">stf</span><span class="o">=</span><span class="n">stf</span><span class="p">,</span> <span class="n">nucleation_x</span><span class="o">=</span><span class="n">nucx</span><span class="p">,</span> <span class="n">nucleation_y</span><span class="o">=</span><span class="n">nucy</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">,</span> <span class="n">stf</span><span class="o">=</span><span class="n">stf</span><span class="p">,</span> <span class="n">nucleation_x</span><span class="o">=</span><span class="n">nucx</span><span class="p">,</span> <span class="n">nucleation_y</span><span class="o">=</span><span class="n">nucy</span><span class="p">,</span>
+            <span class="n">decimation_factor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">decimation_factor</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">points2</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -2589,7 +2594,6 @@
             <span class="n">nsamples</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="n">tcounters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xtime</span><span class="p">())</span>
-
         <span class="n">base_source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_discretize_basesource</span><span class="p">(</span>
             <span class="n">source</span><span class="p">,</span> <span class="n">store_</span><span class="p">,</span> <span class="n">dsource_cache</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
 
@@ -2626,13 +2630,15 @@
             <span class="n">tcounters</span> <span class="o">=</span> <span class="p">[</span><span class="n">xtime</span><span class="p">()]</span>
             <span class="n">store_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_store</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">store_id</span><span class="p">)</span>
 
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="s1">&#39;decimation_factor&#39;</span><span class="p">):</span>
+                <span class="n">source</span><span class="o">.</span><span class="n">decimation_factor</span> <span class="o">=</span> <span class="mi">4</span>
+
             <span class="k">if</span> <span class="n">target</span><span class="o">.</span><span class="n">tsnapshot</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">n_f</span> <span class="o">=</span> <span class="n">store_</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">sample_rate</span>
                 <span class="n">itsnapshot</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">tsnapshot</span> <span class="o">*</span> <span class="n">n_f</span><span class="p">))</span>
                 <span class="c1"># print target.tsnapshot, n_f, itsnapshot</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">itsnapshot</span> <span class="o">=</span> <span class="mi">1</span>
-
             <span class="n">tcounters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xtime</span><span class="p">())</span>
 
             <span class="n">base_source</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">discretize_basesource</span><span class="p">(</span><span class="n">store_</span><span class="p">)</span>
@@ -2766,7 +2772,7 @@
                         <span class="n">targets</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">targets</span><span class="p">,</span>
                         <span class="n">dsource_cache</span><span class="o">=</span><span class="p">{}),</span>
 
-                    <span class="n">nprocs</span><span class="o">=</span><span class="n">nprocs</span><span class="p">):</span>
+                    <span class="n">nprocs</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 
                 <span class="n">tcounters_dyn_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">tcounters_dyn</span><span class="p">))</span>
 

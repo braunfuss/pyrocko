@@ -442,28 +442,32 @@ files through the <code class="docutils literal"><span class="pre">evalresp</spa
 <p>Here is a complete example using a SAC pole-zero file
 (<a class="reference download internal" href="../../_downloads/STS2-Generic.polezero.txt" download=""><code class="xref download docutils literal"><span class="pre">STS2-Generic.polezero.txt</span></code></a>) to
 deconvolve the transfer function from an example seismogram:</p>
+<p><a class="reference download internal" href="../../_downloads/trace_handling_example_pz.py" download=""><code class="xref download docutils literal"><span class="pre">trace_handling_example_pz.py</span></code></a></p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">pz</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">trace</span>
 
 <span class="c1"># read poles and zeros from SAC format pole-zero file</span>
 <span class="n">zeros</span><span class="p">,</span> <span class="n">poles</span><span class="p">,</span> <span class="n">constant</span> <span class="o">=</span> <span class="n">pz</span><span class="o">.</span><span class="n">read_sac_zpk</span><span class="p">(</span><span class="s1">&#39;STS2-Generic.polezero.txt&#39;</span><span class="p">)</span>
 
-<span class="n">zeros</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.0</span><span class="n">j</span><span class="p">)</span>  <span class="c1"># one more for displacement</span>
+<span class="c1"># one more zero to convert from velocity-&gt;counts to displacement-&gt;counts</span>
+<span class="n">zeros</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.0</span><span class="n">j</span><span class="p">)</span>
 
-<span class="c1"># create pole-zero response function object for restitution, so poles and zeros</span>
-<span class="c1"># from the response file are swapped here.</span>
-<span class="n">rest_sts2</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">PoleZeroResponse</span><span class="p">(</span><span class="n">poles</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="mf">1.</span><span class="o">/</span><span class="n">constant</span><span class="p">)</span>
+<span class="n">rest_sts2</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">PoleZeroResponse</span><span class="p">(</span>
+    <span class="n">zeros</span><span class="o">=</span><span class="n">zeros</span><span class="p">,</span>
+    <span class="n">poles</span><span class="o">=</span><span class="n">poles</span><span class="p">,</span>
+    <span class="n">constant</span><span class="o">=</span><span class="n">constant</span><span class="p">)</span>
 
 <span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">)</span>
-<span class="n">out_traces</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+<span class="n">out_traces</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">traces</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
 
-    <span class="n">displacement</span> <span class="o">=</span>  <span class="n">trace</span><span class="o">.</span><span class="n">transfer</span><span class="p">(</span>
-        <span class="mf">1000.</span><span class="p">,</span>                       <span class="c1"># rise and fall of time domain taper in [s]</span>
-        <span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.002</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">),</span>     <span class="c1"># frequency domain taper in [Hz]</span>
-        <span class="n">transfer_function</span><span class="o">=</span><span class="n">rest_sts2</span><span class="p">)</span>
+    <span class="n">displacement</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">transfer</span><span class="p">(</span>
+        <span class="mf">1000.</span><span class="p">,</span>                    <span class="c1"># rise and fall of time window taper in [s]</span>
+        <span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.002</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">),</span>  <span class="c1"># frequency domain taper in [Hz]</span>
+        <span class="n">transfer_function</span><span class="o">=</span><span class="n">rest_sts2</span><span class="p">,</span>
+        <span class="n">invert</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>              <span class="c1"># to change to (counts-&gt;displacement)</span>
 
     <span class="c1"># change channel id, so we can distinguish the traces in a trace viewer.</span>
-    <span class="n">displacement</span><span class="o">.</span><span class="n">set_codes</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="o">+</span><span class="n">trace</span><span class="o">.</span><span class="n">channel</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">displacement</span><span class="o">.</span><span class="n">set_codes</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="o">+</span><span class="n">tr</span><span class="o">.</span><span class="n">channel</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
     <span class="n">out_traces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">displacement</span><span class="p">)</span>
 
