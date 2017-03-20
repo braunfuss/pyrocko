@@ -302,6 +302,85 @@ if the axis are not 1:1.</p>
 <p class="caption"><span class="caption-text">Four different source object types plotted with different beachball sizes.</span></p>
 </div>
 </div>
+<div class="section" id="add-station-symbols-to-focal-sphere-diagram">
+<h3>Add station symbols to focal sphere diagram<a class="headerlink" href="#add-station-symbols-to-focal-sphere-diagram" title="Permalink to this headline">¶</a></h3>
+<p>This example shows how to add station symbols at the positions where P wave
+rays pierce the focal sphere.</p>
+<p>The function to plot focal spheres
+(<a class="reference internal" href="../reference/beachball.html#pyrocko.beachball.plot_beachball_mpl" title="pyrocko.beachball.plot_beachball_mpl"><code class="xref py py-func docutils literal"><span class="pre">pyrocko.beachball.plot_beachball_mpl()</span></code></a>) uses the function
+<code class="xref py py-func docutils literal"><span class="pre">pyrocko.beachball.project()</span></code> in the final projection from 3D to 2D
+coordinates. Here we use this function to place additional symbols on the plot.
+The take-off angles needed can be computed with some help of the
+<a class="reference internal" href="../reference/cake.html#module-pyrocko.cake" title="pyrocko.cake"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.cake</span></code></a> module. Azimuth and distance computations are done with
+functions from <a class="reference internal" href="../reference/orthodrome.html#module-pyrocko.orthodrome" title="pyrocko.orthodrome"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.orthodrome</span></code></a>.</p>
+<p><a class="reference download internal" href="../../_downloads/beachball_example04.py" download=""><code class="xref download docutils literal"><span class="pre">beachball_example04.py</span></code></a></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">moment_tensor</span> <span class="k">as</span> <span class="n">pmt</span><span class="p">,</span> <span class="n">beachball</span><span class="p">,</span> <span class="n">cake</span><span class="p">,</span> <span class="n">orthodrome</span>
+
+<span class="n">km</span> <span class="o">=</span> <span class="mf">1000.</span>
+
+<span class="c1"># source position and mechanism</span>
+<span class="n">slat</span><span class="p">,</span> <span class="n">slon</span><span class="p">,</span> <span class="n">sdepth</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">10.</span><span class="o">*</span><span class="n">km</span>
+<span class="n">mt</span> <span class="o">=</span> <span class="n">pmt</span><span class="o">.</span><span class="n">MomentTensor</span><span class="o">.</span><span class="n">random_dc</span><span class="p">()</span>
+
+<span class="c1"># receiver positions</span>
+<span class="n">rdepth</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">rlatlons</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">50.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">),</span> <span class="p">(</span><span class="mf">60.</span><span class="p">,</span> <span class="o">-</span><span class="mf">50.</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mf">30.</span><span class="p">,</span> <span class="mf">60.</span><span class="p">)]</span>
+
+<span class="c1"># earth model and phase for takeoff angle computations</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">cake</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="s1">&#39;ak135-f-continental.m&#39;</span><span class="p">)</span>
+<span class="n">phases</span> <span class="o">=</span> <span class="n">cake</span><span class="o">.</span><span class="n">PhaseDef</span><span class="o">.</span><span class="n">classic</span><span class="p">(</span><span class="s1">&#39;P&#39;</span><span class="p">)</span>
+
+<span class="c1"># setup figure with aspect=1.0/1.0, ranges=[-1.1, 1.1]</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">))</span>  <span class="c1"># size in inch</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
+
+<span class="n">projection</span> <span class="o">=</span> <span class="s1">&#39;lambert&#39;</span>
+
+<span class="n">beachball</span><span class="o">.</span><span class="n">plot_beachball_mpl</span><span class="p">(</span>
+    <span class="n">mt</span><span class="p">,</span> <span class="n">axes</span><span class="p">,</span>
+    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">),</span>
+    <span class="n">size</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+    <span class="n">color_t</span><span class="o">=</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">),</span>
+    <span class="n">projection</span><span class="o">=</span><span class="n">projection</span><span class="p">,</span>
+    <span class="n">size_units</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">rlat</span><span class="p">,</span> <span class="n">rlon</span> <span class="ow">in</span> <span class="n">rlatlons</span><span class="p">:</span>
+    <span class="n">distance</span> <span class="o">=</span> <span class="n">orthodrome</span><span class="o">.</span><span class="n">distance_accurate50m</span><span class="p">(</span><span class="n">slat</span><span class="p">,</span> <span class="n">slon</span><span class="p">,</span> <span class="n">rlat</span><span class="p">,</span> <span class="n">rlon</span><span class="p">)</span>
+    <span class="n">rays</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">arrivals</span><span class="p">(</span>
+        <span class="n">phases</span><span class="o">=</span><span class="n">cake</span><span class="o">.</span><span class="n">PhaseDef</span><span class="p">(</span><span class="s1">&#39;P&#39;</span><span class="p">),</span>
+        <span class="n">zstart</span><span class="o">=</span><span class="n">sdepth</span><span class="p">,</span> <span class="n">zstop</span><span class="o">=</span><span class="n">rdepth</span><span class="p">,</span> <span class="n">distances</span><span class="o">=</span><span class="p">[</span><span class="n">distance</span><span class="o">*</span><span class="n">cake</span><span class="o">.</span><span class="n">m2d</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">rays</span><span class="p">:</span>
+        <span class="k">continue</span>
+
+    <span class="n">takeoff</span> <span class="o">=</span> <span class="n">rays</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">takeoff_angle</span><span class="p">()</span>
+    <span class="n">azi</span> <span class="o">=</span> <span class="n">orthodrome</span><span class="o">.</span><span class="n">azimuth</span><span class="p">(</span><span class="n">slat</span><span class="p">,</span> <span class="n">slon</span><span class="p">,</span> <span class="n">rlat</span><span class="p">,</span> <span class="n">rlon</span><span class="p">)</span>
+
+    <span class="c1"># to spherical coordinates, r, theta, phi in radians</span>
+    <span class="n">rtp</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="n">num</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">takeoff</span><span class="p">),</span> <span class="n">num</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mf">90.</span><span class="o">-</span><span class="n">azi</span><span class="p">)]])</span>
+
+    <span class="c1"># to 3D coordinates (x, y, z)</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">beachball</span><span class="o">.</span><span class="n">numpy_rtp2xyz</span><span class="p">(</span><span class="n">rtp</span><span class="p">)</span>
+
+    <span class="c1"># project to 2D with same projection as used in beachball</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">beachball</span><span class="o">.</span><span class="n">project</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="n">projection</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="n">axes</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span> <span class="n">mew</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">mec</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">mfc</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;beachball-example04.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id4">
+<img alt="Focal sphere diagram with station symbols" src="../../_images/beachball-example04.png" />
+<p class="caption"><span class="caption-text">Focal sphere diagram with markers at positions of P wave ray piercing points.</span></p>
+</div>
+</div>
 </div>
 </div>
 
