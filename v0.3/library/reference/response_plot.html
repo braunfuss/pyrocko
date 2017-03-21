@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The response_plot Module &#8212; Pyrocko v0.3 Manual</title>
+    
+    <link rel="stylesheet" href="../../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Pyrocko v0.3 Manual"
+          href="../../_static/opensearch.xml"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="The slink Module" href="slink.html" />
+    <link rel="prev" title="The rdseed Module" href="rdseed.html" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="shortcut icon" type="image/png" href="../../_static/favicon.png" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.8">
+    
+    
+    
+
+  </head>
+  <body role="document">
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="responsive-menu"><a href="#sidebar-anchor" title="Navigation">&#9776;</a></li>
+        <li><a href="../../index.html">Pyrocko v0.3 Manual</a> &#187;</li>
+          <li><a href="../index.html" >Library</a> &#187;</li>
+          <li><a href="index.html" accesskey="U">Reference</a> &#187;</li> 
+      </ul>
+    </div>
+    
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pyrocko.response_plot">
+<span id="the-response-plot-module"></span><h1>The <code class="xref py py-mod docutils literal"><span class="pre">response_plot</span></code> Module<a class="headerlink" href="#module-pyrocko.response_plot" title="Permalink to this headline">¶</a></h1>
+<p>This module contains functions to plot instrument response transfer functions
+in Bode plot style using Matplotlib.</p>
+<p>Example</p>
+<ul class="simple">
+<li><a class="reference download internal" href="../../_downloads/test_response_plot.py" download=""><code class="xref download docutils literal"><span class="pre">test_response_plot.py</span></code></a></li>
+<li><a class="reference download internal" href="../../_downloads/test_response.resp" download=""><code class="xref download docutils literal"><span class="pre">test_response.resp</span></code></a></li>
+</ul>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">response_plot</span>
+
+<span class="n">resps</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">response_plot</span><span class="o">.</span><span class="n">load_response_information</span><span class="p">(</span>
+    <span class="s1">&#39;test_response.resp&#39;</span><span class="p">,</span> <span class="s1">&#39;resp&#39;</span><span class="p">)</span>
+
+<span class="n">response_plot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">responses</span><span class="o">=</span><span class="n">resps</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;test_response.png&#39;</span><span class="p">,</span>
+    <span class="n">fmin</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">400.</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mf">75.</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id1">
+<img alt="../../_images/test_response.png" src="../../_images/test_response.png" />
+<p class="caption"><span class="caption-text">Example response plot</span></p>
+</div>
+<dl class="function">
+<dt id="pyrocko.response_plot.draw">
+<code class="descname">draw</code><span class="sig-paren">(</span><em>response</em>, <em>axes_amplitude=None</em>, <em>axes_phase=None</em>, <em>fmin=0.01</em>, <em>fmax=100.0</em>, <em>nf=100</em>, <em>style={}</em>, <em>label=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/response_plot.html#draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.response_plot.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw instrument response in Bode plot style to given Matplotlib axes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>response</strong> &#8211; instrument response as a
+<a class="reference internal" href="trace.html#pyrocko.trace.FrequencyResponse" title="pyrocko.trace.FrequencyResponse"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.trace.FrequencyResponse</span></code></a> object</li>
+<li><strong>axes_amplitude</strong> &#8211; <a class="reference external" href="http://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="(in Matplotlib v2.0.0)"><code class="xref py py-class docutils literal"><span class="pre">matplotlib.axes.Axes</span></code></a> object to use when
+drawing the amplitude response</li>
+<li><strong>axes_phase</strong> &#8211; <a class="reference external" href="http://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="(in Matplotlib v2.0.0)"><code class="xref py py-class docutils literal"><span class="pre">matplotlib.axes.Axes</span></code></a> object to use when
+drawing the phase response</li>
+<li><strong>fmin</strong> &#8211; minimum frequency [Hz]</li>
+<li><strong>fmax</strong> &#8211; maximum frequency [Hz]</li>
+<li><strong>nf</strong> &#8211; number of frequencies where to evaluate the response</li>
+<li><strong>style</strong> &#8211; <a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></a> with keyword arguments to tune the line
+style</li>
+<li><strong>label</strong> &#8211; string to be passed to the <code class="docutils literal"><span class="pre">label</span></code> argument of
+<a class="reference external" href="http://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.plot.html#matplotlib.axes.Axes.plot" title="(in Matplotlib v2.0.0)"><code class="xref py py-meth docutils literal"><span class="pre">matplotlib.axes.Axes.plot()</span></code></a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.response_plot.setup_axes">
+<code class="descname">setup_axes</code><span class="sig-paren">(</span><em>axes_amplitude=None</em>, <em>axes_phase=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/response_plot.html#setup_axes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.response_plot.setup_axes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure axes in Bode plot style.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyrocko.response_plot.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>responses</em>, <em>filename=None</em>, <em>dpi=100</em>, <em>fmin=0.01</em>, <em>fmax=100.0</em>, <em>nf=100</em>, <em>fontsize=10.0</em>, <em>figsize=None</em>, <em>styles=None</em>, <em>labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/response_plot.html#plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.response_plot.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw instrument responses in Bode plot style.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>responses</strong> &#8211; instrument responses as
+<a class="reference internal" href="trace.html#pyrocko.trace.FrequencyResponse" title="pyrocko.trace.FrequencyResponse"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.trace.FrequencyResponse</span></code></a> objects</li>
+<li><strong>fmin</strong> &#8211; minimum frequency [Hz]</li>
+<li><strong>fmax</strong> &#8211; maximum frequency [Hz]</li>
+<li><strong>nf</strong> &#8211; number of frequencies where to evaluate the response</li>
+<li><strong>styles</strong> &#8211; <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/2.7/library/stdtypes.html#dict" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></a> objects  with keyword
+arguments to be passed to matplotlib&#8217;s
+<a class="reference external" href="http://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.plot.html#matplotlib.axes.Axes.plot" title="(in Matplotlib v2.0.0)"><code class="xref py py-meth docutils literal"><span class="pre">matplotlib.axes.Axes.plot()</span></code></a> function when drawing the response
+lines. Length must match number of responses.</li>
+<li><strong>filename</strong> &#8211; file name to pass to matplotlib&#8217;s <code class="docutils literal"><span class="pre">savefig</span></code> function. If
+<code class="docutils literal"><span class="pre">None</span></code>, the plot is shown with <a class="reference external" href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.show" title="(in Matplotlib v2.0.0)"><code class="xref py py-func docutils literal"><span class="pre">matplotlib.pyplot.show()</span></code></a>.</li>
+<li><strong>fontsize</strong> &#8211; font size in points used in axis labels and legend</li>
+<li><strong>figsize</strong> &#8211; <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code>, <code class="docutils literal"><span class="pre">(width,</span> <span class="pre">height)</span></code> in inches</li>
+<li><strong>labels</strong> &#8211; <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">list</span></code></a> of names to show in legend. Length must
+correspond to number of responses.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+    &nbsp;
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="slink.html" title="The slink Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="rdseed.html" title="The rdseed Module"
+             accesskey="P">previous</a> |</li>
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, The Pyrocko Developers.
+    </div>
+  </body>
+</html>
