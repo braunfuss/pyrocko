@@ -71,32 +71,32 @@ time tables)</li>
 </ul>
 </dd>
 </dl>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">spit</span><span class="p">,</span> <span class="n">cake</span>
 <span class="kn">from</span> <span class="nn">pyrocko.gf</span> <span class="k">import</span> <span class="n">meta</span>
 
 
-<span class="c1"># Define a list of phases.</span>
-<span class="n">phase_defs</span> <span class="o">=</span> <span class="p">[</span><span class="n">meta</span><span class="o">.</span><span class="n">TPDef</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="n">definition</span><span class="o">=</span><span class="s1">&#39;p&#39;</span><span class="p">),</span>
-              <span class="n">meta</span><span class="o">.</span><span class="n">TPDef</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="n">definition</span><span class="o">=</span><span class="s1">&#39;P&#39;</span><span class="p">)]</span>
+<span class="c"># Define a list of phases.</span>
+<span class="n">phase_defs</span> <span class="o">=</span> <span class="p">[</span><span class="n">meta</span><span class="o">.</span><span class="n">TPDef</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s">&#39;p&#39;</span><span class="p">,</span> <span class="n">definition</span><span class="o">=</span><span class="s">&#39;p&#39;</span><span class="p">),</span>
+              <span class="n">meta</span><span class="o">.</span><span class="n">TPDef</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s">&#39;P&#39;</span><span class="p">,</span> <span class="n">definition</span><span class="o">=</span><span class="s">&#39;P&#39;</span><span class="p">)]</span>
 
-<span class="c1"># Load a velocity model. In this example use the default AK135.</span>
+<span class="c"># Load a velocity model. In this example use the default AK135.</span>
 <span class="n">mod</span> <span class="o">=</span> <span class="n">cake</span><span class="o">.</span><span class="n">load_model</span><span class="p">()</span>
 
-<span class="c1"># Time and space tolerance thresholds defining the accuracy of the</span>
-<span class="c1"># :py:class:`pyrocko.spit.SPTree`.</span>
-<span class="n">t_tolerance</span> <span class="o">=</span> <span class="mf">0.1</span>                           <span class="c1"># in seconds</span>
-<span class="n">x_tolerance</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mf">100.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">))</span>       <span class="c1"># in meters</span>
+<span class="c"># Time and space tolerance thresholds defining the accuracy of the</span>
+<span class="c"># :py:class:`pyrocko.spit.SPTree`.</span>
+<span class="n">t_tolerance</span> <span class="o">=</span> <span class="mf">0.1</span>                           <span class="c"># in seconds</span>
+<span class="n">x_tolerance</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mf">100.</span><span class="p">,</span> <span class="mf">100.</span><span class="p">))</span>       <span class="c"># in meters</span>
 
-<span class="c1"># Boundaries of the grid.</span>
+<span class="c"># Boundaries of the grid.</span>
 <span class="n">xmin</span> <span class="o">=</span> <span class="mf">0.</span>
 <span class="n">xmax</span> <span class="o">=</span> <span class="mi">20000</span>
 <span class="n">zmin</span> <span class="o">=</span> <span class="mf">0.</span>
 <span class="n">zmax</span> <span class="o">=</span> <span class="mi">11000</span>
 <span class="n">x_bounds</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">array</span><span class="p">(((</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">),</span> <span class="p">(</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">)))</span>
 
-<span class="c1"># In this example the receiver is located at the surface.</span>
+<span class="c"># In this example the receiver is located at the surface.</span>
 <span class="n">receiver_depth</span> <span class="o">=</span> <span class="mf">0.</span>
 
 <span class="n">interpolated_tts</span> <span class="o">=</span> <span class="p">{}</span>
@@ -110,7 +110,7 @@ time tables)</li>
 
         <span class="n">t</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="c1"># Calculate arrivals</span>
+        <span class="c"># Calculate arrivals</span>
         <span class="n">rays</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">arrivals</span><span class="p">(</span>
             <span class="n">phases</span><span class="o">=</span><span class="n">phase_def</span><span class="o">.</span><span class="n">phases</span><span class="p">,</span>
             <span class="n">distances</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="o">*</span><span class="n">cake</span><span class="o">.</span><span class="n">m2d</span><span class="p">],</span>
@@ -125,53 +125,53 @@ time tables)</li>
         <span class="k">if</span> <span class="n">t</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="k">None</span>
 
-    <span class="c1"># Creat a :py:class:`pyrocko.spit.SPTree` interpolator.</span>
+    <span class="c"># Creat a :py:class:`pyrocko.spit.SPTree` interpolator.</span>
     <span class="n">sptree</span> <span class="o">=</span> <span class="n">spit</span><span class="o">.</span><span class="n">SPTree</span><span class="p">(</span>
         <span class="n">f</span><span class="o">=</span><span class="n">evaluate</span><span class="p">,</span>
         <span class="n">ftol</span><span class="o">=</span><span class="n">t_tolerance</span><span class="p">,</span>
         <span class="n">xbounds</span><span class="o">=</span><span class="n">x_bounds</span><span class="p">,</span>
         <span class="n">xtols</span><span class="o">=</span><span class="n">x_tolerance</span><span class="p">)</span>
 
-    <span class="c1"># Store the result in a dictionary which is later used to retrieve an</span>
-    <span class="c1"># SPTree (value) for each phase_id (key).</span>
+    <span class="c"># Store the result in a dictionary which is later used to retrieve an</span>
+    <span class="c"># SPTree (value) for each phase_id (key).</span>
     <span class="n">interpolated_tts</span><span class="p">[</span><span class="n">phase_def</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">sptree</span>
 
-    <span class="c1"># Dump the sptree for later reuse:</span>
-    <span class="n">sptree</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;sptree_</span><span class="si">%s</span><span class="s1">.yaml&#39;</span> <span class="o">%</span> <span class="n">phase_def</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="c"># Dump the sptree for later reuse:</span>
+    <span class="n">sptree</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&#39;sptree_%s.yaml&#39;</span> <span class="o">%</span> <span class="n">phase_def</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 
-<span class="c1"># Define a :py:class:`pyrocko.gf.meta.Timing` instance.</span>
-<span class="n">timing</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">Timing</span><span class="p">(</span><span class="s1">&#39;first(p|P)&#39;</span><span class="p">)</span>
+<span class="c"># Define a :py:class:`pyrocko.gf.meta.Timing` instance.</span>
+<span class="n">timing</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">Timing</span><span class="p">(</span><span class="s">&#39;first(p|P)&#39;</span><span class="p">)</span>
 
 
-<span class="c1"># If only one interpolated onset is need at a time you can retrieve</span>
-<span class="c1"># that value as follows:</span>
-<span class="c1"># First argument has to be a function which takes a requested *phase_id*</span>
-<span class="c1"># and returns the associated :py:class:`pyrocko.spit.SPTree` instance.</span>
-<span class="c1"># Second argument is a tuple of distance and source depth.</span>
+<span class="c"># If only one interpolated onset is need at a time you can retrieve</span>
+<span class="c"># that value as follows:</span>
+<span class="c"># First argument has to be a function which takes a requested *phase_id*</span>
+<span class="c"># and returns the associated :py:class:`pyrocko.spit.SPTree` instance.</span>
+<span class="c"># Second argument is a tuple of distance and source depth.</span>
 <span class="n">z_want</span> <span class="o">=</span> <span class="mf">5000.</span>
 <span class="n">x_want</span> <span class="o">=</span> <span class="mf">2000.</span>
 <span class="n">one_onset</span> <span class="o">=</span> <span class="n">timing</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">interpolated_tts</span><span class="p">[</span><span class="n">x</span><span class="p">],</span>
                             <span class="p">(</span><span class="n">z_want</span><span class="p">,</span> <span class="n">x_want</span><span class="p">))</span>
-<span class="nb">print</span> <span class="s1">&#39;a single arrival: &#39;</span><span class="p">,</span> <span class="n">one_onset</span>
+<span class="nb">print</span> <span class="s">&#39;a single arrival: &#39;</span><span class="p">,</span> <span class="n">one_onset</span>
 
 
-<span class="c1"># But if you have many locations for which you would like to calculate the</span>
-<span class="c1"># onset time the following is the preferred way as it is much faster</span>
-<span class="c1"># on large coordinate arrays.</span>
-<span class="c1"># x_want is now an array of 10000 distances</span>
+<span class="c"># But if you have many locations for which you would like to calculate the</span>
+<span class="c"># onset time the following is the preferred way as it is much faster</span>
+<span class="c"># on large coordinate arrays.</span>
+<span class="c"># x_want is now an array of 10000 distances</span>
 <span class="n">x_want</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
 
-<span class="c1"># Coords is set up of distances-depth-pairs</span>
+<span class="c"># Coords is set up of distances-depth-pairs</span>
 <span class="n">coords</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">x_want</span><span class="p">,</span> <span class="n">num</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">z_want</span><span class="p">,</span> <span class="n">x_want</span><span class="o">.</span><span class="n">shape</span><span class="p">)))</span><span class="o">.</span><span class="n">T</span>
 
-<span class="c1"># *interpolate_many* then interpolates onset times for each of these</span>
-<span class="c1"># pairs.</span>
-<span class="n">tts</span> <span class="o">=</span> <span class="n">interpolated_tts</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">interpolate_many</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+<span class="c"># *interpolate_many* then interpolates onset times for each of these</span>
+<span class="c"># pairs.</span>
+<span class="n">tts</span> <span class="o">=</span> <span class="n">interpolated_tts</span><span class="p">[</span><span class="s">&quot;p&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">interpolate_many</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
 
-<span class="c1"># Plot distance vs. onset time</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_want</span><span class="p">,</span> <span class="n">tts</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="c"># Plot distance vs. onset time</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_want</span><span class="p">,</span> <span class="n">tts</span><span class="p">,</span> <span class="s">&#39;.&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>

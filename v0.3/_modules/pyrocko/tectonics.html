@@ -54,7 +54,7 @@
           <div class="body" role="main">
             
   <h1>Source code for pyrocko.tectonics</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
+<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">op</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
 
@@ -161,7 +161,7 @@
 <div class="viewcode-block" id="Plate"><a class="viewcode-back" href="../../library/reference/tectonics.html#pyrocko.tectonics.Plate">[docs]</a><span class="k">class</span> <span class="nc">Plate</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
-    <span class="n">points</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">max_interpoint_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">p</span> <span class="o">=</span> <span class="n">latlon_to_xyz</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
@@ -177,14 +177,14 @@
             <span class="k">for</span> <span class="n">points_g</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">points2</span> <span class="o">=</span> <span class="n">stereographic_poly</span><span class="p">(</span><span class="n">points_g</span><span class="p">)</span>
-                    <span class="n">p</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">points2</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">p</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">points2</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">contains_point</span><span class="p">((</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)):</span>
-                        <span class="k">return</span> <span class="kc">True</span>
+                        <span class="k">return</span> <span class="k">True</span>
 
                 <span class="k">except</span> <span class="n">Farside</span><span class="p">:</span>
                     <span class="k">pass</span>
 
-        <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="k">False</span>
 
     <span class="k">def</span> <span class="nf">contains_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">):</span>
         <span class="n">points_xyz</span> <span class="o">=</span> <span class="n">latlon_to_xyz</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
@@ -207,8 +207,8 @@
             <span class="k">for</span> <span class="n">poly_rot_group_xyz</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">poly_rot_group_pro</span> <span class="o">=</span> <span class="n">stereographic_poly</span><span class="p">(</span><span class="n">poly_rot_group_xyz</span><span class="p">)</span>
-                    <span class="n">p</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">poly_rot_group_pro</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s1">&#39;contains_points&#39;</span><span class="p">):</span>
+                    <span class="n">p</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">poly_rot_group_pro</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s">&#39;contains_points&#39;</span><span class="p">):</span>
                         <span class="n">result</span> <span class="o">+=</span> <span class="n">p</span><span class="o">.</span><span class="n">contains_points</span><span class="p">(</span><span class="n">points_rot_pro</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
@@ -225,11 +225,11 @@
     <span class="n">name1</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
     <span class="n">name2</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
     <span class="n">kind</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
-    <span class="n">points</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-    <span class="n">cpoints</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-    <span class="n">itypes</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">int</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">cpoints</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">itypes</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">int</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">split_types</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">split_types</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
         <span class="n">xyz</span> <span class="o">=</span> <span class="n">latlon_to_xyz</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
         <span class="n">xyzmid</span> <span class="o">=</span> <span class="p">(</span><span class="n">xyz</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">xyz</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span> <span class="o">*</span> <span class="mf">0.5</span>
         <span class="n">cxyz</span> <span class="o">=</span> <span class="n">latlon_to_xyz</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cpoints</span><span class="p">)</span>
@@ -237,7 +237,7 @@
         <span class="n">idmin</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">itypes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">itypes</span><span class="p">[</span><span class="n">idmin</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="n">groups</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">groups</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
             <span class="n">groupmap</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_index_to_type</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
@@ -256,7 +256,7 @@
 
         <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">iswitch</span><span class="o">.</span><span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">groups</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">groups</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
                 <span class="n">tt</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_index_to_type</span><span class="p">[</span><span class="n">ityp</span><span class="p">]</span> <span class="k">for</span> <span class="n">ityp</span> <span class="ow">in</span> <span class="n">num</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
                     <span class="n">itypes</span><span class="p">[</span><span class="n">iswitch</span><span class="p">[</span><span class="n">ii</span><span class="p">]:</span><span class="n">iswitch</span><span class="p">[</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">]])]</span>
             <span class="k">else</span><span class="p">:</span>
@@ -277,7 +277,7 @@
     <span class="k">def</span> <span class="nf">fpath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">download_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">fpath</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">download_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">fpath</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
         <span class="n">util</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">fpath</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
 
 
@@ -286,21 +286,21 @@
 
 
 <span class="k">class</span> <span class="nc">PeterBird2003</span><span class="p">(</span><span class="n">PlatesDataset</span><span class="p">):</span>
-    <span class="n">__citation</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">    Bird, Peter. &quot;An updated digital model of plate boundaries.&quot; Geochemistry,</span>
-<span class="s1">    Geophysics, Geosystems 4.3 (2003).</span>
-<span class="s1">    &#39;&#39;&#39;</span>
+    <span class="n">__citation</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;</span>
+<span class="s">    Bird, Peter. &quot;An updated digital model of plate boundaries.&quot; Geochemistry,</span>
+<span class="s">    Geophysics, Geosystems 4.3 (2003).</span>
+<span class="s">    &#39;&#39;&#39;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;PeterBird2003&#39;</span><span class="p">,</span>
-            <span class="n">data_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">raw_data_url</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;http://peterbird.name/oldFTP/PB2002/</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">)):</span>
+            <span class="n">name</span><span class="o">=</span><span class="s">&#39;PeterBird2003&#39;</span><span class="p">,</span>
+            <span class="n">data_dir</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
+            <span class="n">raw_data_url</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;http://peterbird.name/oldFTP/PB2002/%s&#39;</span><span class="p">)):</span>
 
-        <span class="k">if</span> <span class="n">data_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">data_dir</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
             <span class="n">data_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">config</span><span class="p">()</span><span class="o">.</span><span class="n">tectonics_dir</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
-        <span class="n">PlatesDataset</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="n">PlatesDataset</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">name</span><span class="p">,</span>
             <span class="n">data_dir</span><span class="o">=</span><span class="n">data_dir</span><span class="p">,</span>
@@ -309,22 +309,22 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">raw_data_url</span> <span class="o">=</span> <span class="n">raw_data_url</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">filenames</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s1">&#39;2001GC000252_readme.txt&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;PB2002_boundaries.dig.txt&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;PB2002_orogens.dig.txt&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;PB2002_plates.dig.txt&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;PB2002_poles.dat.txt&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;PB2002_steps.dat.txt&#39;</span><span class="p">]</span>
+            <span class="s">&#39;2001GC000252_readme.txt&#39;</span><span class="p">,</span>
+            <span class="s">&#39;PB2002_boundaries.dig.txt&#39;</span><span class="p">,</span>
+            <span class="s">&#39;PB2002_orogens.dig.txt&#39;</span><span class="p">,</span>
+            <span class="s">&#39;PB2002_plates.dig.txt&#39;</span><span class="p">,</span>
+            <span class="s">&#39;PB2002_poles.dat.txt&#39;</span><span class="p">,</span>
+            <span class="s">&#39;PB2002_steps.dat.txt&#39;</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_full_names</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_full_names</span> <span class="o">=</span> <span class="k">None</span>
 
     <span class="k">def</span> <span class="nf">full_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_full_names</span><span class="p">:</span>
-            <span class="n">fn</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">data_file</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;tectonics&#39;</span><span class="p">,</span> <span class="s1">&#39;bird2003_plates.txt&#39;</span><span class="p">))</span>
+            <span class="n">fn</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">data_file</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;tectonics&#39;</span><span class="p">,</span> <span class="s">&#39;bird2003_plates.txt&#39;</span><span class="p">))</span>
 
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_full_names</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-                    <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">)</span>
+                    <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_full_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
 
@@ -336,24 +336,24 @@
 
     <span class="k">def</span> <span class="nf">get_boundaries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">download_if_needed</span><span class="p">()</span>
-        <span class="n">fpath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fpath</span><span class="p">(</span><span class="s1">&#39;PB2002_steps.dat.txt&#39;</span><span class="p">)</span>
+        <span class="n">fpath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fpath</span><span class="p">(</span><span class="s">&#39;PB2002_steps.dat.txt&#39;</span><span class="p">)</span>
 
         <span class="n">d</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
         <span class="n">ntyp</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">type_to_index</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">index_to_type</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">t</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-                <span class="n">s</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)</span>
                 <span class="n">name1</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">name2</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
 
                 <span class="n">alon</span><span class="p">,</span> <span class="n">alat</span><span class="p">,</span> <span class="n">blon</span><span class="p">,</span> <span class="n">blat</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">6</span><span class="p">])</span>
                 <span class="n">mlat</span> <span class="o">=</span> <span class="p">(</span><span class="n">alat</span> <span class="o">+</span> <span class="n">blat</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
                 <span class="n">dlon</span> <span class="o">=</span> <span class="p">((</span><span class="n">blon</span> <span class="o">-</span> <span class="n">alon</span><span class="p">)</span> <span class="o">+</span> <span class="mf">180.</span><span class="p">)</span> <span class="o">%</span> <span class="mf">360.</span> <span class="o">-</span> <span class="mf">180.</span>
                 <span class="n">mlon</span> <span class="o">=</span> <span class="n">alon</span> <span class="o">+</span> <span class="n">dlon</span> <span class="o">*</span> <span class="mf">0.5</span>
-                <span class="n">typ</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;:*&#39;</span><span class="p">)</span>
+                <span class="n">typ</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;:*&#39;</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="n">typ</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">type_to_index</span><span class="p">:</span>
                     <span class="n">ntyp</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -369,15 +369,15 @@
                 <span class="n">num</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">l</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">),</span>
                 <span class="n">num</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">int</span><span class="p">))</span>
 
-        <span class="n">fpath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fpath</span><span class="p">(</span><span class="s1">&#39;PB2002_boundaries.dig.txt&#39;</span><span class="p">)</span>
+        <span class="n">fpath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fpath</span><span class="p">(</span><span class="s">&#39;PB2002_boundaries.dig.txt&#39;</span><span class="p">)</span>
         <span class="n">boundaries</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">name1</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-        <span class="n">name2</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-        <span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">name1</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="n">name2</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="n">kind</span> <span class="o">=</span> <span class="s">&#39;-&#39;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;***&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;***&#39;</span><span class="p">):</span>
                     <span class="n">cpoints</span><span class="p">,</span> <span class="n">itypes</span> <span class="o">=</span> <span class="n">d2</span><span class="p">[</span><span class="n">name1</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">name2</span><span class="p">]</span>
                     <span class="n">boundaries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Boundary</span><span class="p">(</span>
                         <span class="n">name1</span><span class="o">=</span><span class="n">name1</span><span class="p">,</span>
@@ -391,8 +391,8 @@
                     <span class="n">boundaries</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_index_to_type</span> <span class="o">=</span> <span class="n">index_to_type</span>
 
                     <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">):</span>
-                    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">):</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">s</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
                     <span class="n">name1</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">name2</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
@@ -401,20 +401,20 @@
 
     <span class="k">def</span> <span class="nf">get_plates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">download_if_needed</span><span class="p">()</span>
-        <span class="n">fpath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fpath</span><span class="p">(</span><span class="s1">&#39;PB2002_plates.dig.txt&#39;</span><span class="p">)</span>
+        <span class="n">fpath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fpath</span><span class="p">(</span><span class="s">&#39;PB2002_plates.dig.txt&#39;</span><span class="p">)</span>
         <span class="n">plates</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;***&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;***&#39;</span><span class="p">):</span>
                     <span class="n">plates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Plate</span><span class="p">(</span>
                         <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
                         <span class="n">points</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">)))</span>
 
                     <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">):</span>
-                    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">):</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">name</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 
@@ -426,36 +426,36 @@
 
 
 <span class="k">class</span> <span class="nc">GSRM1</span><span class="p">(</span><span class="n">StrainRateDataset</span><span class="p">):</span>
-    <span class="n">__citation</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;Kreemer, C., W.E. Holt, and A.J. Haines, &quot;An integrated</span>
-<span class="s1">    global model of present-day plate motions and plate boundary deformation&quot;,</span>
-<span class="s1">    Geophys. J. Int., 154, 8-34, 2003.&#39;&#39;&#39;</span>
+    <span class="n">__citation</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;Kreemer, C., W.E. Holt, and A.J. Haines, &quot;An integrated</span>
+<span class="s">    global model of present-day plate motions and plate boundary deformation&quot;,</span>
+<span class="s">    Geophys. J. Int., 154, 8-34, 2003.&#39;&#39;&#39;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;GSRM1.2&#39;</span><span class="p">,</span>
-            <span class="n">data_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">raw_data_url</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;http://gsrm.unavco.org/model/files/1.2/</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">)):</span>
+            <span class="n">name</span><span class="o">=</span><span class="s">&#39;GSRM1.2&#39;</span><span class="p">,</span>
+            <span class="n">data_dir</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
+            <span class="n">raw_data_url</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;http://gsrm.unavco.org/model/files/1.2/%s&#39;</span><span class="p">)):</span>
 
-        <span class="k">if</span> <span class="n">data_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">data_dir</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
             <span class="n">data_dir</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">config</span><span class="p">()</span><span class="o">.</span><span class="n">tectonics_dir</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
-        <span class="n">StrainRateDataset</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="n">StrainRateDataset</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">name</span><span class="p">,</span>
             <span class="n">data_dir</span><span class="o">=</span><span class="n">data_dir</span><span class="p">,</span>
             <span class="n">citation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__citation</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">raw_data_url</span> <span class="o">=</span> <span class="n">raw_data_url</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_full_names</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_names</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_full_names</span> <span class="o">=</span> <span class="k">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_names</span> <span class="o">=</span> <span class="k">None</span>
 
     <span class="k">def</span> <span class="nf">full_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_full_names</span><span class="p">:</span>
-            <span class="n">fn</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">data_file</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;tectonics&#39;</span><span class="p">,</span> <span class="s1">&#39;gsrm1_plates.txt&#39;</span><span class="p">))</span>
+            <span class="n">fn</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">data_file</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;tectonics&#39;</span><span class="p">,</span> <span class="s">&#39;gsrm1_plates.txt&#39;</span><span class="p">))</span>
 
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_full_names</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-                    <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">)</span>
+                    <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_full_names</span>
 
@@ -464,42 +464,42 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">full_names</span><span class="p">()[</span><span class="n">name</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">plate_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_names</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">full_names</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span>
 
     <span class="k">def</span> <span class="nf">plate_alt_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># &#39;African Plate&#39; is named &#39;Nubian Plate&#39; in GSRM1</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;AF&#39;</span><span class="p">:</span> <span class="s1">&#39;NU&#39;</span><span class="p">}</span>
+        <span class="c"># &#39;African Plate&#39; is named &#39;Nubian Plate&#39; in GSRM1</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">&#39;AF&#39;</span><span class="p">:</span> <span class="s">&#39;NU&#39;</span><span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">download_if_needed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">):</span>
         <span class="n">fpath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fpath</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">fpath</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_data_url</span> <span class="o">%</span> <span class="n">fn</span><span class="p">,</span> <span class="n">fpath</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_velocities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_velocities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference_name</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
         <span class="n">reference_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plate_alt_names</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
             <span class="n">reference_name</span><span class="p">,</span> <span class="n">reference_name</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">reference_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">reference_name</span> <span class="o">=</span> <span class="s1">&#39;NNR&#39;</span>
+        <span class="k">if</span> <span class="n">reference_name</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
+            <span class="n">reference_name</span> <span class="o">=</span> <span class="s">&#39;NNR&#39;</span>
 
-        <span class="n">fn</span> <span class="o">=</span> <span class="s1">&#39;velocity_</span><span class="si">%s</span><span class="s1">.dat&#39;</span> <span class="o">%</span> <span class="n">reference_name</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="s">&#39;velocity_%s.dat&#39;</span> <span class="o">%</span> <span class="n">reference_name</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">download_if_needed</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
         <span class="n">fpath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fpath</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;#&#39;</span><span class="p">):</span>
                     <span class="k">continue</span>
                 <span class="n">t</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
                 <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span>
 
         <span class="n">arr</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">region</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">region</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="n">points</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">mask</span> <span class="o">=</span> <span class="n">od</span><span class="o">.</span><span class="n">points_in_region</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">region</span><span class="p">)</span>
             <span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="p">:]</span>

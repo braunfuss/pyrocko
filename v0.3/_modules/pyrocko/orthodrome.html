@@ -54,7 +54,7 @@
           <div class="body" role="main">
             
   <h1>Source code for pyrocko.orthodrome</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
 <span class="kn">from</span> <span class="nn">pyrocko.config</span> <span class="k">import</span> <span class="n">config</span>
 
@@ -240,7 +240,7 @@
             <span class="n">alat</span><span class="p">,</span> <span class="n">alon</span><span class="p">,</span> <span class="n">blat</span><span class="p">,</span> <span class="n">blon</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="azimuth_numpy"><a class="viewcode-back" href="../../library/reference/orthodrome.html#pyrocko.orthodrome.azimuth_numpy">[docs]</a><span class="k">def</span> <span class="nf">azimuth_numpy</span><span class="p">(</span><span class="n">a_lats</span><span class="p">,</span> <span class="n">a_lons</span><span class="p">,</span> <span class="n">b_lats</span><span class="p">,</span> <span class="n">b_lons</span><span class="p">,</span> <span class="n">_cosdelta</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="azimuth_numpy"><a class="viewcode-back" href="../../library/reference/orthodrome.html#pyrocko.orthodrome.azimuth_numpy">[docs]</a><span class="k">def</span> <span class="nf">azimuth_numpy</span><span class="p">(</span><span class="n">a_lats</span><span class="p">,</span> <span class="n">a_lons</span><span class="p">,</span> <span class="n">b_lats</span><span class="p">,</span> <span class="n">b_lons</span><span class="p">,</span> <span class="n">_cosdelta</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Calculation of the azimuth (*track angle*) from a location A towards B.</span>
 
 <span class="sd">    This function returns azimuths (*track angles*) from locations A towards B</span>
@@ -263,7 +263,7 @@
 <span class="sd">    :return: Azimuths in degrees</span>
 <span class="sd">    :rtype: :py:class:`numpy.ndarray`, ``(N)``</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">if</span> <span class="n">_cosdelta</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">_cosdelta</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
         <span class="n">_cosdelta</span> <span class="o">=</span> <span class="n">cosdelta_numpy</span><span class="p">(</span><span class="n">a_lats</span><span class="p">,</span> <span class="n">a_lons</span><span class="p">,</span> <span class="n">b_lats</span><span class="p">,</span> <span class="n">b_lons</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">r2d</span><span class="o">*</span><span class="n">num</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span>
@@ -277,9 +277,9 @@
     <span class="k">if</span> <span class="n">alat</span> <span class="o">==</span> <span class="n">blat</span> <span class="ow">and</span> <span class="n">alon</span> <span class="o">==</span> <span class="n">blon</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">180.</span>
 
-    <span class="n">implementation</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;implementation&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">implementation</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">implementation</span> <span class="o">==</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span>
+    <span class="n">implementation</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;implementation&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">implementation</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;python&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">implementation</span> <span class="o">==</span> <span class="s">&#39;c&#39;</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">orthodrome_ext</span>
         <span class="k">return</span> <span class="n">orthodrome_ext</span><span class="o">.</span><span class="n">azibazi</span><span class="p">(</span><span class="n">alat</span><span class="p">,</span> <span class="n">alon</span><span class="p">,</span> <span class="n">blat</span><span class="p">,</span> <span class="n">blon</span><span class="p">)</span>
 
@@ -296,13 +296,13 @@
     <span class="k">return</span> <span class="n">azi</span><span class="p">,</span> <span class="n">bazi</span></div>
 
 
-<div class="viewcode-block" id="azibazi_numpy"><a class="viewcode-back" href="../../library/reference/orthodrome.html#pyrocko.orthodrome.azibazi_numpy">[docs]</a><span class="k">def</span> <span class="nf">azibazi_numpy</span><span class="p">(</span><span class="n">a_lats</span><span class="p">,</span> <span class="n">a_lons</span><span class="p">,</span> <span class="n">b_lats</span><span class="p">,</span> <span class="n">b_lons</span><span class="p">,</span> <span class="n">implementation</span><span class="o">=</span><span class="s1">&#39;c&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="azibazi_numpy"><a class="viewcode-back" href="../../library/reference/orthodrome.html#pyrocko.orthodrome.azibazi_numpy">[docs]</a><span class="k">def</span> <span class="nf">azibazi_numpy</span><span class="p">(</span><span class="n">a_lats</span><span class="p">,</span> <span class="n">a_lons</span><span class="p">,</span> <span class="n">b_lats</span><span class="p">,</span> <span class="n">b_lons</span><span class="p">,</span> <span class="n">implementation</span><span class="o">=</span><span class="s">&#39;c&#39;</span><span class="p">):</span>
 
     <span class="n">a_lats</span><span class="p">,</span> <span class="n">a_lons</span><span class="p">,</span> <span class="n">b_lats</span><span class="p">,</span> <span class="n">b_lons</span> <span class="o">=</span> <span class="n">float_array_broadcast</span><span class="p">(</span>
         <span class="n">a_lats</span><span class="p">,</span> <span class="n">a_lons</span><span class="p">,</span> <span class="n">b_lats</span><span class="p">,</span> <span class="n">b_lons</span><span class="p">)</span>
 
-    <span class="k">assert</span> <span class="n">implementation</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">implementation</span> <span class="o">==</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span>
+    <span class="k">assert</span> <span class="n">implementation</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;python&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">implementation</span> <span class="o">==</span> <span class="s">&#39;c&#39;</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">orthodrome_ext</span>
         <span class="k">return</span> <span class="n">orthodrome_ext</span><span class="o">.</span><span class="n">azibazi_numpy</span><span class="p">(</span><span class="n">a_lats</span><span class="p">,</span> <span class="n">a_lons</span><span class="p">,</span> <span class="n">b_lats</span><span class="p">,</span> <span class="n">b_lons</span><span class="p">)</span>
 
@@ -401,9 +401,9 @@
 
     <span class="n">alat</span><span class="p">,</span> <span class="n">alon</span><span class="p">,</span> <span class="n">blat</span><span class="p">,</span> <span class="n">blon</span> <span class="o">=</span> <span class="n">_latlon_pair</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
-    <span class="n">implementation</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;implementation&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">implementation</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">implementation</span> <span class="o">==</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span>
+    <span class="n">implementation</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;implementation&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">implementation</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;python&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">implementation</span> <span class="o">==</span> <span class="s">&#39;c&#39;</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">orthodrome_ext</span>
         <span class="k">return</span> <span class="n">orthodrome_ext</span><span class="o">.</span><span class="n">distance_accurate50m</span><span class="p">(</span><span class="n">alat</span><span class="p">,</span> <span class="n">alon</span><span class="p">,</span> <span class="n">blat</span><span class="p">,</span> <span class="n">blon</span><span class="p">)</span>
 
@@ -430,7 +430,7 @@
 
 
 <div class="viewcode-block" id="distance_accurate50m_numpy"><a class="viewcode-back" href="../../library/reference/orthodrome.html#pyrocko.orthodrome.distance_accurate50m_numpy">[docs]</a><span class="k">def</span> <span class="nf">distance_accurate50m_numpy</span><span class="p">(</span>
-        <span class="n">a_lats</span><span class="p">,</span> <span class="n">a_lons</span><span class="p">,</span> <span class="n">b_lats</span><span class="p">,</span> <span class="n">b_lons</span><span class="p">,</span> <span class="n">implementation</span><span class="o">=</span><span class="s1">&#39;c&#39;</span><span class="p">):</span>
+        <span class="n">a_lats</span><span class="p">,</span> <span class="n">a_lons</span><span class="p">,</span> <span class="n">b_lats</span><span class="p">,</span> <span class="n">b_lons</span><span class="p">,</span> <span class="n">implementation</span><span class="o">=</span><span class="s">&#39;c&#39;</span><span class="p">):</span>
 
     <span class="sd">&#39;&#39;&#39; Accurate distance calculation based on a spheroid of rotation.</span>
 
@@ -502,8 +502,8 @@
     <span class="n">a_lats</span><span class="p">,</span> <span class="n">a_lons</span><span class="p">,</span> <span class="n">b_lats</span><span class="p">,</span> <span class="n">b_lons</span> <span class="o">=</span> <span class="n">float_array_broadcast</span><span class="p">(</span>
         <span class="n">a_lats</span><span class="p">,</span> <span class="n">a_lons</span><span class="p">,</span> <span class="n">b_lats</span><span class="p">,</span> <span class="n">b_lons</span><span class="p">)</span>
 
-    <span class="k">assert</span> <span class="n">implementation</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">implementation</span> <span class="o">==</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span>
+    <span class="k">assert</span> <span class="n">implementation</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;python&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">implementation</span> <span class="o">==</span> <span class="s">&#39;c&#39;</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">orthodrome_ext</span>
         <span class="k">return</span> <span class="n">orthodrome_ext</span><span class="o">.</span><span class="n">distance_accurate50m_numpy</span><span class="p">(</span>
             <span class="n">a_lats</span><span class="p">,</span> <span class="n">a_lons</span><span class="p">,</span> <span class="n">b_lats</span><span class="p">,</span> <span class="n">b_lons</span><span class="p">)</span>
@@ -840,12 +840,12 @@
     <span class="k">return</span> <span class="n">n</span><span class="p">,</span> <span class="n">e</span></div>
 
 
-<span class="n">_wgs84</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">_wgs84</span> <span class="o">=</span> <span class="k">None</span>
 
 
 <div class="viewcode-block" id="get_wgs84"><a class="viewcode-back" href="../../library/reference/orthodrome.html#pyrocko.orthodrome.get_wgs84">[docs]</a><span class="k">def</span> <span class="nf">get_wgs84</span><span class="p">():</span>
     <span class="k">global</span> <span class="n">_wgs84</span>
-    <span class="k">if</span> <span class="n">_wgs84</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">_wgs84</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">geographiclib.geodesic</span> <span class="k">import</span> <span class="n">Geodesic</span>
         <span class="n">_wgs84</span> <span class="o">=</span> <span class="n">Geodesic</span><span class="o">.</span><span class="n">WGS84</span>
 
@@ -856,14 +856,14 @@
     <span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
-                <span class="n">it</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">nditer</span><span class="p">(</span><span class="n">args</span> <span class="o">+</span> <span class="p">(</span><span class="kc">None</span><span class="p">,))</span>
+                <span class="n">it</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">nditer</span><span class="p">(</span><span class="n">args</span> <span class="o">+</span> <span class="p">(</span><span class="k">None</span><span class="p">,))</span>
                 <span class="k">for</span> <span class="n">ops</span> <span class="ow">in</span> <span class="n">it</span><span class="p">:</span>
                     <span class="n">ops</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">ops</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
                 <span class="k">return</span> <span class="n">it</span><span class="o">.</span><span class="n">operands</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">elif</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
-                <span class="n">it</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">nditer</span><span class="p">(</span><span class="n">args</span> <span class="o">+</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+                <span class="n">it</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">nditer</span><span class="p">(</span><span class="n">args</span> <span class="o">+</span> <span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="k">None</span><span class="p">))</span>
                 <span class="k">for</span> <span class="n">ops</span> <span class="ow">in</span> <span class="n">it</span><span class="p">:</span>
                     <span class="n">ops</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">][</span><span class="o">...</span><span class="p">],</span> <span class="n">ops</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">ops</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
 
@@ -879,15 +879,15 @@
     <span class="n">az</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">east_m</span><span class="p">,</span> <span class="n">north_m</span><span class="p">)</span><span class="o">*</span><span class="n">r2d</span>
     <span class="n">dist</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">east_m</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">north_m</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">wgs84</span><span class="o">.</span><span class="n">Direct</span><span class="p">(</span><span class="n">lat0</span><span class="p">,</span> <span class="n">lon0</span><span class="p">,</span> <span class="n">az</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;lat2&#39;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;lon2&#39;</span><span class="p">]</span></div>
+    <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="s">&#39;lat2&#39;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s">&#39;lon2&#39;</span><span class="p">]</span></div>
 
 
 <span class="nd">@amap</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <div class="viewcode-block" id="latlon_to_ne2"><a class="viewcode-back" href="../../library/reference/orthodrome.html#pyrocko.orthodrome.latlon_to_ne2">[docs]</a><span class="k">def</span> <span class="nf">latlon_to_ne2</span><span class="p">(</span><span class="n">lat0</span><span class="p">,</span> <span class="n">lon0</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lon1</span><span class="p">):</span>
     <span class="n">wgs84</span> <span class="o">=</span> <span class="n">get_wgs84</span><span class="p">()</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">wgs84</span><span class="o">.</span><span class="n">Inverse</span><span class="p">(</span><span class="n">lat0</span><span class="p">,</span> <span class="n">lon0</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lon1</span><span class="p">)</span>
-    <span class="n">dist</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;s12&#39;</span><span class="p">]</span>
-    <span class="n">az</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;azi1&#39;</span><span class="p">]</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s">&#39;s12&#39;</span><span class="p">]</span>
+    <span class="n">az</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="s">&#39;azi1&#39;</span><span class="p">]</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">az</span><span class="o">*</span><span class="n">d2r</span><span class="p">)</span><span class="o">*</span><span class="n">dist</span>
     <span class="n">e</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">az</span><span class="o">*</span><span class="n">d2r</span><span class="p">)</span><span class="o">*</span><span class="n">dist</span>
     <span class="k">return</span> <span class="n">n</span><span class="p">,</span> <span class="n">e</span></div>
@@ -896,7 +896,7 @@
 <span class="nd">@amap</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <div class="viewcode-block" id="distance_accurate15nm"><a class="viewcode-back" href="../../library/reference/orthodrome.html#pyrocko.orthodrome.distance_accurate15nm">[docs]</a><span class="k">def</span> <span class="nf">distance_accurate15nm</span><span class="p">(</span><span class="n">lat1</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">lon2</span><span class="p">):</span>
     <span class="n">wgs84</span> <span class="o">=</span> <span class="n">get_wgs84</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">wgs84</span><span class="o">.</span><span class="n">Inverse</span><span class="p">(</span><span class="n">lat1</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">lon2</span><span class="p">)[</span><span class="s1">&#39;s12&#39;</span><span class="p">]</span></div>
+    <span class="k">return</span> <span class="n">wgs84</span><span class="o">.</span><span class="n">Inverse</span><span class="p">(</span><span class="n">lat1</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">lon2</span><span class="p">)[</span><span class="s">&#39;s12&#39;</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="positive_region"><a class="viewcode-back" href="../../library/reference/orthodrome.html#pyrocko.orthodrome.positive_region">[docs]</a><span class="k">def</span> <span class="nf">positive_region</span><span class="p">(</span><span class="n">region</span><span class="p">):</span>
@@ -988,10 +988,10 @@
         <span class="k">return</span> <span class="n">lon_min</span><span class="p">,</span> <span class="n">lon_max</span><span class="p">,</span> <span class="n">lat_min</span><span class="p">,</span> <span class="n">lat_max</span>
 
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
+        <span class="k">return</span> <span class="k">None</span></div>
 
 
-<div class="viewcode-block" id="geographic_midpoint"><a class="viewcode-back" href="../../library/reference/orthodrome.html#pyrocko.orthodrome.geographic_midpoint">[docs]</a><span class="k">def</span> <span class="nf">geographic_midpoint</span><span class="p">(</span><span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="geographic_midpoint"><a class="viewcode-back" href="../../library/reference/orthodrome.html#pyrocko.orthodrome.geographic_midpoint">[docs]</a><span class="k">def</span> <span class="nf">geographic_midpoint</span><span class="p">(</span><span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Calculate geographic midpoints by finding the center of gravity.</span>
 
 <span class="sd">    This method suffers from instabilities if points are centered around the</span>

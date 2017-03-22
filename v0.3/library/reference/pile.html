@@ -142,9 +142,9 @@ objects</li>
 </tbody>
 </table>
 <p>Example; yields only traces, where the station code is &#8216;HH1&#8217;:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">test_pile</span> <span class="o">=</span> <span class="n">pile</span><span class="o">.</span><span class="n">make_pile</span><span class="p">(</span><span class="s1">&#39;/local/test_trace_directory&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">test_pile</span> <span class="o">=</span> <span class="n">pile</span><span class="o">.</span><span class="n">make_pile</span><span class="p">(</span><span class="s">&#39;/local/test_trace_directory&#39;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">test_pile</span><span class="o">.</span><span class="n">iter_traces</span><span class="p">(</span>
-        <span class="n">trace_selector</span><span class="o">=</span><span class="k">lambda</span> <span class="n">tr</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">station</span><span class="o">==</span><span class="s1">&#39;HH1&#39;</span><span class="p">):</span>
+        <span class="n">trace_selector</span><span class="o">=</span><span class="k">lambda</span> <span class="n">tr</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">station</span><span class="o">==</span><span class="s">&#39;HH1&#39;</span><span class="p">):</span>
 
     <span class="nb">print</span> <span class="n">t</span>
 </pre></div>

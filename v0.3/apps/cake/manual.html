@@ -73,7 +73,7 @@ command line tool or used as a Python module. Both is demonstrated in the
 examples below.</p>
 <div class="section" id="invocation">
 <h2>Invocation<a class="headerlink" href="#invocation" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cake</span> <span class="o">&lt;</span><span class="n">subcommand</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">cake</span> <span class="o">&lt;</span><span class="n">subcommand</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Subcommands:</p>
@@ -150,7 +150,7 @@ examples below.</p>
 </dd></dl>
 
 <p>To get further help and a list of available options for any subcommand run:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cake</span> <span class="o">&lt;</span><span class="n">subcommand</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">help</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">cake</span> <span class="o">&lt;</span><span class="n">subcommand</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">help</span>
 </pre></div>
 </div>
 <div class="section" id="options">
@@ -365,7 +365,7 @@ some of the following options.</p>
 <div class="section" id="plot-p-and-p-phases">
 <h3>Plot P and p phases<a class="headerlink" href="#plot-p-and-p-phases" title="Permalink to this headline">¶</a></h3>
 <p>Ten receiver distances ranging from 100 km to 1000 km and a source depth of 10km.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cake</span> <span class="n">plot</span><span class="o">-</span><span class="n">rays</span> <span class="o">--</span><span class="n">crust2loc</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span><span class="mi">10</span> <span class="o">--</span><span class="n">phases</span><span class="o">=</span><span class="n">P</span><span class="p">,</span><span class="n">p</span> <span class="o">--</span><span class="n">sdepth</span><span class="o">=</span><span class="mi">10</span> <span class="o">--</span><span class="n">distances</span><span class="o">=</span><span class="mi">100</span><span class="p">:</span><span class="mi">1000</span><span class="p">:</span><span class="mi">10</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">cake</span> <span class="n">plot</span><span class="o">-</span><span class="n">rays</span> <span class="o">--</span><span class="n">crust2loc</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span><span class="mi">10</span> <span class="o">--</span><span class="n">phases</span><span class="o">=</span><span class="n">P</span><span class="p">,</span><span class="n">p</span> <span class="o">--</span><span class="n">sdepth</span><span class="o">=</span><span class="mi">10</span> <span class="o">--</span><span class="n">distances</span><span class="o">=</span><span class="mi">100</span><span class="p">:</span><span class="mi">1000</span><span class="p">:</span><span class="mi">10</span>
 </pre></div>
 </div>
 <div class="figure">
@@ -376,8 +376,8 @@ some of the following options.</p>
 <div class="section" id="some-water-multiples">
 <h3>Some water multiples<a class="headerlink" href="#some-water-multiples" title="Permalink to this headline">¶</a></h3>
 <p>Receivers may be at any depth. Arbitrary reflection/conversion histories may be choosen.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cake</span> <span class="n">plot</span><span class="o">-</span><span class="n">rays</span> <span class="o">--</span><span class="n">sdepth</span><span class="o">=</span><span class="mi">15</span> <span class="o">--</span><span class="n">distances</span><span class="o">=</span><span class="mi">10</span> <span class="o">--</span><span class="n">rdepth</span><span class="o">=</span><span class="mf">4.443</span> <span class="o">--</span><span class="n">crust2loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span> \
-               <span class="o">--</span><span class="n">phase</span><span class="o">=</span><span class="s1">&#39;pP\,pPv3pP\,pPv3pPv3pP\,p&#39;</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">cake</span> <span class="n">plot</span><span class="o">-</span><span class="n">rays</span> <span class="o">--</span><span class="n">sdepth</span><span class="o">=</span><span class="mi">15</span> <span class="o">--</span><span class="n">distances</span><span class="o">=</span><span class="mi">10</span> <span class="o">--</span><span class="n">rdepth</span><span class="o">=</span><span class="mf">4.443</span> <span class="o">--</span><span class="n">crust2loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span> \
+               <span class="o">--</span><span class="n">phase</span><span class="o">=</span><span class="s">&#39;pP\,pPv3pP\,pPv3pPv3pP\,p&#39;</span>
 </pre></div>
 </div>
 <div class="figure">
@@ -385,8 +385,8 @@ some of the following options.</p>
 </div>
 <p>To print arrival times and other ray parameters, replace <code class="docutils literal"><span class="pre">plot-rays</span></code> with
 <code class="docutils literal"><span class="pre">arrivals</span></code> in the command line above.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">cake</span> <span class="n">arrivals</span> <span class="o">--</span><span class="n">sdepth</span><span class="o">=</span><span class="mi">15</span> <span class="o">--</span><span class="n">distances</span><span class="o">=</span><span class="mi">10</span> <span class="o">--</span><span class="n">rdepth</span><span class="o">=</span><span class="mf">4.443</span> <span class="o">--</span><span class="n">crust2loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span> \
-              <span class="o">--</span><span class="n">phase</span><span class="o">=</span><span class="s1">&#39;pP\,pPv3pP\,pPv3pPv3pP\,p&#39;</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="o">&gt;</span> <span class="n">cake</span> <span class="n">arrivals</span> <span class="o">--</span><span class="n">sdepth</span><span class="o">=</span><span class="mi">15</span> <span class="o">--</span><span class="n">distances</span><span class="o">=</span><span class="mi">10</span> <span class="o">--</span><span class="n">rdepth</span><span class="o">=</span><span class="mf">4.443</span> <span class="o">--</span><span class="n">crust2loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span> \
+              <span class="o">--</span><span class="n">phase</span><span class="o">=</span><span class="s">&#39;pP\,pPv3pP\,pPv3pPv3pP\,p&#39;</span>
 
 <span class="n">slow</span>    <span class="n">dist</span>  <span class="n">time</span>   <span class="n">take</span> <span class="n">inci</span> <span class="n">effi</span> <span class="n">spre</span> <span class="n">phase</span>             <span class="n">used</span>
 <span class="n">s</span><span class="o">/</span><span class="n">km</span>    <span class="n">km</span>    <span class="n">s</span>      <span class="n">deg</span>  <span class="n">deg</span>  <span class="o">%</span>    <span class="o">%</span>
@@ -401,7 +401,7 @@ some of the following options.</p>
 <div class="section" id="classic-phase-names">
 <h3>Classic phase names<a class="headerlink" href="#classic-phase-names" title="Permalink to this headline">¶</a></h3>
 <p>To use classic phase names, use the <a class="reference internal" href="#cmdoption-cake-classic"><code class="xref std std-option docutils literal"><span class="pre">--classic</span></code></a> option:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cake</span> <span class="n">plot</span><span class="o">-</span><span class="n">rays</span> <span class="o">--</span><span class="n">classic</span><span class="o">=</span><span class="n">Pdiff</span><span class="p">,</span><span class="n">PKP</span><span class="p">,</span><span class="n">PKIKP</span> <span class="o">--</span><span class="n">distances</span><span class="o">=</span><span class="mi">110</span><span class="p">:</span><span class="mi">150</span><span class="p">:</span><span class="mi">5</span> <span class="o">--</span><span class="n">degrees</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">cake</span> <span class="n">plot</span><span class="o">-</span><span class="n">rays</span> <span class="o">--</span><span class="n">classic</span><span class="o">=</span><span class="n">Pdiff</span><span class="p">,</span><span class="n">PKP</span><span class="p">,</span><span class="n">PKIKP</span> <span class="o">--</span><span class="n">distances</span><span class="o">=</span><span class="mi">110</span><span class="p">:</span><span class="mi">150</span><span class="p">:</span><span class="mi">5</span> <span class="o">--</span><span class="n">degrees</span>
 </pre></div>
 </div>
 <div class="figure">
@@ -410,7 +410,7 @@ some of the following options.</p>
 </div>
 <div class="section" id="model-plots">
 <h3>Model plots<a class="headerlink" href="#model-plots" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cake</span> <span class="n">plot</span><span class="o">-</span><span class="n">model</span> <span class="o">--</span><span class="n">model</span><span class="o">=</span><span class="n">prem</span><span class="o">-</span><span class="n">no</span><span class="o">-</span><span class="n">ocean</span><span class="o">.</span><span class="n">m</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">cake</span> <span class="n">plot</span><span class="o">-</span><span class="n">model</span> <span class="o">--</span><span class="n">model</span><span class="o">=</span><span class="n">prem</span><span class="o">-</span><span class="n">no</span><span class="o">-</span><span class="n">ocean</span><span class="o">.</span><span class="n">m</span>
 </pre></div>
 </div>
 <div class="figure">
@@ -420,11 +420,11 @@ some of the following options.</p>
 <div class="section" id="cake-phases">
 <h3>Cake phases<a class="headerlink" href="#cake-phases" title="Permalink to this headline">¶</a></h3>
 <p>It is possible to see the exact definition of a phase using <code class="docutils literal"><span class="pre">cake</span> <span class="pre">print</span> <span class="pre">...</span></code>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">cake</span> <span class="nb">print</span> <span class="o">--</span><span class="n">classic</span><span class="o">=</span><span class="n">Pg</span>
-<span class="n">Phase</span> <span class="n">definition</span> <span class="s2">&quot;P&lt;(moho)&quot;</span><span class="p">:</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="o">&gt;</span> <span class="n">cake</span> <span class="nb">print</span> <span class="o">--</span><span class="n">classic</span><span class="o">=</span><span class="n">Pg</span>
+<span class="n">Phase</span> <span class="n">definition</span> <span class="s">&quot;P&lt;(moho)&quot;</span><span class="p">:</span>
  <span class="o">-</span> <span class="n">P</span> <span class="n">mode</span> <span class="n">propagation</span><span class="p">,</span> <span class="n">departing</span> <span class="n">downward</span> <span class="p">(</span><span class="n">may</span> <span class="ow">not</span> <span class="n">propagate</span> <span class="n">deeper</span> <span class="n">than</span> <span class="n">interface</span> <span class="n">moho</span><span class="p">)</span>
  <span class="o">-</span> <span class="n">arriving</span> <span class="n">at</span> <span class="n">target</span> <span class="kn">from</span> <span class="nn">below</span>
-<span class="n">Phase</span> <span class="n">definition</span> <span class="s2">&quot;p&lt;(moho)&quot;</span><span class="p">:</span>
+<span class="n">Phase</span> <span class="n">definition</span> <span class="s">&quot;p&lt;(moho)&quot;</span><span class="p">:</span>
  <span class="o">-</span> <span class="n">P</span> <span class="n">mode</span> <span class="n">propagation</span><span class="p">,</span> <span class="n">departing</span> <span class="n">upward</span> <span class="p">(</span><span class="n">may</span> <span class="ow">not</span> <span class="n">propagate</span> <span class="n">deeper</span> <span class="n">than</span> <span class="n">interface</span> <span class="n">moho</span><span class="p">)</span>
  <span class="o">-</span> <span class="n">arriving</span> <span class="n">at</span> <span class="n">target</span> <span class="kn">from</span> <span class="nn">below</span>
 </pre></div>
@@ -433,13 +433,13 @@ some of the following options.</p>
 phase definitions, one for downgoing and one for upgoing takeoff direction and
 that there is a constraint on maximum depth.</p>
 <p>Here&#8217;s another example to illustrate why cake needs its special phase definition syntax:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">cat</span> <span class="o">&gt;</span><span class="n">waveguide</span><span class="o">.</span><span class="n">nd</span> <span class="o">&lt;&lt;</span><span class="n">EOF</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="o">&gt;</span> <span class="n">cat</span> <span class="o">&gt;</span><span class="n">waveguide</span><span class="o">.</span><span class="n">nd</span> <span class="o">&lt;&lt;</span><span class="n">EOF</span>
 <span class="mi">0</span> <span class="mi">4</span> <span class="mf">2.3</span>  <span class="mf">2.6</span>
 <span class="mi">1</span> <span class="mi">3</span> <span class="mf">1.73</span> <span class="mf">2.6</span>
 <span class="mi">2</span> <span class="mi">4</span> <span class="mf">2.3</span>  <span class="mf">2.6</span>
 <span class="n">EOF</span>
-<span class="o">&gt;</span> <span class="n">cake</span> <span class="n">plot</span><span class="o">-</span><span class="n">rays</span> <span class="o">--</span><span class="n">phases</span><span class="o">=</span><span class="s1">&#39;P,p,P\,p</span><span class="se">\&#39;</span><span class="s1"> --sdepth=0.5 --rdepth=1.5 --distances=3,5 </span><span class="se">\</span>
-<span class="s1">                 --model=waveguide.nd</span>
+<span class="o">&gt;</span> <span class="n">cake</span> <span class="n">plot</span><span class="o">-</span><span class="n">rays</span> <span class="o">--</span><span class="n">phases</span><span class="o">=</span><span class="s">&#39;P,p,P\,p</span><span class="se">\&#39;</span><span class="s"> --sdepth=0.5 --rdepth=1.5 --distances=3,5 </span><span class="se">\</span>
+<span class="s">                 --model=waveguide.nd</span>
 </pre></div>
 </div>
 <div class="figure">
@@ -449,7 +449,7 @@ that there is a constraint on maximum depth.</p>
 <div class="section" id="material-calculator">
 <h3>Material calculator<a class="headerlink" href="#material-calculator" title="Permalink to this headline">¶</a></h3>
 <p>Cake can also be used to convert between different material parameters:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">cake</span> <span class="nb">print</span> <span class="o">--</span><span class="n">vp</span><span class="o">=</span><span class="mi">5</span> <span class="o">--</span><span class="n">poisson</span><span class="o">=</span><span class="mf">0.25</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="o">&gt;</span> <span class="n">cake</span> <span class="nb">print</span> <span class="o">--</span><span class="n">vp</span><span class="o">=</span><span class="mi">5</span> <span class="o">--</span><span class="n">poisson</span><span class="o">=</span><span class="mf">0.25</span>
 <span class="n">P</span> <span class="n">wave</span> <span class="n">velocity</span>     <span class="p">[</span><span class="n">km</span><span class="o">/</span><span class="n">s</span><span class="p">]</span>    <span class="p">:</span>            <span class="mi">5</span>
 <span class="n">S</span> <span class="n">wave</span> <span class="n">velocity</span>     <span class="p">[</span><span class="n">km</span><span class="o">/</span><span class="n">s</span><span class="p">]</span>    <span class="p">:</span>      <span class="mf">2.88675</span>
 <span class="n">P</span><span class="o">/</span><span class="n">S</span> <span class="n">wave</span> <span class="n">vel</span><span class="o">.</span> <span class="n">ratio</span>           <span class="p">:</span>      <span class="mf">1.73205</span>
@@ -457,7 +457,7 @@ that there is a constraint on maximum depth.</p>
 <span class="n">Lame</span> <span class="n">shear</span> <span class="n">modulus</span>  <span class="p">[</span><span class="n">GPa</span><span class="p">]</span>     <span class="p">:</span>      <span class="mf">21.6667</span>
 <span class="n">Poisson</span> <span class="n">ratio</span>                 <span class="p">:</span>         <span class="mf">0.25</span>
 <span class="n">Bulk</span> <span class="n">modulus</span>        <span class="p">[</span><span class="n">GPa</span><span class="p">]</span>     <span class="p">:</span>      <span class="mf">36.1111</span>
-<span class="n">Young</span><span class="s1">&#39;s modulus     [GPa]     :      54.1667</span>
+<span class="n">Young</span><span class="s">&#39;s modulus     [GPa]     :      54.1667</span>
 <span class="n">Rayleigh</span> <span class="n">wave</span> <span class="n">vel</span><span class="o">.</span>  <span class="p">[</span><span class="n">km</span><span class="o">/</span><span class="n">s</span><span class="p">]</span>    <span class="p">:</span>      <span class="mf">2.65408</span>
 <span class="n">Density</span>             <span class="p">[</span><span class="n">g</span><span class="o">/</span><span class="n">cm</span><span class="o">**</span><span class="mi">3</span><span class="p">]</span> <span class="p">:</span>          <span class="mf">2.6</span>
 <span class="n">Qp</span>                            <span class="p">:</span>         <span class="mi">1350</span>
@@ -471,8 +471,8 @@ that there is a constraint on maximum depth.</p>
 <p>The <code class="docutils literal"><span class="pre">scatter</span></code> subcommand may be used to see how much energy (in percent) is
 transmitted through or reflected by an interface for any given surface
 slowness (P-SV case):</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">cake</span> <span class="n">scatter</span> <span class="o">--</span><span class="n">interface</span><span class="o">=</span><span class="n">moho</span> <span class="o">--</span><span class="n">slowness</span><span class="o">=</span><span class="mf">0.0</span>
-<span class="n">interface</span> <span class="s2">&quot;moho&quot;</span> <span class="p">(</span><span class="mi">35</span> <span class="n">km</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="o">&gt;</span> <span class="n">cake</span> <span class="n">scatter</span> <span class="o">--</span><span class="n">interface</span><span class="o">=</span><span class="n">moho</span> <span class="o">--</span><span class="n">slowness</span><span class="o">=</span><span class="mf">0.0</span>
+<span class="n">interface</span> <span class="s">&quot;moho&quot;</span> <span class="p">(</span><span class="mi">35</span> <span class="n">km</span><span class="p">)</span>
 
              <span class="mf">4.349</span>       <span class="mf">3.209</span>                     <span class="mf">95.65</span>       <span class="mf">96.79</span>
   \<span class="n">P</span>         <span class="o">/</span><span class="n">P</span>      \<span class="n">S</span>  <span class="o">/</span><span class="n">S</span>                        <span class="o">/</span><span class="n">P</span>          <span class="o">/</span><span class="n">S</span>
@@ -483,7 +483,7 @@ slowness (P-SV case):</p>
 
 
 <span class="o">&gt;</span> <span class="n">cake</span> <span class="n">scatter</span> <span class="o">--</span><span class="n">interface</span><span class="o">=</span><span class="n">moho</span> <span class="o">--</span><span class="n">slowness</span><span class="o">=</span><span class="mf">0.15</span>
-<span class="n">interface</span> <span class="s2">&quot;moho&quot;</span> <span class="p">(</span><span class="mi">35</span> <span class="n">km</span><span class="p">)</span>
+<span class="n">interface</span> <span class="s">&quot;moho&quot;</span> <span class="p">(</span><span class="mi">35</span> <span class="n">km</span><span class="p">)</span>
 
       <span class="mf">3.899</span>  <span class="mf">92.69</span>       <span class="mf">1.859</span>  <span class="mf">3.899</span>       <span class="mf">94.24</span>  <span class="mf">3.411</span>
   \<span class="n">P</span>  <span class="o">/</span><span class="n">S</span>     <span class="o">/</span><span class="n">P</span>      \<span class="n">S</span>  <span class="o">/</span><span class="n">S</span>     <span class="o">/</span><span class="n">P</span>          <span class="o">/</span><span class="n">S</span>     <span class="o">/</span><span class="n">P</span>
@@ -499,7 +499,7 @@ slowness (P-SV case):</p>
 <div class="section" id="calculate-p-phase-arrivals">
 <h3>Calculate P-phase arrivals<a class="headerlink" href="#calculate-p-phase-arrivals" title="Permalink to this headline">¶</a></h3>
 <p>The following Python script calculates arrival times for the P-phase emitted by an event in a depth of 300km.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Calculate P-phase arrivals.</span>
 <span class="sd">&#39;&#39;&#39;</span>
 
@@ -507,22 +507,22 @@ slowness (P-SV case):</p>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
 <span class="n">km</span> <span class="o">=</span> <span class="mf">1000.</span>
 
-<span class="c1"># Load builtin &#39;prem-no-ocean&#39; model (&#39;.m&#39;: medium resolution variant)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">cake</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="s1">&#39;prem-no-ocean.m&#39;</span><span class="p">)</span>
+<span class="c"># Load builtin &#39;prem-no-ocean&#39; model (&#39;.m&#39;: medium resolution variant)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">cake</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="s">&#39;prem-no-ocean.m&#39;</span><span class="p">)</span>
 
-<span class="c1"># Source depth [m].</span>
+<span class="c"># Source depth [m].</span>
 <span class="n">source_depth</span> <span class="o">=</span> <span class="mf">300.</span> <span class="o">*</span> <span class="n">km</span>
 
-<span class="c1"># Distances as a numpy array [deg].</span>
+<span class="c"># Distances as a numpy array [deg].</span>
 <span class="n">distances</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1500</span><span class="p">,</span><span class="mi">3000</span><span class="p">,</span><span class="mi">16</span><span class="p">)</span><span class="o">*</span><span class="n">km</span> <span class="o">*</span> <span class="n">cake</span><span class="o">.</span><span class="n">m2d</span>
 
-<span class="c1"># Define the phase to use.</span>
-<span class="n">Phase</span> <span class="o">=</span> <span class="n">cake</span><span class="o">.</span><span class="n">PhaseDef</span><span class="p">(</span><span class="s1">&#39;P&#39;</span><span class="p">)</span>
+<span class="c"># Define the phase to use.</span>
+<span class="n">Phase</span> <span class="o">=</span> <span class="n">cake</span><span class="o">.</span><span class="n">PhaseDef</span><span class="p">(</span><span class="s">&#39;P&#39;</span><span class="p">)</span>
 
-<span class="c1"># calculate distances and arrivals and print them:</span>
-<span class="nb">print</span> <span class="s1">&#39;distance [km]      time [s]&#39;</span>
+<span class="c"># calculate distances and arrivals and print them:</span>
+<span class="nb">print</span> <span class="s">&#39;distance [km]      time [s]&#39;</span>
 <span class="k">for</span> <span class="n">arrival</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">arrivals</span><span class="p">(</span><span class="n">distances</span><span class="p">,</span> <span class="n">phases</span><span class="o">=</span><span class="n">Phase</span><span class="p">,</span> <span class="n">zstart</span><span class="o">=</span><span class="n">source_depth</span><span class="p">):</span>
-    <span class="nb">print</span> <span class="s1">&#39;</span><span class="si">%13g</span><span class="s1"> </span><span class="si">%13g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">arrival</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">cake</span><span class="o">.</span><span class="n">d2m</span><span class="o">/</span><span class="n">km</span><span class="p">,</span> <span class="n">arrival</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="s">&#39;%13g %13g&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">arrival</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">cake</span><span class="o">.</span><span class="n">d2m</span><span class="o">/</span><span class="n">km</span><span class="p">,</span> <span class="n">arrival</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

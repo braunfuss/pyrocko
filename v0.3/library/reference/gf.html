@@ -348,14 +348,14 @@ when computation are done for lower frequency signals.</p>
 <dd><p>Compute interpolated phase arrivals.</p>
 <p><strong>Examples:</strong></p>
 <p>If <code class="docutils literal"><span class="pre">test_store</span></code> is of <a class="reference internal" href="#pyrocko.gf.meta.ConfigTypeA" title="pyrocko.gf.meta.ConfigTypeA"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.gf.meta.ConfigTypeA</span></code></a>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">test_store</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">))</span>
-<span class="n">test_store</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="s1">&#39;last{P|Pdiff}&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">))</span> <span class="c1"># The latter arrival</span>
-                                             <span class="c1"># of P or diffracted</span>
-                                             <span class="c1"># P phase</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">test_store</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="s">&#39;p&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">))</span>
+<span class="n">test_store</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="s">&#39;last{P|Pdiff}&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">))</span> <span class="c"># The latter arrival</span>
+                                             <span class="c"># of P or diffracted</span>
+                                             <span class="c"># P phase</span>
 </pre></div>
 </div>
 <p>If <code class="docutils literal"><span class="pre">test_store</span></code> is of <a class="reference internal" href="#pyrocko.gf.meta.ConfigTypeB" title="pyrocko.gf.meta.ConfigTypeB"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.gf.meta.ConfigTypeB</span></code></a>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>test_store.t(&#39;S&#39;, (1000, 1000, 10000))
+<div class="highlight-default"><div class="highlight"><pre>test_store.t(&#39;S&#39;, (1000, 1000, 10000))
 test_store.t(&#39;first{P|p|Pdiff|sP}&#39;, (1000, 1000, 10000)) # The
             `                                # first arrival of
                                              # the given phases is
@@ -426,13 +426,13 @@ the tablulated times is adjusted to the sampling rate of the store.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.SObject</span></code></p>
 <p>Convenient range specification.</p>
 <p>Equivalent ways to sepecify the range [ 0., 1000., ... 10000. ]:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Range</span><span class="p">(</span><span class="s1">&#39;0 .. 10k : 1k&#39;</span><span class="p">)</span>
-<span class="n">Range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="mf">10e3</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">1e3</span><span class="p">)</span>
-<span class="n">Range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">10e3</span><span class="p">,</span> <span class="mf">1e3</span><span class="p">)</span>
-<span class="n">Range</span><span class="p">(</span><span class="s1">&#39;0 .. 10k @ 11&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">Range</span><span class="p">(</span><span class="s">&#39;0 .. 10k : 1k&#39;</span><span class="p">)</span>
+<span class="n">Range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="mi">10</span><span class="n">e3</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="n">e3</span><span class="p">)</span>
+<span class="n">Range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="n">e3</span><span class="p">,</span> <span class="mi">1</span><span class="n">e3</span><span class="p">)</span>
+<span class="n">Range</span><span class="p">(</span><span class="s">&#39;0 .. 10k @ 11&#39;</span><span class="p">)</span>
 <span class="n">Range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="mi">10</span><span class="o">*</span><span class="n">km</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
-<span class="n">Range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">10e3</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
-<span class="n">Range</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="o">*</span><span class="mf">1e3</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">11</span><span class="p">)])</span>
+<span class="n">Range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="n">e3</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">Range</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="o">*</span><span class="mi">1</span><span class="n">e3</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">11</span><span class="p">)])</span>
 </pre></div>
 </div>
 <p>Depending on the use context, it can be possible to omit any part of the
@@ -445,8 +445,8 @@ external base value with the <code class="docutils literal"><span class="pre">re
 supports this.</p>
 <p>The range specification can be expressed with a short string
 representation:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="s1">&#39;start .. stop @ num | spacing, relative&#39;</span>
-<span class="s1">&#39;start .. stop : step | spacing, relative&#39;</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="s">&#39;start .. stop @ num | spacing, relative&#39;</span>
+<span class="s">&#39;start .. stop : step | spacing, relative&#39;</span>
 </pre></div>
 </div>
 <p>most parts of the expression can be omitted if not needed. Whitespace is
@@ -478,7 +478,7 @@ allowed for readability but can also be omitted.</p>
 <dl class="gattribute">
 <dt id="pyrocko.gf.seismosizer.Range.values">
 <em class="property">♦ </em><code class="descname">values</code><a class="headerlink" href="#pyrocko.gf.seismosizer.Range.values" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>), <em>optional</em></p>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>), <em>optional</em></p>
 </dd></dl>
 
 <dl class="gattribute">
@@ -616,7 +616,7 @@ allowed for readability but can also be omitted.</p>
 <code class="descname">update</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/gf/seismosizer.html#Source.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.gf.seismosizer.Source.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change some of the source models parameters.</p>
 <p>Example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">gf</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">gf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">DCSource</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">strike</span><span class="o">=</span><span class="mf">66.</span><span class="p">,</span> <span class="n">dip</span><span class="o">=</span><span class="mf">33.</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">s</span>
@@ -644,10 +644,10 @@ allowed for readability but can also be omitted.</p>
 </tbody>
 </table>
 <p>Example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">gf</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">gf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">base</span> <span class="o">=</span> <span class="n">DCSource</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">R</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">Range</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">base</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">R</span><span class="p">(</span><span class="s1">&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">base</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">R</span><span class="p">(</span><span class="s">&#39;</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1265,7 +1265,7 @@ brought into a small source volume.</p>
 <em class="property">class </em><code class="descname">Request</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/gf/seismosizer.html#Request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.gf.seismosizer.Request" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts.Object</span></code></p>
 <p>Synthetic seismogram computation request.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Request</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">Request</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 <span class="n">Request</span><span class="p">(</span><span class="n">sources</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1550,7 +1550,7 @@ undefined.</p>
 <dt id="pyrocko.gf.seismosizer.LocalEngine.process">
 <code class="descname">process</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/gf/seismosizer.html#LocalEngine.process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.gf.seismosizer.LocalEngine.process" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process a request.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">process</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">process</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 <span class="n">process</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 <span class="n">process</span><span class="p">(</span><span class="n">sources</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </pre></div>
@@ -1812,12 +1812,12 @@ post-processing is applied.</p>
 <dl class="gattribute">
 <dt id="pyrocko.gf.targets.SatelliteTarget.theta">
 <em class="property">♦ </em><code class="descname">theta</code><a class="headerlink" href="#pyrocko.gf.targets.SatelliteTarget.theta" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
 <p>Horizontal angle towards satellite&#8217;s line of sight in radians.</p>
 <blockquote>
 <div><div class="admonition important">
 <p class="first admonition-title">Important</p>
-<p class="last"><span class="math">0</span> is <strong>east</strong> and <span class="math">\frac{\pi}{2}</span> is <strong>north</strong>.</p>
+<p class="last"><img class="math" src="../../_images/math/532f3248d6552e7ac6b785bd935f404ad593e6a9.svg" alt="0"/> is <strong>east</strong> and <img class="math" src="../../_images/math/8682efc566ec991e274a96086f79643e45fc5cab.svg" alt="\frac{\pi}{2}"/> is <strong>north</strong>.</p>
 </div>
 </div></blockquote>
 </dd></dl>
@@ -1825,12 +1825,12 @@ post-processing is applied.</p>
 <dl class="gattribute">
 <dt id="pyrocko.gf.targets.SatelliteTarget.phi">
 <em class="property">♦ </em><code class="descname">phi</code><a class="headerlink" href="#pyrocko.gf.targets.SatelliteTarget.phi" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
 <p>Theta is look vector elevation angle towards satellite from horizon in radians. Matrix of theta towards satellite’s line of sight.</p>
 <blockquote>
 <div><div class="admonition important">
 <p class="first admonition-title">Important</p>
-<p class="last"><span class="math">-\frac{\pi}{2}</span> is <strong>down</strong> and <span class="math">\frac{\pi}{2}</span> is <strong>up</strong>.</p>
+<p class="last"><img class="math" src="../../_images/math/8121f3592ecb36229102c1638c8d3d1e6e7cb1fe.svg" alt="-\frac{\pi}{2}"/> is <strong>down</strong> and <img class="math" src="../../_images/math/8682efc566ec991e274a96086f79643e45fc5cab.svg" alt="\frac{\pi}{2}"/> is <strong>up</strong>.</p>
 </div>
 </div></blockquote>
 </dd></dl>
@@ -1862,7 +1862,7 @@ post-processing is applied.</p>
 <dl class="gattribute">
 <dt id="pyrocko.gf.meta.SeismosizerTrace.data">
 <em class="property">♦ </em><code class="descname">data</code><a class="headerlink" href="#pyrocko.gf.meta.SeismosizerTrace.data" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
 <p>numpy array with data samples</p>
 </dd></dl>
 
@@ -2304,7 +2304,7 @@ the <a class="reference internal" href="#pyrocko.gf.meta.Location.effective_latl
 <p>All coordinates are transformed to cartesian coordinates if necessary
 then distance is:</p>
 <div class="math">
-<p><span class="math">\Delta = \sqrt{\Delta {\bf x}^2 + \Delta {\bf y}^2 +                       \Delta {\bf z}^2}</span></p>
+<p><img src="../../_images/math/c6ed00da8ac0c863e2d0cda01206728a70f9807b.svg" alt="\Delta = \sqrt{\Delta {\bf x}^2 + \Delta {\bf y}^2 +                       \Delta {\bf z}^2}"/></p>
 </div></dd></dl>
 
 <dl class="method">
@@ -2337,7 +2337,7 @@ then distance is:</p>
 <dl class="gattribute">
 <dt id="pyrocko.gf.meta.DiscretizedExplosionSource.m0s">
 <em class="property">♦ </em><code class="descname">m0s</code><a class="headerlink" href="#pyrocko.gf.meta.DiscretizedExplosionSource.m0s" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
 </dd></dl>
 
 <dl class="classmethod">
@@ -2360,7 +2360,7 @@ sources match or are accounted for.</p>
 <dl class="gattribute">
 <dt id="pyrocko.gf.meta.DiscretizedSFSource.forces">
 <em class="property">♦ </em><code class="descname">forces</code><a class="headerlink" href="#pyrocko.gf.meta.DiscretizedSFSource.forces" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
 </dd></dl>
 
 <dl class="classmethod">
@@ -2383,7 +2383,7 @@ sources match or are accounted for.</p>
 <dl class="gattribute">
 <dt id="pyrocko.gf.meta.DiscretizedMTSource.m6s">
 <em class="property">♦ </em><code class="descname">m6s</code><a class="headerlink" href="#pyrocko.gf.meta.DiscretizedMTSource.m6s" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
 <p>rows with (m_nn, m_ee, m_dd, m_ne, m_nd, m_ed)</p>
 </dd></dl>
 
@@ -2407,7 +2407,7 @@ sources match or are accounted for.</p>
 <dl class="gattribute">
 <dt id="pyrocko.gf.meta.DiscretizedPorePressureSource.pp">
 <em class="property">♦ </em><code class="descname">pp</code><a class="headerlink" href="#pyrocko.gf.meta.DiscretizedPorePressureSource.pp" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.12)"><code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></a> (<code class="xref py py-class docutils literal"><span class="pre">pyrocko.guts_array.Array</span></code>)</p>
 </dd></dl>
 
 <dl class="classmethod">

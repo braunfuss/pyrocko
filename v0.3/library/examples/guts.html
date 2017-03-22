@@ -84,10 +84,10 @@ which attribute are important to the class.  In the case of
 create the class and attributes, where the attributes are defined as guts
 types (good practice is to define a <code class="docutils literal"><span class="pre">guts_prefix</span></code> to the module, as it helps
 with in/ex-porting).</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko.guts</span> <span class="k">import</span> <span class="n">load</span><span class="p">,</span> <span class="n">Object</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Int</span><span class="p">,</span> <span class="n">String</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko.guts</span> <span class="k">import</span> <span class="n">load</span><span class="p">,</span> <span class="n">Object</span><span class="p">,</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Int</span><span class="p">,</span> <span class="n">String</span>
 <span class="kn">from</span> <span class="nn">pyrocko.gf</span> <span class="k">import</span> <span class="n">Target</span>
 
-<span class="n">guts_prefix</span> <span class="o">=</span> <span class="s1">&#39;gft&#39;</span>
+<span class="n">guts_prefix</span> <span class="o">=</span> <span class="s">&#39;gft&#39;</span>
 
 <span class="k">class</span> <span class="nc">SensorArray</span><span class="p">(</span><span class="n">Target</span><span class="p">):</span>
 
@@ -96,13 +96,13 @@ with in/ex-porting).</p>
     <span class="n">strike</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
     <span class="n">sensor_count</span> <span class="o">=</span> <span class="n">Int</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 
-    <span class="c1"># this attribute is only used in this example</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c"># this attribute is only used in this example</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
-        <span class="c1"># call the guts initilizer</span>
-        <span class="n">Object</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c"># call the guts initilizer</span>
+        <span class="n">Object</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>As you can see only one type has a default value, so when initializing the
@@ -116,9 +116,9 @@ attribute has been assigned a value.</p>
 <div class="section" id="usage-examples">
 <h2>Usage examples<a class="headerlink" href="#usage-examples" title="Permalink to this headline">¶</a></h2>
 <p>Now that a class has been defined (and imported) we can see how to use it.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sa1</span> <span class="o">=</span> <span class="n">SensorArray</span><span class="p">(</span><span class="n">distance_min</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">distance_max</span><span class="o">=</span><span class="mf">100e3</span><span class="p">,</span> <span class="n">strike</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
-<span class="n">sa2</span> <span class="o">=</span> <span class="n">SensorArray</span><span class="p">(</span><span class="n">distance_min</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">distance_max</span><span class="o">=</span><span class="mf">100e3</span><span class="p">,</span> <span class="n">strike</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
-                  <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Sensor array 2&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">sa1</span> <span class="o">=</span> <span class="n">SensorArray</span><span class="p">(</span><span class="n">distance_min</span><span class="o">=</span><span class="mi">1</span><span class="n">e3</span><span class="p">,</span> <span class="n">distance_max</span><span class="o">=</span><span class="mi">100</span><span class="n">e3</span><span class="p">,</span> <span class="n">strike</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+<span class="n">sa2</span> <span class="o">=</span> <span class="n">SensorArray</span><span class="p">(</span><span class="n">distance_min</span><span class="o">=</span><span class="mi">1</span><span class="n">e3</span><span class="p">,</span> <span class="n">distance_max</span><span class="o">=</span><span class="mi">100</span><span class="n">e3</span><span class="p">,</span> <span class="n">strike</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
+                  <span class="n">name</span><span class="o">=</span><span class="s">&#39;Sensor array 2&#39;</span><span class="p">)</span>
 
 <span class="nb">print</span> <span class="n">sa1</span>
 <span class="sd">&#39;&#39;&#39;</span>
@@ -155,12 +155,12 @@ attribute has been assigned a value.</p>
 <span class="sd">name: Sensor array 2</span>
 <span class="sd">&#39;&#39;&#39;</span>
 
-<span class="c1"># export the object definition to a file</span>
-<span class="n">sa1</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;sensorarray1&#39;</span><span class="p">)</span>
+<span class="c"># export the object definition to a file</span>
+<span class="n">sa1</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&#39;sensorarray1&#39;</span><span class="p">)</span>
 
-<span class="c1"># import object definition from file</span>
-<span class="n">sa3</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s1">&#39;sensorarray1&#39;</span><span class="p">)</span>
-<span class="n">sa3</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Sensor array 3&#39;</span>
+<span class="c"># import object definition from file</span>
+<span class="n">sa3</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="s">&#39;sensorarray1&#39;</span><span class="p">)</span>
+<span class="n">sa3</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;Sensor array 3&#39;</span>
 <span class="nb">print</span> <span class="n">sa3</span>
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">output would look like</span>

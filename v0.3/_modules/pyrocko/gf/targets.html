@@ -54,8 +54,8 @@
           <div class="body" role="main">
             
   <h1>Source code for pyrocko.gf.targets</h1><div class="highlight"><pre>
-<span></span><span class="ch">#!/bin/python</span>
-<span class="c1"># encoding=utf8</span>
+<span class="c">#!/bin/python</span>
+<span class="c"># encoding=utf8</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
 <span class="kn">import</span> <span class="nn">math</span>
 
@@ -76,7 +76,7 @@
 
 
 <div class="viewcode-block" id="OptimizationMethod"><a class="viewcode-back" href="../../../library/reference/gf.html#pyrocko.gf.targets.OptimizationMethod">[docs]</a><span class="k">class</span> <span class="nc">OptimizationMethod</span><span class="p">(</span><span class="n">StringChoice</span><span class="p">):</span>
-    <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;enable&#39;</span><span class="p">,</span> <span class="s1">&#39;disable&#39;</span><span class="p">]</span></div>
+    <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;enable&#39;</span><span class="p">,</span> <span class="s">&#39;disable&#39;</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="Target"><a class="viewcode-back" href="../../../library/reference/gf.html#pyrocko.gf.targets.Target">[docs]</a><span class="k">class</span> <span class="nc">Target</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">Receiver</span><span class="p">):</span>
@@ -86,64 +86,64 @@
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="n">quantity</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">QuantityType</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Measurement quantity type (e.g. &quot;displacement&quot;, &quot;pressure&quot;, ...)&#39;</span>
-             <span class="s1">&#39;If not given, it is guessed from the channel code.&#39;</span><span class="p">)</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Measurement quantity type (e.g. &quot;displacement&quot;, &quot;pressure&quot;, ...)&#39;</span>
+             <span class="s">&#39;If not given, it is guessed from the channel code.&#39;</span><span class="p">)</span>
 
     <span class="n">codes</span> <span class="o">=</span> <span class="n">Tuple</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="mi">4</span><span class="p">,</span> <span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">(),</span> <span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;STA&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">),</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;network, station, location and channel codes to be set on &#39;</span>
-             <span class="s1">&#39;the response trace.&#39;</span><span class="p">)</span>
+        <span class="mi">4</span><span class="p">,</span> <span class="n">String</span><span class="o">.</span><span class="n">T</span><span class="p">(),</span> <span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;STA&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;Z&#39;</span><span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;network, station, location and channel codes to be set on &#39;</span>
+             <span class="s">&#39;the response trace.&#39;</span><span class="p">)</span>
 
     <span class="n">elevation</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;station surface elevation in [m]&#39;</span><span class="p">)</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;station surface elevation in [m]&#39;</span><span class="p">)</span>
 
     <span class="n">store_id</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">StringID</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;ID of Green</span><span class="se">\&#39;</span><span class="s1">s function store to use for the computation. &#39;</span>
-             <span class="s1">&#39;If not given, the processor may use a system default.&#39;</span><span class="p">)</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;ID of Green</span><span class="se">\&#39;</span><span class="s">s function store to use for the computation. &#39;</span>
+             <span class="s">&#39;If not given, the processor may use a system default.&#39;</span><span class="p">)</span>
 
     <span class="n">sample_rate</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;sample rate to produce. &#39;</span>
-             <span class="s1">&#39;If not given the GF store</span><span class="se">\&#39;</span><span class="s1">s default sample rate is used. &#39;</span>
-             <span class="s1">&#39;GF store specific restrictions may apply.&#39;</span><span class="p">)</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;sample rate to produce. &#39;</span>
+             <span class="s">&#39;If not given the GF store</span><span class="se">\&#39;</span><span class="s">s default sample rate is used. &#39;</span>
+             <span class="s">&#39;GF store specific restrictions may apply.&#39;</span><span class="p">)</span>
 
     <span class="n">interpolation</span> <span class="o">=</span> <span class="n">InterpolationMethod</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;nearest_neighbor&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Interpolation method between Green</span><span class="se">\&#39;</span><span class="s1">s functions. Supported are&#39;</span>
-             <span class="s1">&#39; ``nearest_neighbor`` and ``multilinear``&#39;</span><span class="p">)</span>
+        <span class="n">default</span><span class="o">=</span><span class="s">&#39;nearest_neighbor&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Interpolation method between Green</span><span class="se">\&#39;</span><span class="s">s functions. Supported are&#39;</span>
+             <span class="s">&#39; ``nearest_neighbor`` and ``multilinear``&#39;</span><span class="p">)</span>
 
     <span class="n">optimization</span> <span class="o">=</span> <span class="n">OptimizationMethod</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;enable&#39;</span><span class="p">,</span>
-        <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;disable/enable optimizations in weight-delay-and-sum operation&#39;</span><span class="p">)</span>
+        <span class="n">default</span><span class="o">=</span><span class="s">&#39;enable&#39;</span><span class="p">,</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;disable/enable optimizations in weight-delay-and-sum operation&#39;</span><span class="p">)</span>
 
     <span class="n">tmin</span> <span class="o">=</span> <span class="n">Timestamp</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;time of first sample to request in [s]. &#39;</span>
-             <span class="s1">&#39;If not given, it is determined from the Green</span><span class="se">\&#39;</span><span class="s1">s functions.&#39;</span><span class="p">)</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;time of first sample to request in [s]. &#39;</span>
+             <span class="s">&#39;If not given, it is determined from the Green</span><span class="se">\&#39;</span><span class="s">s functions.&#39;</span><span class="p">)</span>
 
     <span class="n">tmax</span> <span class="o">=</span> <span class="n">Timestamp</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;time of last sample to request in [s]. &#39;</span>
-             <span class="s1">&#39;If not given, it is determined from the Green</span><span class="se">\&#39;</span><span class="s1">s functions.&#39;</span><span class="p">)</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;time of last sample to request in [s]. &#39;</span>
+             <span class="s">&#39;If not given, it is determined from the Green</span><span class="se">\&#39;</span><span class="s">s functions.&#39;</span><span class="p">)</span>
 
     <span class="n">azimuth</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;azimuth of sensor component in [deg], clockwise from north. &#39;</span>
-             <span class="s1">&#39;If not given, it is guessed from the channel code.&#39;</span><span class="p">)</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;azimuth of sensor component in [deg], clockwise from north. &#39;</span>
+             <span class="s">&#39;If not given, it is guessed from the channel code.&#39;</span><span class="p">)</span>
 
     <span class="n">dip</span> <span class="o">=</span> <span class="n">Float</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;dip of sensor component in [deg], &#39;</span>
-             <span class="s1">&#39;measured downward from horizontal. &#39;</span>
-             <span class="s1">&#39;If not given, it is guessed from the channel code.&#39;</span><span class="p">)</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;dip of sensor component in [deg], &#39;</span>
+             <span class="s">&#39;measured downward from horizontal. &#39;</span>
+             <span class="s">&#39;If not given, it is guessed from the channel code.&#39;</span><span class="p">)</span>
 
     <span class="nb">filter</span> <span class="o">=</span> <span class="n">Filter</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;frequency response filter.&#39;</span><span class="p">)</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;frequency response filter.&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">base_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_rate</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">interpolation</span><span class="p">,</span>
@@ -153,35 +153,35 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lon</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">effective_quantity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantity</span>
 
-        <span class="c1"># guess from channel code</span>
+        <span class="c"># guess from channel code</span>
         <span class="n">cha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cha</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="c1"># use most common SEED conventions here, however units have to be</span>
-            <span class="c1"># guessed, because they are not uniquely defined by the conventions</span>
-            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="s1">&#39;HL&#39;</span><span class="p">:</span>  <span class="c1"># high gain, low gain seismometer</span>
-                <span class="k">return</span> <span class="s1">&#39;velocity&#39;</span>
-            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;N&#39;</span><span class="p">:</span>   <span class="c1"># accelerometer</span>
-                <span class="k">return</span> <span class="s1">&#39;acceleration&#39;</span>
-            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;D&#39;</span><span class="p">:</span>   <span class="c1"># hydrophone, barometer, ...</span>
-                <span class="k">return</span> <span class="s1">&#39;pressure&#39;</span>
-            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span><span class="p">:</span>   <span class="c1"># tiltmeter</span>
-                <span class="k">return</span> <span class="s1">&#39;tilt&#39;</span>
+            <span class="c"># use most common SEED conventions here, however units have to be</span>
+            <span class="c"># guessed, because they are not uniquely defined by the conventions</span>
+            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="ow">in</span> <span class="s">&#39;HL&#39;</span><span class="p">:</span>  <span class="c"># high gain, low gain seismometer</span>
+                <span class="k">return</span> <span class="s">&#39;velocity&#39;</span>
+            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;N&#39;</span><span class="p">:</span>   <span class="c"># accelerometer</span>
+                <span class="k">return</span> <span class="s">&#39;acceleration&#39;</span>
+            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;D&#39;</span><span class="p">:</span>   <span class="c"># hydrophone, barometer, ...</span>
+                <span class="k">return</span> <span class="s">&#39;pressure&#39;</span>
+            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;A&#39;</span><span class="p">:</span>   <span class="c"># tiltmeter</span>
+                <span class="k">return</span> <span class="s">&#39;tilt&#39;</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">cha</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;U&#39;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="s1">&#39;displacement&#39;</span>
-            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;V&#39;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="s1">&#39;velocity&#39;</span>
+            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;U&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s">&#39;displacement&#39;</span>
+            <span class="k">if</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;V&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s">&#39;velocity&#39;</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">cha</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">cha</span> <span class="ow">in</span> <span class="s1">&#39;NEZ&#39;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="s1">&#39;displacement&#39;</span>
-            <span class="k">if</span> <span class="n">cha</span> <span class="o">==</span> <span class="s1">&#39;P&#39;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="s1">&#39;pressure&#39;</span>
+            <span class="k">if</span> <span class="n">cha</span> <span class="ow">in</span> <span class="s">&#39;NEZ&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s">&#39;displacement&#39;</span>
+            <span class="k">if</span> <span class="n">cha</span> <span class="o">==</span> <span class="s">&#39;P&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s">&#39;pressure&#39;</span>
 
-        <span class="k">raise</span> <span class="n">BadTarget</span><span class="p">(</span><span class="s1">&#39;cannot guess measurement quantity type from channel &#39;</span>
-                        <span class="s1">&#39;code &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span> <span class="o">%</span> <span class="n">cha</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">BadTarget</span><span class="p">(</span><span class="s">&#39;cannot guess measurement quantity type from channel &#39;</span>
+                        <span class="s">&#39;code &quot;%s&quot;&#39;</span> <span class="o">%</span> <span class="n">cha</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">receiver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="p">):</span>
         <span class="n">rec</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">Receiver</span><span class="p">(</span><span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">Receiver</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">inamevals</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
@@ -192,24 +192,24 @@
         <span class="k">if</span> <span class="n">cha</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">cha</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">&#39; &#39;</span>
+            <span class="k">return</span> <span class="s">&#39; &#39;</span>
 
     <span class="k">def</span> <span class="nf">effective_azimuth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">azimuth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">azimuth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">azimuth</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_code</span><span class="p">()</span> <span class="ow">in</span> <span class="s1">&#39;NEZ&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">:</span> <span class="mf">90.</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">component_code</span><span class="p">()]</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_code</span><span class="p">()</span> <span class="ow">in</span> <span class="s">&#39;NEZ&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s">&#39;N&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span> <span class="s">&#39;E&#39;</span><span class="p">:</span> <span class="mf">90.</span><span class="p">,</span> <span class="s">&#39;Z&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">component_code</span><span class="p">()]</span>
 
-        <span class="k">raise</span> <span class="n">BadTarget</span><span class="p">(</span><span class="s1">&#39;cannot determine sensor component azimuth for &#39;</span>
-                        <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">codes</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">BadTarget</span><span class="p">(</span><span class="s">&#39;cannot determine sensor component azimuth for &#39;</span>
+                        <span class="s">&#39;%s.%s.%s.%s&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">codes</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">effective_dip</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dip</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_code</span><span class="p">()</span> <span class="ow">in</span> <span class="s1">&#39;NEZ&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">90.</span><span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">component_code</span><span class="p">()]</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_code</span><span class="p">()</span> <span class="ow">in</span> <span class="s">&#39;NEZ&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s">&#39;N&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span> <span class="s">&#39;E&#39;</span><span class="p">:</span> <span class="mf">0.</span><span class="p">,</span> <span class="s">&#39;Z&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">90.</span><span class="p">}[</span><span class="bp">self</span><span class="o">.</span><span class="n">component_code</span><span class="p">()]</span>
 
-        <span class="k">raise</span> <span class="n">BadTarget</span><span class="p">(</span><span class="s1">&#39;cannot determine sensor component dip&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">BadTarget</span><span class="p">(</span><span class="s">&#39;cannot determine sensor component dip&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_sin_cos_factors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">azi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effective_azimuth</span><span class="p">()</span>
@@ -233,27 +233,27 @@
 <span class="sd">    static/geodetic quantities.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">quantity</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">QuantityType</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;displacement&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Measurement quantity type, for now only `displacement` is&#39;</span>
-             <span class="s1">&#39;supported.&#39;</span><span class="p">)</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s">&#39;displacement&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Measurement quantity type, for now only `displacement` is&#39;</span>
+             <span class="s">&#39;supported.&#39;</span><span class="p">)</span>
 
     <span class="n">interpolation</span> <span class="o">=</span> <span class="n">InterpolationMethod</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;nearest_neighbor&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Interpolation method between Green</span><span class="se">\&#39;</span><span class="s1">s functions. Supported are&#39;</span>
-             <span class="s1">&#39; ``nearest_neighbor`` and ``multilinear``&#39;</span><span class="p">)</span>
+        <span class="n">default</span><span class="o">=</span><span class="s">&#39;nearest_neighbor&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Interpolation method between Green</span><span class="se">\&#39;</span><span class="s">s functions. Supported are&#39;</span>
+             <span class="s">&#39; ``nearest_neighbor`` and ``multilinear``&#39;</span><span class="p">)</span>
 
     <span class="n">tsnapshot</span> <span class="o">=</span> <span class="n">Timestamp</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;time of the desired snapshot in [s], &#39;</span>
-             <span class="s1">&#39;If not given, the first sample is taken. If the desired sample&#39;</span>
-             <span class="s1">&#39; exceeds the length of the Green</span><span class="se">\&#39;</span><span class="s1">s function store,&#39;</span>
-             <span class="s1">&#39; the last sample is taken.&#39;</span><span class="p">)</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;time of the desired snapshot in [s], &#39;</span>
+             <span class="s">&#39;If not given, the first sample is taken. If the desired sample&#39;</span>
+             <span class="s">&#39; exceeds the length of the Green</span><span class="se">\&#39;</span><span class="s">s function store,&#39;</span>
+             <span class="s">&#39; the last sample is taken.&#39;</span><span class="p">)</span>
 
     <span class="n">store_id</span> <span class="o">=</span> <span class="n">meta</span><span class="o">.</span><span class="n">StringID</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;ID of Green</span><span class="se">\&#39;</span><span class="s1">s function store to use for the computation. &#39;</span>
-             <span class="s1">&#39;If not given, the processor may use a system default.&#39;</span><span class="p">)</span>
+        <span class="n">optional</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;ID of Green</span><span class="se">\&#39;</span><span class="s">s function store to use for the computation. &#39;</span>
+             <span class="s">&#39;If not given, the processor may use a system default.&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">base_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">store_id</span><span class="p">,</span>
@@ -297,28 +297,30 @@
 <span class="sd">    post-processing is applied.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">theta</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Horizontal angle towards satellite</span><span class="se">\&#39;</span><span class="s1">s line of sight in radians.&#39;</span>
-             <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">        .. important::</span><span class="se">\n\n</span><span class="s1">&#39;</span>
-             <span class="s1">&#39;            :math:`0` is **east** and&#39;</span>
-             <span class="s1">&#39; :math:`</span><span class="se">\\</span><span class="s1">frac{</span><span class="se">\\</span><span class="s1">pi}</span><span class="si">{2}</span><span class="s1">` is **north**.</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Horizontal angle towards satellite</span><span class="se">\&#39;</span><span class="s">s line of sight in radians.&#39;</span>
+             <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">        .. important::</span><span class="se">\n\n</span><span class="s">&#39;</span>
+             <span class="s">&#39;            :math:`0` is **east** and&#39;</span>
+             <span class="s">&#39; :math:`</span><span class="se">\\</span><span class="s">frac{</span><span class="se">\\</span><span class="s">pi}{2}` is **north**.</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
 
     <span class="n">phi</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="n">T</span><span class="p">(</span>
-        <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Theta is look vector elevation angle towards satellite from&#39;</span>
-             <span class="s1">&#39; horizon in radians. Matrix of theta towards satellite’s&#39;</span>
-             <span class="s1">&#39; line of sight.&#39;</span>
-             <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">        .. important::</span><span class="se">\n\n</span><span class="s1">&#39;</span>
-             <span class="s1">&#39;            :math:`-</span><span class="se">\\</span><span class="s1">frac{</span><span class="se">\\</span><span class="s1">pi}</span><span class="si">{2}</span><span class="s1">` is **down** and&#39;</span>
-             <span class="s1">&#39; :math:`</span><span class="se">\\</span><span class="s1">frac{</span><span class="se">\\</span><span class="s1">pi}</span><span class="si">{2}</span><span class="s1">` is **up**.</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="k">None</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">num</span><span class="o">.</span><span class="n">float</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Theta is look vector elevation angle towards satellite from&#39;</span>
+             <span class="s">&#39; horizon in radians. Matrix of theta towards satellite’s&#39;</span>
+             <span class="s">&#39; line of sight.&#39;</span>
+             <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">        .. important::</span><span class="se">\n\n</span><span class="s">&#39;</span>
+             <span class="s">&#39;            :math:`-</span><span class="se">\\</span><span class="s">frac{</span><span class="se">\\</span><span class="s">pi}{2}` is **down** and&#39;</span>
+             <span class="s">&#39; :math:`</span><span class="se">\\</span><span class="s">frac{</span><span class="se">\\</span><span class="s">pi}{2}` is **up**.</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
 
-    <span class="n">_los_factors</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">StaticTarget</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_los_factors</span> <span class="o">=</span> <span class="k">None</span>
 
     <span class="k">def</span> <span class="nf">get_los_factors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phi</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lats</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s1">&#39;LOS angles inconsistent with provided&#39;</span>
-                                 <span class="s1">&#39; coordinate shape.&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_los_factors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s">&#39;LOS angles inconsistent with provided&#39;</span>
+                                 <span class="s">&#39; coordinate shape.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_los_factors</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_los_factors</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">3</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_los_factors</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_los_factors</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="n">num</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phi</span><span class="p">)</span>

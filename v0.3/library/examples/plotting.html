@@ -80,7 +80,7 @@ double double-couple source object).</li>
 <div class="section" id="beachballs-from-moment-tensors">
 <h3>Beachballs from moment tensors<a class="headerlink" href="#beachballs-from-moment-tensors" title="Permalink to this headline">¶</a></h3>
 <p>This example demonstrates how to create beachballs from (random) moment tensors.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
@@ -97,27 +97,27 @@ double double-couple source object).</li>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">200</span><span class="p">):</span>
 
-    <span class="c1"># create random moment tensor</span>
+    <span class="c"># create random moment tensor</span>
     <span class="n">mt</span> <span class="o">=</span> <span class="n">pmt</span><span class="o">.</span><span class="n">MomentTensor</span><span class="o">.</span><span class="n">random_mt</span><span class="p">()</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="c1"># create beachball from moment tensor</span>
+        <span class="c"># create beachball from moment tensor</span>
         <span class="n">beachball</span><span class="o">.</span><span class="n">plot_beachball_mpl</span><span class="p">(</span>
             <span class="n">mt</span><span class="p">,</span> <span class="n">axes</span><span class="p">,</span>
-            <span class="c1"># type of beachball: deviatoric, full or double couple (dc)</span>
-            <span class="n">beachball_type</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span>
+            <span class="c"># type of beachball: deviatoric, full or double couple (dc)</span>
+            <span class="n">beachball_type</span><span class="o">=</span><span class="s">&#39;full&#39;</span><span class="p">,</span>
             <span class="n">size</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span><span class="o">*</span><span class="mf">120.</span><span class="p">,</span>
             <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span><span class="o">*</span><span class="mf">10.</span><span class="p">,</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span><span class="o">*</span><span class="mf">10.</span><span class="p">),</span>
             <span class="n">alpha</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span>
             <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 
     <span class="k">except</span> <span class="n">beachball</span><span class="o">.</span><span class="n">BeachballError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> for MT:</span><span class="se">\n</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">mt</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;%s for MT:</span><span class="se">\n</span><span class="s">%s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">mt</span><span class="p">))</span>
 
 <span class="n">axes</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">)</span>
 <span class="n">axes</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">)</span>
 <span class="n">axes</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;beachball-example01.pdf&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&#39;beachball-example01.pdf&#39;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -129,7 +129,7 @@ double double-couple source object).</li>
 </div>
 <p>This example shows how to plot a full, a deviatoric and a double-couple beachball
 for a moment tensor.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">beachball</span><span class="p">,</span> <span class="n">moment_tensor</span> <span class="k">as</span> <span class="n">pmt</span><span class="p">,</span> <span class="n">plot</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">4.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">))</span>
@@ -139,7 +139,7 @@ for a moment tensor.</p>
 <span class="n">axes</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">)</span>
 <span class="n">axes</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
 
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">beachball_type</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="s1">&#39;deviatoric&#39;</span><span class="p">,</span> <span class="s1">&#39;dc&#39;</span><span class="p">]):</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">beachball_type</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s">&#39;full&#39;</span><span class="p">,</span> <span class="s">&#39;deviatoric&#39;</span><span class="p">,</span> <span class="s">&#39;dc&#39;</span><span class="p">]):</span>
     <span class="n">beachball</span><span class="o">.</span><span class="n">plot_beachball_mpl</span><span class="p">(</span>
             <span class="n">pmt</span><span class="o">.</span><span class="n">as_mt</span><span class="p">((</span><span class="mf">124654616.</span><span class="p">,</span> <span class="mf">370943136.</span><span class="p">,</span> <span class="o">-</span><span class="mf">6965434.0</span><span class="p">,</span>
                        <span class="mf">553316224.</span><span class="p">,</span> <span class="o">-</span><span class="mf">307467264.</span><span class="p">,</span> <span class="mf">84703760.0</span><span class="p">)),</span>
@@ -147,10 +147,10 @@ for a moment tensor.</p>
             <span class="n">beachball_type</span><span class="o">=</span><span class="n">beachball_type</span><span class="p">,</span>
             <span class="n">size</span><span class="o">=</span><span class="mf">60.</span><span class="p">,</span>
             <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-            <span class="n">color_t</span><span class="o">=</span><span class="n">plot</span><span class="o">.</span><span class="n">mpl_color</span><span class="p">(</span><span class="s1">&#39;scarletred2&#39;</span><span class="p">),</span>
+            <span class="n">color_t</span><span class="o">=</span><span class="n">plot</span><span class="o">.</span><span class="n">mpl_color</span><span class="p">(</span><span class="s">&#39;scarletred2&#39;</span><span class="p">),</span>
             <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;beachball-example03.pdf&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&#39;beachball-example03.pdf&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -170,15 +170,15 @@ plot by obtaining the moment tensor from four different source object types:
 <p>Creating the beachball this ways allows for finer control over their location
 based on their size (in display units) which allows for a round beachball even
 if the axis are not 1:1.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">beachball</span><span class="p">,</span> <span class="n">gf</span>
 
-<span class="c1"># create source object</span>
-<span class="n">source1</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">DCSource</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mf">35e3</span><span class="p">,</span> <span class="n">strike</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dip</span><span class="o">=</span><span class="mf">90.</span><span class="p">,</span> <span class="n">rake</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+<span class="c"># create source object</span>
+<span class="n">source1</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">DCSource</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mi">35</span><span class="n">e3</span><span class="p">,</span> <span class="n">strike</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dip</span><span class="o">=</span><span class="mf">90.</span><span class="p">,</span> <span class="n">rake</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
 
-<span class="c1"># set size of beachball</span>
+<span class="c"># set size of beachball</span>
 <span class="n">sz</span> <span class="o">=</span> <span class="mf">20.</span>
-<span class="c1"># set beachball offset in points (one point from each axis)</span>
+<span class="c"># set beachball offset in points (one point from each axis)</span>
 <span class="n">szpt</span> <span class="o">=</span> <span class="p">(</span><span class="n">sz</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">)</span> <span class="o">/</span> <span class="mf">72.</span> <span class="o">+</span> <span class="mf">1.</span> <span class="o">/</span> <span class="mf">72.</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">10.</span><span class="p">,</span> <span class="mf">4.</span><span class="p">))</span>
@@ -186,114 +186,114 @@ if the axis are not 1:1.</p>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 
-<span class="c1"># get the bounding point (left-top)</span>
+<span class="c"># get the bounding point (left-top)</span>
 <span class="n">x0</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">y1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
 
-<span class="c1"># create a translation matrix, based on the final figure size and</span>
-<span class="c1"># beachball location</span>
+<span class="c"># create a translation matrix, based on the final figure size and</span>
+<span class="c"># beachball location</span>
 <span class="n">move_trans</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">ScaledTranslation</span><span class="p">(</span><span class="n">szpt</span><span class="p">,</span> <span class="o">-</span><span class="n">szpt</span><span class="p">,</span> <span class="n">fig</span><span class="o">.</span><span class="n">dpi_scale_trans</span><span class="p">)</span>
 
-<span class="c1"># get the inverse matrix for the axis where the beachball will be plotted</span>
+<span class="c"># get the inverse matrix for the axis where the beachball will be plotted</span>
 <span class="n">inv_trans</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">inverted</span><span class="p">()</span>
 
-<span class="c1"># set the bouding point relative to the plotted axis of the beachball</span>
+<span class="c"># set the bouding point relative to the plotted axis of the beachball</span>
 <span class="n">x0</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">inv_trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">move_trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">transform</span><span class="p">((</span><span class="n">x0</span><span class="p">,</span> <span class="n">y1</span><span class="p">))))</span>
 
-<span class="c1"># plot beachball</span>
+<span class="c"># plot beachball</span>
 <span class="n">beachball</span><span class="o">.</span><span class="n">plot_beachball_mpl</span><span class="p">(</span><span class="n">source1</span><span class="o">.</span><span class="n">pyrocko_moment_tensor</span><span class="p">(),</span> <span class="n">ax</span><span class="p">,</span>
-                             <span class="n">beachball_type</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">sz</span><span class="p">,</span>
+                             <span class="n">beachball_type</span><span class="o">=</span><span class="s">&#39;full&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">sz</span><span class="p">,</span>
                              <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
 
 
-<span class="c1"># create source object</span>
-<span class="n">source2</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">RectangularExplosionSource</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mf">35e3</span><span class="p">,</span> <span class="n">strike</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dip</span><span class="o">=</span><span class="mf">90.</span><span class="p">)</span>
+<span class="c"># create source object</span>
+<span class="n">source2</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">RectangularExplosionSource</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mi">35</span><span class="n">e3</span><span class="p">,</span> <span class="n">strike</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dip</span><span class="o">=</span><span class="mf">90.</span><span class="p">)</span>
 
-<span class="c1"># set size of beachball</span>
+<span class="c"># set size of beachball</span>
 <span class="n">sz</span> <span class="o">=</span> <span class="mf">30.</span>
-<span class="c1"># set beachball offset in points (one point from each axis)</span>
+<span class="c"># set beachball offset in points (one point from each axis)</span>
 <span class="n">szpt</span> <span class="o">=</span> <span class="p">(</span><span class="n">sz</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">)</span> <span class="o">/</span> <span class="mf">72.</span> <span class="o">+</span> <span class="mf">1.</span> <span class="o">/</span> <span class="mf">72.</span>
 
-<span class="c1"># get the bounding point (right-upper)</span>
+<span class="c"># get the bounding point (right-upper)</span>
 <span class="n">x1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">y1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
 
-<span class="c1"># create a translation matrix, based on the final figure size and</span>
-<span class="c1"># beachball location</span>
+<span class="c"># create a translation matrix, based on the final figure size and</span>
+<span class="c"># beachball location</span>
 <span class="n">move_trans</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">ScaledTranslation</span><span class="p">(</span><span class="o">-</span><span class="n">szpt</span><span class="p">,</span> <span class="o">-</span><span class="n">szpt</span><span class="p">,</span> <span class="n">fig</span><span class="o">.</span><span class="n">dpi_scale_trans</span><span class="p">)</span>
 
-<span class="c1"># get the inverse matrix for the axis where the beachball will be plotted</span>
+<span class="c"># get the inverse matrix for the axis where the beachball will be plotted</span>
 <span class="n">inv_trans</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">inverted</span><span class="p">()</span>
 
-<span class="c1"># set the bouding point relative to the plotted axis of the beachball</span>
+<span class="c"># set the bouding point relative to the plotted axis of the beachball</span>
 <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">inv_trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">move_trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">transform</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">))))</span>
 
-<span class="c1"># plot beachball</span>
+<span class="c"># plot beachball</span>
 <span class="n">beachball</span><span class="o">.</span><span class="n">plot_beachball_mpl</span><span class="p">(</span><span class="n">source2</span><span class="o">.</span><span class="n">pyrocko_moment_tensor</span><span class="p">(),</span> <span class="n">ax</span><span class="p">,</span>
-                             <span class="n">beachball_type</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">sz</span><span class="p">,</span>
+                             <span class="n">beachball_type</span><span class="o">=</span><span class="s">&#39;full&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">sz</span><span class="p">,</span>
                              <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
 
 
-<span class="c1"># create source object</span>
-<span class="n">source3</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">CLVDSource</span><span class="p">(</span><span class="n">amplitude</span><span class="o">=</span><span class="mf">35e6</span><span class="p">,</span> <span class="n">azimuth</span><span class="o">=</span><span class="mf">30.</span><span class="p">,</span> <span class="n">dip</span><span class="o">=</span><span class="mf">30.</span><span class="p">)</span>
+<span class="c"># create source object</span>
+<span class="n">source3</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">CLVDSource</span><span class="p">(</span><span class="n">amplitude</span><span class="o">=</span><span class="mi">35</span><span class="n">e6</span><span class="p">,</span> <span class="n">azimuth</span><span class="o">=</span><span class="mf">30.</span><span class="p">,</span> <span class="n">dip</span><span class="o">=</span><span class="mf">30.</span><span class="p">)</span>
 
-<span class="c1"># set size of beachball</span>
+<span class="c"># set size of beachball</span>
 <span class="n">sz</span> <span class="o">=</span> <span class="mf">40.</span>
-<span class="c1"># set beachball offset in points (one point from each axis)</span>
+<span class="c"># set beachball offset in points (one point from each axis)</span>
 <span class="n">szpt</span> <span class="o">=</span> <span class="p">(</span><span class="n">sz</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">)</span> <span class="o">/</span> <span class="mf">72.</span> <span class="o">+</span> <span class="mf">1.</span> <span class="o">/</span> <span class="mf">72.</span>
 
-<span class="c1"># get the bounding point (left-bottom)</span>
+<span class="c"># get the bounding point (left-bottom)</span>
 <span class="n">x0</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">y0</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="c1"># create a translation matrix, based on the final figure size and</span>
-<span class="c1"># beachball location</span>
+<span class="c"># create a translation matrix, based on the final figure size and</span>
+<span class="c"># beachball location</span>
 <span class="n">move_trans</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">ScaledTranslation</span><span class="p">(</span><span class="n">szpt</span><span class="p">,</span> <span class="n">szpt</span><span class="p">,</span> <span class="n">fig</span><span class="o">.</span><span class="n">dpi_scale_trans</span><span class="p">)</span>
 
-<span class="c1"># get the inverse matrix for the axis where the beachball will be plotted</span>
+<span class="c"># get the inverse matrix for the axis where the beachball will be plotted</span>
 <span class="n">inv_trans</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">inverted</span><span class="p">()</span>
 
-<span class="c1"># set the bouding point relative to the plotted axis of the beachball</span>
+<span class="c"># set the bouding point relative to the plotted axis of the beachball</span>
 <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">=</span> <span class="n">inv_trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">move_trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">transform</span><span class="p">((</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">))))</span>
 
-<span class="c1"># plot beachball</span>
+<span class="c"># plot beachball</span>
 <span class="n">beachball</span><span class="o">.</span><span class="n">plot_beachball_mpl</span><span class="p">(</span><span class="n">source3</span><span class="o">.</span><span class="n">pyrocko_moment_tensor</span><span class="p">(),</span> <span class="n">ax</span><span class="p">,</span>
-                             <span class="n">beachball_type</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">sz</span><span class="p">,</span>
+                             <span class="n">beachball_type</span><span class="o">=</span><span class="s">&#39;full&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">sz</span><span class="p">,</span>
                              <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">),</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
 
-<span class="c1"># create source object</span>
-<span class="n">source4</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">DoubleDCSource</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mf">35e3</span><span class="p">,</span> <span class="n">strike1</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dip1</span><span class="o">=</span><span class="mf">90.</span><span class="p">,</span> <span class="n">rake1</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
+<span class="c"># create source object</span>
+<span class="n">source4</span> <span class="o">=</span> <span class="n">gf</span><span class="o">.</span><span class="n">DoubleDCSource</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mi">35</span><span class="n">e3</span><span class="p">,</span> <span class="n">strike1</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">dip1</span><span class="o">=</span><span class="mf">90.</span><span class="p">,</span> <span class="n">rake1</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
                             <span class="n">strike2</span><span class="o">=</span><span class="mf">45.</span><span class="p">,</span> <span class="n">dip2</span><span class="o">=</span><span class="mf">74.</span><span class="p">,</span> <span class="n">rake2</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
 
-<span class="c1"># set size of beachball</span>
+<span class="c"># set size of beachball</span>
 <span class="n">sz</span> <span class="o">=</span> <span class="mf">50.</span>
-<span class="c1"># set beachball offset in points (one point from each axis)</span>
+<span class="c"># set beachball offset in points (one point from each axis)</span>
 <span class="n">szpt</span> <span class="o">=</span> <span class="p">(</span><span class="n">sz</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">)</span> <span class="o">/</span> <span class="mf">72.</span> <span class="o">+</span> <span class="mf">1.</span> <span class="o">/</span> <span class="mf">72.</span>
 
-<span class="c1"># get the bounding point (right-bottom)</span>
+<span class="c"># get the bounding point (right-bottom)</span>
 <span class="n">x1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">y0</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="c1"># create a translation matrix, based on the final figure size and</span>
-<span class="c1"># beachball location</span>
+<span class="c"># create a translation matrix, based on the final figure size and</span>
+<span class="c"># beachball location</span>
 <span class="n">move_trans</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">ScaledTranslation</span><span class="p">(</span><span class="o">-</span><span class="n">szpt</span><span class="p">,</span> <span class="n">szpt</span><span class="p">,</span> <span class="n">fig</span><span class="o">.</span><span class="n">dpi_scale_trans</span><span class="p">)</span>
 
-<span class="c1"># get the inverse matrix for the axis where the beachball will be plotted</span>
+<span class="c"># get the inverse matrix for the axis where the beachball will be plotted</span>
 <span class="n">inv_trans</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">inverted</span><span class="p">()</span>
 
-<span class="c1"># set the bouding point relative to the plotted axis of the beachball</span>
+<span class="c"># set the bouding point relative to the plotted axis of the beachball</span>
 <span class="n">x1</span><span class="p">,</span> <span class="n">y0</span> <span class="o">=</span> <span class="n">inv_trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">move_trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">transform</span><span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">y0</span><span class="p">))))</span>
 
-<span class="c1"># plot beachball</span>
+<span class="c"># plot beachball</span>
 <span class="n">beachball</span><span class="o">.</span><span class="n">plot_beachball_mpl</span><span class="p">(</span><span class="n">source4</span><span class="o">.</span><span class="n">pyrocko_moment_tensor</span><span class="p">(),</span> <span class="n">ax</span><span class="p">,</span>
-                             <span class="n">beachball_type</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">sz</span><span class="p">,</span>
+                             <span class="n">beachball_type</span><span class="o">=</span><span class="s">&#39;full&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">sz</span><span class="p">,</span>
                              <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y0</span><span class="p">),</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
 
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;beachball-example02.pdf&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&#39;beachball-example02.pdf&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -314,33 +314,33 @@ The take-off angles needed can be computed with some help of the
 <a class="reference internal" href="../reference/cake.html#module-pyrocko.cake" title="pyrocko.cake"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.cake</span></code></a> module. Azimuth and distance computations are done with
 functions from <a class="reference internal" href="../reference/orthodrome.html#module-pyrocko.orthodrome" title="pyrocko.orthodrome"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.orthodrome</span></code></a>.</p>
 <p><a class="reference download internal" href="../../_downloads/beachball_example04.py" download=""><code class="xref download docutils literal"><span class="pre">beachball_example04.py</span></code></a></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">moment_tensor</span> <span class="k">as</span> <span class="n">pmt</span><span class="p">,</span> <span class="n">beachball</span><span class="p">,</span> <span class="n">cake</span><span class="p">,</span> <span class="n">orthodrome</span>
 
 <span class="n">km</span> <span class="o">=</span> <span class="mf">1000.</span>
 
-<span class="c1"># source position and mechanism</span>
+<span class="c"># source position and mechanism</span>
 <span class="n">slat</span><span class="p">,</span> <span class="n">slon</span><span class="p">,</span> <span class="n">sdepth</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">10.</span><span class="o">*</span><span class="n">km</span>
 <span class="n">mt</span> <span class="o">=</span> <span class="n">pmt</span><span class="o">.</span><span class="n">MomentTensor</span><span class="o">.</span><span class="n">random_dc</span><span class="p">()</span>
 
-<span class="c1"># receiver positions</span>
+<span class="c"># receiver positions</span>
 <span class="n">rdepth</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="n">rlatlons</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">50.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">),</span> <span class="p">(</span><span class="mf">60.</span><span class="p">,</span> <span class="o">-</span><span class="mf">50.</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mf">30.</span><span class="p">,</span> <span class="mf">60.</span><span class="p">)]</span>
 
-<span class="c1"># earth model and phase for takeoff angle computations</span>
-<span class="n">mod</span> <span class="o">=</span> <span class="n">cake</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="s1">&#39;ak135-f-continental.m&#39;</span><span class="p">)</span>
-<span class="n">phases</span> <span class="o">=</span> <span class="n">cake</span><span class="o">.</span><span class="n">PhaseDef</span><span class="o">.</span><span class="n">classic</span><span class="p">(</span><span class="s1">&#39;P&#39;</span><span class="p">)</span>
+<span class="c"># earth model and phase for takeoff angle computations</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">cake</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="s">&#39;ak135-f-continental.m&#39;</span><span class="p">)</span>
+<span class="n">phases</span> <span class="o">=</span> <span class="n">cake</span><span class="o">.</span><span class="n">PhaseDef</span><span class="o">.</span><span class="n">classic</span><span class="p">(</span><span class="s">&#39;P&#39;</span><span class="p">)</span>
 
-<span class="c1"># setup figure with aspect=1.0/1.0, ranges=[-1.1, 1.1]</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">))</span>  <span class="c1"># size in inch</span>
+<span class="c"># setup figure with aspect=1.0/1.0, ranges=[-1.1, 1.1]</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">))</span>  <span class="c"># size in inch</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
 <span class="n">axes</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 <span class="n">axes</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
 <span class="n">axes</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
 <span class="n">axes</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
 
-<span class="n">projection</span> <span class="o">=</span> <span class="s1">&#39;lambert&#39;</span>
+<span class="n">projection</span> <span class="o">=</span> <span class="s">&#39;lambert&#39;</span>
 
 <span class="n">beachball</span><span class="o">.</span><span class="n">plot_beachball_mpl</span><span class="p">(</span>
     <span class="n">mt</span><span class="p">,</span> <span class="n">axes</span><span class="p">,</span>
@@ -348,12 +348,12 @@ functions from <a class="reference internal" href="../reference/orthodrome.html#
     <span class="n">size</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
     <span class="n">color_t</span><span class="o">=</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">),</span>
     <span class="n">projection</span><span class="o">=</span><span class="n">projection</span><span class="p">,</span>
-    <span class="n">size_units</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+    <span class="n">size_units</span><span class="o">=</span><span class="s">&#39;data&#39;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">rlat</span><span class="p">,</span> <span class="n">rlon</span> <span class="ow">in</span> <span class="n">rlatlons</span><span class="p">:</span>
     <span class="n">distance</span> <span class="o">=</span> <span class="n">orthodrome</span><span class="o">.</span><span class="n">distance_accurate50m</span><span class="p">(</span><span class="n">slat</span><span class="p">,</span> <span class="n">slon</span><span class="p">,</span> <span class="n">rlat</span><span class="p">,</span> <span class="n">rlon</span><span class="p">)</span>
     <span class="n">rays</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">arrivals</span><span class="p">(</span>
-        <span class="n">phases</span><span class="o">=</span><span class="n">cake</span><span class="o">.</span><span class="n">PhaseDef</span><span class="p">(</span><span class="s1">&#39;P&#39;</span><span class="p">),</span>
+        <span class="n">phases</span><span class="o">=</span><span class="n">cake</span><span class="o">.</span><span class="n">PhaseDef</span><span class="p">(</span><span class="s">&#39;P&#39;</span><span class="p">),</span>
         <span class="n">zstart</span><span class="o">=</span><span class="n">sdepth</span><span class="p">,</span> <span class="n">zstop</span><span class="o">=</span><span class="n">rdepth</span><span class="p">,</span> <span class="n">distances</span><span class="o">=</span><span class="p">[</span><span class="n">distance</span><span class="o">*</span><span class="n">cake</span><span class="o">.</span><span class="n">m2d</span><span class="p">])</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">rays</span><span class="p">:</span>
@@ -362,18 +362,18 @@ functions from <a class="reference internal" href="../reference/orthodrome.html#
     <span class="n">takeoff</span> <span class="o">=</span> <span class="n">rays</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">takeoff_angle</span><span class="p">()</span>
     <span class="n">azi</span> <span class="o">=</span> <span class="n">orthodrome</span><span class="o">.</span><span class="n">azimuth</span><span class="p">(</span><span class="n">slat</span><span class="p">,</span> <span class="n">slon</span><span class="p">,</span> <span class="n">rlat</span><span class="p">,</span> <span class="n">rlon</span><span class="p">)</span>
 
-    <span class="c1"># to spherical coordinates, r, theta, phi in radians</span>
+    <span class="c"># to spherical coordinates, r, theta, phi in radians</span>
     <span class="n">rtp</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="n">num</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">takeoff</span><span class="p">),</span> <span class="n">num</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mf">90.</span><span class="o">-</span><span class="n">azi</span><span class="p">)]])</span>
 
-    <span class="c1"># to 3D coordinates (x, y, z)</span>
+    <span class="c"># to 3D coordinates (x, y, z)</span>
     <span class="n">points</span> <span class="o">=</span> <span class="n">beachball</span><span class="o">.</span><span class="n">numpy_rtp2xyz</span><span class="p">(</span><span class="n">rtp</span><span class="p">)</span>
 
-    <span class="c1"># project to 2D with same projection as used in beachball</span>
+    <span class="c"># project to 2D with same projection as used in beachball</span>
     <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">beachball</span><span class="o">.</span><span class="n">project</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="n">projection</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 
-    <span class="n">axes</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span> <span class="n">mew</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">mec</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">mfc</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s">&#39;+&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span> <span class="n">mew</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">mec</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">,</span> <span class="n">mfc</span><span class="o">=</span><span class="s">&#39;none&#39;</span><span class="p">)</span>
 
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;beachball-example04.png&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&#39;beachball-example04.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="figure align-center" id="id4">

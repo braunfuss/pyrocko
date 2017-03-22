@@ -71,7 +71,7 @@
 <div class="section" id="accessing-the-crust-2x2-database">
 <h3>Accessing the Crust 2x2 database<a class="headerlink" href="#accessing-the-crust-2x2-database" title="Permalink to this headline">¶</a></h3>
 <p>Here we utilize the <a class="reference internal" href="../reference/crust2x2.html#module-pyrocko.crust2x2" title="pyrocko.crust2x2"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.crust2x2</span></code></a> module to query the Crust 2.0 database</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">crust2x2</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">crust2x2</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">profile</span> <span class="o">=</span> <span class="n">crust_2x2</span><span class="o">.</span><span class="n">get_profile</span><span class="p">(</span><span class="mf">23.</span><span class="p">,</span> <span class="mf">59.</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">profile</span>
 
@@ -94,8 +94,8 @@
 <div class="section" id="inspect-the-crust2-0-database-with-cake">
 <h3>Inspect the Crust2.0 database with cake<a class="headerlink" href="#inspect-the-crust2-0-database-with-cake" title="Permalink to this headline">¶</a></h3>
 <p>We can use <a class="reference internal" href="../reference/cake.html#module-pyrocko.cake" title="pyrocko.cake"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.cake</span></code></a> to access the data and handle the velocity model with cake.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">cake</span><span class="p">,</span> <span class="n">cake_plot</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">cake</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">crust2_profile</span><span class="o">=</span><span class="p">(</span><span class="mf">23.</span><span class="p">,</span> <span class="mf">59.</span><span class="p">))</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">cake</span><span class="p">,</span> <span class="n">cake_plot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">cake</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">crust2_profile</span><span class="o">=</span><span class="p">(</span><span class="mf">23.</span><span class="p">,</span> <span class="mf">59.</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cake_plot</span><span class="o">.</span><span class="n">my_model_plot</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -112,14 +112,14 @@
 <tr><td class="label">[2]</td><td><strong>W.D. Mooney, G. Laske and G. Masters, CRUST 5.1: A global crustal model at 5°x5°. J. Geophys. Res., 103, 727-747, 1998.</strong></td></tr>
 </tbody>
 </table>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">crustdb</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">crustdb</span>
 
 <span class="n">cdb</span> <span class="o">=</span> <span class="n">crustdb</span><span class="o">.</span><span class="n">CrustDB</span><span class="p">()</span>
 <span class="n">europe</span> <span class="o">=</span> <span class="n">cdb</span><span class="o">.</span><span class="n">selectLocation</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="mf">52.</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="mf">20.</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">15.</span><span class="p">)</span>\
     <span class="o">.</span><span class="n">selectMinDepth</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
 
-<span class="n">europe</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_median</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">europe</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_median</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">vrange</span><span class="o">=</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">6000</span><span class="p">),</span> <span class="n">phase</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+<span class="n">europe</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_median</span><span class="o">=</span><span class="k">False</span><span class="p">,</span> <span class="n">plot_mode</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
+<span class="n">europe</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_median</span><span class="o">=</span><span class="k">False</span><span class="p">,</span> <span class="n">plot_mode</span><span class="o">=</span><span class="k">False</span><span class="p">,</span> <span class="n">vrange</span><span class="o">=</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">6000</span><span class="p">),</span> <span class="n">phase</span><span class="o">=</span><span class="s">&#39;s&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <img alt="pyrocko.crustdb.CrustDB.plot" class="align-center" src="../../_images/crustdb_plot.png" />

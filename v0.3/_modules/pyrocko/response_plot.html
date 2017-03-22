@@ -54,7 +54,7 @@
           <div class="body" role="main">
             
   <h1>Source code for pyrocko.response_plot</h1><div class="highlight"><pre>
-<span></span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">This module contains functions to plot instrument response transfer functions</span>
 <span class="sd">in Bode plot style using Matplotlib.</span>
 
@@ -88,10 +88,10 @@
 
 <div class="viewcode-block" id="draw"><a class="viewcode-back" href="../../library/reference/response_plot.html#pyrocko.response_plot.draw">[docs]</a><span class="k">def</span> <span class="nf">draw</span><span class="p">(</span>
         <span class="n">response</span><span class="p">,</span>
-        <span class="n">axes_amplitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axes_phase</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">axes_amplitude</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">axes_phase</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
         <span class="n">fmin</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">100.</span><span class="p">,</span> <span class="n">nf</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
         <span class="n">style</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">label</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
 
     <span class="sd">&#39;&#39;&#39;Draw instrument response in Bode plot style to given Matplotlib axes</span>
 
@@ -130,38 +130,38 @@
     <span class="k">return</span> <span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">ta</span><span class="p">),</span> <span class="n">num</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">ta</span><span class="p">)),</span> <span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">tp</span><span class="p">)</span><span class="o">/</span><span class="n">num</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">num</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">tp</span><span class="p">)</span><span class="o">/</span><span class="n">num</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="setup_axes"><a class="viewcode-back" href="../../library/reference/response_plot.html#pyrocko.response_plot.setup_axes">[docs]</a><span class="k">def</span> <span class="nf">setup_axes</span><span class="p">(</span><span class="n">axes_amplitude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axes_phase</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="setup_axes"><a class="viewcode-back" href="../../library/reference/response_plot.html#pyrocko.response_plot.setup_axes">[docs]</a><span class="k">def</span> <span class="nf">setup_axes</span><span class="p">(</span><span class="n">axes_amplitude</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">axes_phase</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Configure axes in Bode plot style.&#39;&#39;&#39;</span>
 
-    <span class="k">if</span> <span class="n">axes_amplitude</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">axes_amplitude</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Amplitude ratio&#39;</span><span class="p">)</span>
-        <span class="n">axes_amplitude</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
-        <span class="n">axes_amplitude</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
-        <span class="n">axes_amplitude</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">axes_amplitude</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">axes_phase</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">axes_amplitude</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Frequency [Hz]&#39;</span><span class="p">)</span>
-            <span class="n">axes_amplitude</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">axes_amplitude</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+        <span class="n">axes_amplitude</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&#39;Amplitude ratio&#39;</span><span class="p">)</span>
+        <span class="n">axes_amplitude</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s">&#39;log&#39;</span><span class="p">)</span>
+        <span class="n">axes_amplitude</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s">&#39;log&#39;</span><span class="p">)</span>
+        <span class="n">axes_amplitude</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="k">True</span><span class="p">)</span>
+        <span class="n">axes_amplitude</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">axes_phase</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
+            <span class="n">axes_amplitude</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&#39;Frequency [Hz]&#39;</span><span class="p">)</span>
+            <span class="n">axes_amplitude</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s">&#39;log&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">axes_amplitude</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticklabels</span><span class="p">([])</span>
 
-    <span class="k">if</span> <span class="n">axes_phase</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">axes_phase</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Phase [$\pi$]&#39;</span><span class="p">)</span>
-        <span class="n">axes_phase</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
-        <span class="n">axes_phase</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Frequency [Hz]&#39;</span><span class="p">)</span>
-        <span class="n">axes_phase</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">axes_phase</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span></div>
+    <span class="k">if</span> <span class="n">axes_phase</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+        <span class="n">axes_phase</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&#39;Phase [$\pi$]&#39;</span><span class="p">)</span>
+        <span class="n">axes_phase</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s">&#39;log&#39;</span><span class="p">)</span>
+        <span class="n">axes_phase</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&#39;Frequency [Hz]&#39;</span><span class="p">)</span>
+        <span class="n">axes_phase</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="k">True</span><span class="p">)</span>
+        <span class="n">axes_phase</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&#39;black&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="plot"><a class="viewcode-back" href="../../library/reference/response_plot.html#pyrocko.response_plot.plot">[docs]</a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span>
         <span class="n">responses</span><span class="p">,</span>
-        <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">filename</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
         <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
         <span class="n">fmin</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">100.</span><span class="p">,</span> <span class="n">nf</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
         <span class="n">fontsize</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span>
-        <span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">styles</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">figsize</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
+        <span class="n">styles</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
+        <span class="n">labels</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
 
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Draw instrument responses in Bode plot style.</span>
@@ -189,8 +189,8 @@
 
     <span class="n">mpl_init</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">figsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">figsize</span> <span class="o">=</span> <span class="n">mpl_papersize</span><span class="p">(</span><span class="s1">&#39;a4&#39;</span><span class="p">,</span> <span class="s1">&#39;portrait&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">figsize</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
+        <span class="n">figsize</span> <span class="o">=</span> <span class="n">mpl_papersize</span><span class="p">(</span><span class="s">&#39;a4&#39;</span><span class="p">,</span> <span class="s">&#39;portrait&#39;</span><span class="p">)</span>
 
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
     <span class="n">labelpos</span> <span class="o">=</span> <span class="n">mpl_margins</span><span class="p">(</span>
@@ -202,15 +202,15 @@
 
     <span class="n">setup_axes</span><span class="p">(</span><span class="n">axes_amplitude</span><span class="p">,</span> <span class="n">axes_phase</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">styles</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">styles</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
         <span class="n">styles</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">to01</span><span class="p">(</span><span class="n">graph_colors</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">graph_colors</span><span class="p">)]))</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">responses</span><span class="p">))]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">styles</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">responses</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">responses</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="k">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">responses</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">responses</span><span class="p">)</span>
 
@@ -227,7 +227,7 @@
         <span class="n">a_ranges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a_range</span><span class="p">)</span>
         <span class="n">p_ranges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_range</span><span class="p">)</span>
 
-    <span class="n">axes_amplitude</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">prop</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">fontsize</span><span class="p">))</span>
+    <span class="n">axes_amplitude</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">prop</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">fontsize</span><span class="p">))</span>
 
     <span class="n">a_ranges</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a_ranges</span><span class="p">)</span>
     <span class="n">p_ranges</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">p_ranges</span><span class="p">)</span>
@@ -246,17 +246,17 @@
     <span class="n">axes_amplitude</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">)</span>
     <span class="n">axes_phase</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="n">dpi</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 
 
 <span class="k">def</span> <span class="nf">tts</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">t</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s1">&#39;?&#39;</span>
+    <span class="k">if</span> <span class="n">t</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&#39;?&#39;</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">tts</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">tts</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s">&#39;%Y-%m-%d&#39;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">load_response_information</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="p">):</span>
@@ -265,7 +265,7 @@
 
     <span class="n">resps</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s1">&#39;sacpz&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">format</span> <span class="o">==</span> <span class="s">&#39;sacpz&#39;</span><span class="p">:</span>
         <span class="n">zeros</span><span class="p">,</span> <span class="n">poles</span><span class="p">,</span> <span class="n">constant</span> <span class="o">=</span> <span class="n">pz</span><span class="o">.</span><span class="n">read_sac_zpk</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">PoleZeroResponse</span><span class="p">(</span>
             <span class="n">zeros</span><span class="o">=</span><span class="n">zeros</span><span class="p">,</span> <span class="n">poles</span><span class="o">=</span><span class="n">poles</span><span class="p">,</span> <span class="n">constant</span><span class="o">=</span><span class="n">constant</span><span class="p">)</span>
@@ -273,34 +273,34 @@
         <span class="n">resps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
         <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
-    <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s1">&#39;resp&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s">&#39;resp&#39;</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">resp</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">fresp</span><span class="o">.</span><span class="n">iload_filename</span><span class="p">(</span><span class="n">filename</span><span class="p">)):</span>
-            <span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="n">units</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
             <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">instrument_sensitivity</span><span class="p">:</span>
                 <span class="n">s</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">instrument_sensitivity</span>
                 <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">input_units</span> <span class="ow">and</span> <span class="n">s</span><span class="o">.</span><span class="n">output_units</span><span class="p">:</span>
-                    <span class="n">units</span> <span class="o">=</span> <span class="s1">&#39;, </span><span class="si">%s</span><span class="s1"> -&gt; </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="n">units</span> <span class="o">=</span> <span class="s">&#39;, %s -&gt; %s&#39;</span> <span class="o">%</span> <span class="p">(</span>
                         <span class="n">s</span><span class="o">.</span><span class="n">input_units</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">output_units</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
             <span class="n">resps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">get_pyrocko_response</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">codes</span><span class="p">))</span>
-            <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> (</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="s1"> - </span><span class="si">%s%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;%s (%s.%s.%s.%s, %s - %s%s)&#39;</span> <span class="o">%</span> <span class="p">(</span>
                 <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="p">)</span> <span class="o">+</span> <span class="n">resp</span><span class="o">.</span><span class="n">codes</span> <span class="o">+</span>
                 <span class="p">(</span><span class="n">tts</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">start_date</span><span class="p">),</span> <span class="n">tts</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">end_date</span><span class="p">),</span> <span class="n">units</span><span class="p">)))</span>
 
     <span class="k">return</span> <span class="n">resps</span><span class="p">,</span> <span class="n">labels</span>
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">sys</span>
     <span class="kn">from</span> <span class="nn">optparse</span> <span class="k">import</span> <span class="n">OptionParser</span>
 
-    <span class="n">util</span><span class="o">.</span><span class="n">setup_logging</span><span class="p">(</span><span class="s1">&#39;pyrocko.response_plot.__main__&#39;</span><span class="p">,</span> <span class="s1">&#39;warning&#39;</span><span class="p">)</span>
+    <span class="n">util</span><span class="o">.</span><span class="n">setup_logging</span><span class="p">(</span><span class="s">&#39;pyrocko.response_plot.__main__&#39;</span><span class="p">,</span> <span class="s">&#39;warning&#39;</span><span class="p">)</span>
 
-    <span class="n">usage</span> <span class="o">=</span> <span class="s1">&#39;python -m pyrocko.response_plot &lt;filename&gt; ... [options]&#39;</span>
+    <span class="n">usage</span> <span class="o">=</span> <span class="s">&#39;python -m pyrocko.response_plot &lt;filename&gt; ... [options]&#39;</span>
 
-    <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;Plot instrument responses (transfer functions).&#39;&#39;&#39;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;Plot instrument responses (transfer functions).&#39;&#39;&#39;</span>
 
-    <span class="n">allowed_formats</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sacpz&#39;</span><span class="p">,</span> <span class="s1">&#39;resp&#39;</span><span class="p">]</span>
+    <span class="n">allowed_formats</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;sacpz&#39;</span><span class="p">,</span> <span class="s">&#39;resp&#39;</span><span class="p">]</span>
 
     <span class="n">parser</span> <span class="o">=</span> <span class="n">OptionParser</span><span class="p">(</span>
         <span class="n">usage</span><span class="o">=</span><span class="n">usage</span><span class="p">,</span>
@@ -308,38 +308,38 @@
         <span class="n">formatter</span><span class="o">=</span><span class="n">util</span><span class="o">.</span><span class="n">BetterHelpFormatter</span><span class="p">())</span>
 
     <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
-        <span class="s1">&#39;--format&#39;</span><span class="p">,</span>
-        <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;format&#39;</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;sacpz&#39;</span><span class="p">,</span>
+        <span class="s">&#39;--format&#39;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s">&#39;format&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s">&#39;sacpz&#39;</span><span class="p">,</span>
         <span class="n">choices</span><span class="o">=</span><span class="n">allowed_formats</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;assume input files are of given FORMAT. Choices: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
-            <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">allowed_formats</span><span class="p">)))</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;assume input files are of given FORMAT. Choices: %s&#39;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">allowed_formats</span><span class="p">)))</span>
 
     <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
-        <span class="s1">&#39;--fmin&#39;</span><span class="p">,</span>
-        <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;fmin&#39;</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">,</span>
+        <span class="s">&#39;--fmin&#39;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s">&#39;fmin&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="s">&#39;float&#39;</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;minimum frequency [Hz], default: </span><span class="si">%d</span><span class="s1">efault&#39;</span><span class="p">)</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;minimum frequency [Hz], default: %default&#39;</span><span class="p">)</span>
 
     <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
-        <span class="s1">&#39;--fmax&#39;</span><span class="p">,</span>
-        <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;fmax&#39;</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">,</span>
+        <span class="s">&#39;--fmax&#39;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s">&#39;fmax&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="s">&#39;float&#39;</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">100.</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;maximum frequency [Hz], default: </span><span class="si">%d</span><span class="s1">efault&#39;</span><span class="p">)</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;maximum frequency [Hz], default: %default&#39;</span><span class="p">)</span>
 
     <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
-        <span class="s1">&#39;--save&#39;</span><span class="p">,</span>
-        <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;filename&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;save figure to file with name FILENAME&#39;</span><span class="p">)</span>
+        <span class="s">&#39;--save&#39;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s">&#39;filename&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;save figure to file with name FILENAME&#39;</span><span class="p">)</span>
 
     <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
-        <span class="s1">&#39;--dpi&#39;</span><span class="p">,</span>
-        <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;dpi&#39;</span><span class="p">,</span>
-        <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">,</span>
+        <span class="s">&#39;--dpi&#39;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s">&#39;dpi&#39;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="s">&#39;float&#39;</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">100.</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;DPI setting for pixel image output, default: </span><span class="si">%d</span><span class="s1">efault&#39;</span><span class="p">)</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&#39;DPI setting for pixel image output, default: %default&#39;</span><span class="p">)</span>
 
     <span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
 

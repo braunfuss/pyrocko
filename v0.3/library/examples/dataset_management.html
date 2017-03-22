@@ -70,20 +70,20 @@ to a few 100000 files for interactive processes.</p>
 note: <code class="docutils literal"><span class="pre">trace.tmin</span></code> (its onset) does not have to be identical to <code class="docutils literal"><span class="pre">trace.wmin</span></code>. The directory parts in the output path will be created as neccessary.
 When applying this procedure to a dataset consisting of arbitrarily separated files, it will automatically connect adjacent traces as needed!
 The <a class="reference external" href="https://docs.python.org/2.7/library/time.html#module-time" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">time</span></code></a> and <a class="reference external" href="https://docs.python.org/2.7/library/calendar.html#module-calendar" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">calendar</span></code></a> modules will be used.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">pile</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">util</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">pile</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">util</span>
 <span class="kn">import</span> <span class="nn">time</span><span class="o">,</span> <span class="nn">calendar</span>
 
-<span class="n">p</span> <span class="o">=</span> <span class="n">pile</span><span class="o">.</span><span class="n">make_pile</span><span class="p">([</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">])</span>  <span class="c1"># could give directories or thousands of filenames here</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">pile</span><span class="o">.</span><span class="n">make_pile</span><span class="p">([</span><span class="s">&#39;test.mseed&#39;</span><span class="p">])</span>  <span class="c"># could give directories or thousands of filenames here</span>
 
-<span class="c1"># get timestamp for full hour before first data sample in all selected traces</span>
+<span class="c"># get timestamp for full hour before first data sample in all selected traces</span>
 <span class="n">tmin</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">timegm</span><span class="p">(</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">tmin</span><span class="p">)[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">)</span>
 
-<span class="c1"># iterate over the data, with a window length of one hour</span>
+<span class="c"># iterate over the data, with a window length of one hour</span>
 <span class="k">for</span> <span class="n">traces</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">chopper</span><span class="p">(</span><span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span> <span class="n">tinc</span><span class="o">=</span><span class="mi">3600</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">traces</span><span class="p">:</span>    <span class="c1"># the list could be empty due to gaps</span>
+    <span class="k">if</span> <span class="n">traces</span><span class="p">:</span>    <span class="c"># the list could be empty due to gaps</span>
         <span class="n">window_start</span> <span class="o">=</span> <span class="n">traces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">wmin</span>
-        <span class="n">timestring</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">time_to_str</span><span class="p">(</span><span class="n">window_start</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">_%H&#39;</span><span class="p">)</span>
-        <span class="n">filepath</span> <span class="o">=</span> <span class="s1">&#39;test_hourfiles/hourfile-</span><span class="si">%s</span><span class="s1">.mseed&#39;</span> <span class="o">%</span> <span class="n">timestring</span>
+        <span class="n">timestring</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">time_to_str</span><span class="p">(</span><span class="n">window_start</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s">&#39;%Y-%m-%d_%H&#39;</span><span class="p">)</span>
+        <span class="n">filepath</span> <span class="o">=</span> <span class="s">&#39;test_hourfiles/hourfile-%s.mseed&#39;</span> <span class="o">%</span> <span class="n">timestring</span>
         <span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -91,57 +91,57 @@ The <a class="reference external" href="https://docs.python.org/2.7/library/time
 <div class="section" id="downsampling-a-whole-dataset">
 <h2>Downsampling a whole dataset<a class="headerlink" href="#downsampling-a-whole-dataset" title="Permalink to this headline">¶</a></h2>
 <p>Example for downsampling all trace files in the input folder to a common sampling rate with <a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace.downsample_to" title="pyrocko.trace.Trace.downsample_to"><code class="xref py py-meth docutils literal"><span class="pre">pyrocko.trace.Trace.downsample_to()</span></code></a>.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">pile</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">util</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">pile</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">util</span>
 <span class="kn">import</span> <span class="nn">time</span><span class="o">,</span> <span class="nn">calendar</span>
 
-<span class="c1"># when pile.make_pile() is called without any arguments, the command line</span>
-<span class="c1"># parameters given to the script are searched for waveform files and directories</span>
+<span class="c"># when pile.make_pile() is called without any arguments, the command line</span>
+<span class="c"># parameters given to the script are searched for waveform files and directories</span>
 <span class="n">p</span> <span class="o">=</span> <span class="n">pile</span><span class="o">.</span><span class="n">make_pile</span><span class="p">()</span>
 
-<span class="c1"># get timestamp for full hour before first data sample in all selected traces</span>
+<span class="c"># get timestamp for full hour before first data sample in all selected traces</span>
 <span class="n">tmin</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">timegm</span><span class="p">(</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">tmin</span><span class="p">)[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">)</span>
 
 <span class="n">tinc</span> <span class="o">=</span> <span class="mf">3600.</span>
 <span class="n">tpad</span> <span class="o">=</span> <span class="mf">10.</span>
 <span class="n">target_deltat</span> <span class="o">=</span> <span class="mf">0.1</span>
 
-<span class="c1"># iterate over the data, with a window length of one hour and 2x10 seconds of</span>
-<span class="c1"># overlap</span>
+<span class="c"># iterate over the data, with a window length of one hour and 2x10 seconds of</span>
+<span class="c"># overlap</span>
 <span class="k">for</span> <span class="n">traces</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">chopper</span><span class="p">(</span><span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span> <span class="n">tinc</span><span class="o">=</span><span class="n">tinc</span><span class="p">,</span> <span class="n">tpad</span><span class="o">=</span><span class="n">tpad</span><span class="p">):</span>
 
-    <span class="k">if</span> <span class="n">traces</span><span class="p">:</span> <span class="c1"># the list could be empty due to gaps</span>
+    <span class="k">if</span> <span class="n">traces</span><span class="p">:</span> <span class="c"># the list could be empty due to gaps</span>
         <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
-            <span class="n">tr</span><span class="o">.</span><span class="n">downsample_to</span><span class="p">(</span><span class="n">target_deltat</span><span class="p">,</span> <span class="n">snap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">demean</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">tr</span><span class="o">.</span><span class="n">downsample_to</span><span class="p">(</span><span class="n">target_deltat</span><span class="p">,</span> <span class="n">snap</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">demean</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
 
-            <span class="c1"># remove overlapping</span>
+            <span class="c"># remove overlapping</span>
             <span class="n">tr</span><span class="o">.</span><span class="n">chop</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">wmin</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">wmax</span><span class="p">)</span>
 
         <span class="n">window_start</span> <span class="o">=</span> <span class="n">traces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">wmin</span>
-        <span class="n">timestring</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">time_to_str</span><span class="p">(</span><span class="n">window_start</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">_%H&#39;</span><span class="p">)</span>
-        <span class="n">filepath</span> <span class="o">=</span> <span class="s1">&#39;downsampled/</span><span class="si">%(station)s</span><span class="s1">_</span><span class="si">%(channel)s</span><span class="s1">_</span><span class="si">%(mytimestring)s</span><span class="s1">.mseed&#39;</span>
-        <span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">additional</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;mytimestring&#39;</span><span class="p">:</span> <span class="n">timestring</span><span class="p">})</span>
+        <span class="n">timestring</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">time_to_str</span><span class="p">(</span><span class="n">window_start</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s">&#39;%Y-%m-%d_%H&#39;</span><span class="p">)</span>
+        <span class="n">filepath</span> <span class="o">=</span> <span class="s">&#39;downsampled/%(station)s_%(channel)s_%(mytimestring)s.mseed&#39;</span>
+        <span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">additional</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;mytimestring&#39;</span><span class="p">:</span> <span class="n">timestring</span><span class="p">})</span>
 
 
-<span class="c1"># now look at the result with</span>
-<span class="c1">#   &gt; snuffler downsampled/</span>
+<span class="c"># now look at the result with</span>
+<span class="c">#   &gt; snuffler downsampled/</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="converting-a-dataset-from-mini-seed-to-sac-format">
 <h2>Converting a dataset from Mini-SEED to SAC format<a class="headerlink" href="#converting-a-dataset-from-mini-seed-to-sac-format" title="Permalink to this headline">¶</a></h2>
 <p>Conversion of a mseed file to SAC. See <a class="reference internal" href="../reference/io.html#module-pyrocko.io" title="pyrocko.io"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.io</span></code></a> for supported formats.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">pile</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">util</span><span class="p">,</span> <span class="n">model</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">pile</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">util</span><span class="p">,</span> <span class="n">model</span>
 
-<span class="n">input_path</span> <span class="o">=</span> <span class="s1">&#39;data/mseed&#39;</span>
-<span class="n">output_path</span> <span class="o">=</span> <span class="s1">&#39;data/sac/</span><span class="si">%(dirhz)s</span><span class="s1">/</span><span class="si">%(station)s</span><span class="s1">/</span><span class="si">%(station)s</span><span class="s1">_</span><span class="si">%(channel)s</span><span class="s1">_</span><span class="si">%(tmin)s</span><span class="s1">.sac&#39;</span>
-<span class="n">fn_stations</span> <span class="o">=</span> <span class="s1">&#39;meta/stations.txt&#39;</span>
+<span class="n">input_path</span> <span class="o">=</span> <span class="s">&#39;data/mseed&#39;</span>
+<span class="n">output_path</span> <span class="o">=</span> <span class="s">&#39;data/sac/%(dirhz)s/%(station)s/%(station)s_%(channel)s_%(tmin)s.sac&#39;</span>
+<span class="n">fn_stations</span> <span class="o">=</span> <span class="s">&#39;meta/stations.txt&#39;</span>
 
 <span class="n">stations_list</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">load_stations</span><span class="p">(</span><span class="n">fn_stations</span><span class="p">)</span>
 
 <span class="n">stations</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">stations_list</span><span class="p">:</span>
     <span class="n">stations</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">network</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">station</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">location</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span>
-    <span class="n">s</span><span class="o">.</span><span class="n">set_channels_by_name</span><span class="p">(</span><span class="o">*</span><span class="s1">&#39;BHN BHE BHZ BLN BLE BLZ&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">set_channels_by_name</span><span class="p">(</span><span class="o">*</span><span class="s">&#39;BHN BHE BHZ BLN BLE BLZ&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
 
 <span class="n">p</span> <span class="o">=</span> <span class="n">pile</span><span class="o">.</span><span class="n">make_pile</span><span class="p">(</span><span class="n">input_path</span><span class="p">)</span>
 <span class="n">h</span> <span class="o">=</span> <span class="mf">3600.</span>
@@ -149,11 +149,11 @@ The <a class="reference external" href="https://docs.python.org/2.7/library/time
 <span class="n">tmin</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">day_start</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">tmin</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">traces</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">chopper_grouped</span><span class="p">(</span><span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span> <span class="n">tinc</span><span class="o">=</span><span class="n">tinc</span><span class="p">,</span> <span class="n">gather</span><span class="o">=</span><span class="k">lambda</span> <span class="n">tr</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">nslc_id</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
-        <span class="n">dirhz</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%i</span><span class="s1">hz&#39;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="n">tr</span><span class="o">.</span><span class="n">deltat</span><span class="p">))</span>
+        <span class="n">dirhz</span> <span class="o">=</span> <span class="s">&#39;%ihz&#39;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="n">tr</span><span class="o">.</span><span class="n">deltat</span><span class="p">))</span>
         <span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
             <span class="p">[</span><span class="n">tr</span><span class="p">],</span> <span class="n">output_path</span><span class="p">,</span>
-            <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;sac&#39;</span><span class="p">,</span>
-            <span class="n">additional</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dirhz&#39;</span><span class="p">:</span> <span class="n">dirhz</span><span class="p">},</span>
+            <span class="nb">format</span><span class="o">=</span><span class="s">&#39;sac&#39;</span><span class="p">,</span>
+            <span class="n">additional</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;dirhz&#39;</span><span class="p">:</span> <span class="n">dirhz</span><span class="p">},</span>
             <span class="n">stations</span><span class="o">=</span><span class="n">stations</span><span class="p">)</span>
 </pre></div>
 </div>

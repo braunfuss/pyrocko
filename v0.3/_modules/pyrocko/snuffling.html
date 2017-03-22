@@ -54,7 +54,7 @@
           <div class="body" role="main">
             
   <h1>Source code for pyrocko.snuffling</h1><div class="highlight"><pre>
-<span></span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Snuffling infrastructure</span>
 
 <span class="sd">This module provides the base class :py:class:`Snuffling` for user-defined</span>
@@ -77,21 +77,21 @@
     <span class="n">save_markers</span>
 
 
-<span class="n">Marker</span><span class="p">,</span> <span class="n">load_markers</span><span class="p">,</span> <span class="n">save_markers</span>  <span class="c1"># noqa</span>
+<span class="n">Marker</span><span class="p">,</span> <span class="n">load_markers</span><span class="p">,</span> <span class="n">save_markers</span>  <span class="c"># noqa</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyrocko.snuffling&#39;</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;pyrocko.snuffling&#39;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_str_traceback</span><span class="p">():</span>
-    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">2</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="s">&#39;%s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">2</span><span class="p">]))</span>
 
 
 <span class="k">class</span> <span class="nc">MyFrame</span><span class="p">(</span><span class="n">qg</span><span class="o">.</span><span class="n">QFrame</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">showEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s1">&#39;widgetVisibilityChanged(bool)&#39;</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&#39;widgetVisibilityChanged(bool)&#39;</span><span class="p">),</span> <span class="k">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">hideEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s1">&#39;widgetVisibilityChanged(bool)&#39;</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&#39;widgetVisibilityChanged(bool)&#39;</span><span class="p">),</span> <span class="k">False</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Param"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Param">[docs]</a><span class="k">class</span> <span class="nc">Param</span><span class="p">:</span>
@@ -115,14 +115,14 @@
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">ident</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">minimum</span><span class="p">,</span> <span class="n">maximum</span><span class="p">,</span>
-            <span class="n">low_is_none</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">high_is_none</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">low_is_zero</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="n">low_is_none</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
+            <span class="n">high_is_none</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
+            <span class="n">low_is_zero</span><span class="o">=</span><span class="k">False</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="n">low_is_none</span> <span class="ow">and</span> <span class="n">default</span> <span class="o">==</span> <span class="n">minimum</span><span class="p">:</span>
-            <span class="n">default</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">default</span> <span class="o">=</span> <span class="k">None</span>
         <span class="k">if</span> <span class="n">high_is_none</span> <span class="ow">and</span> <span class="n">default</span> <span class="o">==</span> <span class="n">maximum</span><span class="p">:</span>
-            <span class="n">default</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">default</span> <span class="o">=</span> <span class="k">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ident</span> <span class="o">=</span> <span class="n">ident</span>
@@ -132,7 +132,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">low_is_none</span> <span class="o">=</span> <span class="n">low_is_none</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">high_is_none</span> <span class="o">=</span> <span class="n">high_is_none</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">low_is_zero</span> <span class="o">=</span> <span class="n">low_is_zero</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_control</span> <span class="o">=</span> <span class="kc">None</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_control</span> <span class="o">=</span> <span class="k">None</span></div>
 
 
 <div class="viewcode-block" id="Switch"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Switch">[docs]</a><span class="k">class</span> <span class="nc">Switch</span><span class="p">:</span>
@@ -182,44 +182,44 @@
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="k">None</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="s1">&#39;Untitled Snuffling&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_viewer</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="s">&#39;Untitled Snuffling&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_viewer</span> <span class="o">=</span> <span class="k">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tickets</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_markers</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_delete_panel</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_delete_menuitem</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_delete_panel</span> <span class="o">=</span> <span class="k">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_delete_menuitem</span> <span class="o">=</span> <span class="k">None</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_panel_parent</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_menu_parent</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_panel_parent</span> <span class="o">=</span> <span class="k">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_menu_parent</span> <span class="o">=</span> <span class="k">None</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_panel</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_menuitem</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_helpmenuitem</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_panel</span> <span class="o">=</span> <span class="k">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_menuitem</span> <span class="o">=</span> <span class="k">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_helpmenuitem</span> <span class="o">=</span> <span class="k">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_param_controls</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_triggers</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_live_update</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_previous_output_filename</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_previous_input_filename</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_previous_input_directory</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_live_update</span> <span class="o">=</span> <span class="k">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_previous_output_filename</span> <span class="o">=</span> <span class="k">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_previous_input_filename</span> <span class="o">=</span> <span class="k">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_previous_input_directory</span> <span class="o">=</span> <span class="k">None</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_tempdir</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tempdir</span> <span class="o">=</span> <span class="k">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_iplot</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_have_pre_process_hook</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_have_post_process_hook</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pre_process_hook_enabled</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_post_process_hook_enabled</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_have_pre_process_hook</span> <span class="o">=</span> <span class="k">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_have_post_process_hook</span> <span class="o">=</span> <span class="k">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pre_process_hook_enabled</span> <span class="o">=</span> <span class="k">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_post_process_hook_enabled</span> <span class="o">=</span> <span class="k">False</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_no_viewer_pile</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_no_viewer_pile</span> <span class="o">=</span> <span class="k">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cli_params</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_filename</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_force_panel</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_filename</span> <span class="o">=</span> <span class="k">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_force_panel</span> <span class="o">=</span> <span class="k">False</span>
 
 <div class="viewcode-block" id="Snuffling.setup"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.setup">[docs]</a>    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -240,7 +240,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span></div>
 
-<div class="viewcode-block" id="Snuffling.init_gui"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.init_gui">[docs]</a>    <span class="k">def</span> <span class="nf">init_gui</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">viewer</span><span class="p">,</span> <span class="n">panel_parent</span><span class="p">,</span> <span class="n">menu_parent</span><span class="p">,</span> <span class="n">reloaded</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Snuffling.init_gui"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.init_gui">[docs]</a>    <span class="k">def</span> <span class="nf">init_gui</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">viewer</span><span class="p">,</span> <span class="n">panel_parent</span><span class="p">,</span> <span class="n">menu_parent</span><span class="p">,</span> <span class="n">reloaded</span><span class="o">=</span><span class="k">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Set parent viewer and hooks to add panel and menu entry.</span>
 
@@ -255,7 +255,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">setup_gui</span><span class="p">(</span><span class="n">reloaded</span><span class="o">=</span><span class="n">reloaded</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Snuffling.setup_gui"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.setup_gui">[docs]</a>    <span class="k">def</span> <span class="nf">setup_gui</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reloaded</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Snuffling.setup_gui"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.setup_gui">[docs]</a>    <span class="k">def</span> <span class="nf">setup_gui</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reloaded</span><span class="o">=</span><span class="k">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Create and add gui elements to the viewer.</span>
 
@@ -264,13 +264,13 @@
 <span class="sd">        snuffling has been changed.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_panel_parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_panel_parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_panel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_panel_parent</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_panel</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_panel_parent</span><span class="o">.</span><span class="n">add_panel</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_panel</span><span class="p">,</span> <span class="n">reloaded</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_menu_parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_menu_parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_menuitem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_menuitem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_menu_parent</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_helpmenuitem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_helpmenuitem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_menu_parent</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_menuitem</span><span class="p">:</span>
@@ -280,7 +280,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">_menu_parent</span><span class="o">.</span><span class="n">add_snuffling_help_menuitem</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_helpmenuitem</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Snuffling.set_force_panel"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.set_force_panel">[docs]</a>    <span class="k">def</span> <span class="nf">set_force_panel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="Snuffling.set_force_panel"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.set_force_panel">[docs]</a>    <span class="k">def</span> <span class="nf">set_force_panel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">bool</span><span class="o">=</span><span class="k">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Force to create a panel.</span>
 
@@ -301,20 +301,20 @@
         <span class="n">parser</span> <span class="o">=</span> <span class="n">MyOptionParser</span><span class="p">()</span>
 
         <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
-            <span class="s1">&#39;--format&#39;</span><span class="p">,</span>
-            <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;format&#39;</span><span class="p">,</span>
-            <span class="n">default</span><span class="o">=</span><span class="s1">&#39;from_extension&#39;</span><span class="p">,</span>
+            <span class="s">&#39;--format&#39;</span><span class="p">,</span>
+            <span class="n">dest</span><span class="o">=</span><span class="s">&#39;format&#39;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="s">&#39;from_extension&#39;</span><span class="p">,</span>
             <span class="n">choices</span><span class="o">=</span><span class="p">(</span>
-                <span class="s1">&#39;mseed&#39;</span><span class="p">,</span> <span class="s1">&#39;sac&#39;</span><span class="p">,</span> <span class="s1">&#39;kan&#39;</span><span class="p">,</span> <span class="s1">&#39;segy&#39;</span><span class="p">,</span> <span class="s1">&#39;seisan&#39;</span><span class="p">,</span> <span class="s1">&#39;seisan.l&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;seisan.b&#39;</span><span class="p">,</span> <span class="s1">&#39;gse1&#39;</span><span class="p">,</span> <span class="s1">&#39;gcf&#39;</span><span class="p">,</span> <span class="s1">&#39;yaff&#39;</span><span class="p">,</span> <span class="s1">&#39;datacube&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;from_extension&#39;</span><span class="p">,</span> <span class="s1">&#39;detect&#39;</span><span class="p">),</span>
-            <span class="n">help</span><span class="o">=</span><span class="s1">&#39;assume files are of given FORMAT [default: </span><span class="se">\&#39;</span><span class="si">%d</span><span class="s1">efault</span><span class="se">\&#39;</span><span class="s1">]&#39;</span><span class="p">)</span>
+                <span class="s">&#39;mseed&#39;</span><span class="p">,</span> <span class="s">&#39;sac&#39;</span><span class="p">,</span> <span class="s">&#39;kan&#39;</span><span class="p">,</span> <span class="s">&#39;segy&#39;</span><span class="p">,</span> <span class="s">&#39;seisan&#39;</span><span class="p">,</span> <span class="s">&#39;seisan.l&#39;</span><span class="p">,</span>
+                <span class="s">&#39;seisan.b&#39;</span><span class="p">,</span> <span class="s">&#39;gse1&#39;</span><span class="p">,</span> <span class="s">&#39;gcf&#39;</span><span class="p">,</span> <span class="s">&#39;yaff&#39;</span><span class="p">,</span> <span class="s">&#39;datacube&#39;</span><span class="p">,</span>
+                <span class="s">&#39;from_extension&#39;</span><span class="p">,</span> <span class="s">&#39;detect&#39;</span><span class="p">),</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&#39;assume files are of given FORMAT [default: </span><span class="se">\&#39;</span><span class="s">%default</span><span class="se">\&#39;</span><span class="s">]&#39;</span><span class="p">)</span>
 
         <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
-            <span class="s1">&#39;--pattern&#39;</span><span class="p">,</span>
-            <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;regex&#39;</span><span class="p">,</span>
-            <span class="n">metavar</span><span class="o">=</span><span class="s1">&#39;REGEX&#39;</span><span class="p">,</span>
-            <span class="n">help</span><span class="o">=</span><span class="s1">&#39;only include files whose paths match REGEX&#39;</span><span class="p">)</span>
+            <span class="s">&#39;--pattern&#39;</span><span class="p">,</span>
+            <span class="n">dest</span><span class="o">=</span><span class="s">&#39;regex&#39;</span><span class="p">,</span>
+            <span class="n">metavar</span><span class="o">=</span><span class="s">&#39;REGEX&#39;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s">&#39;only include files whose paths match REGEX&#39;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">add_params_to_cli_parser</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">configure_cli_parser</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
@@ -324,17 +324,17 @@
         <span class="k">pass</span>
 
     <span class="k">def</span> <span class="nf">cli_usage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="k">None</span>
 
     <span class="k">def</span> <span class="nf">add_params_to_cli_parser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">):</span>
 
         <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">Param</span><span class="p">):</span>
                 <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
-                    <span class="s1">&#39;--&#39;</span> <span class="o">+</span> <span class="n">param</span><span class="o">.</span><span class="n">ident</span><span class="p">,</span>
+                    <span class="s">&#39;--&#39;</span> <span class="o">+</span> <span class="n">param</span><span class="o">.</span><span class="n">ident</span><span class="p">,</span>
                     <span class="n">dest</span><span class="o">=</span><span class="n">param</span><span class="o">.</span><span class="n">ident</span><span class="p">,</span>
                     <span class="n">default</span><span class="o">=</span><span class="n">param</span><span class="o">.</span><span class="n">default</span><span class="p">,</span>
-                    <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">,</span>
+                    <span class="nb">type</span><span class="o">=</span><span class="s">&#39;float&#39;</span><span class="p">,</span>
                     <span class="n">help</span><span class="o">=</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">setup_cli</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -346,9 +346,9 @@
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">Param</span><span class="p">):</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">ident</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">ident</span><span class="p">))</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cli_params</span><span class="p">[</span><span class="s1">&#39;regex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">regex</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cli_params</span><span class="p">[</span><span class="s1">&#39;format&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">format</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cli_params</span><span class="p">[</span><span class="s1">&#39;sources&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cli_params</span><span class="p">[</span><span class="s">&#39;regex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">regex</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cli_params</span><span class="p">[</span><span class="s">&#39;format&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cli_params</span><span class="p">[</span><span class="s">&#39;sources&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span>
 
         <span class="k">return</span> <span class="n">options</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">parser</span>
 
@@ -363,15 +363,15 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_panel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_panel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_panel_parent</span><span class="o">.</span><span class="n">remove_panel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_panel</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_panel</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_panel</span> <span class="o">=</span> <span class="k">None</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_menuitem</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_menuitem</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_menu_parent</span><span class="o">.</span><span class="n">remove_snuffling_menuitem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_menuitem</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_menuitem</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_menuitem</span> <span class="o">=</span> <span class="k">None</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_helpmenuitem</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_helpmenuitem</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_menu_parent</span><span class="o">.</span><span class="n">remove_snuffling_help_menuitem</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_helpmenuitem</span><span class="p">)</span></div>
 
@@ -394,18 +394,18 @@
 
     <span class="k">def</span> <span class="nf">set_have_pre_process_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_have_pre_process_hook</span> <span class="o">=</span> <span class="nb">bool</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_live_update</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pre_process_hook_enabled</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_live_update</span> <span class="o">=</span> <span class="k">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pre_process_hook_enabled</span> <span class="o">=</span> <span class="k">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset_gui</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">set_have_post_process_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_have_post_process_hook</span> <span class="o">=</span> <span class="nb">bool</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_live_update</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_post_process_hook_enabled</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_live_update</span> <span class="o">=</span> <span class="k">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_post_process_hook_enabled</span> <span class="o">=</span> <span class="k">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset_gui</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">set_have_pile_changed_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pile_</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pile_</span> <span class="o">=</span> <span class="k">False</span>
 
 <div class="viewcode-block" id="Snuffling.enable_pile_changed_notifications"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.enable_pile_changed_notifications">[docs]</a>    <span class="k">def</span> <span class="nf">enable_pile_changed_notifications</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -418,7 +418,7 @@
         <span class="n">viewer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span>
         <span class="n">viewer</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
             <span class="n">viewer</span><span class="p">,</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s1">&#39;pile_has_changed_signal()&#39;</span><span class="p">),</span>
+            <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&#39;pile_has_changed_signal()&#39;</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pile_changed</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Snuffling.disable_pile_changed_notifications"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.disable_pile_changed_notifications">[docs]</a>    <span class="k">def</span> <span class="nf">disable_pile_changed_notifications</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -429,7 +429,7 @@
         <span class="n">viewer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span>
         <span class="n">viewer</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span>
             <span class="n">viewer</span><span class="p">,</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s1">&#39;pile_has_changed_signal()&#39;</span><span class="p">),</span>
+            <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&#39;pile_has_changed_signal()&#39;</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pile_changed</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Snuffling.pile_changed"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.pile_changed">[docs]</a>    <span class="k">def</span> <span class="nf">pile_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -442,7 +442,7 @@
 
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="Snuffling.reset_gui"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.reset_gui">[docs]</a>    <span class="k">def</span> <span class="nf">reset_gui</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reloaded</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Snuffling.reset_gui"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.reset_gui">[docs]</a>    <span class="k">def</span> <span class="nf">reset_gui</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reloaded</span><span class="o">=</span><span class="k">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Delete and recreate the snuffling&#39;s panel.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -463,7 +463,7 @@
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">box</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QMessageBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">())</span>
-            <span class="n">box</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">kind</span><span class="o">.</span><span class="n">capitalize</span><span class="p">(),</span> <span class="n">message</span><span class="p">))</span>
+            <span class="n">box</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="s">&#39;%s: %s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">kind</span><span class="o">.</span><span class="n">capitalize</span><span class="p">(),</span> <span class="n">message</span><span class="p">))</span>
             <span class="n">box</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
         <span class="k">except</span> <span class="n">NoViewerSet</span><span class="p">:</span>
             <span class="k">pass</span></div>
@@ -475,8 +475,8 @@
 <span class="sd">        :param message: specifying the error</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="n">message</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">show_message</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: %s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="n">message</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_message</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Snuffling.warn"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.warn">[docs]</a>    <span class="k">def</span> <span class="nf">warn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -485,8 +485,8 @@
 <span class="sd">        :param message: specifying the warning</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="n">message</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">show_message</span><span class="p">(</span><span class="s1">&#39;warning&#39;</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&#39;%s: %s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="n">message</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_message</span><span class="p">(</span><span class="s">&#39;warning&#39;</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Snuffling.fail"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.fail">[docs]</a>    <span class="k">def</span> <span class="nf">fail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -499,7 +499,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">SnufflingCallFailed</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Snuffling.pylab"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.pylab">[docs]</a>    <span class="k">def</span> <span class="nf">pylab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">get</span><span class="o">=</span><span class="s1">&#39;axes&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="Snuffling.pylab"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.pylab">[docs]</a>    <span class="k">def</span> <span class="nf">pylab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">get</span><span class="o">=</span><span class="s">&#39;axes&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Create a :py:class:`FigureFrame` and return either the frame,</span>
 <span class="sd">        a :py:class:`matplotlib.figure.Figure` instance or a</span>
@@ -509,20 +509,20 @@
 <span class="sd">        :param get: &#39;axes&#39;|&#39;figure&#39;|&#39;frame&#39; (optional)</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_iplot</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Plot </span><span class="si">%i</span><span class="s1"> (</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_iplot</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">())</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;Plot %i (%s)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_iplot</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">())</span>
 
         <span class="n">fframe</span> <span class="o">=</span> <span class="n">FigureFrame</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_panel_parent</span><span class="o">.</span><span class="n">add_tab</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">fframe</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">get</span> <span class="o">==</span> <span class="s1">&#39;axes&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">get</span> <span class="o">==</span> <span class="s">&#39;axes&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">fframe</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="n">get</span> <span class="o">==</span> <span class="s1">&#39;figure&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">get</span> <span class="o">==</span> <span class="s">&#39;figure&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">fframe</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="n">get</span> <span class="o">==</span> <span class="s1">&#39;figure_frame&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">get</span> <span class="o">==</span> <span class="s">&#39;figure_frame&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">fframe</span></div>
 
-<div class="viewcode-block" id="Snuffling.figure"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.figure">[docs]</a>    <span class="k">def</span> <span class="nf">figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Snuffling.figure"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.figure">[docs]</a>    <span class="k">def</span> <span class="nf">figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Returns a :py:class:`matplotlib.figure.Figure` instance</span>
 <span class="sd">        which can be displayed within snuffler by calling</span>
@@ -531,27 +531,27 @@
 <span class="sd">        :param name: labels the tab of the figure</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pylab</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">get</span><span class="o">=</span><span class="s1">&#39;figure&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pylab</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">get</span><span class="o">=</span><span class="s">&#39;figure&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Snuffling.axes"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.axes">[docs]</a>    <span class="k">def</span> <span class="nf">axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Snuffling.axes"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.axes">[docs]</a>    <span class="k">def</span> <span class="nf">axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Returns a :py:class:`matplotlib.axes.Axes` instance.</span>
 
 <span class="sd">        :param name: labels the tab of axes</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pylab</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">get</span><span class="o">=</span><span class="s1">&#39;axes&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pylab</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">get</span><span class="o">=</span><span class="s">&#39;axes&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Snuffling.figure_frame"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.figure_frame">[docs]</a>    <span class="k">def</span> <span class="nf">figure_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Snuffling.figure_frame"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.figure_frame">[docs]</a>    <span class="k">def</span> <span class="nf">figure_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Create a :py:class:`pyrocko.gui_util.FigureFrame`.</span>
 
 <span class="sd">        :param name: labels the tab figure frame</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pylab</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">get</span><span class="o">=</span><span class="s1">&#39;figure_frame&#39;</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pylab</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">get</span><span class="o">=</span><span class="s">&#39;figure_frame&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Snuffling.web_frame"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.web_frame">[docs]</a>    <span class="k">def</span> <span class="nf">web_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Snuffling.web_frame"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.web_frame">[docs]</a>    <span class="k">def</span> <span class="nf">web_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Creates a :py:class:`WebKitFrame` which can be used as a browser</span>
 <span class="sd">        within snuffler.</span>
@@ -560,15 +560,15 @@
 <span class="sd">        :param name: labels the tab</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_iplot</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Web browser </span><span class="si">%i</span><span class="s1"> (</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_iplot</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">())</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;Web browser %i (%s)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_iplot</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">())</span>
 
         <span class="n">f</span> <span class="o">=</span> <span class="n">WebKitFrame</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_panel_parent</span><span class="o">.</span><span class="n">add_tab</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">f</span></div>
 
-<div class="viewcode-block" id="Snuffling.vtk_frame"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.vtk_frame">[docs]</a>    <span class="k">def</span> <span class="nf">vtk_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actors</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Snuffling.vtk_frame"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.vtk_frame">[docs]</a>    <span class="k">def</span> <span class="nf">vtk_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">actors</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Create a :py:class:`pyrocko.gui_util.VTKFrame` to render interactive 3D</span>
 <span class="sd">        graphics.</span>
@@ -582,9 +582,9 @@
 
 <span class="sd">        Requires installation of vtk including python wrapper.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_iplot</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;VTK </span><span class="si">%i</span><span class="s1"> (</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_iplot</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">())</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;VTK %i (%s)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_iplot</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">())</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">f</span> <span class="o">=</span> <span class="n">VTKFrame</span><span class="p">(</span><span class="n">actors</span><span class="o">=</span><span class="n">actors</span><span class="p">)</span>
@@ -602,8 +602,8 @@
 <span class="sd">        instance is deleted.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tempdir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_tempdir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;snuffling-tmp-&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tempdir</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_tempdir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;snuffling-tmp-&#39;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tempdir</span></div>
 
@@ -637,7 +637,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_parameter_value</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">ident</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_panel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_panel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">delete_gui</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">setup_gui</span><span class="p">()</span></div>
 
@@ -651,7 +651,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_triggers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">method</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_panel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_panel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">delete_gui</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">setup_gui</span><span class="p">()</span></div>
 
@@ -676,7 +676,7 @@
         <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">ident</span> <span class="o">==</span> <span class="n">ident</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">param</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
+        <span class="k">return</span> <span class="k">None</span></div>
 
 <div class="viewcode-block" id="Snuffling.set_parameter"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.set_parameter">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ident</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -690,7 +690,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_parameter_value</span><span class="p">(</span><span class="n">ident</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
-        <span class="n">control</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_controls</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ident</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">control</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_controls</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ident</span><span class="p">,</span> <span class="k">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">control</span><span class="p">:</span>
             <span class="n">control</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
@@ -704,7 +704,7 @@
 <span class="sd">        Adjusts the control of a parameter without calling :py:meth:`call`.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="n">control</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_controls</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ident</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">control</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_controls</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ident</span><span class="p">,</span> <span class="k">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">control</span><span class="p">:</span>
             <span class="n">control</span><span class="o">.</span><span class="n">set_range</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">)</span></div>
 
@@ -716,7 +716,7 @@
 <span class="sd">        :param choices: list of strings</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="n">control</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_controls</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ident</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">control</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_controls</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ident</span><span class="p">,</span> <span class="k">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">control</span><span class="p">:</span>
             <span class="n">selected_choice</span> <span class="o">=</span> <span class="n">control</span><span class="o">.</span><span class="n">set_choices</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_parameter_value</span><span class="p">(</span><span class="n">ident</span><span class="p">,</span> <span class="n">selected_choice</span><span class="p">)</span></div>
@@ -766,7 +766,7 @@
 <span class="sd">        :py:exc:`NoViewerSet` exception is raised.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_viewer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_viewer</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">NoViewerSet</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_viewer</span></div>
 
@@ -784,7 +784,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span><span class="o">.</span><span class="n">get_pile</span><span class="p">()</span>
         <span class="k">except</span> <span class="n">NoViewerSet</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_no_viewer_pile</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_no_viewer_pile</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_no_viewer_pile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_pile</span><span class="p">()</span>
 
             <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_no_viewer_pile</span>
@@ -792,7 +792,7 @@
         <span class="k">return</span> <span class="n">p</span></div>
 
 <div class="viewcode-block" id="Snuffling.get_active_event_and_stations"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.get_active_event_and_stations">[docs]</a>    <span class="k">def</span> <span class="nf">get_active_event_and_stations</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">trange</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">3600.</span><span class="p">,</span> <span class="mf">3600.</span><span class="p">),</span> <span class="n">missing</span><span class="o">=</span><span class="s1">&#39;warn&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">trange</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">3600.</span><span class="p">,</span> <span class="mf">3600.</span><span class="p">),</span> <span class="n">missing</span><span class="o">=</span><span class="s">&#39;warn&#39;</span><span class="p">):</span>
 
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Get event and stations with available data for active event.</span>
@@ -809,17 +809,17 @@
         <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span>
 
         <span class="n">event</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get_active_event</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">event</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">event</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span>
-                <span class="s1">&#39;No active event set. Select an event and press &quot;e&quot; to make &#39;</span>
-                <span class="s1">&#39;it the &quot;active event&quot;&#39;</span><span class="p">)</span>
+                <span class="s">&#39;No active event set. Select an event and press &quot;e&quot; to make &#39;</span>
+                <span class="s">&#39;it the &quot;active event&quot;&#39;</span><span class="p">)</span>
 
         <span class="n">stations</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">traces</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">chopper</span><span class="p">(</span>
                 <span class="n">event</span><span class="o">.</span><span class="n">time</span><span class="o">+</span><span class="n">trange</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="n">event</span><span class="o">.</span><span class="n">time</span><span class="o">+</span><span class="n">trange</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                <span class="n">load_data</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                <span class="n">degap</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                <span class="n">load_data</span><span class="o">=</span><span class="k">False</span><span class="p">,</span>
+                <span class="n">degap</span><span class="o">=</span><span class="k">False</span><span class="p">):</span>
 
             <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
@@ -831,21 +831,21 @@
                     <span class="n">stations</span><span class="p">[</span><span class="n">skey</span><span class="p">]</span> <span class="o">=</span> <span class="n">station</span>
 
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                    <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;No station information for station key &quot;</span><span class="si">%s</span><span class="s1">&quot;.&#39;</span> \
-                        <span class="o">%</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">skey</span><span class="p">)</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;No station information for station key &quot;%s&quot;.&#39;</span> \
+                        <span class="o">%</span> <span class="s">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">skey</span><span class="p">)</span>
 
-                    <span class="k">if</span> <span class="n">missing</span> <span class="o">==</span> <span class="s1">&#39;warn&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">missing</span> <span class="o">==</span> <span class="s">&#39;warn&#39;</span><span class="p">:</span>
                         <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-                    <span class="k">elif</span> <span class="n">missing</span> <span class="o">==</span> <span class="s1">&#39;raise&#39;</span><span class="p">:</span>
+                    <span class="k">elif</span> <span class="n">missing</span> <span class="o">==</span> <span class="s">&#39;raise&#39;</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="n">MissingStationInformation</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-                    <span class="k">elif</span> <span class="n">missing</span> <span class="o">==</span> <span class="s1">&#39;ignore&#39;</span><span class="p">:</span>
+                    <span class="k">elif</span> <span class="n">missing</span> <span class="o">==</span> <span class="s">&#39;ignore&#39;</span><span class="p">:</span>
                         <span class="k">pass</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;invalid argument to &quot;missing&quot;&#39;</span>
+                        <span class="k">assert</span> <span class="k">False</span><span class="p">,</span> <span class="s">&#39;invalid argument to &quot;missing&quot;&#39;</span>
 
-                    <span class="n">stations</span><span class="p">[</span><span class="n">skey</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="n">stations</span><span class="p">[</span><span class="n">skey</span><span class="p">]</span> <span class="o">=</span> <span class="k">None</span>
 
-        <span class="k">return</span> <span class="n">event</span><span class="p">,</span> <span class="p">[</span><span class="n">st</span> <span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="n">stations</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">st</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="n">event</span><span class="p">,</span> <span class="p">[</span><span class="n">st</span> <span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="n">stations</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">st</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="Snuffling.get_stations"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.get_stations">[docs]</a>    <span class="k">def</span> <span class="nf">get_stations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -894,10 +894,10 @@
         <span class="n">viewer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span>
         <span class="n">markers</span> <span class="o">=</span> <span class="n">viewer</span><span class="o">.</span><span class="n">get_markers</span><span class="p">()</span>
         <span class="n">event_marker</span> <span class="o">=</span> <span class="n">viewer</span><span class="o">.</span><span class="n">get_active_event_marker</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">event_marker</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">event_marker</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span>
-                <span class="s1">&#39;No active event set. &#39;</span>
-                <span class="s1">&#39;Select an event and press &quot;e&quot; to make it the &quot;active event&quot;&#39;</span><span class="p">)</span>
+                <span class="s">&#39;No active event set. &#39;</span>
+                <span class="s">&#39;Select an event and press &quot;e&quot; to make it the &quot;active event&quot;&#39;</span><span class="p">)</span>
 
         <span class="n">event</span> <span class="o">=</span> <span class="n">event_marker</span><span class="o">.</span><span class="n">get_event</span><span class="p">()</span>
 
@@ -912,7 +912,7 @@
             <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">markers</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">PhaseMarker</span><span class="p">)</span> <span class="ow">and</span>
              <span class="n">m</span><span class="o">.</span><span class="n">get_event</span><span class="p">()</span> <span class="o">==</span> <span class="n">event</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="Snuffling.get_viewer_trace_selector"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.get_viewer_trace_selector">[docs]</a>    <span class="k">def</span> <span class="nf">get_viewer_trace_selector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;inview&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="Snuffling.get_viewer_trace_selector"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.get_viewer_trace_selector">[docs]</a>    <span class="k">def</span> <span class="nf">get_viewer_trace_selector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;inview&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Get currently active trace selector from viewer.</span>
 
@@ -925,19 +925,19 @@
         <span class="n">viewer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span>
 
         <span class="k">def</span> <span class="nf">rtrue</span><span class="p">(</span><span class="n">tr</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="k">True</span>
 
-        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;inview&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s">&#39;inview&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">viewer</span><span class="o">.</span><span class="n">trace_selector</span> <span class="ow">or</span> <span class="n">rtrue</span>
-        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;visible&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s">&#39;visible&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">viewer</span><span class="o">.</span><span class="n">trace_filter</span> <span class="ow">or</span> <span class="n">rtrue</span>
-        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s">&#39;all&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">rtrue</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;invalid mode argument&#39;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;invalid mode argument&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Snuffling.chopper_selected_traces"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.chopper_selected_traces">[docs]</a>    <span class="k">def</span> <span class="nf">chopper_selected_traces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">marker_selector</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;inview&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Snuffling.chopper_selected_traces"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.chopper_selected_traces">[docs]</a>    <span class="k">def</span> <span class="nf">chopper_selected_traces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="k">False</span><span class="p">,</span> <span class="n">marker_selector</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
+                                <span class="n">mode</span><span class="o">=</span><span class="s">&#39;inview&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Iterate over selected traces.</span>
@@ -966,16 +966,16 @@
                 <span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">viewer</span><span class="o">.</span><span class="n">selected_markers</span><span class="p">()</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">EventMarker</span><span class="p">)]</span>
 
-            <span class="k">if</span> <span class="n">marker_selector</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">marker_selector</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
                 <span class="n">markers</span> <span class="o">=</span> <span class="p">[</span>
                     <span class="n">marker</span> <span class="k">for</span> <span class="n">marker</span> <span class="ow">in</span> <span class="n">markers</span> <span class="k">if</span> <span class="n">marker_selector</span><span class="p">(</span><span class="n">marker</span><span class="p">)]</span>
 
             <span class="n">pile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pile</span><span class="p">()</span>
 
             <span class="k">def</span> <span class="nf">rtrue</span><span class="p">(</span><span class="n">tr</span><span class="p">):</span>
-                <span class="k">return</span> <span class="kc">True</span>
+                <span class="k">return</span> <span class="k">True</span>
 
-            <span class="n">trace_selector_arg</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;trace_selector&#39;</span><span class="p">,</span> <span class="n">rtrue</span><span class="p">)</span>
+            <span class="n">trace_selector_arg</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;trace_selector&#39;</span><span class="p">,</span> <span class="n">rtrue</span><span class="p">)</span>
             <span class="n">trace_selector_viewer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer_trace_selector</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">markers</span><span class="p">:</span>
@@ -1022,7 +1022,7 @@
             <span class="k">for</span> <span class="n">traces</span> <span class="ow">in</span> <span class="n">pile</span><span class="o">.</span><span class="n">chopper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="n">traces</span></div>
 
-<div class="viewcode-block" id="Snuffling.get_selected_time_range"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.get_selected_time_range">[docs]</a>    <span class="k">def</span> <span class="nf">get_selected_time_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Snuffling.get_selected_time_range"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.get_selected_time_range">[docs]</a>    <span class="k">def</span> <span class="nf">get_selected_time_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="k">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Get the time range spanning all selected markers.</span>
 
@@ -1067,12 +1067,12 @@
 <span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="n">cachedirname</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">config</span><span class="p">()</span><span class="o">.</span><span class="n">cache_dir</span>
-        <span class="n">sources</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cli_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sources&#39;</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="n">sources</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cli_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;sources&#39;</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
         <span class="k">return</span> <span class="n">pile</span><span class="o">.</span><span class="n">make_pile</span><span class="p">(</span>
             <span class="n">sources</span><span class="p">,</span>
             <span class="n">cachedirname</span><span class="o">=</span><span class="n">cachedirname</span><span class="p">,</span>
-            <span class="n">regex</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cli_params</span><span class="p">[</span><span class="s1">&#39;regex&#39;</span><span class="p">],</span>
-            <span class="n">fileformat</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cli_params</span><span class="p">[</span><span class="s1">&#39;format&#39;</span><span class="p">])</span></div>
+            <span class="n">regex</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cli_params</span><span class="p">[</span><span class="s">&#39;regex&#39;</span><span class="p">],</span>
+            <span class="n">fileformat</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cli_params</span><span class="p">[</span><span class="s">&#39;format&#39;</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="Snuffling.make_panel"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.make_panel">[docs]</a>    <span class="k">def</span> <span class="nf">make_panel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1093,14 +1093,14 @@
             <span class="n">frame</span> <span class="o">=</span> <span class="n">MyFrame</span><span class="p">(</span><span class="n">sarea</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
                 <span class="n">frame</span><span class="p">,</span>
-                <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s1">&#39;widgetVisibilityChanged(bool)&#39;</span><span class="p">),</span>
+                <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&#39;widgetVisibilityChanged(bool)&#39;</span><span class="p">),</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">panel_visibility_changed</span><span class="p">)</span>
 
             <span class="n">frame</span><span class="o">.</span><span class="n">setSizePolicy</span><span class="p">(</span><span class="n">qg</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="p">(</span>
                 <span class="n">qg</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Expanding</span><span class="p">,</span> <span class="n">qg</span><span class="o">.</span><span class="n">QSizePolicy</span><span class="o">.</span><span class="n">Minimum</span><span class="p">))</span>
             <span class="n">frame</span><span class="o">.</span><span class="n">setFrameStyle</span><span class="p">(</span><span class="n">qg</span><span class="o">.</span><span class="n">QFrame</span><span class="o">.</span><span class="n">NoFrame</span><span class="p">)</span>
             <span class="n">sarea</span><span class="o">.</span><span class="n">setWidget</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
-            <span class="n">sarea</span><span class="o">.</span><span class="n">setWidgetResizable</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">sarea</span><span class="o">.</span><span class="n">setWidgetResizable</span><span class="p">(</span><span class="k">True</span><span class="p">)</span>
             <span class="n">layout</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QGridLayout</span><span class="p">()</span>
             <span class="n">layout</span><span class="o">.</span><span class="n">setContentsMargins</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="n">layout</span><span class="o">.</span><span class="n">setSpacing</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -1110,8 +1110,8 @@
 
             <span class="n">irow</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">ipar</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">have_switches</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="n">have_params</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">have_switches</span> <span class="o">=</span> <span class="k">False</span>
+            <span class="n">have_params</span> <span class="o">=</span> <span class="k">False</span>
             <span class="k">for</span> <span class="n">iparam</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">Param</span><span class="p">):</span>
                     <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">minimum</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
@@ -1133,7 +1133,7 @@
 
                     <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
                         <span class="n">param_control</span><span class="p">,</span>
-                        <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s2">&quot;valchange(PyQt_PyObject,int)&quot;</span><span class="p">),</span>
+                        <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&quot;valchange(PyQt_PyObject,int)&quot;</span><span class="p">),</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">modified_snuffling_panel</span><span class="p">)</span>
 
                     <span class="bp">self</span><span class="o">.</span><span class="n">_param_controls</span><span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">ident</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_control</span>
@@ -1141,23 +1141,23 @@
                         <span class="n">parlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">ipar</span><span class="p">,</span> <span class="n">iw</span><span class="p">)</span>
 
                     <span class="n">ipar</span> <span class="o">+=</span> <span class="mi">1</span>
-                    <span class="n">have_params</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="n">have_params</span> <span class="o">=</span> <span class="k">True</span>
 
                 <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">Choice</span><span class="p">):</span>
                     <span class="n">param_widget</span> <span class="o">=</span> <span class="n">ChoiceControl</span><span class="p">(</span>
                         <span class="n">param</span><span class="o">.</span><span class="n">ident</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">default</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">choices</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
                         <span class="n">param_widget</span><span class="p">,</span>
-                        <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s1">&#39;choosen(PyQt_PyObject,PyQt_PyObject)&#39;</span><span class="p">),</span>
+                        <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&#39;choosen(PyQt_PyObject,PyQt_PyObject)&#39;</span><span class="p">),</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">choose_on_snuffling_panel</span><span class="p">)</span>
 
                     <span class="bp">self</span><span class="o">.</span><span class="n">_param_controls</span><span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">ident</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_widget</span>
                     <span class="n">parlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">param_widget</span><span class="p">,</span> <span class="n">ipar</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
                     <span class="n">ipar</span> <span class="o">+=</span> <span class="mi">1</span>
-                    <span class="n">have_params</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="n">have_params</span> <span class="o">=</span> <span class="k">True</span>
 
                 <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">Switch</span><span class="p">):</span>
-                    <span class="n">have_switches</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="n">have_switches</span> <span class="o">=</span> <span class="k">True</span>
 
             <span class="k">if</span> <span class="n">have_params</span><span class="p">:</span>
                 <span class="n">parframe</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QFrame</span><span class="p">(</span><span class="n">sarea</span><span class="p">)</span>
@@ -1176,7 +1176,7 @@
                             <span class="n">param</span><span class="o">.</span><span class="n">ident</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">default</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
                             <span class="n">param_widget</span><span class="p">,</span>
-                            <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s1">&#39;sw_toggled(PyQt_PyObject,bool)&#39;</span><span class="p">),</span>
+                            <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&#39;sw_toggled(PyQt_PyObject,bool)&#39;</span><span class="p">),</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">switch_on_snuffling_panel</span><span class="p">)</span>
 
                         <span class="bp">self</span><span class="o">.</span><span class="n">_param_controls</span><span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">ident</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_widget</span>
@@ -1196,35 +1196,35 @@
             <span class="n">butlayout</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QHBoxLayout</span><span class="p">()</span>
             <span class="n">butframe</span><span class="o">.</span><span class="n">setLayout</span><span class="p">(</span><span class="n">butlayout</span><span class="p">)</span>
 
-            <span class="n">live_update_checkbox</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QCheckBox</span><span class="p">(</span><span class="s1">&#39;Auto-Run&#39;</span><span class="p">)</span>
+            <span class="n">live_update_checkbox</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QCheckBox</span><span class="p">(</span><span class="s">&#39;Auto-Run&#39;</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_live_update</span><span class="p">:</span>
                 <span class="n">live_update_checkbox</span><span class="o">.</span><span class="n">setCheckState</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">Checked</span><span class="p">)</span>
 
             <span class="n">butlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">live_update_checkbox</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
                 <span class="n">live_update_checkbox</span><span class="p">,</span>
-                <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s2">&quot;toggled(bool)&quot;</span><span class="p">),</span>
+                <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&quot;toggled(bool)&quot;</span><span class="p">),</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">live_update_toggled</span><span class="p">)</span>
 
-            <span class="n">help_button</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s1">&#39;Help&#39;</span><span class="p">)</span>
+            <span class="n">help_button</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s">&#39;Help&#39;</span><span class="p">)</span>
             <span class="n">butlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">help_button</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
                 <span class="n">help_button</span><span class="p">,</span>
-                <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s2">&quot;clicked()&quot;</span><span class="p">),</span>
+                <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&quot;clicked()&quot;</span><span class="p">),</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">help_button_triggered</span><span class="p">)</span>
 
-            <span class="n">clear_button</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s1">&#39;Clear&#39;</span><span class="p">)</span>
+            <span class="n">clear_button</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s">&#39;Clear&#39;</span><span class="p">)</span>
             <span class="n">butlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">clear_button</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
                 <span class="n">clear_button</span><span class="p">,</span>
-                <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s2">&quot;clicked()&quot;</span><span class="p">),</span>
+                <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&quot;clicked()&quot;</span><span class="p">),</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">clear_button_triggered</span><span class="p">)</span>
 
-            <span class="n">call_button</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s1">&#39;Run&#39;</span><span class="p">)</span>
+            <span class="n">call_button</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s">&#39;Run&#39;</span><span class="p">)</span>
             <span class="n">butlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">call_button</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
                 <span class="n">call_button</span><span class="p">,</span>
-                <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s2">&quot;clicked()&quot;</span><span class="p">),</span>
+                <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&quot;clicked()&quot;</span><span class="p">),</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">call_button_triggered</span><span class="p">)</span>
 
             <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">method</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_triggers</span><span class="p">:</span>
@@ -1236,17 +1236,17 @@
                             <span class="n">method</span><span class="p">()</span>
                         <span class="k">except</span> <span class="n">SnufflingError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
                             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">SnufflingCallFailed</span><span class="p">):</span>
-                                <span class="c1"># those have logged within error()</span>
-                                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+                                <span class="c"># those have logged within error()</span>
+                                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: %s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
                             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                                <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: Snuffling action failed&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span>
+                                <span class="s">&#39;%s: Snuffling action failed&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span>
 
                         <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
                     <span class="k">return</span> <span class="n">f</span>
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
                     <span class="n">but</span><span class="p">,</span>
-                    <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s1">&#39;clicked()&#39;</span><span class="p">),</span>
+                    <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&#39;clicked()&#39;</span><span class="p">),</span>
                     <span class="n">call_and_update</span><span class="p">(</span><span class="n">method</span><span class="p">))</span>
 
                 <span class="n">butlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">but</span><span class="p">)</span>
@@ -1262,18 +1262,18 @@
             <span class="k">return</span> <span class="n">sarea</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
+            <span class="k">return</span> <span class="k">None</span></div>
 
 <div class="viewcode-block" id="Snuffling.make_helpmenuitem"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.make_helpmenuitem">[docs]</a>    <span class="k">def</span> <span class="nf">make_helpmenuitem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Create the help menu item for the snuffling.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="n">item</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(),</span> <span class="k">None</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
             <span class="n">item</span><span class="p">,</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s2">&quot;triggered(bool)&quot;</span><span class="p">),</span>
+            <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&quot;triggered(bool)&quot;</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">help_button_triggered</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">item</span></div>
@@ -1286,21 +1286,21 @@
 <span class="sd">        menu entry is wanted.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="n">item</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QAction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(),</span> <span class="k">None</span><span class="p">)</span>
         <span class="n">item</span><span class="o">.</span><span class="n">setCheckable</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_have_pre_process_hook</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_have_post_process_hook</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">()</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
-            <span class="n">item</span><span class="p">,</span> <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s2">&quot;triggered(bool)&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">menuitem_triggered</span><span class="p">)</span>
+            <span class="n">item</span><span class="p">,</span> <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&quot;triggered(bool)&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">menuitem_triggered</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">item</span></div>
 
 <div class="viewcode-block" id="Snuffling.output_filename"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.output_filename">[docs]</a>    <span class="k">def</span> <span class="nf">output_filename</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;Save File&#39;</span><span class="p">,</span>
-            <span class="nb">dir</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
-            <span class="nb">filter</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
-            <span class="n">selected_filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="n">caption</span><span class="o">=</span><span class="s">&#39;Save File&#39;</span><span class="p">,</span>
+            <span class="nb">dir</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="nb">filter</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="n">selected_filter</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
 
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Query user for an output filename.</span>
@@ -1322,7 +1322,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_previous_output_filename</span> <span class="o">=</span> <span class="n">fn</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Snuffling.input_directory"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.input_directory">[docs]</a>    <span class="k">def</span> <span class="nf">input_directory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;Open Directory&#39;</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="Snuffling.input_directory"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.input_directory">[docs]</a>    <span class="k">def</span> <span class="nf">input_directory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s">&#39;Open Directory&#39;</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Query user for an input directory.</span>
 
@@ -1335,7 +1335,7 @@
             <span class="nb">dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_previous_input_directory</span>
 
         <span class="n">dirn</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QFileDialog</span><span class="o">.</span><span class="n">getExistingDirectory</span><span class="p">(</span>
-            <span class="kc">None</span><span class="p">,</span> <span class="n">caption</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">qg</span><span class="o">.</span><span class="n">QFileDialog</span><span class="o">.</span><span class="n">ShowDirsOnly</span><span class="p">)</span>
+            <span class="k">None</span><span class="p">,</span> <span class="n">caption</span><span class="p">,</span> <span class="nb">dir</span><span class="p">,</span> <span class="n">qg</span><span class="o">.</span><span class="n">QFileDialog</span><span class="o">.</span><span class="n">ShowDirsOnly</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">dirn</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">UserCancelled</span><span class="p">()</span>
@@ -1343,8 +1343,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_previous_input_directory</span> <span class="o">=</span> <span class="n">dirn</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">dirn</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Snuffling.input_filename"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.input_filename">[docs]</a>    <span class="k">def</span> <span class="nf">input_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;Open File&#39;</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
-                       <span class="n">selected_filter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Snuffling.input_filename"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.input_filename">[docs]</a>    <span class="k">def</span> <span class="nf">input_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s">&#39;Open File&#39;</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+                       <span class="n">selected_filter</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Query user for an input filename.</span>
 
@@ -1369,7 +1369,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_previous_input_filename</span> <span class="o">=</span> <span class="n">fn</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Snuffling.input_dialog"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.input_dialog">[docs]</a>    <span class="k">def</span> <span class="nf">input_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">request</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Snuffling.input_dialog"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.input_dialog">[docs]</a>    <span class="k">def</span> <span class="nf">input_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">request</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="k">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Query user for a text input.</span>
 
@@ -1378,7 +1378,7 @@
 <span class="sd">        dialog.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="n">inp</span><span class="p">,</span> <span class="n">ok</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QInputDialog</span><span class="o">.</span><span class="n">getText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">(),</span> <span class="s1">&#39;Input&#39;</span><span class="p">,</span> <span class="n">caption</span><span class="p">)</span>
+        <span class="n">inp</span><span class="p">,</span> <span class="n">ok</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QInputDialog</span><span class="o">.</span><span class="n">getText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_viewer</span><span class="p">(),</span> <span class="s">&#39;Input&#39;</span><span class="p">,</span> <span class="n">caption</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">ok</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">UserCancelled</span><span class="p">()</span>
@@ -1469,25 +1469,25 @@
 <span class="sd">        given in the snufflings&#39; __doc__ string.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;&lt;html&gt;&#39;</span><span class="p">):</span>
-                    <span class="n">doc</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__doc__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__doc__</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;&lt;html&gt;&#39;</span><span class="p">):</span>
+                    <span class="n">doc</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__doc__</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="kn">import</span> <span class="nn">markdown</span>
-                    <span class="n">doc</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span><span class="n">markdown</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">))</span>
+                    <span class="n">doc</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span><span class="n">markdown</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__doc__</span><span class="p">))</span>
 
                 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-                    <span class="n">doc</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+                    <span class="n">doc</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__doc__</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">doc</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span><span class="s1">&#39;This snuffling does not provide any online help.&#39;</span><span class="p">)</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span><span class="s">&#39;This snuffling does not provide any online help.&#39;</span><span class="p">)</span>
 
         <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">doc</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filename</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">cgi</span>
             <span class="kn">import</span> <span class="nn">urllib</span>
-            <span class="n">code</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="n">code</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_filename</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
             <span class="n">doc_src</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span>
                 <span class="sd">&#39;&#39;&#39;&lt;html&gt;&lt;body&gt;</span>
@@ -1507,9 +1507,9 @@
 
         <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
             <span class="n">h</span><span class="o">.</span><span class="n">setAlignment</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignTop</span> <span class="o">|</span> <span class="n">qc</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignLeft</span><span class="p">)</span>
-            <span class="n">h</span><span class="o">.</span><span class="n">setWordWrap</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">h</span><span class="o">.</span><span class="n">setWordWrap</span><span class="p">(</span><span class="k">True</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_viewer</span><span class="o">.</span><span class="n">show_doc</span><span class="p">(</span><span class="s1">&#39;Help: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;panel&#39;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_viewer</span><span class="o">.</span><span class="n">show_doc</span><span class="p">(</span><span class="s">&#39;Help: %s&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s">&#39;panel&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Snuffling.live_update_toggled"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.live_update_toggled">[docs]</a>    <span class="k">def</span> <span class="nf">live_update_toggled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">on</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -1592,9 +1592,9 @@
             <span class="k">return</span> <span class="mi">0</span>
         <span class="k">except</span> <span class="n">SnufflingError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">SnufflingCallFailed</span><span class="p">):</span>
-                <span class="c1"># those have logged within error()</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: Snuffling action failed&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span>
+                <span class="c"># those have logged within error()</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: %s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;%s: Snuffling action failed&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span>
             <span class="k">return</span> <span class="mi">1</span>
 
 <div class="viewcode-block" id="Snuffling.call"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.Snuffling.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1624,7 +1624,7 @@
 <span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tempdir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tempdir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">shutil</span>
             <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tempdir</span><span class="p">)</span></div></div>
 
@@ -1639,8 +1639,8 @@
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;No GUI available. &#39;</span> \
-               <span class="s1">&#39;Maybe this Snuffling cannot be run in command line mode?&#39;</span></div>
+        <span class="k">return</span> <span class="s">&#39;No GUI available. &#39;</span> \
+               <span class="s">&#39;Maybe this Snuffling cannot be run in command line mode?&#39;</span></div>
 
 
 <div class="viewcode-block" id="MissingStationInformation"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.MissingStationInformation">[docs]</a><span class="k">class</span> <span class="nc">MissingStationInformation</span><span class="p">(</span><span class="n">SnufflingError</span><span class="p">):</span>
@@ -1656,7 +1656,7 @@
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;No traces have been selected / are available.&#39;</span></div>
+        <span class="k">return</span> <span class="s">&#39;No traces have been selected / are available.&#39;</span></div>
 
 
 <div class="viewcode-block" id="UserCancelled"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.UserCancelled">[docs]</a><span class="k">class</span> <span class="nc">UserCancelled</span><span class="p">(</span><span class="n">SnufflingError</span><span class="p">):</span>
@@ -1665,7 +1665,7 @@
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;The user has cancelled a dialog.&#39;</span></div>
+        <span class="k">return</span> <span class="s">&#39;The user has cancelled a dialog.&#39;</span></div>
 
 
 <div class="viewcode-block" id="SnufflingCallFailed"><a class="viewcode-back" href="../../library/reference/snuffling.html#pyrocko.snuffling.SnufflingCallFailed">[docs]</a><span class="k">class</span> <span class="nc">SnufflingCallFailed</span><span class="p">(</span><span class="n">SnufflingError</span><span class="p">):</span>
@@ -1699,13 +1699,13 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">handler</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_mtime</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_module</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mtime</span> <span class="o">=</span> <span class="k">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_module</span> <span class="o">=</span> <span class="k">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_snufflings</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_handler</span> <span class="o">=</span> <span class="n">handler</span>
 
     <span class="k">def</span> <span class="nf">load_if_needed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">+</span><span class="s1">&#39;.py&#39;</span><span class="p">)</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">+</span><span class="s">&#39;.py&#39;</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">mtime</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="mi">8</span><span class="p">]</span>
@@ -1714,10 +1714,10 @@
                 <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="n">BrokenSnufflingModule</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_module</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_module</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">]</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Loading snuffling module </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Loading snuffling module %s&#39;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">InvalidSnufflingFilename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span>
 
@@ -1736,7 +1736,7 @@
                 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mtime</span> <span class="o">!=</span> <span class="n">mtime</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Reloading snuffling module </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&#39;Reloading snuffling module %s&#39;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span>
             <span class="n">settings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_snufflings</span><span class="p">()</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">]</span>
             <span class="k">try</span><span class="p">:</span>
@@ -1748,7 +1748,7 @@
 
                 <span class="k">for</span> <span class="n">snuffling</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="o">.</span><span class="n">__snufflings__</span><span class="p">():</span>
                     <span class="n">snuffling</span><span class="o">.</span><span class="n">_filename</span> <span class="o">=</span> <span class="n">filename</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">add_snuffling</span><span class="p">(</span><span class="n">snuffling</span><span class="p">,</span> <span class="n">reloaded</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">add_snuffling</span><span class="p">(</span><span class="n">snuffling</span><span class="p">,</span> <span class="n">reloaded</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_snufflings</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">settings</span><span class="p">):</span>
                     <span class="k">for</span> <span class="n">sett</span><span class="p">,</span> <span class="n">snuf</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_snufflings</span><span class="p">):</span>
@@ -1763,7 +1763,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_mtime</span> <span class="o">=</span> <span class="n">mtime</span>
 
-    <span class="k">def</span> <span class="nf">add_snuffling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">snuffling</span><span class="p">,</span> <span class="n">reloaded</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">add_snuffling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">snuffling</span><span class="p">,</span> <span class="n">reloaded</span><span class="o">=</span><span class="k">False</span><span class="p">):</span>
         <span class="n">snuffling</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span>
         <span class="n">snuffling</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_snufflings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">snuffling</span><span class="p">)</span>
@@ -1794,24 +1794,24 @@
 
 <span class="k">class</span> <span class="nc">SwitchControl</span><span class="p">(</span><span class="n">qg</span><span class="o">.</span><span class="n">QCheckBox</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ident</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="n">qg</span><span class="o">.</span><span class="n">QCheckBox</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">qg</span><span class="o">.</span><span class="n">QCheckBox</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ident</span> <span class="o">=</span> <span class="n">ident</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s1">&#39;toggled(bool)&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">sw_toggled</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&#39;toggled(bool)&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">sw_toggled</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">sw_toggled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span>
-            <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s1">&#39;sw_toggled(PyQt_PyObject,bool)&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ident</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+            <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&#39;sw_toggled(PyQt_PyObject,bool)&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ident</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">blockSignals</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">blockSignals</span><span class="p">(</span><span class="k">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">blockSignals</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">blockSignals</span><span class="p">(</span><span class="k">False</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">ChoiceControl</span><span class="p">(</span><span class="n">qg</span><span class="o">.</span><span class="n">QFrame</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ident</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="n">qg</span><span class="o">.</span><span class="n">QFrame</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">qg</span><span class="o">.</span><span class="n">QFrame</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">setMinimumWidth</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cbox</span> <span class="o">=</span> <span class="n">qg</span><span class="o">.</span><span class="n">QComboBox</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -1826,21 +1826,21 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">cbox</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">QString</span><span class="p">(</span><span class="n">choice</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cbox</span><span class="p">,</span> <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s1">&#39;activated(int)&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">choosen</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cbox</span><span class="p">,</span> <span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s">&#39;activated(int)&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">choosen</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">set_choices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">choices</span><span class="p">):</span>
         <span class="n">icur</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cbox</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">icur</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
             <span class="n">selected_choice</span> <span class="o">=</span> <span class="n">choices</span><span class="p">[</span><span class="n">icur</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">selected_choice</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">selected_choice</span> <span class="o">=</span> <span class="k">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="n">choices</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cbox</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">ichoice</span><span class="p">,</span> <span class="n">choice</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">choices</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cbox</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">QString</span><span class="p">(</span><span class="n">choice</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">selected_choice</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">selected_choice</span> <span class="ow">in</span> <span class="n">choices</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">selected_choice</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span> <span class="ow">and</span> <span class="n">selected_choice</span> <span class="ow">in</span> <span class="n">choices</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">selected_choice</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">selected_choice</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1849,16 +1849,16 @@
 
     <span class="k">def</span> <span class="nf">choosen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span>
-            <span class="s1">&#39;choosen(PyQt_PyObject,PyQt_PyObject)&#39;</span><span class="p">),</span>
+            <span class="s">&#39;choosen(PyQt_PyObject,PyQt_PyObject)&#39;</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ident</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">choices</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cbox</span><span class="o">.</span><span class="n">blockSignals</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbox</span><span class="o">.</span><span class="n">blockSignals</span><span class="p">(</span><span class="k">True</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">choice</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">choices</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">choice</span> <span class="o">==</span> <span class="n">v</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">cbox</span><span class="o">.</span><span class="n">setCurrentIndex</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cbox</span><span class="o">.</span><span class="n">blockSignals</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cbox</span><span class="o">.</span><span class="n">blockSignals</span><span class="p">(</span><span class="k">False</span><span class="p">)</span>
 </pre></div>
 
           </div>

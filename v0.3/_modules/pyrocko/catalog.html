@@ -54,7 +54,7 @@
           <div class="body" role="main">
             
   <h1>Source code for pyrocko.catalog</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">model</span><span class="p">,</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">model</span><span class="p">,</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">pyrocko.moment_tensor</span> <span class="k">import</span> <span class="n">MomentTensor</span><span class="p">,</span> <span class="n">symmat6</span>
 <span class="kn">import</span> <span class="nn">urllib2</span>
 <span class="kn">import</span> <span class="nn">urllib</span>
@@ -68,11 +68,11 @@
 <span class="kn">from</span> <span class="nn">xml.dom</span> <span class="k">import</span> <span class="n">minidom</span>
 <span class="kn">from</span> <span class="nn">xml.parsers.expat</span> <span class="k">import</span> <span class="n">ExpatError</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyrocko.catalog&#39;</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;pyrocko.catalog&#39;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="getText"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.getText">[docs]</a><span class="k">def</span> <span class="nf">getText</span><span class="p">(</span><span class="n">nodelist</span><span class="p">):</span>
-    <span class="n">rc</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">rc</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodelist</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">nodeType</span> <span class="o">==</span> <span class="n">node</span><span class="o">.</span><span class="n">TEXT_NODE</span><span class="p">:</span>
             <span class="n">rc</span> <span class="o">=</span> <span class="n">rc</span> <span class="o">+</span> <span class="n">node</span><span class="o">.</span><span class="n">data</span>
@@ -80,7 +80,7 @@
 
 
 <div class="viewcode-block" id="getTextR"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.getTextR">[docs]</a><span class="k">def</span> <span class="nf">getTextR</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
-    <span class="n">rc</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">rc</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
     <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">childNodes</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">nodeType</span> <span class="o">==</span> <span class="n">node</span><span class="o">.</span><span class="n">TEXT_NODE</span><span class="p">:</span>
             <span class="n">rc</span> <span class="o">=</span> <span class="n">rc</span> <span class="o">+</span> <span class="n">child</span><span class="o">.</span><span class="n">data</span>
@@ -92,10 +92,10 @@
 <div class="viewcode-block" id="EarthquakeCatalog"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.EarthquakeCatalog">[docs]</a><span class="k">class</span> <span class="nc">EarthquakeCatalog</span><span class="p">:</span>
 
 <div class="viewcode-block" id="EarthquakeCatalog.get_event"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.EarthquakeCatalog.get_event">[docs]</a>    <span class="k">def</span> <span class="nf">get_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;This method should be implemented in derived class.&#39;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;This method should be implemented in derived class.&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EarthquakeCatalog.iter_event_names"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.EarthquakeCatalog.iter_event_names">[docs]</a>    <span class="k">def</span> <span class="nf">iter_event_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;This method should be implemented in derived class.&#39;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;This method should be implemented in derived class.&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="EarthquakeCatalog.get_event_names"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.EarthquakeCatalog.get_event_names">[docs]</a>    <span class="k">def</span> <span class="nf">get_event_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iter_event_names</span><span class="p">(</span><span class="n">time_range</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
@@ -109,19 +109,19 @@
 
 
 <div class="viewcode-block" id="parse_location"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.parse_location">[docs]</a><span class="k">def</span> <span class="nf">parse_location</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="n">direction</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;W&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}</span>
-    <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;([0-9.]+)\s*([NSEW])\s+([0-9.]+)\s*([NSEW])&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+    <span class="n">direction</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;N&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;S&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;E&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;W&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">r&#39;([0-9.]+)\s*([NSEW])\s+([0-9.]+)\s*([NSEW])&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
         <span class="n">a</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">direction</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
         <span class="n">b</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="o">*</span> <span class="n">direction</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
-        <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="ow">in</span> <span class="s1">&#39;NS&#39;</span> <span class="ow">and</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="ow">in</span> <span class="s1">&#39;EW&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="ow">in</span> <span class="s">&#39;NS&#39;</span> <span class="ow">and</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="ow">in</span> <span class="s">&#39;EW&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span>
-        <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="ow">in</span> <span class="s1">&#39;EW&#39;</span> <span class="ow">and</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="ow">in</span> <span class="s1">&#39;NS&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="ow">in</span> <span class="s">&#39;EW&#39;</span> <span class="ow">and</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="ow">in</span> <span class="s">&#39;NS&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span></div>
 
 
 <div class="viewcode-block" id="parse_km"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.parse_km">[docs]</a><span class="k">def</span> <span class="nf">parse_km</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;([0-9.]+)\s*(km)&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">r&#39;([0-9.]+)\s*(km)&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
         <span class="n">a</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="mf">1000.</span>
         <span class="k">return</span> <span class="n">a</span></div>
@@ -137,41 +137,41 @@
 
 <div class="viewcode-block" id="Geofon.iter_event_names"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.Geofon.iter_event_names">[docs]</a>    <span class="k">def</span> <span class="nf">iter_event_names</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="n">time_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">time_range</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
             <span class="n">nmax</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-            <span class="n">magmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">magmin</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
             <span class="n">latmin</span><span class="o">=-</span><span class="mf">90.</span><span class="p">,</span>
             <span class="n">latmax</span><span class="o">=</span><span class="mf">90.</span><span class="p">,</span>
             <span class="n">lonmin</span><span class="o">=-</span><span class="mf">180.</span><span class="p">,</span>
             <span class="n">lonmax</span><span class="o">=</span><span class="mf">180.</span><span class="p">):</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;In Geofon.iter_event_names(...)&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;In Geofon.iter_event_names(...)&#39;</span><span class="p">)</span>
 
-        <span class="n">dmin</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">time_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-        <span class="n">dmax</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">time_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">24</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="p">))</span>
+        <span class="n">dmin</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y-%m-%d&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">time_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">dmax</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y-%m-%d&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">time_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">24</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">magmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">magmin</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">magmin</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
+            <span class="n">magmin</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">magmin</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">magmin</span>
+            <span class="n">magmin</span> <span class="o">=</span> <span class="s">&#39;%g&#39;</span> <span class="o">%</span> <span class="n">magmin</span>
 
         <span class="n">ipage</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;http://geofon.gfz-potsdam.de/eqinfo/list.php?&#39;</span> <span class="o">+</span> <span class="s1">&#39;&amp;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
-                <span class="s1">&#39;page=</span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">ipage</span><span class="p">,</span>
-                <span class="s1">&#39;datemin=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">dmin</span><span class="p">,</span>
-                <span class="s1">&#39;datemax=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">dmax</span><span class="p">,</span>
-                <span class="s1">&#39;latmin=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">latmin</span><span class="p">,</span>
-                <span class="s1">&#39;latmax=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">latmax</span><span class="p">,</span>
-                <span class="s1">&#39;lonmin=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lonmin</span><span class="p">,</span>
-                <span class="s1">&#39;lonmax=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lonmax</span><span class="p">,</span>
-                <span class="s1">&#39;magmin=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">magmin</span><span class="p">,</span>
-                <span class="s1">&#39;fmt=html&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;nmax=</span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">nmax</span><span class="p">]))</span>
+        <span class="k">while</span> <span class="k">True</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;http://geofon.gfz-potsdam.de/eqinfo/list.php?&#39;</span> <span class="o">+</span> <span class="s">&#39;&amp;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                <span class="s">&#39;page=%i&#39;</span> <span class="o">%</span> <span class="n">ipage</span><span class="p">,</span>
+                <span class="s">&#39;datemin=%s&#39;</span> <span class="o">%</span> <span class="n">dmin</span><span class="p">,</span>
+                <span class="s">&#39;datemax=%s&#39;</span> <span class="o">%</span> <span class="n">dmax</span><span class="p">,</span>
+                <span class="s">&#39;latmin=%g&#39;</span> <span class="o">%</span> <span class="n">latmin</span><span class="p">,</span>
+                <span class="s">&#39;latmax=%g&#39;</span> <span class="o">%</span> <span class="n">latmax</span><span class="p">,</span>
+                <span class="s">&#39;lonmin=%g&#39;</span> <span class="o">%</span> <span class="n">lonmin</span><span class="p">,</span>
+                <span class="s">&#39;lonmax=%g&#39;</span> <span class="o">%</span> <span class="n">lonmax</span><span class="p">,</span>
+                <span class="s">&#39;magmin=%s&#39;</span> <span class="o">%</span> <span class="n">magmin</span><span class="p">,</span>
+                <span class="s">&#39;fmt=html&#39;</span><span class="p">,</span>
+                <span class="s">&#39;nmax=%i&#39;</span> <span class="o">%</span> <span class="n">nmax</span><span class="p">]))</span>
 
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Opening URL: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">url</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Opening URL: %s&#39;</span> <span class="o">%</span> <span class="n">url</span><span class="p">)</span>
             <span class="n">page</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Received page (</span><span class="si">%i</span><span class="s1"> bytes)&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">page</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Received page (%i bytes)&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">page</span><span class="p">))</span>
             <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_events_page</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">events</span><span class="p">:</span>
@@ -185,38 +185,38 @@
             <span class="n">ipage</span> <span class="o">+=</span> <span class="mi">1</span></div>
 
 <div class="viewcode-block" id="Geofon.get_event"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.Geofon.get_event">[docs]</a>    <span class="k">def</span> <span class="nf">get_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;In Geofon.get_event(&quot;</span><span class="si">%s</span><span class="s1">&quot;)&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;In Geofon.get_event(&quot;%s&quot;)&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://geofon.gfz-potsdam.de/eqinfo/event.php?id=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">name</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Opening URL: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">url</span><span class="p">)</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://geofon.gfz-potsdam.de/eqinfo/event.php?id=%s&#39;</span> <span class="o">%</span> <span class="n">name</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Opening URL: %s&#39;</span> <span class="o">%</span> <span class="n">url</span><span class="p">)</span>
             <span class="n">page</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Received page (</span><span class="si">%i</span><span class="s1"> bytes)&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">page</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Received page (%i bytes)&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">page</span><span class="p">))</span>
 
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_event_page</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
 
                 <span class="n">ev</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span>
-                    <span class="n">lat</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;epicenter&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
-                    <span class="n">lon</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;epicenter&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
-                    <span class="n">time</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span>
+                    <span class="n">lat</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;epicenter&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">lon</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;epicenter&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">time</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;time&#39;</span><span class="p">],</span>
                     <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-                    <span class="n">depth</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;depth&#39;</span><span class="p">],</span>
-                    <span class="n">magnitude</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;magnitude&#39;</span><span class="p">],</span>
-                    <span class="n">region</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;region&#39;</span><span class="p">],</span>
-                    <span class="n">catalog</span><span class="o">=</span><span class="s1">&#39;GEOFON&#39;</span><span class="p">)</span>
+                    <span class="n">depth</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;depth&#39;</span><span class="p">],</span>
+                    <span class="n">magnitude</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;magnitude&#39;</span><span class="p">],</span>
+                    <span class="n">region</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s">&#39;region&#39;</span><span class="p">],</span>
+                    <span class="n">catalog</span><span class="o">=</span><span class="s">&#39;GEOFON&#39;</span><span class="p">)</span>
 
-                <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;have_moment_tensor&#39;</span><span class="p">]:</span>
-                    <span class="n">ev</span><span class="o">.</span><span class="n">moment_tensor</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;have_moment_tensor&#39;</span><span class="p">]:</span>
+                    <span class="n">ev</span><span class="o">.</span><span class="n">moment_tensor</span> <span class="o">=</span> <span class="k">True</span>
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">ev</span>
 
             <span class="k">except</span> <span class="n">NotFound</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">NotFound</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>  <span class="c1"># reraise with url</span>
+                <span class="k">raise</span> <span class="n">NotFound</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>  <span class="c"># reraise with url</span>
 
         <span class="n">ev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="n">ev</span><span class="o">.</span><span class="n">moment_tensor</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ev</span><span class="o">.</span><span class="n">moment_tensor</span> <span class="ow">is</span> <span class="k">True</span><span class="p">:</span>
             <span class="n">ev</span><span class="o">.</span><span class="n">moment_tensor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_mt</span><span class="p">(</span><span class="n">ev</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">ev</span></div>
@@ -230,49 +230,49 @@
             <span class="n">ilineline</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">lines</span><span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
 
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="s1">&#39;A problem occured while parsing HTML from GEOFON page &#39;</span>
-                <span class="s1">&#39;(line=</span><span class="si">%i</span><span class="s1">, col=</span><span class="si">%i</span><span class="s1">):</span><span class="se">\n\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">lineno</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">offset</span><span class="p">)</span> <span class="o">+</span>
-                <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
-                    <span class="s1">&#39;  line </span><span class="si">%i</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">iline</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                <span class="s">&#39;A problem occured while parsing HTML from GEOFON page &#39;</span>
+                <span class="s">&#39;(line=%i, col=%i):</span><span class="se">\n\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">lineno</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">offset</span><span class="p">)</span> <span class="o">+</span>
+                <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                    <span class="s">&#39;  line %i: %s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">iline</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
                     <span class="k">for</span> <span class="p">(</span><span class="n">iline</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span> <span class="ow">in</span> <span class="n">ilineline</span><span class="p">]))</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="s1">&#39;... maybe the format of the GEOFON web catalog has changed.&#39;</span><span class="p">)</span>
+                <span class="s">&#39;... maybe the format of the GEOFON web catalog has changed.&#39;</span><span class="p">)</span>
             <span class="k">raise</span></div>
 
     <span class="k">def</span> <span class="nf">_parse_events_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;In Geofon._parse_events_page(...)&#39;</span><span class="p">)</span>
-        <span class="c1"># fix broken &amp;nbsp; tags</span>
-        <span class="n">page</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&amp;nbsp([^;])&#39;</span><span class="p">,</span> <span class="s1">&#39;&amp;nbsp;</span><span class="se">\\</span><span class="s1">1&#39;</span><span class="p">,</span> <span class="n">page</span><span class="p">)</span>
-        <span class="n">page</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;border=0&#39;</span><span class="p">,</span> <span class="s1">&#39;border=&quot;0&quot;&#39;</span><span class="p">,</span> <span class="n">page</span><span class="p">)</span>
-        <span class="n">page</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;/html&gt;.*&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;/html&gt;&#39;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;In Geofon._parse_events_page(...)&#39;</span><span class="p">)</span>
+        <span class="c"># fix broken &amp;nbsp; tags</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&amp;nbsp([^;])&#39;</span><span class="p">,</span> <span class="s">&#39;&amp;nbsp;</span><span class="se">\\</span><span class="s">1&#39;</span><span class="p">,</span> <span class="n">page</span><span class="p">)</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;border=0&#39;</span><span class="p">,</span> <span class="s">&#39;border=&quot;0&quot;&#39;</span><span class="p">,</span> <span class="n">page</span><span class="p">)</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&#39;&lt;/html&gt;.*&#39;</span><span class="p">,</span> <span class="s">&#39;&lt;/html&gt;&#39;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
 
         <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_xml</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
 
         <span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s2">&quot;tr&quot;</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Found &lt;tr&gt; tag&#39;</span><span class="p">)</span>
-            <span class="n">tds</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s2">&quot;td&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s">&quot;tr&quot;</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Found &lt;tr&gt; tag&#39;</span><span class="p">)</span>
+            <span class="n">tds</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s">&quot;td&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tds</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">8</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Does not contain 8 &lt;td&gt; tags.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Does not contain 8 &lt;td&gt; tags.&#39;</span><span class="p">)</span>
                 <span class="k">continue</span>
 
-            <span class="n">elinks</span> <span class="o">=</span> <span class="n">tds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">elinks</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="p">(</span><span class="s1">&#39;href&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">elinks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Could not find link to event details page.&#39;</span><span class="p">)</span>
+            <span class="n">elinks</span> <span class="o">=</span> <span class="n">tds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">elinks</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="p">(</span><span class="s">&#39;href&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">elinks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Could not find link to event details page.&#39;</span><span class="p">)</span>
                 <span class="k">continue</span>
 
-            <span class="n">link</span> <span class="o">=</span> <span class="n">elinks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="s1">&#39;href&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span>
-            <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\?id=(gfz[0-9]+[a-z]+)$&#39;</span><span class="p">,</span> <span class="n">link</span><span class="p">)</span>
+            <span class="n">link</span> <span class="o">=</span> <span class="n">elinks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="s">&#39;href&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;ascii&#39;</span><span class="p">)</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;\?id=(gfz[0-9]+[a-z]+)$&#39;</span><span class="p">,</span> <span class="n">link</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">m</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Could not find event id.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Could not find event id.&#39;</span><span class="p">)</span>
                 <span class="k">continue</span>
 
             <span class="n">eid</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">getTextR</span><span class="p">(</span><span class="n">td</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">td</span> <span class="ow">in</span> <span class="n">tds</span><span class="p">]</span>
+            <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">getTextR</span><span class="p">(</span><span class="n">td</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;ascii&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">td</span> <span class="ow">in</span> <span class="n">tds</span><span class="p">]</span>
             <span class="n">tevent</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">timegm</span><span class="p">(</span>
-                <span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">19</span><span class="p">],</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">))</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">19</span><span class="p">],</span> <span class="s">&#39;%Y-%m-%d %H:%M:%S&#39;</span><span class="p">))</span>
             <span class="n">mag</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-            <span class="n">epicenter</span> <span class="o">=</span> <span class="n">parse_location</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39; &#39;</span><span class="o">+</span><span class="n">vals</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+            <span class="n">epicenter</span> <span class="o">=</span> <span class="n">parse_location</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="s">&#39; &#39;</span><span class="o">+</span><span class="n">vals</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
             <span class="n">depth</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span><span class="o">*</span><span class="mf">1000.</span>
             <span class="n">region</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
             <span class="n">ev</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span>
@@ -283,74 +283,74 @@
                 <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
                 <span class="n">magnitude</span><span class="o">=</span><span class="n">mag</span><span class="p">,</span>
                 <span class="n">region</span><span class="o">=</span><span class="n">region</span><span class="p">,</span>
-                <span class="n">catalog</span><span class="o">=</span><span class="s1">&#39;GEOFON&#39;</span><span class="p">)</span>
+                <span class="n">catalog</span><span class="o">=</span><span class="s">&#39;GEOFON&#39;</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">vals</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;MT&#39;</span><span class="p">:</span>
-                <span class="n">ev</span><span class="o">.</span><span class="n">moment_tensor</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">vals</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;MT&#39;</span><span class="p">:</span>
+                <span class="n">ev</span><span class="o">.</span><span class="n">moment_tensor</span> <span class="o">=</span> <span class="k">True</span>
 
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Adding event from GEOFON catalog: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">ev</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Adding event from GEOFON catalog: %s&#39;</span> <span class="o">%</span> <span class="n">ev</span><span class="p">)</span>
 
             <span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ev</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">events</span>
 
 <div class="viewcode-block" id="Geofon.get_mt"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.Geofon.get_mt">[docs]</a>    <span class="k">def</span> <span class="nf">get_mt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ev</span><span class="p">):</span>
-        <span class="n">syear</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">ev</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://geofon.gfz-potsdam.de/data/alerts/</span><span class="si">%s</span><span class="s1">/</span><span class="si">%s</span><span class="s1">/mt.txt&#39;</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="n">syear</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">ev</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://geofon.gfz-potsdam.de/data/alerts/%s/%s/mt.txt&#39;</span> <span class="o">%</span> <span class="p">(</span>
             <span class="n">syear</span><span class="p">,</span> <span class="n">ev</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Opening URL: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">url</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Opening URL: %s&#39;</span> <span class="o">%</span> <span class="n">url</span><span class="p">)</span>
         <span class="n">page</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Received page (</span><span class="si">%i</span><span class="s1"> bytes)&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">page</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Received page (%i bytes)&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">page</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_mt_page</span><span class="p">(</span><span class="n">page</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_parse_mt_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">):</span>
         <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="s1">&#39;Scale&#39;</span><span class="p">,</span> <span class="s1">&#39;Mrr&#39;</span><span class="p">,</span> <span class="s1">&#39;Mtt&#39;</span><span class="p">,</span> <span class="s1">&#39;Mpp&#39;</span><span class="p">,</span> <span class="s1">&#39;Mrt&#39;</span><span class="p">,</span> <span class="s1">&#39;Mrp&#39;</span><span class="p">,</span> <span class="s1">&#39;Mtp&#39;</span><span class="p">:</span>
-            <span class="n">r</span> <span class="o">=</span> <span class="n">k</span><span class="o">+</span><span class="sa">r</span><span class="s1">&#39;\s*=?\s*(\S+)&#39;</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="s">&#39;Scale&#39;</span><span class="p">,</span> <span class="s">&#39;Mrr&#39;</span><span class="p">,</span> <span class="s">&#39;Mtt&#39;</span><span class="p">,</span> <span class="s">&#39;Mpp&#39;</span><span class="p">,</span> <span class="s">&#39;Mrt&#39;</span><span class="p">,</span> <span class="s">&#39;Mrp&#39;</span><span class="p">,</span> <span class="s">&#39;Mtp&#39;</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">k</span><span class="o">+</span><span class="s">r&#39;\s*=?\s*(\S+)&#39;</span>
             <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">page</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
-                <span class="n">s</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;10**&#39;</span><span class="p">,</span> <span class="s1">&#39;1e&#39;</span><span class="p">)</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;10**&#39;</span><span class="p">,</span> <span class="s">&#39;1e&#39;</span><span class="p">)</span>
                 <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 
-        <span class="n">m</span> <span class="o">=</span> <span class="n">symmat6</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="s1">&#39;mrr mtt mpp mrt mrp mtp&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
-        <span class="n">m</span> <span class="o">*=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">symmat6</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="s">&#39;mrr mtt mpp mrt mrp mtp&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
+        <span class="n">m</span> <span class="o">*=</span> <span class="n">d</span><span class="p">[</span><span class="s">&#39;scale&#39;</span><span class="p">]</span>
         <span class="n">mt</span> <span class="o">=</span> <span class="n">MomentTensor</span><span class="p">(</span><span class="n">m_up_south_east</span><span class="o">=</span><span class="n">m</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">mt</span>
 
     <span class="k">def</span> <span class="nf">_parse_event_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;In Geofon._parse_event_page(...)&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;In Geofon._parse_event_page(...)&#39;</span><span class="p">)</span>
 
         <span class="n">wanted_map</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;region&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="p">,</span>
-            <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">calendar</span><span class="o">.</span><span class="n">timegm</span><span class="p">(</span>
-                <span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">v</span><span class="p">[:</span><span class="mi">19</span><span class="p">],</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)),</span>
-            <span class="s1">&#39;magnitude&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]),</span>
-            <span class="s1">&#39;epicenter&#39;</span><span class="p">:</span> <span class="n">parse_location</span><span class="p">,</span>
-            <span class="s1">&#39;depth&#39;</span><span class="p">:</span> <span class="n">parse_km</span><span class="p">,</span>
+            <span class="s">&#39;region&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="p">,</span>
+            <span class="s">&#39;time&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">calendar</span><span class="o">.</span><span class="n">timegm</span><span class="p">(</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">v</span><span class="p">[:</span><span class="mi">19</span><span class="p">],</span> <span class="s">&#39;%Y-%m-%d %H:%M:%S&#39;</span><span class="p">)),</span>
+            <span class="s">&#39;magnitude&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="s">&#39;epicenter&#39;</span><span class="p">:</span> <span class="n">parse_location</span><span class="p">,</span>
+            <span class="s">&#39;depth&#39;</span><span class="p">:</span> <span class="n">parse_km</span><span class="p">,</span>
         <span class="p">}</span>
 
-        <span class="c1"># fix broken tag</span>
-        <span class="n">page</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;align=center&#39;</span><span class="p">,</span> <span class="s1">&#39;align=&quot;center&quot;&#39;</span><span class="p">,</span> <span class="n">page</span><span class="p">)</span>
-        <span class="n">page</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;/html&gt;.*&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;/html&gt;&#39;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+        <span class="c"># fix broken tag</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;align=center&#39;</span><span class="p">,</span> <span class="s">&#39;align=&quot;center&quot;&#39;</span><span class="p">,</span> <span class="n">page</span><span class="p">)</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&#39;&lt;/html&gt;.*&#39;</span><span class="p">,</span> <span class="s">&#39;&lt;/html&gt;&#39;</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
 
         <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_xml</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
 
         <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s2">&quot;tr&quot;</span><span class="p">):</span>
-            <span class="n">tds</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s2">&quot;td&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s">&quot;tr&quot;</span><span class="p">):</span>
+            <span class="n">tds</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s">&quot;td&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tds</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="n">s</span> <span class="o">=</span> <span class="n">getTextR</span><span class="p">(</span><span class="n">tds</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
                 <span class="n">t</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">t</span><span class="p">:</span>
-                    <span class="n">k</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-                    <span class="n">v</span> <span class="o">=</span> <span class="n">getTextR</span><span class="p">(</span><span class="n">tds</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> =&gt; </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+                    <span class="n">k</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">getTextR</span><span class="p">(</span><span class="n">tds</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;ascii&#39;</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;%s =&gt; %s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
                     <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">wanted_map</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                         <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">wanted_map</span><span class="p">[</span><span class="n">k</span><span class="p">](</span><span class="n">v</span><span class="p">)</span>
 
-        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;have_moment_tensor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Moment tensor solution&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">d</span><span class="p">[</span><span class="s">&#39;have_moment_tensor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;Moment tensor solution&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span>
 
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">wanted_map</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
@@ -373,7 +373,7 @@
 
 <div class="viewcode-block" id="GlobalCMT.iter_event_names"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.GlobalCMT.iter_event_names">[docs]</a>    <span class="k">def</span> <span class="nf">iter_event_names</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="n">time_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">time_range</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
             <span class="n">magmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
             <span class="n">magmax</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span>
             <span class="n">latmin</span><span class="o">=-</span><span class="mf">90.</span><span class="p">,</span>
@@ -384,28 +384,28 @@
         <span class="n">yearbeg</span><span class="p">,</span> <span class="n">monbeg</span><span class="p">,</span> <span class="n">daybeg</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">time_range</span><span class="p">[</span><span class="mi">0</span><span class="p">])[:</span><span class="mi">3</span><span class="p">]</span>
         <span class="n">yearend</span><span class="p">,</span> <span class="n">monend</span><span class="p">,</span> <span class="n">dayend</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">time_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])[:</span><span class="mi">3</span><span class="p">]</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://www.globalcmt.org/cgi-bin/globalcmt-cgi-bin/CMT4/form?&#39;</span> \
-            <span class="o">+</span> <span class="s1">&#39;&amp;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
-                <span class="s1">&#39;itype=ymd&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;yr=</span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">yearbeg</span><span class="p">,</span> <span class="s1">&#39;mo=</span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">monbeg</span><span class="p">,</span> <span class="s1">&#39;day=</span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">daybeg</span><span class="p">,</span>
-                <span class="s1">&#39;otype=ymd&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;oyr=</span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">yearend</span><span class="p">,</span> <span class="s1">&#39;omo=</span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">monend</span><span class="p">,</span> <span class="s1">&#39;oday=</span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">dayend</span><span class="p">,</span>
-                <span class="s1">&#39;jyr=1976&#39;</span><span class="p">,</span> <span class="s1">&#39;jday=1&#39;</span><span class="p">,</span> <span class="s1">&#39;ojyr=1976&#39;</span><span class="p">,</span> <span class="s1">&#39;ojday=1&#39;</span><span class="p">,</span> <span class="s1">&#39;nday=1&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;lmw=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">magmin</span><span class="p">,</span> <span class="s1">&#39;umw=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">magmax</span><span class="p">,</span>
-                <span class="s1">&#39;lms=0&#39;</span><span class="p">,</span> <span class="s1">&#39;ums=10&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;lmb=0&#39;</span><span class="p">,</span> <span class="s1">&#39;umb=10&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;llat=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">latmin</span><span class="p">,</span> <span class="s1">&#39;ulat=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">latmax</span><span class="p">,</span>
-                <span class="s1">&#39;llon=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lonmin</span><span class="p">,</span> <span class="s1">&#39;ulon=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lonmax</span><span class="p">,</span>
-                <span class="s1">&#39;lhd=0&#39;</span><span class="p">,</span> <span class="s1">&#39;uhd=1000&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;lts=-9999&#39;</span><span class="p">,</span> <span class="s1">&#39;uts=9999&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;lpe1=0&#39;</span><span class="p">,</span> <span class="s1">&#39;upe1=90&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;lpe2=0&#39;</span><span class="p">,</span> <span class="s1">&#39;upe2=90&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;list=5&#39;</span><span class="p">])</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://www.globalcmt.org/cgi-bin/globalcmt-cgi-bin/CMT4/form?&#39;</span> \
+            <span class="o">+</span> <span class="s">&#39;&amp;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                <span class="s">&#39;itype=ymd&#39;</span><span class="p">,</span>
+                <span class="s">&#39;yr=%i&#39;</span> <span class="o">%</span> <span class="n">yearbeg</span><span class="p">,</span> <span class="s">&#39;mo=%i&#39;</span> <span class="o">%</span> <span class="n">monbeg</span><span class="p">,</span> <span class="s">&#39;day=%i&#39;</span> <span class="o">%</span> <span class="n">daybeg</span><span class="p">,</span>
+                <span class="s">&#39;otype=ymd&#39;</span><span class="p">,</span>
+                <span class="s">&#39;oyr=%i&#39;</span> <span class="o">%</span> <span class="n">yearend</span><span class="p">,</span> <span class="s">&#39;omo=%i&#39;</span> <span class="o">%</span> <span class="n">monend</span><span class="p">,</span> <span class="s">&#39;oday=%i&#39;</span> <span class="o">%</span> <span class="n">dayend</span><span class="p">,</span>
+                <span class="s">&#39;jyr=1976&#39;</span><span class="p">,</span> <span class="s">&#39;jday=1&#39;</span><span class="p">,</span> <span class="s">&#39;ojyr=1976&#39;</span><span class="p">,</span> <span class="s">&#39;ojday=1&#39;</span><span class="p">,</span> <span class="s">&#39;nday=1&#39;</span><span class="p">,</span>
+                <span class="s">&#39;lmw=%g&#39;</span> <span class="o">%</span> <span class="n">magmin</span><span class="p">,</span> <span class="s">&#39;umw=%g&#39;</span> <span class="o">%</span> <span class="n">magmax</span><span class="p">,</span>
+                <span class="s">&#39;lms=0&#39;</span><span class="p">,</span> <span class="s">&#39;ums=10&#39;</span><span class="p">,</span>
+                <span class="s">&#39;lmb=0&#39;</span><span class="p">,</span> <span class="s">&#39;umb=10&#39;</span><span class="p">,</span>
+                <span class="s">&#39;llat=%g&#39;</span> <span class="o">%</span> <span class="n">latmin</span><span class="p">,</span> <span class="s">&#39;ulat=%g&#39;</span> <span class="o">%</span> <span class="n">latmax</span><span class="p">,</span>
+                <span class="s">&#39;llon=%g&#39;</span> <span class="o">%</span> <span class="n">lonmin</span><span class="p">,</span> <span class="s">&#39;ulon=%g&#39;</span> <span class="o">%</span> <span class="n">lonmax</span><span class="p">,</span>
+                <span class="s">&#39;lhd=0&#39;</span><span class="p">,</span> <span class="s">&#39;uhd=1000&#39;</span><span class="p">,</span>
+                <span class="s">&#39;lts=-9999&#39;</span><span class="p">,</span> <span class="s">&#39;uts=9999&#39;</span><span class="p">,</span>
+                <span class="s">&#39;lpe1=0&#39;</span><span class="p">,</span> <span class="s">&#39;upe1=90&#39;</span><span class="p">,</span>
+                <span class="s">&#39;lpe2=0&#39;</span><span class="p">,</span> <span class="s">&#39;upe2=90&#39;</span><span class="p">,</span>
+                <span class="s">&#39;list=5&#39;</span><span class="p">])</span>
 
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Opening URL: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">while</span> <span class="k">True</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Opening URL: %s&#39;</span> <span class="o">%</span> <span class="n">url</span><span class="p">)</span>
             <span class="n">page</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Received page (</span><span class="si">%i</span><span class="s1"> bytes)&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">page</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Received page (%i bytes)&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">page</span><span class="p">))</span>
 
             <span class="n">events</span><span class="p">,</span> <span class="n">more</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_events_page</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
 
@@ -470,22 +470,22 @@
             <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
                 <span class="k">pass</span>
 
-        <span class="n">catalog</span> <span class="o">=</span> <span class="s1">&#39;gCMT&#39;</span>
+        <span class="n">catalog</span> <span class="o">=</span> <span class="s">&#39;gCMT&#39;</span>
 
-        <span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">more</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="k">None</span>
+        <span class="n">more</span> <span class="o">=</span> <span class="k">None</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
 
-                <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;a href=&quot;([^&quot;]+)&quot;&gt;More solutions&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;&lt;a href=&quot;([^&quot;]+)&quot;&gt;More solutions&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
                     <span class="n">more</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-                <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;From Quick CMT catalog&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;From Quick CMT catalog&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
-                    <span class="n">catalog</span> <span class="o">=</span> <span class="s1">&#39;gCMT-Q&#39;</span>
+                    <span class="n">catalog</span> <span class="o">=</span> <span class="s">&#39;gCMT-Q&#39;</span>
 
-                <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Event name:\s+(\S+)&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;Event name:\s+(\S+)&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
                         <span class="n">complete</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -495,52 +495,52 @@
                     <span class="n">data</span><span class="o">.</span><span class="n">catalog</span> <span class="o">=</span> <span class="n">catalog</span>
 
                 <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
-                    <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Region name:\s+([^&lt;]+)&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                    <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;Region name:\s+([^&lt;]+)&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
                         <span class="n">data</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
                     <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
-                        <span class="sa">r</span><span class="s1">&#39;Date \(y/m/d\): (\d\d\d\d)/(\d+)/(\d+)&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                        <span class="s">r&#39;Date \(y/m/d\): (\d\d\d\d)/(\d+)/(\d+)&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
                     <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
                         <span class="n">data</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">day</span> <span class="o">=</span> <span class="p">(</span>
                             <span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">3</span><span class="p">)))</span>
 
-                    <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Timing and location information&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                    <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;Timing and location information&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
                         <span class="n">state</span> <span class="o">=</span> <span class="mi">1</span>
 
             <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">toks</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-                <span class="k">if</span> <span class="n">toks</span> <span class="ow">and</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;CMT&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">toks</span> <span class="ow">and</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;CMT&#39;</span><span class="p">:</span>
                     <span class="n">data</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">minute</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">toks</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]]</span>
                     <span class="n">data</span><span class="o">.</span><span class="n">seconds</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">depth_km</span> <span class="o">=</span> <span class="p">[</span>
                         <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">toks</span><span class="p">[</span><span class="mi">3</span><span class="p">:]]</span>
 
-                <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Assumed half duration:\s+(\S+)&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;Assumed half duration:\s+(\S+)&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
                     <span class="n">data</span><span class="o">.</span><span class="n">half_duration</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 
-                <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Mechanism information&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;Mechanism information&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
                     <span class="n">state</span> <span class="o">=</span> <span class="mi">2</span>
 
             <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Exponent for moment tensor:\s+(\d+)&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;Exponent for moment tensor:\s+(\d+)&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
                     <span class="n">data</span><span class="o">.</span><span class="n">exponent</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 
                 <span class="n">toks</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-                <span class="k">if</span> <span class="n">toks</span> <span class="ow">and</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;CMT&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">toks</span> <span class="ow">and</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;CMT&#39;</span><span class="p">:</span>
                     <span class="n">data</span><span class="o">.</span><span class="n">mrr</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">mtt</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">mpp</span><span class="p">,</span> \
                         <span class="n">data</span><span class="o">.</span><span class="n">mrt</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">mrp</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">mtp</span> <span class="o">=</span> <span class="p">[</span>
                             <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">toks</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
 
-                <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^Eigenvector:&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;^Eigenvector:&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
                     <span class="n">state</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="n">complete</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">events</span><span class="p">,</span> <span class="n">more</span>
@@ -548,12 +548,12 @@
     <span class="k">def</span> <span class="nf">_name_to_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">7</span><span class="p">:</span>
-            <span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">name</span><span class="p">[:</span><span class="mi">6</span><span class="p">],</span> <span class="s1">&#39;%m</span><span class="si">%d</span><span class="s1">%y&#39;</span><span class="p">)[:</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">name</span><span class="p">[:</span><span class="mi">6</span><span class="p">],</span> <span class="s">&#39;%m%d%y&#39;</span><span class="p">)[:</span><span class="mi">3</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mi">2005</span><span class="p">:</span>
                 <span class="n">y</span> <span class="o">-=</span> <span class="mi">100</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">name</span><span class="p">[:</span><span class="mi">8</span><span class="p">],</span> <span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)[:</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">name</span><span class="p">[:</span><span class="mi">8</span><span class="p">],</span> <span class="s">&#39;%Y%m%d&#39;</span><span class="p">)[:</span><span class="mi">3</span><span class="p">]</span>
 
         <span class="n">t</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">timegm</span><span class="p">((</span><span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">t</span></div>
@@ -561,7 +561,7 @@
 
 <div class="viewcode-block" id="USGS"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.USGS">[docs]</a><span class="k">class</span> <span class="nc">USGS</span><span class="p">(</span><span class="n">EarthquakeCatalog</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">catalog</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">catalog</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">catalog</span> <span class="o">=</span> <span class="n">catalog</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -570,7 +570,7 @@
 
 <div class="viewcode-block" id="USGS.iter_event_names"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.USGS.iter_event_names">[docs]</a>    <span class="k">def</span> <span class="nf">iter_event_names</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="n">time_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">time_range</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
             <span class="n">magmin</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span>
             <span class="n">magmax</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span>
             <span class="n">latmin</span><span class="o">=-</span><span class="mf">90.</span><span class="p">,</span>
@@ -583,34 +583,34 @@
 
         <span class="n">p</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">a</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">append</span>
-        <span class="n">a</span><span class="p">(</span><span class="s1">&#39;format=geojson&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">catalog</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">a</span><span class="p">(</span><span class="s1">&#39;catalog=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">catalog</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="n">a</span><span class="p">(</span><span class="s">&#39;format=geojson&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">catalog</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+            <span class="n">a</span><span class="p">(</span><span class="s">&#39;catalog=%s&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">catalog</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
 
-        <span class="n">a</span><span class="p">(</span><span class="s1">&#39;starttime=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">util</span><span class="o">.</span><span class="n">time_to_str</span><span class="p">(</span>
-            <span class="n">time_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">T%H:%M:%S&#39;</span><span class="p">))</span>
+        <span class="n">a</span><span class="p">(</span><span class="s">&#39;starttime=%s&#39;</span> <span class="o">%</span> <span class="n">util</span><span class="o">.</span><span class="n">time_to_str</span><span class="p">(</span>
+            <span class="n">time_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s">&#39;%Y-%m-%dT%H:%M:%S&#39;</span><span class="p">))</span>
 
-        <span class="n">a</span><span class="p">(</span><span class="s1">&#39;endtime=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">util</span><span class="o">.</span><span class="n">time_to_str</span><span class="p">(</span>
-            <span class="n">time_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">T%H:%M:%S&#39;</span><span class="p">))</span>
+        <span class="n">a</span><span class="p">(</span><span class="s">&#39;endtime=%s&#39;</span> <span class="o">%</span> <span class="n">util</span><span class="o">.</span><span class="n">time_to_str</span><span class="p">(</span>
+            <span class="n">time_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s">&#39;%Y-%m-%dT%H:%M:%S&#39;</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">latmin</span> <span class="o">!=</span> <span class="o">-</span><span class="mf">90.</span><span class="p">:</span>
-            <span class="n">a</span><span class="p">(</span><span class="s1">&#39;minlatitude=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">latmin</span><span class="p">)</span>
+            <span class="n">a</span><span class="p">(</span><span class="s">&#39;minlatitude=%g&#39;</span> <span class="o">%</span> <span class="n">latmin</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">latmax</span> <span class="o">!=</span> <span class="mf">90.</span><span class="p">:</span>
-            <span class="n">a</span><span class="p">(</span><span class="s1">&#39;maxlatitude=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">latmax</span><span class="p">)</span>
+            <span class="n">a</span><span class="p">(</span><span class="s">&#39;maxlatitude=%g&#39;</span> <span class="o">%</span> <span class="n">latmax</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">lonmin</span> <span class="o">!=</span> <span class="o">-</span><span class="mf">180.</span><span class="p">:</span>
-            <span class="n">a</span><span class="p">(</span><span class="s1">&#39;minlongitude=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lonmin</span><span class="p">)</span>
+            <span class="n">a</span><span class="p">(</span><span class="s">&#39;minlongitude=%g&#39;</span> <span class="o">%</span> <span class="n">lonmin</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">lonmax</span> <span class="o">!=</span> <span class="mf">180.</span><span class="p">:</span>
-            <span class="n">a</span><span class="p">(</span><span class="s1">&#39;maxlongitude=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lonmax</span><span class="p">)</span>
+            <span class="n">a</span><span class="p">(</span><span class="s">&#39;maxlongitude=%g&#39;</span> <span class="o">%</span> <span class="n">lonmax</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">magmin</span> <span class="o">!=</span> <span class="mf">0.</span><span class="p">:</span>
-            <span class="n">a</span><span class="p">(</span><span class="s1">&#39;minmagnitude=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">magmin</span><span class="p">)</span>
+            <span class="n">a</span><span class="p">(</span><span class="s">&#39;minmagnitude=%g&#39;</span> <span class="o">%</span> <span class="n">magmin</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">magmax</span> <span class="o">!=</span> <span class="mf">10.</span><span class="p">:</span>
-            <span class="n">a</span><span class="p">(</span><span class="s1">&#39;maxmagnitude=</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">magmax</span><span class="p">)</span>
+            <span class="n">a</span><span class="p">(</span><span class="s">&#39;maxmagnitude=%g&#39;</span> <span class="o">%</span> <span class="n">magmax</span><span class="p">)</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://earthquake.usgs.gov/fdsnws/event/1/query?&#39;</span> <span class="o">+</span> <span class="s1">&#39;&amp;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://earthquake.usgs.gov/fdsnws/event/1/query?&#39;</span> <span class="o">+</span> <span class="s">&#39;&amp;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Opening URL: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">url</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Opening URL: %s&#39;</span> <span class="o">%</span> <span class="n">url</span><span class="p">)</span>
         <span class="n">page</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Received page (</span><span class="si">%i</span><span class="s1"> bytes)&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">page</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Received page (%i bytes)&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">page</span><span class="p">))</span>
 
         <span class="n">events</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_events_page</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
 
@@ -627,26 +627,26 @@
         <span class="n">doc</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
 
         <span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">[</span><span class="s1">&#39;features&#39;</span><span class="p">]:</span>
-            <span class="n">props</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span>
-            <span class="n">geo</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span>
-            <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">depth</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">geo</span><span class="p">[</span><span class="s1">&#39;coordinates&#39;</span><span class="p">]]</span>
-            <span class="n">t</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">str_to_time</span><span class="p">(</span><span class="s1">&#39;1970-01-01 00:00:00&#39;</span><span class="p">)</span> <span class="o">+</span> \
-                <span class="n">props</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.001</span>
+        <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">[</span><span class="s">&#39;features&#39;</span><span class="p">]:</span>
+            <span class="n">props</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;properties&#39;</span><span class="p">]</span>
+            <span class="n">geo</span> <span class="o">=</span> <span class="n">feat</span><span class="p">[</span><span class="s">&#39;geometry&#39;</span><span class="p">]</span>
+            <span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">depth</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">geo</span><span class="p">[</span><span class="s">&#39;coordinates&#39;</span><span class="p">]]</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">str_to_time</span><span class="p">(</span><span class="s">&#39;1970-01-01 00:00:00&#39;</span><span class="p">)</span> <span class="o">+</span> \
+                <span class="n">props</span><span class="p">[</span><span class="s">&#39;time&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.001</span>
 
-            <span class="k">if</span> <span class="n">props</span><span class="p">[</span><span class="s1">&#39;mag&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">mag</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;mag&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">props</span><span class="p">[</span><span class="s">&#39;mag&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+                <span class="n">mag</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;mag&#39;</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">mag</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">mag</span> <span class="o">=</span> <span class="k">None</span>
 
-            <span class="k">if</span> <span class="n">props</span><span class="p">[</span><span class="s1">&#39;place&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">region</span> <span class="o">=</span> <span class="n">props</span><span class="p">[</span><span class="s1">&#39;place&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">,</span> <span class="s1">&#39;replace&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">props</span><span class="p">[</span><span class="s">&#39;place&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+                <span class="n">region</span> <span class="o">=</span> <span class="n">props</span><span class="p">[</span><span class="s">&#39;place&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;ascii&#39;</span><span class="p">,</span> <span class="s">&#39;replace&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">region</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">region</span> <span class="o">=</span> <span class="k">None</span>
 
-            <span class="n">catalog</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">props</span><span class="p">[</span><span class="s1">&#39;net&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;USGS-</span><span class="si">%s</span><span class="s1">-&#39;</span> <span class="o">%</span> <span class="n">catalog</span> <span class="o">+</span> <span class="n">util</span><span class="o">.</span><span class="n">time_to_str</span><span class="p">(</span>
-                <span class="n">t</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">_%H-%M-%S.3FRAC&#39;</span><span class="p">)</span>
+            <span class="n">catalog</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">props</span><span class="p">[</span><span class="s">&#39;net&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;USGS-%s-&#39;</span> <span class="o">%</span> <span class="n">catalog</span> <span class="o">+</span> <span class="n">util</span><span class="o">.</span><span class="n">time_to_str</span><span class="p">(</span>
+                <span class="n">t</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s">&#39;%Y-%m-%d_%H-%M-%S.3FRAC&#39;</span><span class="p">)</span>
 
             <span class="n">ev</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span>
                 <span class="n">lat</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span>
@@ -675,32 +675,32 @@
 
     <span class="k">def</span> <span class="nf">_name_to_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="n">name</span><span class="p">[</span><span class="o">-</span><span class="mi">23</span><span class="p">:]</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">str_to_time</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">_%H-%M-%S.3FRAC&#39;</span><span class="p">)</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">str_to_time</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s">&#39;%Y-%m-%d_%H-%M-%S.3FRAC&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">t</span></div>
 
 
 <div class="viewcode-block" id="NotFound"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.NotFound">[docs]</a><span class="k">class</span> <span class="nc">NotFound</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="ne">Exception</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
+        <span class="ne">Exception</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_url</span> <span class="o">=</span> <span class="n">url</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_url</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">&#39;No results for request </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_url</span>
+            <span class="k">return</span> <span class="s">&#39;No results for request %s&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_url</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">&#39;No results for request&#39;</span></div>
+            <span class="k">return</span> <span class="s">&#39;No results for request&#39;</span></div>
 
 
-<div class="viewcode-block" id="ws_request"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.ws_request">[docs]</a><span class="k">def</span> <span class="nf">ws_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ws_request"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.ws_request">[docs]</a><span class="k">def</span> <span class="nf">ws_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="k">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">url_values</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;?&#39;</span> <span class="o">+</span> <span class="n">url_values</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Accessing URL </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">url</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span> <span class="o">+</span> <span class="s">&#39;?&#39;</span> <span class="o">+</span> <span class="n">url_values</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Accessing URL %s&#39;</span> <span class="o">%</span> <span class="n">url</span><span class="p">)</span>
 
     <span class="n">req</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">post</span><span class="p">:</span>
         <span class="n">req</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>
 
-    <span class="n">req</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s1">&#39;Accept&#39;</span><span class="p">,</span> <span class="s1">&#39;*/*&#39;</span><span class="p">)</span>
+    <span class="n">req</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s">&#39;Accept&#39;</span><span class="p">,</span> <span class="s">&#39;*/*&#39;</span><span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
@@ -714,70 +714,70 @@
 
 <div class="viewcode-block" id="Kinherd"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.Kinherd">[docs]</a><span class="k">class</span> <span class="nc">Kinherd</span><span class="p">(</span><span class="n">EarthquakeCatalog</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">catalog</span><span class="o">=</span><span class="s1">&#39;KPS&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">catalog</span><span class="o">=</span><span class="s">&#39;KPS&#39;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">catalog</span> <span class="o">=</span> <span class="n">catalog</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">events</span> <span class="o">=</span> <span class="p">{}</span>
 
 <div class="viewcode-block" id="Kinherd.retrieve"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.Kinherd.retrieve">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="kn">import</span> <span class="nn">yaml</span>
 
-        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;format&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;yaml&#39;</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;format&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;yaml&#39;</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://kinherd.org/quakes/</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">catalog</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://kinherd.org/quakes/%s&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">catalog</span>
 
         <span class="n">f</span> <span class="o">=</span> <span class="n">ws_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">eq</span> <span class="ow">in</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load_all</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
-            <span class="n">pset</span> <span class="o">=</span> <span class="n">eq</span><span class="p">[</span><span class="s1">&#39;parametersets&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">tref</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">timegm</span><span class="p">(</span><span class="n">pset</span><span class="p">[</span><span class="s1">&#39;reference_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">timetuple</span><span class="p">())</span>
-            <span class="n">tpost</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">timegm</span><span class="p">(</span><span class="n">pset</span><span class="p">[</span><span class="s1">&#39;posted_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">timetuple</span><span class="p">())</span>
-            <span class="n">params</span> <span class="o">=</span> <span class="n">pset</span><span class="p">[</span><span class="s1">&#39;parameters&#39;</span><span class="p">]</span>
+            <span class="n">pset</span> <span class="o">=</span> <span class="n">eq</span><span class="p">[</span><span class="s">&#39;parametersets&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">tref</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">timegm</span><span class="p">(</span><span class="n">pset</span><span class="p">[</span><span class="s">&#39;reference_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">timetuple</span><span class="p">())</span>
+            <span class="n">tpost</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">timegm</span><span class="p">(</span><span class="n">pset</span><span class="p">[</span><span class="s">&#39;posted_time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">timetuple</span><span class="p">())</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="n">pset</span><span class="p">[</span><span class="s">&#39;parameters&#39;</span><span class="p">]</span>
 
             <span class="n">mt</span> <span class="o">=</span> <span class="n">MomentTensor</span><span class="p">(</span>
-                <span class="n">strike</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;strike&#39;</span><span class="p">],</span>
-                <span class="n">dip</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;dip&#39;</span><span class="p">],</span>
-                <span class="n">rake</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;slip_rake&#39;</span><span class="p">],</span>
-                <span class="n">scalar_moment</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;moment&#39;</span><span class="p">])</span>
+                <span class="n">strike</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;strike&#39;</span><span class="p">],</span>
+                <span class="n">dip</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;dip&#39;</span><span class="p">],</span>
+                <span class="n">rake</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;slip_rake&#39;</span><span class="p">],</span>
+                <span class="n">scalar_moment</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;moment&#39;</span><span class="p">])</span>
 
             <span class="n">event</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span>
-                <span class="n">time</span><span class="o">=</span><span class="n">tref</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">],</span>
-                <span class="n">lat</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;latitude&#39;</span><span class="p">],</span>
-                <span class="n">lon</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;longitude&#39;</span><span class="p">],</span>
-                <span class="n">depth</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;depth&#39;</span><span class="p">],</span>
-                <span class="n">magnitude</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;magnitude&#39;</span><span class="p">],</span>
-                <span class="n">duration</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;rise_time&#39;</span><span class="p">],</span>
-                <span class="n">name</span><span class="o">=</span><span class="n">eq</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+                <span class="n">time</span><span class="o">=</span><span class="n">tref</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s">&#39;time&#39;</span><span class="p">],</span>
+                <span class="n">lat</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;latitude&#39;</span><span class="p">],</span>
+                <span class="n">lon</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;longitude&#39;</span><span class="p">],</span>
+                <span class="n">depth</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;depth&#39;</span><span class="p">],</span>
+                <span class="n">magnitude</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;magnitude&#39;</span><span class="p">],</span>
+                <span class="n">duration</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s">&#39;rise_time&#39;</span><span class="p">],</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">eq</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">],</span>
                 <span class="n">catalog</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">catalog</span><span class="p">,</span>
                 <span class="n">moment_tensor</span><span class="o">=</span><span class="n">mt</span><span class="p">)</span>
 
             <span class="n">event</span><span class="o">.</span><span class="n">ext_confidence_intervals</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="n">trans</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;latitude&#39;</span><span class="p">:</span> <span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">:</span> <span class="s1">&#39;lon&#39;</span><span class="p">}</span>
-            <span class="k">for</span> <span class="n">par</span> <span class="ow">in</span> <span class="s1">&#39;latitude longitude depth magnitude&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+            <span class="n">trans</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;latitude&#39;</span><span class="p">:</span> <span class="s">&#39;lat&#39;</span><span class="p">,</span> <span class="s">&#39;longitude&#39;</span><span class="p">:</span> <span class="s">&#39;lon&#39;</span><span class="p">}</span>
+            <span class="k">for</span> <span class="n">par</span> <span class="ow">in</span> <span class="s">&#39;latitude longitude depth magnitude&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
                 <span class="n">event</span><span class="o">.</span><span class="n">ext_confidence_intervals</span><span class="p">[</span><span class="n">trans</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">par</span><span class="p">,</span> <span class="n">par</span><span class="p">)]</span> <span class="o">=</span> \
-                    <span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">par</span><span class="o">+</span><span class="s1">&#39;_ci_low&#39;</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="n">par</span><span class="o">+</span><span class="s1">&#39;_ci_high&#39;</span><span class="p">])</span>
+                    <span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">par</span><span class="o">+</span><span class="s">&#39;_ci_low&#39;</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="n">par</span><span class="o">+</span><span class="s">&#39;_ci_high&#39;</span><span class="p">])</span>
 
             <span class="n">event</span><span class="o">.</span><span class="n">ext_posted_time</span> <span class="o">=</span> <span class="n">tpost</span>
 
-            <span class="n">name</span> <span class="o">=</span> <span class="n">eq</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">eq</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">events</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">event</span>
             <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">names</span></div>
 
-<div class="viewcode-block" id="Kinherd.iter_event_names"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.Kinherd.iter_event_names">[docs]</a>    <span class="k">def</span> <span class="nf">iter_event_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Kinherd.iter_event_names"><a class="viewcode-back" href="../../library/reference/catalog.html#pyrocko.catalog.Kinherd.iter_event_names">[docs]</a>    <span class="k">def</span> <span class="nf">iter_event_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
         <span class="n">qkwargs</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="s1">&#39;magmin magmax latmin latmax lonmin lonmax&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">qkwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="s">&#39;magmin magmax latmin latmax lonmin lonmax&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+                <span class="n">qkwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;%f&#39;</span> <span class="o">%</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="n">time_range</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">form</span> <span class="o">=</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">_%H-%M-%S&#39;</span>
-            <span class="k">if</span> <span class="n">time_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">qkwargs</span><span class="p">[</span><span class="s1">&#39;tmin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">time_to_str</span><span class="p">(</span><span class="n">time_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">form</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">time_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">qkwargs</span><span class="p">[</span><span class="s1">&#39;tmax&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">time_to_str</span><span class="p">(</span><span class="n">time_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">form</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">time_range</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+            <span class="n">form</span> <span class="o">=</span> <span class="s">&#39;%Y-%m-%d_%H-%M-%S&#39;</span>
+            <span class="k">if</span> <span class="n">time_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+                <span class="n">qkwargs</span><span class="p">[</span><span class="s">&#39;tmin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">time_to_str</span><span class="p">(</span><span class="n">time_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">form</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">time_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+                <span class="n">qkwargs</span><span class="p">[</span><span class="s">&#39;tmax&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">time_to_str</span><span class="p">(</span><span class="n">time_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">form</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="o">**</span><span class="n">qkwargs</span><span class="p">):</span>
             <span class="k">yield</span> <span class="n">name</span></div>

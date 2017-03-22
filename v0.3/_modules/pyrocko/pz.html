@@ -54,7 +54,7 @@
           <div class="body" role="main">
             
   <h1>Source code for pyrocko.pz</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">cStringIO</span> <span class="k">import</span> <span class="n">StringIO</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
@@ -68,56 +68,56 @@
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="read_sac_zpk"><a class="viewcode-back" href="../../library/reference/pz.html#pyrocko.pz.read_sac_zpk">[docs]</a><span class="k">def</span> <span class="nf">read_sac_zpk</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">get_comments</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="read_sac_zpk"><a class="viewcode-back" href="../../library/reference/pz.html#pyrocko.pz.read_sac_zpk">[docs]</a><span class="k">def</span> <span class="nf">read_sac_zpk</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">get_comments</span><span class="o">=</span><span class="k">False</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Read SAC Pole-Zero file.</span>
 
 <span class="sd">    Returns (zeros, poles, constant).</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
 
-    <span class="k">elif</span> <span class="n">file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">file</span>
 
-    <span class="k">elif</span> <span class="n">string</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">string</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
 
-    <span class="n">sects</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;ZEROS&#39;</span><span class="p">,</span> <span class="s1">&#39;POLES&#39;</span><span class="p">,</span> <span class="s1">&#39;CONSTANT&#39;</span><span class="p">)</span>
-    <span class="n">sectdata</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ZEROS&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;POLES&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+    <span class="n">sects</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;ZEROS&#39;</span><span class="p">,</span> <span class="s">&#39;POLES&#39;</span><span class="p">,</span> <span class="s">&#39;CONSTANT&#39;</span><span class="p">)</span>
+    <span class="n">sectdata</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;ZEROS&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&#39;POLES&#39;</span><span class="p">:</span> <span class="p">[]}</span>
     <span class="n">npoles</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">nzeros</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">constant</span> <span class="o">=</span> <span class="mf">1.0</span>
-    <span class="n">atsect</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">atsect</span> <span class="o">=</span> <span class="k">None</span>
     <span class="n">comments</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">iline</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
         <span class="n">toks</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">toks</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">continue</span>
 
-        <span class="k">if</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="s1">&#39;*#&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="s">&#39;*#&#39;</span><span class="p">:</span>
             <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
             <span class="k">continue</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">toks</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
             <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">SacPoleZeroError</span><span class="p">(</span>
-                <span class="s1">&#39;Expected 2 tokens in line </span><span class="si">%i</span><span class="s1"> of file </span><span class="si">%s</span><span class="s1">&#39;</span>
+                <span class="s">&#39;Expected 2 tokens in line %i of file %s&#39;</span>
                 <span class="o">%</span> <span class="p">(</span><span class="n">iline</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;*&#39;</span><span class="p">):</span>
             <span class="k">continue</span>
 
         <span class="n">lsect</span> <span class="o">=</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">lsect</span> <span class="ow">in</span> <span class="n">sects</span><span class="p">:</span>
             <span class="n">atsect</span> <span class="o">=</span> <span class="n">lsect</span>
             <span class="n">sectdata</span><span class="p">[</span><span class="n">atsect</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">if</span> <span class="n">lsect</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;ZEROS&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">lsect</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;ZEROS&#39;</span><span class="p">:</span>
                 <span class="n">nzeros</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">toks</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-            <span class="k">elif</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;POLES&#39;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;POLES&#39;</span><span class="p">:</span>
                 <span class="n">npoles</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">toks</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-            <span class="k">elif</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;CONSTANT&#39;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;CONSTANT&#39;</span><span class="p">:</span>
                 <span class="n">constant</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">toks</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">atsect</span><span class="p">:</span>
@@ -127,17 +127,17 @@
     <span class="k">if</span> <span class="n">f</span> <span class="o">!=</span> <span class="n">file</span><span class="p">:</span>
         <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-    <span class="n">poles</span> <span class="o">=</span> <span class="n">sectdata</span><span class="p">[</span><span class="s1">&#39;POLES&#39;</span><span class="p">]</span>
-    <span class="n">zeros</span> <span class="o">=</span> <span class="n">sectdata</span><span class="p">[</span><span class="s1">&#39;ZEROS&#39;</span><span class="p">]</span>
+    <span class="n">poles</span> <span class="o">=</span> <span class="n">sectdata</span><span class="p">[</span><span class="s">&#39;POLES&#39;</span><span class="p">]</span>
+    <span class="n">zeros</span> <span class="o">=</span> <span class="n">sectdata</span><span class="p">[</span><span class="s">&#39;ZEROS&#39;</span><span class="p">]</span>
     <span class="n">npoles_</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">poles</span><span class="p">)</span>
     <span class="n">nzeros_</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">zeros</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">npoles_</span> <span class="o">&gt;</span> <span class="n">npoles</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">SacPoleZeroError</span><span class="p">(</span>
-            <span class="s1">&#39;Expected </span><span class="si">%i</span><span class="s1"> poles but found </span><span class="si">%i</span><span class="s1"> in pole-zero file &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span>
+            <span class="s">&#39;Expected %i poles but found %i in pole-zero file &quot;%s&quot;&#39;</span>
             <span class="o">%</span> <span class="p">(</span><span class="n">npoles</span><span class="p">,</span> <span class="n">npoles_</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">nzeros_</span> <span class="o">&gt;</span> <span class="n">nzeros</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">SacPoleZeroError</span><span class="p">(</span>
-            <span class="s1">&#39;Expected </span><span class="si">%i</span><span class="s1"> zeros but found </span><span class="si">%i</span><span class="s1"> in pole-zero file &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span>
+            <span class="s">&#39;Expected %i zeros but found %i in pole-zero file &quot;%s&quot;&#39;</span>
             <span class="o">%</span> <span class="p">(</span><span class="n">nzeros</span><span class="p">,</span> <span class="n">nzeros_</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">npoles_</span> <span class="o">&lt;</span> <span class="n">npoles</span><span class="p">:</span>
@@ -148,21 +148,21 @@
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">poles</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">zeros</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">SacPoleZeroError</span><span class="p">(</span>
-            <span class="s1">&#39;No poles and zeros found in file &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+            <span class="s">&#39;No poles and zeros found in file &quot;%s&quot;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">filename</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">num</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">poles</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="n">SacPoleZeroError</span><span class="p">(</span>
-            <span class="s1">&#39;Not finite pole(s) found in pole-zero file &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span>
+            <span class="s">&#39;Not finite pole(s) found in pole-zero file &quot;%s&quot;&#39;</span>
             <span class="o">%</span> <span class="p">(</span><span class="n">constant</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">num</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">zeros</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="n">SacPoleZeroError</span><span class="p">(</span>
-            <span class="s1">&#39;Not finite zero(s) found in pole-zero file &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span>
+            <span class="s">&#39;Not finite zero(s) found in pole-zero file &quot;%s&quot;&#39;</span>
             <span class="o">%</span> <span class="p">(</span><span class="n">constant</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">num</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">constant</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">SacPoleZeroError</span><span class="p">(</span>
-            <span class="s1">&#39;Ivalid constant (</span><span class="si">%g</span><span class="s1">) found in pole-zero file &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span>
+            <span class="s">&#39;Ivalid constant (%g) found in pole-zero file &quot;%s&quot;&#39;</span>
             <span class="o">%</span> <span class="p">(</span><span class="n">constant</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">get_comments</span><span class="p">:</span>
@@ -172,26 +172,26 @@
 
 
 <div class="viewcode-block" id="write_sac_zpk"><a class="viewcode-back" href="../../library/reference/pz.html#pyrocko.pz.write_sac_zpk">[docs]</a><span class="k">def</span> <span class="nf">write_sac_zpk</span><span class="p">(</span><span class="n">zeros</span><span class="p">,</span> <span class="n">poles</span><span class="p">,</span> <span class="n">constant</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;write&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;write&#39;</span><span class="p">):</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">filename</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;w&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">write_complex</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%12.8g</span><span class="s1"> </span><span class="si">%12.8g</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">complex</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="nb">complex</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">imag</span><span class="p">))</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;%12.8g %12.8g</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">complex</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="nb">complex</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">imag</span><span class="p">))</span>
 
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;POLES </span><span class="si">%i</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">poles</span><span class="p">))</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;POLES %i</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">poles</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">poles</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
             <span class="n">write_complex</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;ZEROS </span><span class="si">%i</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">zeros</span><span class="p">))</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;ZEROS %i</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">zeros</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">zeros</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">z</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
             <span class="n">write_complex</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
 
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;CONSTANT </span><span class="si">%12.8g</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">constant</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;write&#39;</span><span class="p">):</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;CONSTANT %12.8g</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">constant</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;write&#39;</span><span class="p">):</span>
         <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
 
@@ -222,18 +222,18 @@
         <span class="n">fmin</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
         <span class="n">fmax</span><span class="o">=</span><span class="mf">100.</span><span class="p">,</span>
         <span class="n">nf</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-        <span class="n">fnorm</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">fnorm</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
 
     <span class="kn">import</span> <span class="nn">gmtpy</span>
 
     <span class="n">p</span> <span class="o">=</span> <span class="n">gmtpy</span><span class="o">.</span><span class="n">LogLogPlot</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="o">*</span><span class="n">gmtpy</span><span class="o">.</span><span class="n">cm</span><span class="p">,</span> <span class="n">yexp</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">zeros</span><span class="p">,</span> <span class="n">poles</span><span class="p">,</span> <span class="n">constant</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">zpks</span><span class="p">):</span>
         <span class="n">f</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">zeros</span><span class="p">,</span> <span class="n">poles</span><span class="p">,</span> <span class="n">constant</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">nf</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">fnorm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fnorm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="n">h</span> <span class="o">/=</span> <span class="n">evaluate_at</span><span class="p">(</span><span class="n">zeros</span><span class="p">,</span> <span class="n">poles</span><span class="p">,</span> <span class="n">constant</span><span class="p">,</span> <span class="n">fnorm</span><span class="p">)</span>
 
         <span class="n">amp</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">f</span><span class="p">,</span> <span class="n">amp</span><span class="p">),</span> <span class="s1">&#39;-W2p,</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">gmtpy</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">f</span><span class="p">,</span> <span class="n">amp</span><span class="p">),</span> <span class="s">&#39;-W2p,%s&#39;</span> <span class="o">%</span> <span class="n">gmtpy</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 
     <span class="n">p</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename_pdf</span><span class="p">)</span></div>
 
@@ -246,7 +246,7 @@
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">zeros</span><span class="p">,</span> <span class="n">poles</span><span class="p">,</span> <span class="n">constant</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">zpks</span><span class="p">):</span>
         <span class="n">f</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">zeros</span><span class="p">,</span> <span class="n">poles</span><span class="p">,</span> <span class="n">constant</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">nf</span><span class="p">)</span>
         <span class="n">phase</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">unwrap</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">h</span><span class="p">))</span> <span class="o">/</span> <span class="n">d2r</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">f</span><span class="p">,</span> <span class="n">phase</span><span class="p">),</span> <span class="s1">&#39;-W1p,</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">gmtpy</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">f</span><span class="p">,</span> <span class="n">phase</span><span class="p">),</span> <span class="s">&#39;-W1p,%s&#39;</span> <span class="o">%</span> <span class="n">gmtpy</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 
     <span class="n">p</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename_pdf</span><span class="p">)</span></div>
 </pre></div>

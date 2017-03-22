@@ -68,10 +68,10 @@ in section</p>
 <div class="section" id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
 <p>The following software packages must be installed before Pyrocko can be installed:</p>
-<ul class="simple">
+<ul>
 <li><dl class="first docutils">
 <dt>Try to use normal system packages for these:</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li><a class="reference external" href="http://www.python.org/">Python</a> (&gt;= 2.6, &lt; 3.0, with development headers)</li>
 <li><a class="reference external" href="http://numpy.scipy.org/">NumPy</a> (&gt;= 1.6, with development headers)</li>
 <li><a class="reference external" href="http://scipy.org/">SciPy</a></li>
@@ -87,7 +87,7 @@ in section</p>
 </li>
 <li><dl class="first docutils">
 <dt>Try to use <a class="reference external" href="http://pythonhosted.org/setuptools/easy_install.html">easy_install</a> or <a class="reference external" href="http://www.pip-installer.org/en/latest/installing.html">pip install</a> for these:</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li><a class="reference external" href="http://pypi.python.org/pypi/pyavl/">pyavl</a></li>
 </ul>
 </dd>
@@ -95,7 +95,7 @@ in section</p>
 </li>
 <li><dl class="first docutils">
 <dt>Manually install these:</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li><a class="reference external" href="http://www.iris.edu/data/dmc-seedlink.htm">slinktool</a> (optionally, if you want to use the <a class="reference internal" href="../library/reference/slink.html#module-pyrocko.slink" title="pyrocko.slink"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.slink</span></code></a> module)</li>
 <li><a class="reference external" href="http://www.iris.edu/software/downloads/rdseed_request.htm">rdseed</a> (optionally, if you want to use the <a class="reference internal" href="../library/reference/rdseed.html#module-pyrocko.rdseed" title="pyrocko.rdseed"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.rdseed</span></code></a> module)</li>
 <li><a class="reference external" href="http://kinherd.org/fomosto-qseis-2006a.tar.gz">QSEIS</a> (optional, needed for the Fomosto <code class="docutils literal"><span class="pre">qseis.2006a</span></code> backend)</li>
@@ -113,7 +113,7 @@ Python (the *-dev packages) is also system specific.</p>
 <h2>Download and install Pyrocko<a class="headerlink" href="#download-and-install-pyrocko" title="Permalink to this headline">¶</a></h2>
 <p>Use <em>git</em> to download the software package and the included script <em>setup.py</em>
 to install:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">src</span><span class="o">/</span>   <span class="c1"># or wherever you keep your source packages</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">cd</span> <span class="o">~/</span><span class="n">src</span><span class="o">/</span>   <span class="c"># or wherever you keep your source packages</span>
 <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">pyrocko</span><span class="o">/</span><span class="n">pyrocko</span><span class="o">.</span><span class="n">git</span> <span class="n">pyrocko</span>
 <span class="n">cd</span> <span class="n">pyrocko</span>
 <span class="n">sudo</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
@@ -128,7 +128,7 @@ trouble.</p>
 <h2>Updating<a class="headerlink" href="#updating" title="Permalink to this headline">¶</a></h2>
 <p>If you later would like to update Pyrocko, run the following commands (this
 assumes that you have used <em>git</em> to download Pyrocko):</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">src</span><span class="o">/</span><span class="n">pyrocko</span>   <span class="c1"># assuming the Pyrocko software package is here</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">cd</span> <span class="o">~/</span><span class="n">src</span><span class="o">/</span><span class="n">pyrocko</span>   <span class="c"># assuming the Pyrocko software package is here</span>
 <span class="n">git</span> <span class="n">pull</span> <span class="n">origin</span> <span class="n">master</span>
 <span class="n">sudo</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
 </pre></div>

@@ -54,7 +54,7 @@
           <div class="body" role="main">
             
   <h1>Source code for pyrocko.slink</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">import</span> <span class="nn">calendar</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -65,7 +65,7 @@
 
 <span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">trace</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyrocko.slink&#39;</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;pyrocko.slink&#39;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="preexec"><a class="viewcode-back" href="../../library/reference/slink.html#pyrocko.slink.preexec">[docs]</a><span class="k">def</span> <span class="nf">preexec</span><span class="p">():</span>
@@ -77,26 +77,26 @@
 
 
 <div class="viewcode-block" id="SlowSlink"><a class="viewcode-back" href="../../library/reference/slink.html#pyrocko.slink.SlowSlink">[docs]</a><span class="k">class</span> <span class="nc">SlowSlink</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s1">&#39;geofon.gfz-potsdam.de&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">18000</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">&#39;geofon.gfz-potsdam.de&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">18000</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">host</span> <span class="o">=</span> <span class="n">host</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="k">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stream_selectors</span> <span class="o">=</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="SlowSlink.query_streams"><a class="viewcode-back" href="../../library/reference/slink.html#pyrocko.slink.SlowSlink.query_streams">[docs]</a>    <span class="k">def</span> <span class="nf">query_streams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;slinktool&#39;</span><span class="p">,</span>  <span class="s1">&#39;-Q&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="o">+</span><span class="s1">&#39;:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)]</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Running </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">))</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;slinktool&#39;</span><span class="p">,</span>  <span class="s">&#39;-Q&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="o">+</span><span class="s">&#39;:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Running %s&#39;</span> <span class="o">%</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">))</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">slink</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">OSError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">SlowSlinkError</span><span class="p">(</span><span class="s1">&#39;Could not start &quot;slinktool&quot;: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">SlowSlinkError</span><span class="p">(</span><span class="s">&#39;Could not start &quot;slinktool&quot;: %s&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
         <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">=</span> <span class="n">slink</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
         <span class="n">streams</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
             <span class="n">toks</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">toks</span><span class="p">)</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
-                <span class="n">net</span><span class="p">,</span> <span class="n">sta</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">cha</span> <span class="o">=</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">toks</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">toks</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">net</span><span class="p">,</span> <span class="n">sta</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">cha</span> <span class="o">=</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">toks</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">toks</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">net</span><span class="p">,</span> <span class="n">sta</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">cha</span> <span class="o">=</span> <span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">toks</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">toks</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">toks</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
             <span class="n">streams</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">net</span><span class="p">,</span> <span class="n">sta</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">cha</span><span class="p">))</span>
@@ -104,7 +104,7 @@
 
 <div class="viewcode-block" id="SlowSlink.add_stream"><a class="viewcode-back" href="../../library/reference/slink.html#pyrocko.slink.SlowSlink.add_stream">[docs]</a>    <span class="k">def</span> <span class="nf">add_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">network</span><span class="p">,</span> <span class="n">station</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">channel</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stream_selectors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-            <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_</span><span class="si">%s</span><span class="s1">:</span><span class="si">%s</span><span class="s1">.D&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">station</span><span class="p">,</span> <span class="n">channel</span><span class="p">))</span></div>
+            <span class="s">&#39;%s_%s:%s.D&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">station</span><span class="p">,</span> <span class="n">channel</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="SlowSlink.add_raw_stream_selector"><a class="viewcode-back" href="../../library/reference/slink.html#pyrocko.slink.SlowSlink.add_raw_stream_selector">[docs]</a>    <span class="k">def</span> <span class="nf">add_raw_stream_selector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_selector</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stream_selectors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stream_selector</span><span class="p">)</span></div>
@@ -112,27 +112,27 @@
 <div class="viewcode-block" id="SlowSlink.acquisition_start"><a class="viewcode-back" href="../../library/reference/slink.html#pyrocko.slink.SlowSlink.acquisition_start">[docs]</a>    <span class="k">def</span> <span class="nf">acquisition_start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">assert</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream_selectors</span><span class="p">:</span>
-            <span class="n">streams</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;-S&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stream_selectors</span><span class="p">)]</span>
+            <span class="n">streams</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;-S&#39;</span><span class="p">,</span> <span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stream_selectors</span><span class="p">)]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">streams</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;slinktool&#39;</span><span class="p">,</span> <span class="s1">&#39;-u&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">streams</span> <span class="o">+</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="o">+</span><span class="s1">&#39;:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)]</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;slinktool&#39;</span><span class="p">,</span> <span class="s">&#39;-u&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">streams</span> <span class="o">+</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="o">+</span><span class="s">&#39;:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)]</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Starting </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Starting %s&#39;</span> <span class="o">%</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="k">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="k">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vals</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">slink</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
                 <span class="n">cmd</span><span class="p">,</span>
                 <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
                 <span class="n">preexec_fn</span><span class="o">=</span><span class="n">preexec</span><span class="p">,</span>
-                <span class="n">close_fds</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">close_fds</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
         <span class="k">except</span> <span class="ne">OSError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">SlowSlinkError</span><span class="p">(</span><span class="s1">&#39;Could not start &quot;slinktool&quot;: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">SlowSlinkError</span><span class="p">(</span><span class="s">&#39;Could not start &quot;slinktool&quot;: %s&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Started.&#39;</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Started.&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SlowSlink.acquisition_stop"><a class="viewcode-back" href="../../library/reference/slink.html#pyrocko.slink.SlowSlink.acquisition_stop">[docs]</a>    <span class="k">def</span> <span class="nf">acquisition_stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">acquisition_request_stop</span><span class="p">()</span></div>
@@ -141,41 +141,41 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">:</span>
             <span class="k">return</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># intentionally before the kill</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="k">False</span>  <span class="c"># intentionally before the kill</span>
 
         <span class="n">os</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slink</span><span class="o">.</span><span class="n">pid</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">SIGTERM</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Waiting for slinktool to terminate...&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Waiting for slinktool to terminate...&quot;</span><span class="p">)</span>
         <span class="n">it</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">slink</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">it</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                    <span class="s2">&quot;Waiting for slinktool to terminate... trying harder...&quot;</span><span class="p">)</span>
+                    <span class="s">&quot;Waiting for slinktool to terminate... trying harder...&quot;</span><span class="p">)</span>
                 <span class="n">os</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slink</span><span class="o">.</span><span class="n">pid</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">SIGKILL</span><span class="p">)</span>
 
             <span class="n">it</span> <span class="o">+=</span> <span class="mi">1</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Done, slinktool has terminated&quot;</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Done, slinktool has terminated&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SlowSlink.process"><a class="viewcode-back" href="../../library/reference/slink.html#pyrocko.slink.SlowSlink.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">line</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">slink</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
 
             <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">False</span>
+                <span class="k">return</span> <span class="k">False</span>
 
-            <span class="n">toks</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">)</span>
+            <span class="n">toks</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;, &#39;</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">toks</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">nslc</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">))</span>
+                <span class="n">nslc</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">toks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">))</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nslc</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                    <span class="n">nslc</span> <span class="o">=</span> <span class="n">nslc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nslc</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">nslc</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="n">nslc</span> <span class="o">=</span> <span class="n">nslc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nslc</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">nslc</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 
                 <span class="n">nsamples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">toks</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
                 <span class="n">rate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">toks</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
-                <span class="n">st</span><span class="p">,</span> <span class="n">sms</span> <span class="o">=</span> <span class="n">toks</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+                <span class="n">st</span><span class="p">,</span> <span class="n">sms</span> <span class="o">=</span> <span class="n">toks</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)</span>
                 <span class="n">us</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sms</span><span class="p">)</span>
                 <span class="n">tstamp</span> <span class="o">=</span> <span class="n">calendar</span><span class="o">.</span><span class="n">timegm</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-                    <span class="n">st</span><span class="p">,</span> <span class="s1">&#39;%Y,%j,%H:%M:%S&#39;</span><span class="p">))</span><span class="o">+</span><span class="n">us</span><span class="o">*</span><span class="mf">0.000001</span>
+                    <span class="n">st</span><span class="p">,</span> <span class="s">&#39;%Y,%j,%H:%M:%S&#39;</span><span class="p">))</span><span class="o">+</span><span class="n">us</span><span class="o">*</span><span class="mf">0.000001</span>
 
                 <span class="k">if</span> <span class="n">nsamples</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">nslc</span><span class="p">,</span> <span class="n">nsamples</span><span class="p">,</span> <span class="n">rate</span><span class="p">,</span> <span class="n">tstamp</span>
@@ -198,15 +198,15 @@
 
                         <span class="bp">self</span><span class="o">.</span><span class="n">got_trace</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">vals</span> <span class="o">=</span> <span class="p">[]</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="k">None</span>
 
-            <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="k">True</span>
 
         <span class="k">except</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span></div>
+            <span class="k">return</span> <span class="k">False</span></div>
 
 <div class="viewcode-block" id="SlowSlink.got_trace"><a class="viewcode-back" href="../../library/reference/slink.html#pyrocko.slink.SlowSlink.got_trace">[docs]</a>    <span class="k">def</span> <span class="nf">got_trace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tr</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Got trace from slinktool: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">tr</span><span class="p">)</span></div></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Got trace from slinktool: %s&#39;</span> <span class="o">%</span> <span class="n">tr</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>

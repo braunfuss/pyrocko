@@ -190,14 +190,14 @@ information will be lost.</td></tr>
 <a class="reference internal" href="../reference/io.html#pyrocko.io.load" title="pyrocko.io.load"><code class="xref py py-func docutils literal"><span class="pre">pyrocko.io.load()</span></code></a>, containing a three component seismogram, apply
 Butterworth lowpass filter to the seismograms and dump the results to a new
 file with <a class="reference internal" href="../reference/io.html#pyrocko.io.save" title="pyrocko.io.save"><code class="xref py py-meth docutils literal"><span class="pre">pyrocko.io.save()</span></code></a>.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span>
 
-<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">)</span>
+<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;test.mseed&#39;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
-    <span class="n">tr</span><span class="o">.</span><span class="n">lowpass</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">)</span>   <span class="c1"># 4th order, 0.02 Hz</span>
+    <span class="n">tr</span><span class="o">.</span><span class="n">lowpass</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">)</span>   <span class="c"># 4th order, 0.02 Hz</span>
 
-<span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="s1">&#39;filtered.mseed&#39;</span><span class="p">)</span>
+<span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="s">&#39;filtered.mseed&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Other filtering methods are <a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace.highpass" title="pyrocko.trace.Trace.highpass"><code class="xref py py-meth docutils literal"><span class="pre">pyrocko.trace.Trace.highpass()</span></code></a> and
@@ -215,25 +215,25 @@ the <a class="reference internal" href="../reference/trace.html#pyrocko.trace.sn
 a pile, the <a class="reference internal" href="../reference/pile.html#pyrocko.pile.Pile.snuffle" title="pyrocko.pile.Pile.snuffle"><code class="xref py py-meth docutils literal"><span class="pre">pyrocko.pile.Pile.snuffle()</span></code></a> method is your friend.
 Alternatively, you could of course save the traces to file and use the
 standalone <a class="reference internal" href="../../apps/snuffler/index.html"><span class="doc">Snuffler</span></a> to look at them.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span><span class="p">,</span> <span class="n">trace</span><span class="p">,</span> <span class="n">pile</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span><span class="p">,</span> <span class="n">trace</span><span class="p">,</span> <span class="n">pile</span>
 
-<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">)</span>
-<span class="n">traces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">snuffle</span><span class="p">()</span> <span class="c1"># look at a single trace</span>
-<span class="n">trace</span><span class="o">.</span><span class="n">snuffle</span><span class="p">(</span><span class="n">traces</span><span class="p">)</span> <span class="c1"># look at a bunch of traces</span>
+<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;test.mseed&#39;</span><span class="p">)</span>
+<span class="n">traces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">snuffle</span><span class="p">()</span> <span class="c"># look at a single trace</span>
+<span class="n">trace</span><span class="o">.</span><span class="n">snuffle</span><span class="p">(</span><span class="n">traces</span><span class="p">)</span> <span class="c"># look at a bunch of traces</span>
 
-<span class="c1"># do something with the traces:</span>
+<span class="c"># do something with the traces:</span>
 <span class="n">new_traces</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
     <span class="n">new</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">new</span><span class="o">.</span><span class="n">whiten</span><span class="p">()</span>
-    <span class="c1"># to allow the viewer to distinguish the traces</span>
-    <span class="n">new</span><span class="o">.</span><span class="n">set_location</span><span class="p">(</span><span class="s1">&#39;whitened&#39;</span><span class="p">)</span>
+    <span class="c"># to allow the viewer to distinguish the traces</span>
+    <span class="n">new</span><span class="o">.</span><span class="n">set_location</span><span class="p">(</span><span class="s">&#39;whitened&#39;</span><span class="p">)</span>
     <span class="n">new_traces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
 
 <span class="n">trace</span><span class="o">.</span><span class="n">snuffle</span><span class="p">(</span><span class="n">traces</span> <span class="o">+</span> <span class="n">new_traces</span><span class="p">)</span>
 
-<span class="c1"># it is also possible to &#39;snuffle&#39; a pile:</span>
-<span class="n">p</span> <span class="o">=</span> <span class="n">pile</span><span class="o">.</span><span class="n">make_pile</span><span class="p">([</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">])</span>
+<span class="c"># it is also possible to &#39;snuffle&#39; a pile:</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">pile</span><span class="o">.</span><span class="n">make_pile</span><span class="p">([</span><span class="s">&#39;test.mseed&#39;</span><span class="p">])</span>
 <span class="n">p</span><span class="o">.</span><span class="n">snuffle</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -244,20 +244,20 @@ arguments.</p>
 <div class="section" id="creating-a-trace-object-from-scratch">
 <h2>Creating a trace object from scratch<a class="headerlink" href="#creating-a-trace-object-from-scratch" title="Permalink to this headline">¶</a></h2>
 <p>Creates two <a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a> objects, fills them with noise (using
-<code class="xref py py-func docutils literal"><span class="pre">numpy.random.random()</span></code>) and saves them with <a class="reference internal" href="../reference/io.html#pyrocko.io.save" title="pyrocko.io.save"><code class="xref py py-func docutils literal"><span class="pre">save()</span></code></a> to a
+<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.random.html#numpy.random.random" title="(in NumPy v1.12)"><code class="xref py py-func docutils literal"><span class="pre">numpy.random.random()</span></code></a>) and saves them with <a class="reference internal" href="../reference/io.html#pyrocko.io.save" title="pyrocko.io.save"><code class="xref py py-func docutils literal"><span class="pre">save()</span></code></a> to a
 single or to split files. For each <a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace" title="pyrocko.trace.Trace"><code class="xref py py-class docutils literal"><span class="pre">Trace</span></code></a> object the
 station name is defined, the channel name, the sampling interval (0.5 s) and
 the time onset (<code class="docutils literal"><span class="pre">tmin</span></code>).</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">trace</span><span class="p">,</span> <span class="n">util</span><span class="p">,</span> <span class="n">io</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">trace</span><span class="p">,</span> <span class="n">util</span><span class="p">,</span> <span class="n">io</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
 
 <span class="n">nsamples</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">tmin</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">str_to_time</span><span class="p">(</span><span class="s1">&#39;2010-02-20 15:15:30.100&#39;</span><span class="p">)</span>
+<span class="n">tmin</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">str_to_time</span><span class="p">(</span><span class="s">&#39;2010-02-20 15:15:30.100&#39;</span><span class="p">)</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">nsamples</span><span class="p">)</span>
-<span class="n">t1</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="s1">&#39;TEST&#39;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="n">deltat</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span> <span class="n">ydata</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
-<span class="n">t2</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="s1">&#39;TEST&#39;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="n">deltat</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span> <span class="n">ydata</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
-<span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">([</span><span class="n">t1</span><span class="p">,</span><span class="n">t2</span><span class="p">],</span> <span class="s1">&#39;my_precious_traces.mseed&#39;</span><span class="p">)</span>            <span class="c1"># all traces in one file</span>
-<span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">([</span><span class="n">t1</span><span class="p">,</span><span class="n">t2</span><span class="p">],</span> <span class="s1">&#39;my_precious_trace_</span><span class="si">%(channel)s</span><span class="s1">.mseed&#39;</span><span class="p">)</span> <span class="c1"># each file one channel</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="s">&#39;TEST&#39;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="s">&#39;Z&#39;</span><span class="p">,</span> <span class="n">deltat</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span> <span class="n">ydata</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="s">&#39;TEST&#39;</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="n">deltat</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">tmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span> <span class="n">ydata</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">([</span><span class="n">t1</span><span class="p">,</span><span class="n">t2</span><span class="p">],</span> <span class="s">&#39;my_precious_traces.mseed&#39;</span><span class="p">)</span>            <span class="c"># all traces in one file</span>
+<span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">([</span><span class="n">t1</span><span class="p">,</span><span class="n">t2</span><span class="p">],</span> <span class="s">&#39;my_precious_trace_%(channel)s.mseed&#39;</span><span class="p">)</span> <span class="c"># each file one channel</span>
 </pre></div>
 </div>
 </div>
@@ -266,19 +266,19 @@ the time onset (<code class="docutils literal"><span class="pre">tmin</span></co
 <p>Trimming is achieved with the <a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace.chop" title="pyrocko.trace.Trace.chop"><code class="xref py py-meth docutils literal"><span class="pre">chop()</span></code></a> method. Here we
 cut 10 s from the beginning and the end of the example trace
 (<a class="reference download internal" href="../../_downloads/test.mseed" download=""><code class="xref download docutils literal"><span class="pre">test.mseed</span></code></a>).</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span>
 
-<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">)</span>
-<span class="n">tr</span> <span class="o">=</span> <span class="n">traces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># reference first trace as tr</span>
-<span class="nb">print</span> <span class="s1">&#39;original:&#39;</span><span class="p">,</span> <span class="n">tr</span>
+<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;test.mseed&#39;</span><span class="p">)</span>
+<span class="n">tr</span> <span class="o">=</span> <span class="n">traces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c"># reference first trace as tr</span>
+<span class="nb">print</span> <span class="s">&#39;original:&#39;</span><span class="p">,</span> <span class="n">tr</span>
 
-<span class="c1"># extract a copy of a part of tr</span>
-<span class="n">tr_extracted</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">chop</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">tmin</span><span class="o">+</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">tmax</span><span class="o">-</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="nb">print</span> <span class="s1">&#39;extracted:&#39;</span><span class="p">,</span> <span class="n">tr_extracted</span>
+<span class="c"># extract a copy of a part of tr</span>
+<span class="n">tr_extracted</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">chop</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">tmin</span><span class="o">+</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">tmax</span><span class="o">-</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s">&#39;extracted:&#39;</span><span class="p">,</span> <span class="n">tr_extracted</span>
 
-<span class="c1"># in-place operation modifies tr itself</span>
+<span class="c"># in-place operation modifies tr itself</span>
 <span class="n">tr</span><span class="o">.</span><span class="n">chop</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">tmin</span><span class="o">+</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">tmax</span><span class="o">-</span><span class="mf">10.0</span><span class="p">)</span>
-<span class="nb">print</span> <span class="s1">&#39;modified:&#39;</span><span class="p">,</span> <span class="n">tr</span>
+<span class="nb">print</span> <span class="s">&#39;modified:&#39;</span><span class="p">,</span> <span class="n">tr</span>
 </pre></div>
 </div>
 </div>
@@ -286,17 +286,17 @@ cut 10 s from the beginning and the end of the example trace
 <h2>Time shifting a trace<a class="headerlink" href="#time-shifting-a-trace" title="Permalink to this headline">¶</a></h2>
 <p>This example demonstrates how to time shift a trace by a given relative time or
 to a given absolute onset time with <a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace.shift" title="pyrocko.trace.Trace.shift"><code class="xref py py-meth docutils literal"><span class="pre">pyrocko.trace.Trace.shift()</span></code></a>.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span><span class="p">,</span> <span class="n">util</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span><span class="p">,</span> <span class="n">util</span>
 
-<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">)</span>
+<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;test.mseed&#39;</span><span class="p">)</span>
 <span class="n">tr</span> <span class="o">=</span> <span class="n">traces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="c1"># shift by 10 seconds backward in time</span>
+<span class="c"># shift by 10 seconds backward in time</span>
 <span class="n">tr</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mf">10.0</span><span class="p">)</span>
 <span class="nb">print</span> <span class="n">tr</span>
 
-<span class="c1"># shift to a new absolute onset time</span>
-<span class="n">tmin_new</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">str_to_time</span><span class="p">(</span><span class="s1">&#39;2009-04-06 01:32:42.000&#39;</span><span class="p">)</span>
+<span class="c"># shift to a new absolute onset time</span>
+<span class="n">tmin_new</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">str_to_time</span><span class="p">(</span><span class="s">&#39;2009-04-06 01:32:42.000&#39;</span><span class="p">)</span>
 <span class="n">tr</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">tmin_new</span> <span class="o">-</span> <span class="n">tr</span><span class="o">.</span><span class="n">tmin</span><span class="p">)</span>
 <span class="nb">print</span> <span class="n">tr</span>
 </pre></div>
@@ -306,18 +306,18 @@ to a given absolute onset time with <a class="reference internal" href="../refer
 <h2>Resampling a trace<a class="headerlink" href="#resampling-a-trace" title="Permalink to this headline">¶</a></h2>
 <p>Example for downsampling a trace in a file to a sampling rate with
 <a class="reference internal" href="../reference/trace.html#pyrocko.trace.Trace.downsample_to" title="pyrocko.trace.Trace.downsample_to"><code class="xref py py-meth docutils literal"><span class="pre">pyrocko.trace.Trace.downsample_to()</span></code></a>.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span><span class="p">,</span> <span class="n">trace</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span><span class="p">,</span> <span class="n">trace</span>
 
-<span class="n">tr1</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">tr1</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;test.mseed&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="n">tr2</span> <span class="o">=</span> <span class="n">tr1</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">tr2</span><span class="o">.</span><span class="n">downsample_to</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
 
-<span class="c1"># make them distinguishable</span>
-<span class="n">tr1</span><span class="o">.</span><span class="n">set_location</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">)</span>
-<span class="n">tr2</span><span class="o">.</span><span class="n">set_location</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">)</span>
+<span class="c"># make them distinguishable</span>
+<span class="n">tr1</span><span class="o">.</span><span class="n">set_location</span><span class="p">(</span><span class="s">&#39;1&#39;</span><span class="p">)</span>
+<span class="n">tr2</span><span class="o">.</span><span class="n">set_location</span><span class="p">(</span><span class="s">&#39;2&#39;</span><span class="p">)</span>
 
-<span class="c1"># visualize with Snuffler</span>
+<span class="c"># visualize with Snuffler</span>
 <span class="n">trace</span><span class="o">.</span><span class="n">snuffle</span><span class="p">([</span><span class="n">tr1</span><span class="p">,</span> <span class="n">tr2</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -331,15 +331,15 @@ to a given absolute onset time with <a class="reference internal" href="../refer
 <div class="section" id="convert-sac-to-miniseed">
 <h2>Convert SAC to MiniSEED<a class="headerlink" href="#convert-sac-to-miniseed" title="Permalink to this headline">¶</a></h2>
 <p>A very basic SAC to MiniSEED converter:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-    <span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;sac&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.sac&#39;</span><span class="p">):</span>
-        <span class="n">out_filename</span> <span class="o">=</span> <span class="n">filename</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.mseed&#39;</span>
+    <span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s">&#39;sac&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;.sac&#39;</span><span class="p">):</span>
+        <span class="n">out_filename</span> <span class="o">=</span> <span class="n">filename</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;.mseed&#39;</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">out_filename</span> <span class="o">=</span> <span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;.mseed&#39;</span>
+        <span class="n">out_filename</span> <span class="o">=</span> <span class="n">filename</span> <span class="o">+</span> <span class="s">&#39;.mseed&#39;</span>
 
     <span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="n">out_filename</span><span class="p">)</span>
 </pre></div>
@@ -349,15 +349,15 @@ to a given absolute onset time with <a class="reference internal" href="../refer
 <h2>Convert MiniSEED to ASCII<a class="headerlink" href="#convert-miniseed-to-ascii" title="Permalink to this headline">¶</a></h2>
 <p>An inefficient, non-portable, non-header-preserving, but simple, method to
 convert some MiniSEED traces to ASCII tables:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">io</span>
 
-<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">)</span>
+<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;test.mseed&#39;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">it</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">traces</span><span class="p">):</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;test-</span><span class="si">%i</span><span class="s1">.txt&#39;</span> <span class="o">%</span> <span class="n">it</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;test-%i.txt&#39;</span> <span class="o">%</span> <span class="n">it</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">tim</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">get_xdata</span><span class="p">(),</span> <span class="n">t</span><span class="o">.</span><span class="n">get_ydata</span><span class="p">()):</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span> <span class="s1">&#39;</span><span class="si">%20f</span><span class="s1"> </span><span class="si">%20g</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tim</span><span class="p">,</span><span class="n">val</span><span class="p">)</span> <span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span> <span class="s">&#39;%20f %20g</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tim</span><span class="p">,</span><span class="n">val</span><span class="p">)</span> <span class="p">)</span>
 
     <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
@@ -370,58 +370,58 @@ convert some MiniSEED traces to ASCII tables:</p>
 of the other two traces (<code class="docutils literal"><span class="pre">tt1</span></code> and <code class="docutils literal"><span class="pre">tt2</span></code>) in comparision to <code class="docutils literal"><span class="pre">rt</span></code>.
 Traces <code class="docutils literal"><span class="pre">rt</span></code> and <code class="docutils literal"><span class="pre">tt1</span></code> will have the same y-data, so the misfit between
 them will be zero.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">trace</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">trace</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">sqrt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">num</span>
 
-<span class="c1"># Let&#39;s create three traces: One trace as the reference (rt) and two as test</span>
-<span class="c1"># traces (tt1 and tt2):</span>
+<span class="c"># Let&#39;s create three traces: One trace as the reference (rt) and two as test</span>
+<span class="c"># traces (tt1 and tt2):</span>
 <span class="n">ydata1</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
 <span class="n">ydata2</span> <span class="o">=</span> <span class="n">num</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
-<span class="n">rt</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="s1">&#39;REF&#39;</span><span class="p">,</span> <span class="n">ydata</span><span class="o">=</span><span class="n">ydata1</span><span class="p">)</span>
-<span class="n">candidate1</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="s1">&#39;TT1&#39;</span><span class="p">,</span> <span class="n">ydata</span><span class="o">=</span><span class="n">ydata1</span><span class="p">)</span>
-<span class="n">candidate2</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="s1">&#39;TT2&#39;</span><span class="p">,</span> <span class="n">ydata</span><span class="o">=</span><span class="n">ydata2</span><span class="p">)</span>
+<span class="n">rt</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="s">&#39;REF&#39;</span><span class="p">,</span> <span class="n">ydata</span><span class="o">=</span><span class="n">ydata1</span><span class="p">)</span>
+<span class="n">candidate1</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="s">&#39;TT1&#39;</span><span class="p">,</span> <span class="n">ydata</span><span class="o">=</span><span class="n">ydata1</span><span class="p">)</span>
+<span class="n">candidate2</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">Trace</span><span class="p">(</span><span class="n">station</span><span class="o">=</span><span class="s">&#39;TT2&#39;</span><span class="p">,</span> <span class="n">ydata</span><span class="o">=</span><span class="n">ydata2</span><span class="p">)</span>
 
-<span class="c1"># Define a fader to apply before fft.</span>
+<span class="c"># Define a fader to apply before fft.</span>
 <span class="n">taper</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">CosFader</span><span class="p">(</span><span class="n">xfade</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
 
-<span class="c1"># Define a frequency response to apply before performing the inverse fft.</span>
-<span class="c1"># This can be basically any funtion, as long as it contains a function called</span>
-<span class="c1"># *evaluate*, which evaluates the frequency response function at a given list</span>
-<span class="c1"># of frequencies.</span>
-<span class="c1"># Please refer to the :class:`FrequencyResponse` class or its subclasses for</span>
-<span class="c1"># examples.</span>
-<span class="c1"># However, we are going to use a butterworth low-pass filter in this example.</span>
+<span class="c"># Define a frequency response to apply before performing the inverse fft.</span>
+<span class="c"># This can be basically any funtion, as long as it contains a function called</span>
+<span class="c"># *evaluate*, which evaluates the frequency response function at a given list</span>
+<span class="c"># of frequencies.</span>
+<span class="c"># Please refer to the :class:`FrequencyResponse` class or its subclasses for</span>
+<span class="c"># examples.</span>
+<span class="c"># However, we are going to use a butterworth low-pass filter in this example.</span>
 <span class="n">bw_filter</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">ButterworthResponse</span><span class="p">(</span><span class="n">corner</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
                                       <span class="n">order</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-                                      <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;low&#39;</span><span class="p">)</span>
+                                      <span class="nb">type</span><span class="o">=</span><span class="s">&#39;low&#39;</span><span class="p">)</span>
 
-<span class="c1"># Combine all information in one misfit setup:</span>
-<span class="n">setup</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">MisfitSetup</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;An Example Setup&#39;</span><span class="p">,</span>
+<span class="c"># Combine all information in one misfit setup:</span>
+<span class="n">setup</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">MisfitSetup</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s">&#39;An Example Setup&#39;</span><span class="p">,</span>
                           <span class="n">norm</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                           <span class="n">taper</span><span class="o">=</span><span class="n">taper</span><span class="p">,</span>
                           <span class="nb">filter</span><span class="o">=</span><span class="n">bw_filter</span><span class="p">,</span>
-                          <span class="n">domain</span><span class="o">=</span><span class="s1">&#39;time_domain&#39;</span><span class="p">)</span>
+                          <span class="n">domain</span><span class="o">=</span><span class="s">&#39;time_domain&#39;</span><span class="p">)</span>
 
-<span class="c1"># Calculate misfits of each candidate against the reference trace:</span>
+<span class="c"># Calculate misfits of each candidate against the reference trace:</span>
 <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="p">[</span><span class="n">candidate1</span><span class="p">,</span> <span class="n">candidate2</span><span class="p">]:</span>
     <span class="n">misfit</span> <span class="o">=</span> <span class="n">rt</span><span class="o">.</span><span class="n">misfit</span><span class="p">(</span><span class="n">candidate</span><span class="o">=</span><span class="n">candidate</span><span class="p">,</span> <span class="n">setup</span><span class="o">=</span><span class="n">setup</span><span class="p">)</span>
-    <span class="nb">print</span> <span class="s1">&#39;misfit: </span><span class="si">%s</span><span class="s1">, normalization: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">misfit</span>
+    <span class="nb">print</span> <span class="s">&#39;misfit: %s, normalization: %s&#39;</span> <span class="o">%</span> <span class="n">misfit</span>
 
-<span class="c1"># Finally, dump the misfit setup that has been used as a yaml file for later</span>
-<span class="c1"># re-use:</span>
-<span class="n">setup</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;my_misfit_setup.txt&#39;</span><span class="p">)</span>
+<span class="c"># Finally, dump the misfit setup that has been used as a yaml file for later</span>
+<span class="c"># re-use:</span>
+<span class="n">setup</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&#39;my_misfit_setup.txt&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>If we wanted to reload our misfit setup, <code class="xref py py-mod docutils literal"><span class="pre">pyrocko.guts</span></code> provides the
 <code class="docutils literal"><span class="pre">iload_all()</span></code> method for that purpose:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko.guts</span> <span class="k">import</span> <span class="n">load</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko.guts</span> <span class="k">import</span> <span class="n">load</span>
 <span class="kn">from</span> <span class="nn">pyrocko.trace</span> <span class="k">import</span> <span class="n">MisfitSetup</span>
 
-<span class="n">setup</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;my_misfit_setup.txt&#39;</span><span class="p">)</span>
+<span class="n">setup</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&#39;my_misfit_setup.txt&#39;</span><span class="p">)</span>
 
-<span class="c1"># now we can change, for example, the domain:</span>
-<span class="n">setup</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="s1">&#39;frequency_domain&#39;</span>
+<span class="c"># now we can change, for example, the domain:</span>
+<span class="n">setup</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="s">&#39;frequency_domain&#39;</span>
 
 <span class="nb">print</span> <span class="n">setup</span>
 </pre></div>
@@ -443,12 +443,12 @@ files through the <code class="docutils literal"><span class="pre">evalresp</spa
 (<a class="reference download internal" href="../../_downloads/STS2-Generic.polezero.txt" download=""><code class="xref download docutils literal"><span class="pre">STS2-Generic.polezero.txt</span></code></a>) to
 deconvolve the transfer function from an example seismogram:</p>
 <p><a class="reference download internal" href="../../_downloads/trace_handling_example_pz.py" download=""><code class="xref download docutils literal"><span class="pre">trace_handling_example_pz.py</span></code></a></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">pz</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">trace</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">pz</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">trace</span>
 
-<span class="c1"># read poles and zeros from SAC format pole-zero file</span>
-<span class="n">zeros</span><span class="p">,</span> <span class="n">poles</span><span class="p">,</span> <span class="n">constant</span> <span class="o">=</span> <span class="n">pz</span><span class="o">.</span><span class="n">read_sac_zpk</span><span class="p">(</span><span class="s1">&#39;STS2-Generic.polezero.txt&#39;</span><span class="p">)</span>
+<span class="c"># read poles and zeros from SAC format pole-zero file</span>
+<span class="n">zeros</span><span class="p">,</span> <span class="n">poles</span><span class="p">,</span> <span class="n">constant</span> <span class="o">=</span> <span class="n">pz</span><span class="o">.</span><span class="n">read_sac_zpk</span><span class="p">(</span><span class="s">&#39;STS2-Generic.polezero.txt&#39;</span><span class="p">)</span>
 
-<span class="c1"># one more zero to convert from velocity-&gt;counts to displacement-&gt;counts</span>
+<span class="c"># one more zero to convert from velocity-&gt;counts to displacement-&gt;counts</span>
 <span class="n">zeros</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.0</span><span class="n">j</span><span class="p">)</span>
 
 <span class="n">rest_sts2</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">PoleZeroResponse</span><span class="p">(</span>
@@ -456,22 +456,22 @@ deconvolve the transfer function from an example seismogram:</p>
     <span class="n">poles</span><span class="o">=</span><span class="n">poles</span><span class="p">,</span>
     <span class="n">constant</span><span class="o">=</span><span class="n">constant</span><span class="p">)</span>
 
-<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;test.mseed&#39;</span><span class="p">)</span>
+<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;test.mseed&#39;</span><span class="p">)</span>
 <span class="n">out_traces</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">traces</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
 
     <span class="n">displacement</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">transfer</span><span class="p">(</span>
-        <span class="mf">1000.</span><span class="p">,</span>                    <span class="c1"># rise and fall of time window taper in [s]</span>
-        <span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.002</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">),</span>  <span class="c1"># frequency domain taper in [Hz]</span>
+        <span class="mf">1000.</span><span class="p">,</span>                    <span class="c"># rise and fall of time window taper in [s]</span>
+        <span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.002</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">),</span>  <span class="c"># frequency domain taper in [Hz]</span>
         <span class="n">transfer_function</span><span class="o">=</span><span class="n">rest_sts2</span><span class="p">,</span>
-        <span class="n">invert</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>              <span class="c1"># to change to (counts-&gt;displacement)</span>
+        <span class="n">invert</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>              <span class="c"># to change to (counts-&gt;displacement)</span>
 
-    <span class="c1"># change channel id, so we can distinguish the traces in a trace viewer.</span>
-    <span class="n">displacement</span><span class="o">.</span><span class="n">set_codes</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="o">+</span><span class="n">tr</span><span class="o">.</span><span class="n">channel</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c"># change channel id, so we can distinguish the traces in a trace viewer.</span>
+    <span class="n">displacement</span><span class="o">.</span><span class="n">set_codes</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="s">&#39;D&#39;</span><span class="o">+</span><span class="n">tr</span><span class="o">.</span><span class="n">channel</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
     <span class="n">out_traces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">displacement</span><span class="p">)</span>
 
-<span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">out_traces</span><span class="p">,</span> <span class="s1">&#39;displacement.mseed&#39;</span><span class="p">)</span>
+<span class="n">io</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">out_traces</span><span class="p">,</span> <span class="s">&#39;displacement.mseed&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

@@ -89,7 +89,7 @@ tool</em>&#8221;).</p>
 <h2>Invocation and online help<a class="headerlink" href="#invocation-and-online-help" title="Permalink to this headline">¶</a></h2>
 <p>Fomosto is a command line program. A brief help overview is shown, when it is
 started without any arguments.</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto
 <span class="go">Usage: fomosto &lt;subcommand&gt; &lt;arguments&gt; ... [options]</span>
 
 <span class="go">Subcommands:</span>
@@ -151,16 +151,16 @@ make
 make install</div></blockquote>
 <p>In this example, we will use QSEIS as the modelling code.</p>
 <p>To initialize an empty Green&#8217;s function store to be built with QSEIS 2006a run:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto init qseis.2006a my_first_gfs
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto init qseis.2006a my_first_gfs
 </pre></div>
 </div>
 <p>to use a different backend, e.g. QSSP 2010, run:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto init qssp.2010 my_first_gfs
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto init qssp.2010 my_first_gfs
 </pre></div>
 </div>
 <p>A directory named <code class="docutils literal"><span class="pre">my_first_gfs</span></code>, containing some example configuration files
 is created:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">my_first_gfs/</span>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">my_first_gfs/</span>
 <span class="go">|-- config       # (1)</span>
 <span class="go">`-- extra/</span>
 <span class="go">    `-- qseis    # (2)</span>
@@ -174,7 +174,7 @@ configuration files are disussed in the next section.  The default
 configuration produced by the <code class="docutils literal"><span class="pre">fomosto</span> <span class="pre">init</span></code> command can be used without any
 modifications for a quick functional test.</p>
 <p>First step is to create tabulated phase arrivals:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> my_first_gfs
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> <span class="nb">cd </span>my_first_gfs
 <span class="gp">$</span> fomosto ttt
 <span class="go">...</span>
 <span class="gp">$</span> ls phases/
@@ -184,14 +184,14 @@ modifications for a quick functional test.</p>
 <p>These tabulated phase arrivals are later, in the <em>build</em> step, used to cut the
 generated Green&#8217;s function traces before insertion into the database.</p>
 <p>Now, we can calculate the Green&#8217;s function traces:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto build
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto build
 </pre></div>
 </div>
 <p>Green&#8217;s functions are built in parallel, if possible. The number of worker processes
 may be limited with the <code class="docutils literal"><span class="pre">--nworkers=N</span></code> option.</p>
 <p>We now have a complete Green&#8217;s function store, ready to be used. This is the
 directory structure of the store:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">my_first_gfs/         # this directory represents the GF store</span>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">my_first_gfs/         # this directory represents the GF store</span>
 <span class="go">|-- config            # general settings</span>
 <span class="go">|-- decimated/        # directory for decimated variants of the store</span>
 <span class="go">|-- extra/            # any extra meta information is in here</span>
@@ -213,20 +213,20 @@ functions.</p>
 <div class="section" id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
 <p>These are the initial contents of the <code class="docutils literal"><span class="pre">config</span></code> file:</p>
-<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="nn">---</span> <span class="kt">!pyrocko.gf.meta.ConfigTypeA</span>  <span class="c1"># this type is for cylindrical symmetry with</span>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="nn">---</span> <span class="kt">!pyrocko</span><span class="l-Scalar-Plain">.gf.meta.ConfigTypeA</span>  <span class="c1"># this type is for cylindrical symmetry with</span>
                                   <span class="c1"># receivers all at the same depth</span>
 
 <span class="c1"># this label should be set to something unique if the GF store should be published</span>
-<span class="l l-Scalar l-Scalar-Plain">id</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">my_qseis_gf_store</span>
+<span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">my_qseis_gf_store</span>
 
 <span class="c1"># indicates, that QSEIS is/was used for the modelling</span>
-<span class="l l-Scalar l-Scalar-Plain">modelling_code_id</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">qseis</span>
+<span class="l-Scalar-Plain">modelling_code_id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">qseis</span>
 
 <span class="c1"># a layered earth model, used for modelling of the Green&#39;s functions</span>
 <span class="c1"># and for calculation of phase arrivals. Format is the &#39;nd&#39; format</span>
 <span class="c1"># as used in cake.</span>
 
-<span class="l l-Scalar l-Scalar-Plain">earthmodel_1d</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">|2</span>  <span class="c1"># &#39;|2&#39; means that a text block indented with 2 blanks follows</span>
+<span class="l-Scalar-Plain">earthmodel_1d</span><span class="p-Indicator">:</span> <span class="p-Indicator">|2</span>  <span class="c1"># &#39;|2&#39; means that a text block indented with 2 blanks follows</span>
       <span class="no">0.             5.8            3.46           2.6         1264.           600.</span>
      <span class="no">20.             5.8            3.46           2.6         1264.           600.</span>
      <span class="no">20.             6.5            3.85           2.9         1283.           600.</span>
@@ -236,53 +236,53 @@ functions.</p>
 
      <span class="no">...</span>
 
-<span class="l l-Scalar l-Scalar-Plain">sample_rate</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.2</span>  <span class="c1"># [Hz]</span>
-<span class="l l-Scalar l-Scalar-Plain">ncomponents</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>   <span class="c1"># number of Green&#39;s function components (always use 10 with QSEIS).</span>
+<span class="l-Scalar-Plain">sample_rate</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.2</span>  <span class="c1"># [Hz]</span>
+<span class="l-Scalar-Plain">ncomponents</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">10</span>   <span class="c1"># number of Green&#39;s function components (always use 10 with QSEIS).</span>
 
 <span class="c1"># travel time tables are calculated for the phase arrivals defined below</span>
 <span class="c1"># the travel time tables can be referenced at other points in the configuration</span>
 <span class="c1"># by their id</span>
-<span class="l l-Scalar l-Scalar-Plain">tabulated_phases</span><span class="p p-Indicator">:</span>
-<span class="p p-Indicator">-</span> <span class="kt">!pyrocko.gf.meta.TPDef</span>
-  <span class="l l-Scalar l-Scalar-Plain">id</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">begin</span>
-  <span class="l l-Scalar l-Scalar-Plain">definition</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">p,P,p\,P\,Pv_(cmb)p</span>     <span class="c1"># phase defintions in *cake* syntax, first available arrival is used</span>
-<span class="p p-Indicator">-</span> <span class="kt">!pyrocko.gf.meta.TPDef</span>
-  <span class="l l-Scalar l-Scalar-Plain">id</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">end</span>
-  <span class="l l-Scalar l-Scalar-Plain">definition</span><span class="p p-Indicator">:</span> <span class="s">&#39;2.5&#39;</span>                   <span class="c1"># this simply means 2.5 km/s horizontal velocity</span>
-<span class="p p-Indicator">-</span> <span class="kt">!pyrocko.gf.meta.TPDef</span>
-  <span class="l l-Scalar l-Scalar-Plain">id</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">P</span>
-  <span class="l l-Scalar l-Scalar-Plain">definition</span><span class="p p-Indicator">:</span> <span class="s">&#39;!P&#39;</span>                    <span class="c1"># exclamation mark: a *cake classic phase name* follows</span>
+<span class="l-Scalar-Plain">tabulated_phases</span><span class="p-Indicator">:</span>
+<span class="p-Indicator">-</span> <span class="kt">!pyrocko</span><span class="l-Scalar-Plain">.gf.meta.TPDef</span>
+  <span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">begin</span>
+  <span class="l-Scalar-Plain">definition</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">p,P,p\,P\,Pv_(cmb)p</span>     <span class="c1"># phase defintions in *cake* syntax, first available arrival is used</span>
+<span class="p-Indicator">-</span> <span class="kt">!pyrocko</span><span class="l-Scalar-Plain">.gf.meta.TPDef</span>
+  <span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">end</span>
+  <span class="l-Scalar-Plain">definition</span><span class="p-Indicator">:</span> <span class="s">&#39;2.5&#39;</span>                   <span class="c1"># this simply means 2.5 km/s horizontal velocity</span>
+<span class="p-Indicator">-</span> <span class="kt">!pyrocko</span><span class="l-Scalar-Plain">.gf.meta.TPDef</span>
+  <span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">P</span>
+  <span class="l-Scalar-Plain">definition</span><span class="p-Indicator">:</span> <span class="s">&#39;!P&#39;</span>                    <span class="c1"># exclamation mark: a *cake classic phase name* follows</span>
 
-  <span class="l l-Scalar l-Scalar-Plain">...</span>
+  <span class="l-Scalar-Plain">...</span>
 
 <span class="c1"># uniform receiver depth with this type of GF config</span>
-<span class="l l-Scalar l-Scalar-Plain">receiver_depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>  <span class="c1"># [m]</span>
+<span class="l-Scalar-Plain">receiver_depth</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.0</span>  <span class="c1"># [m]</span>
 
 <span class="c1"># extents and spacing of the GF traces [m]</span>
-<span class="l l-Scalar l-Scalar-Plain">source_depth_min</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10000.0</span>
-<span class="l l-Scalar l-Scalar-Plain">source_depth_max</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">20000.0</span>
-<span class="l l-Scalar l-Scalar-Plain">source_depth_delta</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10000.0</span>
-<span class="l l-Scalar l-Scalar-Plain">distance_min</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">100000.0</span>
-<span class="l l-Scalar l-Scalar-Plain">distance_max</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1000000.0</span>
-<span class="l l-Scalar l-Scalar-Plain">distance_delta</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">10000.0</span>
+<span class="l-Scalar-Plain">source_depth_min</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">10000.0</span>
+<span class="l-Scalar-Plain">source_depth_max</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">20000.0</span>
+<span class="l-Scalar-Plain">source_depth_delta</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">10000.0</span>
+<span class="l-Scalar-Plain">distance_min</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">100000.0</span>
+<span class="l-Scalar-Plain">distance_max</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1000000.0</span>
+<span class="l-Scalar-Plain">distance_delta</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">10000.0</span>
 </pre></div>
 </div>
 <p>Details about the structures in the <code class="docutils literal"><span class="pre">config</span></code> file are given in the
 documentation of the <a class="reference internal" href="../../library/reference/gf.html#module-pyrocko.gf.meta" title="pyrocko.gf.meta"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.gf.meta</span></code></a> module. In this case, e.g. see
 the class <a class="reference internal" href="../../library/reference/gf.html#pyrocko.gf.meta.ConfigTypeA" title="pyrocko.gf.meta.ConfigTypeA"><code class="xref py py-class docutils literal"><span class="pre">pyrocko.gf.meta.ConfigTypeA</span></code></a>.</p>
 <p>The initial contents of the QSEIS specific configuration file <code class="docutils literal"><span class="pre">extra/qseis</span></code>:</p>
-<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="nn">---</span> <span class="kt">!pyrocko.fomosto.qseis.QSeisConfig</span> <span class="c1">#</span>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="nn">---</span> <span class="kt">!pyrocko</span><span class="l-Scalar-Plain">.fomosto.qseis.QSeisConfig</span> <span class="c1">#</span>
 
 <span class="c1"># with the folowing setting, Green&#39;s functions will be calculated for (at</span>
 <span class="c1"># least) the time region between  &#39;begin&#39; minus 50 seconds to &#39;end&#39; plus 100</span>
 <span class="c1"># seconds, where &#39;begin&#39; and  &#39;end&#39; are tabulated phases as defined in the</span>
 <span class="c1"># main configuration</span>
 
-<span class="l l-Scalar l-Scalar-Plain">time_region</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="nv">begin-50</span><span class="p p-Indicator">,</span> <span class="nv">end+100</span><span class="p p-Indicator">]</span>  <span class="c1"># see note below</span>
+<span class="l-Scalar-Plain">time_region</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">begin-50</span><span class="p-Indicator">,</span> <span class="nv">end+100</span><span class="p-Indicator">]</span>  <span class="c1"># see note below</span>
 
 <span class="c1"># cut the Green&#39;s functions to the same time span</span>
 
-<span class="l l-Scalar l-Scalar-Plain">cut</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="nv">begin-50</span><span class="p p-Indicator">,</span> <span class="nv">end+100</span><span class="p p-Indicator">]</span>  <span class="c1"># see note below</span>
+<span class="l-Scalar-Plain">cut</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">begin-50</span><span class="p-Indicator">,</span> <span class="nv">end+100</span><span class="p-Indicator">]</span>  <span class="c1"># see note below</span>
 
 <span class="c1"># following docs are excerpts from the QSEIS documentation</span>
 
@@ -290,7 +290,7 @@ the class <a class="reference internal" href="../../library/reference/gf.html#py
 <span class="c1"># modelling; 1 or 2 = suggested when using a slowness window with narrow</span>
 <span class="c1"># taper range - a technique for suppressing space-domain aliasing)</span>
 
-<span class="l l-Scalar l-Scalar-Plain">sw_algorithm</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="l-Scalar-Plain">sw_algorithm</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0</span>
 
 <span class="c1"># 4 parameters for low and high slowness (Note 1) cut-offs [s/km] with</span>
 <span class="c1"># tapering: 0 &lt; slw1 &lt; slw2 defining cosine taper at the lower end, and 0 &lt;</span>
@@ -298,13 +298,13 @@ the class <a class="reference internal" href="../../library/reference/gf.html#py
 <span class="c1"># will be used in case of inconsistent input of the cut-offs (possibly with</span>
 <span class="c1"># much more computational effort)</span>
 
-<span class="l l-Scalar l-Scalar-Plain">slowness_window</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="nv">0.0</span><span class="p p-Indicator">,</span> <span class="nv">0.0</span><span class="p p-Indicator">,</span> <span class="nv">0.0</span><span class="p p-Indicator">,</span> <span class="nv">0.0</span><span class="p p-Indicator">]</span>    <span class="c1"># [s/km]</span>
+<span class="l-Scalar-Plain">slowness_window</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">0.0</span><span class="p-Indicator">,</span> <span class="nv">0.0</span><span class="p-Indicator">,</span> <span class="nv">0.0</span><span class="p-Indicator">,</span> <span class="nv">0.0</span><span class="p-Indicator">]</span>    <span class="c1"># [s/km]</span>
 
 <span class="c1"># parameter for sampling rate of the wavenumber integration (1 = sampled</span>
 <span class="c1"># with the spatial Nyquist frequency, 2 = sampled with twice higher than</span>
 <span class="c1"># the Nyquist, and so on: the larger this parameter, the smaller the space-k</span>
 
-<span class="l l-Scalar l-Scalar-Plain">wavenumber_sampling</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">2.5</span>
+<span class="l-Scalar-Plain">wavenumber_sampling</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">2.5</span>
 
 <span class="c1"># the factor for suppressing time domain aliasing (&gt; 0 and &lt;= 1) The</span>
 <span class="c1"># suppression of the time domain aliasing is achieved by using the complex</span>
@@ -312,14 +312,14 @@ the class <a class="reference internal" href="../../library/reference/gf.html#py
 <span class="c1"># 1. If this factor is set to 0.1, for example, the aliasing phase at the</span>
 <span class="c1"># reduced time begin is suppressed to 10%.</span>
 
-<span class="l l-Scalar l-Scalar-Plain">aliasing_suppression_factor</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.1</span>
+<span class="l-Scalar-Plain">aliasing_suppression_factor</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.1</span>
 
 <span class="c1"># switch for filtering free surface effects (0 = with free surface, i.e.,</span>
 <span class="c1"># do not select this filter; 1 = without free surface; 2 = without free</span>
 <span class="c1"># surface but with correction on amplitude and wave form. Note switch 2</span>
 <span class="c1"># can only be used for receivers at the surface)</span>
 
-<span class="l l-Scalar l-Scalar-Plain">filter_surface_effects</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="l-Scalar-Plain">filter_surface_effects</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0</span>
 
 <span class="c1"># switch for filtering waves with a shallow penetration depth (concerning</span>
 <span class="c1"># their whole trace from source to receiver), penetration depth limit [km]</span>
@@ -328,31 +328,31 @@ the class <a class="reference internal" href="../../library/reference/gf.html#py
 <span class="c1"># selecting this filter is that the given shallow path depth limit should</span>
 <span class="c1"># be larger than both source and receiver depth.</span>
 
-<span class="l l-Scalar l-Scalar-Plain">filter_shallow_paths</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span>
-<span class="l l-Scalar l-Scalar-Plain">filter_shallow_paths_depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>  <span class="c1"># [km]</span>
+<span class="l-Scalar-Plain">filter_shallow_paths</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0</span>
+<span class="l-Scalar-Plain">filter_shallow_paths_depth</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.0</span>  <span class="c1"># [km]</span>
 
 <span class="c1"># switch for flat-earth-transform</span>
 
-<span class="l l-Scalar l-Scalar-Plain">sw_flat_earth_transform</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="l-Scalar-Plain">sw_flat_earth_transform</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
 
 <span class="c1"># gradient resolution [%] of vp, vs, and density, if &lt;= 0, then default</span>
 <span class="c1"># values (depending on wave length at cut-off frequency) will be used</span>
 
-<span class="l l-Scalar l-Scalar-Plain">gradient_resolution_vp</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
-<span class="l l-Scalar l-Scalar-Plain">gradient_resolution_vs</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
-<span class="l l-Scalar l-Scalar-Plain">gradient_resolution_density</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="l-Scalar-Plain">gradient_resolution_vp</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.0</span>
+<span class="l-Scalar-Plain">gradient_resolution_vs</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.0</span>
+<span class="l-Scalar-Plain">gradient_resolution_density</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.0</span>
 
 <span class="c1"># wavelet duration [unit = time sample rather than sec!], that is about</span>
 <span class="c1"># equal to the half-amplitude cut-off period of the wavelet (&gt; 0. if &lt;= 0,</span>
 <span class="c1"># then default value = 2 time samples will be used)</span>
 
-<span class="l l-Scalar l-Scalar-Plain">wavelet_duration_samples</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.001</span>
+<span class="l-Scalar-Plain">wavelet_duration_samples</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.001</span>
 
 <span class="c1"># switch for the wavelet form (0 = user&#39;s own wavelet; 1 = default wavelet:</span>
 <span class="c1"># normalized square half-sinusoid for simulating a physical delta impulse;</span>
 <span class="c1"># 2 = tapered Heaviside wavelet, i.e. integral of wavelet 1)</span>
 
-<span class="l l-Scalar l-Scalar-Plain">wavelet_type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="l-Scalar-Plain">wavelet_type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">2</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -364,13 +364,13 @@ example configuration is described in <a class="reference internal" href="../../
 tabulated phase arrivals or the Green&#8217;s functions. By default, fomosto will
 refuse to overwrite any GF store content. Use the <code class="docutils literal"><span class="pre">--force</span></code> option to override
 this behaviour:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto ttt --force
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto ttt --force
 <span class="gp">$</span> fomosto build --force
 </pre></div>
 </div>
 <p>When debugging problems with the GF modelling setup, it can be helpful to
 increase the verbosity of the program:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto build --loglevel<span class="o">=</span>debug --nworkers<span class="o">=</span><span class="m">1</span>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto build --loglevel<span class="o">=</span>debug --nworkers<span class="o">=</span>1
 </pre></div>
 </div>
 <p>This will show in more detail, e.g. what input is generated for the modelling
@@ -408,11 +408,11 @@ effort.</p>
 <p>To quickly visualize selected Green&#8217;s function traces use Fomosto&#8217;s <em>view</em>
 subcommand.  Run the following command to show the Green&#8217;s function traces for
 ten equally spaced distances:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto view --extract<span class="o">=</span><span class="s1">&#39;20k,@10&#39;</span>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto view --extract<span class="o">=</span><span class="s1">&#39;20k,@10&#39;</span>
 </pre></div>
 </div>
 <p>If we are not in the Green&#8217;s function store&#8217;s directory, we can equally use:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto view --extract<span class="o">=</span><span class="s1">&#39;20k,@10&#39;</span> path/to/my_first_gfs
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto view --extract<span class="o">=</span><span class="s1">&#39;20k,@10&#39;</span> path/to/my_first_gfs
 </pre></div>
 </div>
 <p>The extracted traces are shown in a Snuffler window, labeled as <code class="docutils literal"><span class="pre">&lt;counter&gt;</span>
@@ -427,7 +427,7 @@ using QSSP (<code class="docutils literal"><span class="pre">qssp-test</span></c
 <span class="pre">init</span> <span class="pre">...</span></code> have been used, only the sampling rate has been changed to 1 Hz in
 both.  To compare some traces of the two Green&#8217;s function stores append both
 their directory names to the view command:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto view qseis-test qssp-test --extract<span class="o">=</span><span class="s1">&#39;20k,@5&#39;</span>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto view qseis-test qssp-test --extract<span class="o">=</span><span class="s1">&#39;20k,@5&#39;</span>
 </pre></div>
 </div>
 <p>Rearranging the view in Snuffler a bit, we can quickly spot some differences:</p>
@@ -444,7 +444,7 @@ problems.</p>
 <div class="section" id="report-subcommand">
 <h2>Report subcommand<a class="headerlink" href="#report-subcommand" title="Permalink to this headline">¶</a></h2>
 <p>The report subcommand will create a pdf document containing an artefacts report, displacement seismograms, velocity seismograms (optional), maximum amplitude graphs for seismograms, spectrum graphs, earth model graphs and the contents of the Green&#8217;s function configuration file.  Each set of seismograms will contain five graphs with increasing amplitude scales.  To view the subcommands of report, it can be ran without any arguments from the command line.</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto report
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto report
 <span class="go">Create a pdf of displacment and velocity traces, max. amplitude of traces</span>
 <span class="go">and displacment spectra for Green&#39;s function stores.</span>
 
@@ -484,15 +484,15 @@ problems.</p>
 <div class="section" id="configuration-file-for-report-subcommand">
 <h2>Configuration file for Report subcommand<a class="headerlink" href="#configuration-file-for-report-subcommand" title="Permalink to this headline">¶</a></h2>
 <p>Here is a minimal configuration file (to be used with the <code class="docutils literal"><span class="pre">fomosto</span> <span class="pre">report</span> <span class="pre">single</span></code> command).  If wanting to use the <code class="docutils literal"><span class="pre">fomosto</span> <span class="pre">report</span> <span class="pre">double</span></code> command, just copy/paste the entire contents below the existing contents, and change only the <code class="docutils literal"><span class="pre">store_dir</span></code> path.  To see a full configuration file, use the <code class="docutils literal"><span class="pre">output</span></code> option on any of the <code class="docutils literal"><span class="pre">fomosto</span> <span class="pre">report</span></code> subcommands.</p>
-<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="nn">---</span> <span class="kt">!gft.GreensFunctionTest</span>  <span class="c1"># this line is a must</span>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="nn">---</span> <span class="kt">!gft</span><span class="l-Scalar-Plain">.GreensFunctionTest</span>  <span class="c1"># this line is a must</span>
 
 <span class="c1"># needs to point to the main directory of the Green&#39;s function store</span>
-<span class="l l-Scalar l-Scalar-Plain">store_dir</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">/home/willey/src/gf_stores/iceland_reg_v2</span>
+<span class="l-Scalar-Plain">store_dir</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/home/willey/src/gf_stores/iceland_reg_v2</span>
 
 <span class="c1"># optional: these will base the applied filters on the sampling rate</span>
 <span class="c1"># of the store</span>
-<span class="l l-Scalar l-Scalar-Plain">rel_lowpass_frequency</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.125</span>
-<span class="l l-Scalar l-Scalar-Plain">rel_highpass_frequency</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.25</span>
+<span class="l-Scalar-Plain">rel_lowpass_frequency</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.125</span>
+<span class="l-Scalar-Plain">rel_highpass_frequency</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.25</span>
 
 <span class="c1"># optional: these will set the absolute frequencys of the applied filters</span>
 <span class="c1"># if neither are set, then the seismograms will not be filtered</span>
@@ -502,91 +502,91 @@ problems.</p>
 <span class="c1"># highpass_frequency: 0.0018</span>
 
 <span class="c1"># a section for the source objects to be used when creating seismograms</span>
-<span class="l l-Scalar l-Scalar-Plain">sources</span><span class="p p-Indicator">:</span>
+<span class="l-Scalar-Plain">sources</span><span class="p-Indicator">:</span>
 
   <span class="c1"># &lt;name&gt;: &lt;type&gt;, the specific source objects to be used, where the names</span>
   <span class="c1"># have to be unique (see pyrocko for available source objects</span>
   <span class="c1"># :py:class:`pyrocko.gf.seismosizer.Source`)</span>
-  <span class="l l-Scalar l-Scalar-Plain">source1</span><span class="p p-Indicator">:</span> <span class="kt">!pf.DCSource</span>
-    <span class="l l-Scalar l-Scalar-Plain">depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">6500.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">strike</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">-90.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">dip</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">90.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">rake</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">-90.0</span>
+  <span class="l-Scalar-Plain">source1</span><span class="p-Indicator">:</span> <span class="kt">!pf</span><span class="l-Scalar-Plain">.DCSource</span>
+    <span class="l-Scalar-Plain">depth</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">6500.0</span>
+    <span class="l-Scalar-Plain">strike</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">-90.0</span>
+    <span class="l-Scalar-Plain">dip</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">90.0</span>
+    <span class="l-Scalar-Plain">rake</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">-90.0</span>
 
 <span class="c1"># a section for the sensor array objects to be used when creating seismograms</span>
-<span class="l l-Scalar l-Scalar-Plain">sensors</span><span class="p p-Indicator">:</span>
+<span class="l-Scalar-Plain">sensors</span><span class="p-Indicator">:</span>
 
   <span class="c1"># &lt;name&gt;: !gft.SensorArray, where the name has to be unique</span>
-  <span class="l l-Scalar l-Scalar-Plain">sensors1</span><span class="p p-Indicator">:</span> <span class="kt">!gft.SensorArray</span>
-    <span class="l l-Scalar l-Scalar-Plain">depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+  <span class="l-Scalar-Plain">sensors1</span><span class="p-Indicator">:</span> <span class="kt">!gft</span><span class="l-Scalar-Plain">.SensorArray</span>
+    <span class="l-Scalar-Plain">depth</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.0</span>
 
-    <span class="c1"># these are the codes for the type of sensors (pyrocko.gf.Target objects)</span>
-    <span class="l l-Scalar l-Scalar-Plain">codes</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;&#39;</span><span class="p p-Indicator">,</span> <span class="nv">STA</span><span class="p p-Indicator">,</span> <span class="s">&#39;&#39;</span><span class="p p-Indicator">,</span> <span class="nv">R</span><span class="p p-Indicator">]</span>
+    <span class="l-Scalar-Plain"># these are the codes for the type of sensors (pyrocko.gf.Target objects)</span>
+    <span class="l-Scalar-Plain">codes</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="s">&#39;&#39;</span><span class="p-Indicator">,</span> <span class="nv">STA</span><span class="p-Indicator">,</span> <span class="s">&#39;&#39;</span><span class="p-Indicator">,</span> <span class="nv">R</span><span class="p-Indicator">]</span>
 
     <span class="c1"># this is the direction [deg] in which the sensor monitors</span>
-    <span class="l l-Scalar l-Scalar-Plain">azimuth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="l-Scalar-Plain">azimuth</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.0</span>
 
     <span class="c1"># this the dip [deg] of the sensor</span>
-    <span class="l l-Scalar l-Scalar-Plain">dip</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="l-Scalar-Plain">dip</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.0</span>
 
     <span class="c1"># minimum/maximum distances [m] for the sensorys to be array at</span>
-    <span class="l l-Scalar l-Scalar-Plain">distance_min</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1000.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">distance_max</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">500000.0</span>
+    <span class="l-Scalar-Plain">distance_min</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1000.0</span>
+    <span class="l-Scalar-Plain">distance_max</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">500000.0</span>
 
     <span class="c1"># the direction [deg] along which the sensors will be arrayed</span>
-    <span class="l l-Scalar l-Scalar-Plain">strike</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
+    <span class="l-Scalar-Plain">strike</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.0</span>
 
     <span class="c1"># amount of sensors per array</span>
-    <span class="l l-Scalar l-Scalar-Plain">sensor_count</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">50</span>
+    <span class="l-Scalar-Plain">sensor_count</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">50</span>
 </pre></div>
 </div>
 <p>If there are multiple source and sensor array objects in the configuration file, then the command will create seismograms for every combination of source and sensor arry.  Example (partial file):</p>
-<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">sources</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">source1</span><span class="p p-Indicator">:</span> <span class="kt">!pf.DCSource</span>
-    <span class="l l-Scalar l-Scalar-Plain">depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">6500.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">strike</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">-90.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">dip</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">90.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">rake</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">-90.0</span>
-  <span class="l l-Scalar l-Scalar-Plain">source2</span><span class="p p-Indicator">:</span> <span class="kt">!pf.DCSource</span>
-    <span class="l l-Scalar l-Scalar-Plain">depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">6500.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">strike</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">45.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">dip</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">90.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">rake</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">180.0</span>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">sources</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">source1</span><span class="p-Indicator">:</span> <span class="kt">!pf</span><span class="l-Scalar-Plain">.DCSource</span>
+    <span class="l-Scalar-Plain">depth</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">6500.0</span>
+    <span class="l-Scalar-Plain">strike</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">-90.0</span>
+    <span class="l-Scalar-Plain">dip</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">90.0</span>
+    <span class="l-Scalar-Plain">rake</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">-90.0</span>
+  <span class="l-Scalar-Plain">source2</span><span class="p-Indicator">:</span> <span class="kt">!pf</span><span class="l-Scalar-Plain">.DCSource</span>
+    <span class="l-Scalar-Plain">depth</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">6500.0</span>
+    <span class="l-Scalar-Plain">strike</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">45.0</span>
+    <span class="l-Scalar-Plain">dip</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">90.0</span>
+    <span class="l-Scalar-Plain">rake</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">180.0</span>
 
-<span class="l l-Scalar l-Scalar-Plain">sensors</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">sensors1</span><span class="p p-Indicator">:</span> <span class="kt">!gft.SensorArray</span>
-    <span class="l l-Scalar l-Scalar-Plain">depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">codes</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;&#39;</span><span class="p p-Indicator">,</span> <span class="nv">STA</span><span class="p p-Indicator">,</span> <span class="s">&#39;&#39;</span><span class="p p-Indicator">,</span> <span class="nv">R</span><span class="p p-Indicator">]</span>
-    <span class="l l-Scalar l-Scalar-Plain">azimuth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">dip</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">distance_min</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1000.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">distance_max</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">500000.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">strike</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">sensor_count</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">50</span>
-  <span class="l l-Scalar l-Scalar-Plain">sensors2</span><span class="p p-Indicator">:</span> <span class="kt">!gft.SensorArray</span>
-    <span class="l l-Scalar l-Scalar-Plain">depth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">codes</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;&#39;</span><span class="p p-Indicator">,</span> <span class="nv">STA</span><span class="p p-Indicator">,</span> <span class="s">&#39;&#39;</span><span class="p p-Indicator">,</span> <span class="nv">Z</span><span class="p p-Indicator">]</span>
-    <span class="l l-Scalar l-Scalar-Plain">azimuth</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">dip</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">90.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">distance_min</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1000.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">distance_max</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">500000.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">strike</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0</span>
-    <span class="l l-Scalar l-Scalar-Plain">sensor_count</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">50</span>
+<span class="l-Scalar-Plain">sensors</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">sensors1</span><span class="p-Indicator">:</span> <span class="kt">!gft</span><span class="l-Scalar-Plain">.SensorArray</span>
+    <span class="l-Scalar-Plain">depth</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.0</span>
+    <span class="l-Scalar-Plain">codes</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="s">&#39;&#39;</span><span class="p-Indicator">,</span> <span class="nv">STA</span><span class="p-Indicator">,</span> <span class="s">&#39;&#39;</span><span class="p-Indicator">,</span> <span class="nv">R</span><span class="p-Indicator">]</span>
+    <span class="l-Scalar-Plain">azimuth</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.0</span>
+    <span class="l-Scalar-Plain">dip</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.0</span>
+    <span class="l-Scalar-Plain">distance_min</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1000.0</span>
+    <span class="l-Scalar-Plain">distance_max</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">500000.0</span>
+    <span class="l-Scalar-Plain">strike</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.0</span>
+    <span class="l-Scalar-Plain">sensor_count</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">50</span>
+  <span class="l-Scalar-Plain">sensors2</span><span class="p-Indicator">:</span> <span class="kt">!gft</span><span class="l-Scalar-Plain">.SensorArray</span>
+    <span class="l-Scalar-Plain">depth</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.0</span>
+    <span class="l-Scalar-Plain">codes</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="s">&#39;&#39;</span><span class="p-Indicator">,</span> <span class="nv">STA</span><span class="p-Indicator">,</span> <span class="s">&#39;&#39;</span><span class="p-Indicator">,</span> <span class="nv">Z</span><span class="p-Indicator">]</span>
+    <span class="l-Scalar-Plain">azimuth</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.0</span>
+    <span class="l-Scalar-Plain">dip</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">90.0</span>
+    <span class="l-Scalar-Plain">distance_min</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1000.0</span>
+    <span class="l-Scalar-Plain">distance_max</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">500000.0</span>
+    <span class="l-Scalar-Plain">strike</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0.0</span>
+    <span class="l-Scalar-Plain">sensor_count</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">50</span>
 </pre></div>
 </div>
 <p>This configuration file will create four sets of seismograms (source1-sensors1, source1-sensor-2, ...), but if you only specific source-sensor array combinations, then use the optional parameter <code class="docutils literal"><span class="pre">trace_configs</span></code> like:</p>
-<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">trace_configs</span><span class="p p-Indicator">:</span>
-<span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class="nv">source1</span><span class="p p-Indicator">,</span> <span class="nv">sensors2</span><span class="p p-Indicator">]</span>
-<span class="p p-Indicator">-</span> <span class="p p-Indicator">[</span><span class="nv">source2</span><span class="p p-Indicator">,</span> <span class="nv">sensors1</span><span class="p p-Indicator">]</span>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">trace_configs</span><span class="p-Indicator">:</span>
+<span class="p-Indicator">-</span> <span class="p-Indicator">[</span><span class="nv">source1</span><span class="p-Indicator">,</span> <span class="nv">sensors2</span><span class="p-Indicator">]</span>
+<span class="p-Indicator">-</span> <span class="p-Indicator">[</span><span class="nv">source2</span><span class="p-Indicator">,</span> <span class="nv">sensors1</span><span class="p-Indicator">]</span>
 </pre></div>
 </div>
 <p>placed at the bottom of the configuration file.  This will only produce the seismograms for the listed combinations.</p>
 <p>To try the configuration file, save to your home directory as <code class="docutils literal"><span class="pre">min_config</span></code>.  Make sure you have the specified Green&#8217;s function store accessible.  Then run:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto report single ~/min_config
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto report single ~/min_config
 </pre></div>
 </div>
 <p>and you will create a pdf file called <code class="docutils literal"><span class="pre">iceland_reg_v2_0.25-0.5Hz.pdf</span></code> in your home directory.  If you want to see what an output configuration file looks like:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto report single ~/min_config --output<span class="o">=</span>~/min_config_full
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto report single ~/min_config --output<span class="o">=</span>~/min_config_full
 </pre></div>
 </div>
 <p>A example displacement seismogram.</p>
@@ -606,22 +606,22 @@ this can lead to less computational effort and lower memory consumption of the
 application.</p>
 <p>We can create downsampled variants of a Green&#8217;s function store with the
 <code class="docutils literal"><span class="pre">fomosto</span> <span class="pre">decimate</span></code> command. For example, running</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto decimate <span class="m">2</span>
-<span class="gp">$</span> fomosto decimate <span class="m">4</span>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto decimate 2
+<span class="gp">$</span> fomosto decimate 4
 </pre></div>
 </div>
 <p>in a store directory creates variants of the database with half and a quater of
 the original sampling rate. The downsampled variants are stored in the
 <code class="docutils literal"><span class="pre">decimated</span></code> subdirectory of the store, so we can again compare the traces
 with</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto view . decimated/2 decimated/4 --extract<span class="o">=</span><span class="s1">&#39;@2,@5&#39;</span>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto view . decimated/2 decimated/4 --extract<span class="o">=</span><span class="s1">&#39;@2,@5&#39;</span>
 </pre></div>
 </div>
 <p>If not only the temporal but also the spacial
 sampling should be reduced, a modified configuration for the downsampled
 variants can be used:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cp config config.2.temp
-<span class="gp">$</span> <span class="c1"># edit config2.temp; e.g. double the distance_delta value</span>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> cp config config.2.temp
+<span class="gp">$</span> <span class="c"># edit config2.temp; e.g. double the distance_delta value</span>
 <span class="gp">$</span> fomosto decimate <span class="m">2</span> --config<span class="o">=</span>config.2.temp
 <span class="gp">$</span> rm config.2.temp
 </pre></div>
@@ -637,7 +637,7 @@ and by then copying the relevant traces from the source stores to the target
 store.</p>
 <ol class="arabic">
 <li><p class="first">Create empty copy of <code class="docutils literal"><span class="pre">my_first_gfs</span></code>:</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto init redeploy my_first_gfs derived
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto init redeploy my_first_gfs derived
 </pre></div>
 </div>
 </li>
@@ -646,7 +646,7 @@ store.</p>
 </li>
 <li><p class="first">Copy traces from <code class="docutils literal"><span class="pre">my_first_gfs</span></code> to <code class="docutils literal"><span class="pre">derived</span></code>. Only traces at
 nodes which are present in both stores are copied.</p>
-<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> fomosto redeploy my_first_gfs derived
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> fomosto redeploy my_first_gfs derived
 </pre></div>
 </div>
 </li>

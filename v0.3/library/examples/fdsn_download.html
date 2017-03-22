@@ -64,54 +64,54 @@
 <p>The following demo explains how to download waveform data and instrument
 response information. Latter is used to deconvolve the transfer function from
 the waveform traces in a second step.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko.fdsn</span> <span class="k">import</span> <span class="n">ws</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko.fdsn</span> <span class="k">import</span> <span class="n">ws</span>
 <span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">util</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">trace</span>
 
-<span class="n">tmin</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">stt</span><span class="p">(</span><span class="s1">&#39;2014-01-01 16:10:00.000&#39;</span><span class="p">)</span>
-<span class="n">tmax</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">stt</span><span class="p">(</span><span class="s1">&#39;2014-01-01 16:39:59.000&#39;</span><span class="p">)</span>
+<span class="n">tmin</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">stt</span><span class="p">(</span><span class="s">&#39;2014-01-01 16:10:00.000&#39;</span><span class="p">)</span>
+<span class="n">tmax</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">stt</span><span class="p">(</span><span class="s">&#39;2014-01-01 16:39:59.000&#39;</span><span class="p">)</span>
 
-<span class="c1"># select stations by their NSLC id and wildcards (asterisk)</span>
+<span class="c"># select stations by their NSLC id and wildcards (asterisk)</span>
 <span class="n">selection</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;HMDT&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span><span class="p">),</span>    <span class="c1"># all available components</span>
-    <span class="p">(</span><span class="s1">&#39;GE&#39;</span><span class="p">,</span> <span class="s1">&#39;EIL&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;*Z&#39;</span><span class="p">,</span> <span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span><span class="p">),</span>   <span class="c1"># all vertical components</span>
+    <span class="p">(</span><span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="s">&#39;HMDT&#39;</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span><span class="p">),</span>    <span class="c"># all available components</span>
+    <span class="p">(</span><span class="s">&#39;GE&#39;</span><span class="p">,</span> <span class="s">&#39;EIL&#39;</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">,</span> <span class="s">&#39;*Z&#39;</span><span class="p">,</span> <span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span><span class="p">),</span>   <span class="c"># all vertical components</span>
 <span class="p">]</span>
 
-<span class="c1"># setup a waveform data request</span>
-<span class="n">request_waveform</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">dataselect</span><span class="p">(</span><span class="n">site</span><span class="o">=</span><span class="s1">&#39;geofon&#39;</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="n">selection</span><span class="p">)</span>
+<span class="c"># setup a waveform data request</span>
+<span class="n">request_waveform</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">dataselect</span><span class="p">(</span><span class="n">site</span><span class="o">=</span><span class="s">&#39;geofon&#39;</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="n">selection</span><span class="p">)</span>
 
-<span class="c1"># write the incoming data stream to &#39;traces.mseed&#39;</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;traces.mseed&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="c"># write the incoming data stream to &#39;traces.mseed&#39;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;traces.mseed&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
     <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">request_waveform</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 
-<span class="c1"># request meta data</span>
+<span class="c"># request meta data</span>
 <span class="n">request_response</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="n">station</span><span class="p">(</span>
-    <span class="n">site</span><span class="o">=</span><span class="s1">&#39;geofon&#39;</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="n">selection</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s1">&#39;response&#39;</span><span class="p">)</span>
+    <span class="n">site</span><span class="o">=</span><span class="s">&#39;geofon&#39;</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="n">selection</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s">&#39;response&#39;</span><span class="p">)</span>
 
-<span class="c1"># save the response in YAML and StationXML format</span>
-<span class="n">request_response</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;responses.yaml&#39;</span><span class="p">)</span>
-<span class="n">request_response</span><span class="o">.</span><span class="n">dump_xml</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;responses.xml&#39;</span><span class="p">)</span>
+<span class="c"># save the response in YAML and StationXML format</span>
+<span class="n">request_response</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&#39;responses.yaml&#39;</span><span class="p">)</span>
+<span class="n">request_response</span><span class="o">.</span><span class="n">dump_xml</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&#39;responses.xml&#39;</span><span class="p">)</span>
 
-<span class="c1"># Loop through retrieved waveforms and request meta information</span>
-<span class="c1"># for each trace</span>
-<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;traces.mseed&#39;</span><span class="p">)</span>
+<span class="c"># Loop through retrieved waveforms and request meta information</span>
+<span class="c"># for each trace</span>
+<span class="n">traces</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;traces.mseed&#39;</span><span class="p">)</span>
 <span class="n">displacement</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
     <span class="n">polezero_response</span> <span class="o">=</span> <span class="n">request_response</span><span class="o">.</span><span class="n">get_pyrocko_response</span><span class="p">(</span>
         <span class="n">nslc</span><span class="o">=</span><span class="n">tr</span><span class="o">.</span><span class="n">nslc_id</span><span class="p">,</span>
         <span class="n">timespan</span><span class="o">=</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">tmin</span><span class="p">,</span> <span class="n">tr</span><span class="o">.</span><span class="n">tmax</span><span class="p">),</span>
-        <span class="n">fake_input_units</span><span class="o">=</span><span class="s1">&#39;M&#39;</span><span class="p">)</span>       <span class="c1"># (Required for consistent responses</span>
-                                    <span class="c1"># throughout entire data set)</span>
+        <span class="n">fake_input_units</span><span class="o">=</span><span class="s">&#39;M&#39;</span><span class="p">)</span>       <span class="c"># (Required for consistent responses</span>
+                                    <span class="c"># throughout entire data set)</span>
 
-    <span class="c1"># deconvolve transfer function</span>
+    <span class="c"># deconvolve transfer function</span>
     <span class="n">restituted</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">transfer</span><span class="p">(</span>
         <span class="n">tfade</span><span class="o">=</span><span class="mf">2.</span><span class="p">,</span>
         <span class="n">freqlimits</span><span class="o">=</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">),</span>
         <span class="n">transfer_function</span><span class="o">=</span><span class="n">polezero_response</span><span class="p">,</span>
-        <span class="n">invert</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">invert</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
     <span class="n">displacement</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">restituted</span><span class="p">)</span>
 
-<span class="c1"># Inspect waveforms using Snuffler</span>
+<span class="c"># Inspect waveforms using Snuffler</span>
 <span class="n">trace</span><span class="o">.</span><span class="n">snuffle</span><span class="p">(</span><span class="n">displacement</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -122,38 +122,38 @@ the waveform traces in a second step.</p>
 Pyrocko use the <a class="reference internal" href="../reference/fdsn.html#module-pyrocko.fdsn.station" title="pyrocko.fdsn.station"><code class="xref py py-mod docutils literal"><span class="pre">pyrocko.fdsn.station</span></code></a> module.  This example will
 change the azimuth and dip values for channels whose codes are X, Y and Z, and
 set all channel instrument&#8217;s input units to meters.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">pyrocko.fdsn</span> <span class="k">import</span> <span class="n">station</span> <span class="k">as</span> <span class="n">fs</span>
 
-<span class="c1"># load the StationXML data file passed</span>
+<span class="c"># load the StationXML data file passed</span>
 <span class="n">sx</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">load_xml</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
 <span class="n">comp_to_azi_dip</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">),</span>
-    <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">90.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">),</span>
-    <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">90.</span><span class="p">),</span>
+    <span class="s">&#39;X&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">),</span>
+    <span class="s">&#39;Y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">90.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">),</span>
+    <span class="s">&#39;Z&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="o">-</span><span class="mf">90.</span><span class="p">),</span>
 <span class="p">}</span>
 
-<span class="c1"># step through all the networks within the data file</span>
+<span class="c"># step through all the networks within the data file</span>
 <span class="k">for</span> <span class="n">network</span> <span class="ow">in</span> <span class="n">sx</span><span class="o">.</span><span class="n">network_list</span><span class="p">:</span>
 
-    <span class="c1"># step through all the stations per networks</span>
+    <span class="c"># step through all the stations per networks</span>
     <span class="k">for</span> <span class="n">station</span> <span class="ow">in</span> <span class="n">network</span><span class="o">.</span><span class="n">station_list</span><span class="p">:</span>
 
-        <span class="c1"># step through all the channels per stations</span>
+        <span class="c"># step through all the channels per stations</span>
         <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="n">station</span><span class="o">.</span><span class="n">channel_list</span><span class="p">:</span>
             <span class="n">azi</span><span class="p">,</span> <span class="n">dip</span> <span class="o">=</span> <span class="n">comp_to_azi_dip</span><span class="p">[</span><span class="n">channel</span><span class="o">.</span><span class="n">code</span><span class="p">]</span>
 
-            <span class="c1"># change the azimuth and dip of the channel per channel alpha</span>
-            <span class="c1"># code</span>
+            <span class="c"># change the azimuth and dip of the channel per channel alpha</span>
+            <span class="c"># code</span>
             <span class="n">channel</span><span class="o">.</span><span class="n">azimuth</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">azi</span>
             <span class="n">channel</span><span class="o">.</span><span class="n">dip</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">dip</span>
 
-            <span class="c1"># set the instrument input units to &#39;M&#39;eters</span>
-            <span class="n">channel</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">instrument_sensitivity</span><span class="o">.</span><span class="n">input_units</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;M&#39;</span>
+            <span class="c"># set the instrument input units to &#39;M&#39;eters</span>
+            <span class="n">channel</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">instrument_sensitivity</span><span class="o">.</span><span class="n">input_units</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;M&#39;</span>
 
-<span class="c1"># save as new StationXML file</span>
-<span class="n">sx</span><span class="o">.</span><span class="n">dump_xml</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;changed.xml&#39;</span><span class="p">)</span>
+<span class="c"># save as new StationXML file</span>
+<span class="n">sx</span><span class="o">.</span><span class="n">dump_xml</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&#39;changed.xml&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

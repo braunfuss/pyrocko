@@ -65,13 +65,13 @@ in Bode plot style using Matplotlib.</p>
 <li><a class="reference download internal" href="../../_downloads/test_response_plot.py" download=""><code class="xref download docutils literal"><span class="pre">test_response_plot.py</span></code></a></li>
 <li><a class="reference download internal" href="../../_downloads/test_response.resp" download=""><code class="xref download docutils literal"><span class="pre">test_response.resp</span></code></a></li>
 </ul>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">response_plot</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">response_plot</span>
 
 <span class="n">resps</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">response_plot</span><span class="o">.</span><span class="n">load_response_information</span><span class="p">(</span>
-    <span class="s1">&#39;test_response.resp&#39;</span><span class="p">,</span> <span class="s1">&#39;resp&#39;</span><span class="p">)</span>
+    <span class="s">&#39;test_response.resp&#39;</span><span class="p">,</span> <span class="s">&#39;resp&#39;</span><span class="p">)</span>
 
 <span class="n">response_plot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">responses</span><span class="o">=</span><span class="n">resps</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;test_response.png&#39;</span><span class="p">,</span>
+    <span class="n">responses</span><span class="o">=</span><span class="n">resps</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s">&#39;test_response.png&#39;</span><span class="p">,</span>
     <span class="n">fmin</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">400.</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mf">75.</span><span class="p">)</span>
 </pre></div>
 </div>

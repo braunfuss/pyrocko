@@ -54,12 +54,12 @@
           <div class="body" role="main">
             
   <h1>Source code for pyrocko.hamster_pile</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">pile</span><span class="p">,</span> <span class="n">io</span>
+<span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">pile</span><span class="p">,</span> <span class="n">io</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">trace</span> <span class="k">as</span> <span class="n">tracemod</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;pyrocko.hamster_pile&#39;</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;pyrocko.hamster_pile&#39;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Processor"><a class="viewcode-back" href="../../library/reference/hamster_pile.html#pyrocko.hamster_pile.Processor">[docs]</a><span class="k">class</span> <span class="nc">Processor</span><span class="p">:</span>
@@ -73,7 +73,7 @@
 
         <span class="n">nslc</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">nslc_id</span>
         <span class="k">if</span> <span class="n">nslc</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffers</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="k">None</span>
 
         <span class="n">trbuf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffers</span><span class="p">[</span><span class="n">nslc</span><span class="p">]</span>
         <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">((</span><span class="n">trbuf</span><span class="o">.</span><span class="n">tmax</span><span class="o">+</span><span class="n">trbuf</span><span class="o">.</span><span class="n">deltat</span><span class="p">)</span> <span class="o">-</span> <span class="n">trace</span><span class="o">.</span><span class="n">tmin</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.0e-1</span><span class="o">*</span><span class="n">trbuf</span><span class="o">.</span><span class="n">deltat</span>
@@ -81,7 +81,7 @@
                 <span class="ow">and</span> <span class="n">trbuf</span><span class="o">.</span><span class="n">deltat</span> <span class="o">==</span> <span class="n">trace</span><span class="o">.</span><span class="n">deltat</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">trbuf</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
+            <span class="k">return</span> <span class="k">None</span></div>
 
 <div class="viewcode-block" id="Processor.set_buffer"><a class="viewcode-back" href="../../library/reference/hamster_pile.html#pyrocko.hamster_pile.Processor.set_buffer">[docs]</a>    <span class="k">def</span> <span class="nf">set_buffer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trace</span><span class="p">):</span>
         <span class="n">nslc</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">nslc_id</span>
@@ -103,7 +103,7 @@
 
 <div class="viewcode-block" id="Renamer.process"><a class="viewcode-back" href="../../library/reference/hamster_pile.html#pyrocko.hamster_pile.Renamer.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trace</span><span class="p">):</span>
         <span class="n">target_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">target_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">target_id</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
 
         <span class="n">out</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -128,13 +128,13 @@
 <div class="viewcode-block" id="Downsampler"><a class="viewcode-back" href="../../library/reference/hamster_pile.html#pyrocko.hamster_pile.Downsampler">[docs]</a><span class="k">class</span> <span class="nc">Downsampler</span><span class="p">(</span><span class="n">Processor</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">deltat</span><span class="p">):</span>
-        <span class="n">Processor</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">Processor</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_mapping</span> <span class="o">=</span> <span class="n">mapping</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_downsampler</span> <span class="o">=</span> <span class="n">tracemod</span><span class="o">.</span><span class="n">co_downsample_to</span><span class="p">(</span><span class="n">deltat</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Downsampler.process"><a class="viewcode-back" href="../../library/reference/hamster_pile.html#pyrocko.hamster_pile.Downsampler.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trace</span><span class="p">):</span>
         <span class="n">target_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapping</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">target_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">target_id</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
 
         <span class="n">ds_trace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_downsampler</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
@@ -150,13 +150,13 @@
 
 <div class="viewcode-block" id="Grower"><a class="viewcode-back" href="../../library/reference/hamster_pile.html#pyrocko.hamster_pile.Grower">[docs]</a><span class="k">class</span> <span class="nc">Grower</span><span class="p">(</span><span class="n">Processor</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tflush</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">Processor</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tflush</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
+        <span class="n">Processor</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tflush</span> <span class="o">=</span> <span class="n">tflush</span>
 
 <div class="viewcode-block" id="Grower.process"><a class="viewcode-back" href="../../library/reference/hamster_pile.html#pyrocko.hamster_pile.Grower.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trace</span><span class="p">):</span>
         <span class="n">buffer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_buffer</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">buffer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">buffer</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
             <span class="n">buffer</span> <span class="o">=</span> <span class="n">trace</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_buffer</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -174,19 +174,19 @@
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="n">fixation_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;from_extension&#39;</span><span class="p">,</span>
-            <span class="n">forget_fixed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">processors</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="n">fixation_length</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
+            <span class="n">path</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
+            <span class="nb">format</span><span class="o">=</span><span class="s">&#39;from_extension&#39;</span><span class="p">,</span>
+            <span class="n">forget_fixed</span><span class="o">=</span><span class="k">False</span><span class="p">,</span>
+            <span class="n">processors</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
 
-        <span class="n">pile</span><span class="o">.</span><span class="n">Pile</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_buffers</span> <span class="o">=</span> <span class="p">{}</span>          <span class="c1"># keys: nslc,  values: MemTracesFile</span>
+        <span class="n">pile</span><span class="o">.</span><span class="n">Pile</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_buffers</span> <span class="o">=</span> <span class="p">{}</span>          <span class="c"># keys: nslc,  values: MemTracesFile</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_fixation_length</span> <span class="o">=</span> <span class="n">fixation_length</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">=</span> <span class="nb">format</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_forget_fixed</span> <span class="o">=</span> <span class="n">forget_fixed</span>
-        <span class="k">if</span> <span class="n">processors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">processors</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_processors</span> <span class="o">=</span> <span class="p">[</span><span class="n">Processor</span><span class="p">()]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_processors</span> <span class="o">=</span> <span class="p">[]</span>
@@ -199,12 +199,12 @@
 <span class="sd">        The length should be given in seconds. Give None to disable.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fixate_all</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_fixation_length</span> <span class="o">=</span> <span class="n">l</span>   <span class="c1"># in seconds</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fixation_length</span> <span class="o">=</span> <span class="n">l</span>   <span class="c"># in seconds</span></div>
 
 <div class="viewcode-block" id="HamsterPile.set_save_path"><a class="viewcode-back" href="../../library/reference/hamster_pile.html#pyrocko.hamster_pile.HamsterPile.set_save_path">[docs]</a>    <span class="k">def</span> <span class="nf">set_save_path</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="n">path</span><span class="o">=</span><span class="s1">&#39;dump_</span><span class="si">%(network)s</span><span class="s1">.</span><span class="si">%(station)s</span><span class="s1">.</span><span class="si">%(location)s</span><span class="s1">.</span><span class="si">%(channel)s</span><span class="s1">_&#39;</span>
-                 <span class="s1">&#39;</span><span class="si">%(tmin)s</span><span class="s1">_</span><span class="si">%(tmax)s</span><span class="s1">.mseed&#39;</span><span class="p">):</span>
+            <span class="n">path</span><span class="o">=</span><span class="s">&#39;dump_%(network)s.%(station)s.%(location)s.%(channel)s_&#39;</span>
+                 <span class="s">&#39;%(tmin)s_%(tmax)s.mseed&#39;</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">fixate_all</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">path</span></div>
@@ -214,7 +214,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_processors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">processor</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HamsterPile.insert_trace"><a class="viewcode-back" href="../../library/reference/hamster_pile.html#pyrocko.hamster_pile.HamsterPile.insert_trace">[docs]</a>    <span class="k">def</span> <span class="nf">insert_trace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trace</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Received a trace: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">trace</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Received a trace: %s&#39;</span> <span class="o">%</span> <span class="n">trace</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_processors</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">trace</span><span class="p">):</span>
@@ -224,18 +224,18 @@
         <span class="n">buf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_append_to_buffer</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
         <span class="n">nslc</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">nslc_id</span>
 
-        <span class="k">if</span> <span class="n">buf</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># create new buffer trace</span>
+        <span class="k">if</span> <span class="n">buf</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>  <span class="c"># create new buffer trace</span>
             <span class="k">if</span> <span class="n">nslc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffers</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_fixate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_buffers</span><span class="p">[</span><span class="n">nslc</span><span class="p">])</span>
 
             <span class="n">trbuf</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-            <span class="n">buf</span> <span class="o">=</span> <span class="n">pile</span><span class="o">.</span><span class="n">MemTracesFile</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="n">trbuf</span><span class="p">])</span>
+            <span class="n">buf</span> <span class="o">=</span> <span class="n">pile</span><span class="o">.</span><span class="n">MemTracesFile</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="p">[</span><span class="n">trbuf</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_file</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_buffers</span><span class="p">[</span><span class="n">nslc</span><span class="p">]</span> <span class="o">=</span> <span class="n">buf</span>
 
         <span class="n">buf</span><span class="o">.</span><span class="n">recursive_grow_update</span><span class="p">([</span><span class="n">trace</span><span class="p">])</span>
         <span class="n">trbuf</span> <span class="o">=</span> <span class="n">buf</span><span class="o">.</span><span class="n">get_traces</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fixation_length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fixation_length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">trbuf</span><span class="o">.</span><span class="n">tmax</span> <span class="o">-</span> <span class="n">trbuf</span><span class="o">.</span><span class="n">tmin</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fixation_length</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_fixate</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
                 <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffers</span><span class="p">[</span><span class="n">nslc</span><span class="p">]</span>
@@ -248,7 +248,7 @@
 
         <span class="n">nslc</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">nslc_id</span>
         <span class="k">if</span> <span class="n">nslc</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffers</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="k">None</span>
 
         <span class="n">buf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffers</span><span class="p">[</span><span class="n">nslc</span><span class="p">]</span>
         <span class="n">trbuf</span> <span class="o">=</span> <span class="n">buf</span><span class="o">.</span><span class="n">get_traces</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
@@ -259,7 +259,7 @@
             <span class="n">trbuf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">ydata</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">buf</span>
 
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="k">None</span>
 
 <div class="viewcode-block" id="HamsterPile.fixate_all"><a class="viewcode-back" href="../../library/reference/hamster_pile.html#pyrocko.hamster_pile.HamsterPile.fixate_all">[docs]</a>    <span class="k">def</span> <span class="nf">fixate_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">buf</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffers</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
@@ -275,14 +275,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">remove_file</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forget_fixed</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">load_files</span><span class="p">(</span>
-                    <span class="n">fns</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fileformat</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_format</span><span class="p">)</span>
+                    <span class="n">fns</span><span class="p">,</span> <span class="n">show_progress</span><span class="o">=</span><span class="k">False</span><span class="p">,</span> <span class="n">fileformat</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_format</span><span class="p">)</span>
 
-<div class="viewcode-block" id="HamsterPile.drop_older"><a class="viewcode-back" href="../../library/reference/hamster_pile.html#pyrocko.hamster_pile.HamsterPile.drop_older">[docs]</a>    <span class="k">def</span> <span class="nf">drop_older</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmax</span><span class="p">,</span> <span class="n">delete_disk_files</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="HamsterPile.drop_older"><a class="viewcode-back" href="../../library/reference/hamster_pile.html#pyrocko.hamster_pile.HamsterPile.drop_older">[docs]</a>    <span class="k">def</span> <span class="nf">drop_older</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmax</span><span class="p">,</span> <span class="n">delete_disk_files</span><span class="o">=</span><span class="k">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span>
             <span class="n">condition</span><span class="o">=</span><span class="k">lambda</span> <span class="n">file</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">tmax</span> <span class="o">&lt;</span> <span class="n">tmax</span><span class="p">,</span>
             <span class="n">delete_disk_files</span><span class="o">=</span><span class="n">delete_disk_files</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="HamsterPile.drop"><a class="viewcode-back" href="../../library/reference/hamster_pile.html#pyrocko.hamster_pile.HamsterPile.drop">[docs]</a>    <span class="k">def</span> <span class="nf">drop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">condition</span><span class="p">,</span> <span class="n">delete_disk_files</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="HamsterPile.drop"><a class="viewcode-back" href="../../library/reference/hamster_pile.html#pyrocko.hamster_pile.HamsterPile.drop">[docs]</a>    <span class="k">def</span> <span class="nf">drop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">condition</span><span class="p">,</span> <span class="n">delete_disk_files</span><span class="o">=</span><span class="k">False</span><span class="p">):</span>
         <span class="n">candidates</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">buffers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffers</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter_files</span><span class="p">():</span>

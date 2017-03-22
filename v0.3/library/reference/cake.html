@@ -407,9 +407,9 @@ discontinuity</li>
 </ul>
 </div></blockquote>
 <p><strong>Usage:</strong></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyrocko.cake</span> <span class="k">import</span> <span class="n">PhaseDef</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyrocko.cake</span> <span class="k">import</span> <span class="n">PhaseDef</span>
 <span class="go"># must escape the backslash</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">my_crazy_phase</span> <span class="o">=</span> <span class="n">PhaseDef</span><span class="p">(</span><span class="s1">&#39;pPv(moho)sP</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_crazy_phase</span> <span class="o">=</span> <span class="n">PhaseDef</span><span class="p">(</span><span class="s">&#39;pPv(moho)sP</span><span class="se">\\</span><span class="s">&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">my_crazy_phase</span>
 <span class="go">Phase definition &quot;pPv(moho)sP&quot;:</span>
 <span class="go"> - P mode propagation, departing upward</span>
@@ -532,7 +532,7 @@ returned</li>
 </tbody>
 </table>
 <p>The scatter matrix is ordered as follows:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">PP</span><span class="p">,</span> <span class="n">PS</span><span class="p">],</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="p">[[</span><span class="n">PP</span><span class="p">,</span> <span class="n">PS</span><span class="p">],</span>
  <span class="p">[</span><span class="n">SP</span><span class="p">,</span> <span class="n">SS</span><span class="p">]]</span>
 </pre></div>
 </div>
@@ -569,7 +569,7 @@ returned</li>
 </tbody>
 </table>
 <p>The scatter matrix is ordered as follows:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">P1P1</span><span class="p">,</span> <span class="n">S1P1</span><span class="p">,</span> <span class="n">P2P1</span><span class="p">,</span> <span class="n">S2P1</span><span class="p">],</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="p">[[</span><span class="n">P1P1</span><span class="p">,</span> <span class="n">S1P1</span><span class="p">,</span> <span class="n">P2P1</span><span class="p">,</span> <span class="n">S2P1</span><span class="p">],</span>
  <span class="p">[</span><span class="n">P1S1</span><span class="p">,</span> <span class="n">S1S1</span><span class="p">,</span> <span class="n">P2S1</span><span class="p">,</span> <span class="n">S2S1</span><span class="p">],</span>
  <span class="p">[</span><span class="n">P1P2</span><span class="p">,</span> <span class="n">S1P2</span><span class="p">,</span> <span class="n">P2P2</span><span class="p">,</span> <span class="n">S2P2</span><span class="p">],</span>
  <span class="p">[</span><span class="n">P1S2</span><span class="p">,</span> <span class="n">S1S2</span><span class="p">,</span> <span class="n">P2S2</span><span class="p">,</span> <span class="n">S2S2</span><span class="p">]]</span>
@@ -1492,7 +1492,7 @@ for siliciclastic rocks (i.e. sandstones and shales). [Castagna et al.,
 <dt id="pyrocko.cake.filled">
 <code class="descname">filled</code><span class="sig-paren">(</span><em>v</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/pyrocko/cake.html#filled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyrocko.cake.filled" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create NumPy array filled with given value.</p>
-<p>This works like <code class="xref py py-func docutils literal"><span class="pre">numpy.ones()</span></code> but initializes the array with <code class="docutils literal"><span class="pre">v</span></code>
+<p>This works like <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ones.html#numpy.ones" title="(in NumPy v1.12)"><code class="xref py py-func docutils literal"><span class="pre">numpy.ones()</span></code></a> but initializes the array with <code class="docutils literal"><span class="pre">v</span></code>
 instead of ones.</p>
 </dd></dl>
 

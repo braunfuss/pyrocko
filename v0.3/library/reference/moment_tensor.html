@@ -72,7 +72,7 @@
 <p>Transforms <a class="reference internal" href="#pyrocko.moment_tensor.MomentTensor" title="pyrocko.moment_tensor.MomentTensor"><code class="xref py py-class docutils literal"><span class="pre">MomentTensor</span></code></a> objects, tuples, lists and NumPy arrays
 with 3x3 or 3, 4, 6, or 7 elements into NumPy 3x3 matrix objects.</p>
 <p>The following parameter sequences and objects are supported:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">strike</span><span class="p">,</span> <span class="n">dip</span><span class="p">,</span> <span class="n">rake</span><span class="p">]</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="p">[</span><span class="n">strike</span><span class="p">,</span> <span class="n">dip</span><span class="p">,</span> <span class="n">rake</span><span class="p">]</span>
 <span class="p">[</span><span class="n">strike</span><span class="p">,</span> <span class="n">dip</span><span class="p">,</span> <span class="n">rake</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">]</span>
 <span class="p">[</span><span class="n">mnn</span><span class="p">,</span> <span class="n">mee</span><span class="p">,</span> <span class="n">mdd</span><span class="p">,</span> <span class="n">mne</span><span class="p">,</span> <span class="n">mnd</span><span class="p">,</span> <span class="n">med</span><span class="p">]</span>
 <span class="p">[</span><span class="n">mnn</span><span class="p">,</span> <span class="n">mee</span><span class="p">,</span> <span class="n">mdd</span><span class="p">,</span> <span class="n">mne</span><span class="p">,</span> <span class="n">mnd</span><span class="p">,</span> <span class="n">med</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">]</span>
@@ -104,7 +104,7 @@ planes.</p>
 </tbody>
 </table>
 <p>Usage for moment tensors:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m_unrot</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">m_unrot</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
 <span class="n">euler_to_matrix</span><span class="p">(</span><span class="n">dip</span><span class="p">,</span><span class="n">strike</span><span class="p">,</span><span class="o">-</span><span class="n">rake</span><span class="p">,</span> <span class="n">rotmat</span><span class="p">)</span>
 <span class="n">m</span> <span class="o">=</span> <span class="n">rotmat</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">m_unrot</span> <span class="o">*</span> <span class="n">rotmat</span>
 </pre></div>
@@ -257,7 +257,7 @@ distributed in the space of rotations.</p>
 or NumPy array with 3x3 or 3, 4, 6, or 7 elements to build a Moment
 tensor object.</p>
 <p>The <code class="docutils literal"><span class="pre">values</span></code> argument is interpreted depending on shape as follows:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">strike</span><span class="p">,</span> <span class="n">dip</span><span class="p">,</span> <span class="n">rake</span><span class="p">]</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="p">[</span><span class="n">strike</span><span class="p">,</span> <span class="n">dip</span><span class="p">,</span> <span class="n">rake</span><span class="p">]</span>
 <span class="p">[</span><span class="n">strike</span><span class="p">,</span> <span class="n">dip</span><span class="p">,</span> <span class="n">rake</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">]</span>
 <span class="p">[</span><span class="n">mnn</span><span class="p">,</span> <span class="n">mee</span><span class="p">,</span> <span class="n">mdd</span><span class="p">,</span> <span class="n">mne</span><span class="p">,</span> <span class="n">mnd</span><span class="p">,</span> <span class="n">med</span><span class="p">]</span>
 <span class="p">[</span><span class="n">mnn</span><span class="p">,</span> <span class="n">mee</span><span class="p">,</span> <span class="n">mdd</span><span class="p">,</span> <span class="n">mne</span><span class="p">,</span> <span class="n">mnd</span><span class="p">,</span> <span class="n">med</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">]</span>
@@ -400,7 +400,7 @@ moment for non-double-couple moment tensors.</p>
 <dd><p>Decompose moment tensor into isotropic, DC and CLVD components.</p>
 <p>Standard decomposition according to e.g. Jost and Herrmann 1989 is
 returned as:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="p">[</span>
     <span class="p">(</span><span class="n">moment_iso</span><span class="p">,</span> <span class="n">ratio_iso</span><span class="p">,</span> <span class="n">m_iso</span><span class="p">),</span>
     <span class="p">(</span><span class="n">moment_dc</span><span class="p">,</span> <span class="n">ratio_dc</span><span class="p">,</span> <span class="n">m_dc</span><span class="p">),</span>
     <span class="p">(</span><span class="n">moment_clvd</span><span class="p">,</span> <span class="n">ratio_clvd</span><span class="p">,</span> <span class="n">m_clvd</span><span class="p">),</span>

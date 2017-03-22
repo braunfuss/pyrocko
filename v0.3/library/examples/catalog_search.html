@@ -64,15 +64,15 @@
 <h2>Searching the GlobalCMT catalog<a class="headerlink" href="#searching-the-globalcmt-catalog" title="Permalink to this headline">¶</a></h2>
 <p>This example demonstrates how to query the <a class="reference external" href="http://www.globalcmt.org/">GlobalCMT</a> <a class="footnote-reference" href="#f1" id="id1">[1]</a> database for events which occurred in 2011
 in northern Chile.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">catalog</span><span class="p">,</span> <span class="n">util</span><span class="p">,</span> <span class="n">model</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">catalog</span><span class="p">,</span> <span class="n">util</span><span class="p">,</span> <span class="n">model</span>
 
-<span class="n">tmin</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">str_to_time</span><span class="p">(</span><span class="s1">&#39;2011-01-01 00:00:00&#39;</span><span class="p">)</span>  <span class="c1"># beginning time of query</span>
-<span class="n">tmax</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">str_to_time</span><span class="p">(</span><span class="s1">&#39;2011-12-31 23:59:59&#39;</span><span class="p">)</span>
+<span class="n">tmin</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">str_to_time</span><span class="p">(</span><span class="s">&#39;2011-01-01 00:00:00&#39;</span><span class="p">)</span>  <span class="c"># beginning time of query</span>
+<span class="n">tmax</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">str_to_time</span><span class="p">(</span><span class="s">&#39;2011-12-31 23:59:59&#39;</span><span class="p">)</span>
 
-<span class="c1"># create an instance of the global CMT catalog</span>
+<span class="c"># create an instance of the global CMT catalog</span>
 <span class="n">global_cmt_catalog</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">GlobalCMT</span><span class="p">()</span>
 
-<span class="c1"># query the catalog</span>
+<span class="c"># query the catalog</span>
 <span class="n">events</span> <span class="o">=</span> <span class="n">global_cmt_catalog</span><span class="o">.</span><span class="n">get_events</span><span class="p">(</span>
     <span class="n">time_range</span><span class="o">=</span><span class="p">(</span><span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span><span class="p">),</span>
     <span class="n">magmin</span><span class="o">=</span><span class="mf">2.</span><span class="p">,</span>
@@ -81,16 +81,16 @@ in northern Chile.</p>
     <span class="n">lonmin</span><span class="o">=-</span><span class="mf">76.</span><span class="p">,</span>
     <span class="n">lonmax</span><span class="o">=-</span><span class="mf">65.</span><span class="p">)</span>
 
-<span class="nb">print</span> <span class="s1">&#39;Downloaded </span><span class="si">%s</span><span class="s1"> events&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
-<span class="nb">print</span> <span class="s1">&#39;The last one is:&#39;</span>
+<span class="nb">print</span> <span class="s">&#39;Downloaded %s events&#39;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s">&#39;The last one is:&#39;</span>
 <span class="nb">print</span> <span class="n">events</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-<span class="c1"># dump events to catalog</span>
-<span class="n">model</span><span class="o">.</span><span class="n">dump_events</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="s1">&#39;northern_chile_events.txt&#39;</span><span class="p">)</span>
+<span class="c"># dump events to catalog</span>
+<span class="n">model</span><span class="o">.</span><span class="n">dump_events</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="s">&#39;northern_chile_events.txt&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>We expect to see the following output:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>Downloaded 53 events
+<div class="highlight-default"><div class="highlight"><pre>Downloaded 53 events
 The last one is
 --- !pf.Event
 lat: -28.03
@@ -125,13 +125,13 @@ duration: 5.4
 <p>Search for an event name only in the <a class="reference external" href="http://geofon.gfz-potsdam.de">Geofon</a>
 catalog <a class="footnote-reference" href="#f2" id="id2">[2]</a> using <a class="reference internal" href="../reference/catalog.html#pyrocko.catalog.Geofon" title="pyrocko.catalog.Geofon"><code class="xref py py-meth docutils literal"><span class="pre">Geofon()</span></code></a>, with a given magnitude
 range and timeframe.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">catalog</span><span class="p">,</span> <span class="n">util</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">pyrocko</span> <span class="k">import</span> <span class="n">catalog</span><span class="p">,</span> <span class="n">util</span>
 
-<span class="n">tmin</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">ctimegm</span><span class="p">(</span><span class="s1">&#39;2010-01-12 21:50:00&#39;</span><span class="p">)</span>
-<span class="n">tmax</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">ctimegm</span><span class="p">(</span><span class="s1">&#39;2010-01-13 03:17:00&#39;</span><span class="p">)</span>  <span class="c1"># ending time of query</span>
-<span class="n">mag</span> <span class="o">=</span> <span class="mf">6.</span>                                    <span class="c1"># minimum magntiude (open end)</span>
+<span class="n">tmin</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">ctimegm</span><span class="p">(</span><span class="s">&#39;2010-01-12 21:50:00&#39;</span><span class="p">)</span>
+<span class="n">tmax</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">ctimegm</span><span class="p">(</span><span class="s">&#39;2010-01-13 03:17:00&#39;</span><span class="p">)</span>  <span class="c"># ending time of query</span>
+<span class="n">mag</span> <span class="o">=</span> <span class="mf">6.</span>                                    <span class="c"># minimum magntiude (open end)</span>
 
-<span class="c1"># download event information from GEOFON web page</span>
+<span class="c"># download event information from GEOFON web page</span>
 
 <span class="n">geofon</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">Geofon</span><span class="p">()</span>
 <span class="n">event_names</span> <span class="o">=</span> <span class="n">geofon</span><span class="o">.</span><span class="n">get_event_names</span><span class="p">(</span>
@@ -144,7 +144,7 @@ range and timeframe.</p>
 </pre></div>
 </div>
 <p>We expect to see the following output (in YAML format):</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>--- !pf.Event
+<div class="highlight-default"><div class="highlight"><pre>--- !pf.Event
 lat: 18.37
 lon: -72.55
 time: 2010-01-12 21:53:11

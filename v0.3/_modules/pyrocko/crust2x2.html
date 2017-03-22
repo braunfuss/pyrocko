@@ -54,7 +54,7 @@
           <div class="body" role="main">
             
   <h1>Source code for pyrocko.crust2x2</h1><div class="highlight"><pre>
-<span></span><span class="sd">&#39;&#39;&#39;Interface to use CRUST2.0 model by Laske, Masters and Reif.</span>
+<span class="sd">&#39;&#39;&#39;Interface to use CRUST2.0 model by Laske, Masters and Reif.</span>
 
 <span class="sd">All functions defined in this module return SI units (m, m/s, kg/m^3).</span>
 
@@ -134,8 +134,8 @@
     <span class="sd">&#39;&#39;&#39;Representation of a CRUST2.0 key profile.&#39;&#39;&#39;</span>
 
     <span class="n">layer_names</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s1">&#39;ice&#39;</span><span class="p">,</span> <span class="s1">&#39;water&#39;</span><span class="p">,</span> <span class="s1">&#39;soft sed.&#39;</span><span class="p">,</span> <span class="s1">&#39;hard sed.&#39;</span><span class="p">,</span> <span class="s1">&#39;upper crust&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;middle crust&#39;</span><span class="p">,</span> <span class="s1">&#39;lower crust&#39;</span><span class="p">,</span> <span class="s1">&#39;mantle&#39;</span><span class="p">)</span>
+        <span class="s">&#39;ice&#39;</span><span class="p">,</span> <span class="s">&#39;water&#39;</span><span class="p">,</span> <span class="s">&#39;soft sed.&#39;</span><span class="p">,</span> <span class="s">&#39;hard sed.&#39;</span><span class="p">,</span> <span class="s">&#39;upper crust&#39;</span><span class="p">,</span>
+        <span class="s">&#39;middle crust&#39;</span><span class="p">,</span> <span class="s">&#39;lower crust&#39;</span><span class="p">,</span> <span class="s">&#39;mantle&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ident</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">vp</span><span class="p">,</span> <span class="n">vs</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">thickness</span><span class="p">,</span> <span class="n">elevation</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ident</span> <span class="o">=</span> <span class="n">ident</span>
@@ -144,10 +144,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_vs</span> <span class="o">=</span> <span class="n">vs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_rho</span> <span class="o">=</span> <span class="n">rho</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_thickness</span> <span class="o">=</span> <span class="n">thickness</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_crustal_thickness</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_crustal_thickness</span> <span class="o">=</span> <span class="k">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_elevation</span> <span class="o">=</span> <span class="n">elevation</span>
 
-<div class="viewcode-block" id="Crust2Profile.get_weeded"><a class="viewcode-back" href="../../library/reference/crust2x2.html#pyrocko.crust2x2.Crust2Profile.get_weeded">[docs]</a>    <span class="k">def</span> <span class="nf">get_weeded</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_waterlayer</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Crust2Profile.get_weeded"><a class="viewcode-back" href="../../library/reference/crust2x2.html#pyrocko.crust2x2.Crust2Profile.get_weeded">[docs]</a>    <span class="k">def</span> <span class="nf">get_weeded</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_waterlayer</span><span class="o">=</span><span class="k">False</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Get layers used in the profile.</span>
 
 <span class="sd">        :param include_waterlayer: include water layer if ``True``. Default is</span>
@@ -209,16 +209,16 @@
 
         <span class="n">vvp</span><span class="p">,</span> <span class="n">vvs</span><span class="p">,</span> <span class="n">vrho</span><span class="p">,</span> <span class="n">vthi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">averages</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="s1">&#39;&#39;&#39;type, name:              </span><span class="si">%s</span><span class="s1">, </span><span class="si">%s</span><span class="s1"></span>
-<span class="s1">elevation:               </span><span class="si">%15.5g</span><span class="s1"></span>
-<span class="s1">crustal thickness:       </span><span class="si">%15.5g</span><span class="s1"></span>
-<span class="s1">average vp, vs, rho:     </span><span class="si">%15.5g</span><span class="s1"> </span><span class="si">%15.5g</span><span class="s1"> </span><span class="si">%15.5g</span><span class="s1"></span>
-<span class="s1">mantle ave. vp, vs, rho: </span><span class="si">%15.5g</span><span class="s1"> </span><span class="si">%15.5g</span><span class="s1"> </span><span class="si">%15.5g</span><span class="s1"></span>
+        <span class="k">return</span> <span class="s">&#39;&#39;&#39;type, name:              %s, %s</span>
+<span class="s">elevation:               %15.5g</span>
+<span class="s">crustal thickness:       %15.5g</span>
+<span class="s">average vp, vs, rho:     %15.5g %15.5g %15.5g</span>
+<span class="s">mantle ave. vp, vs, rho: %15.5g %15.5g %15.5g</span>
 
-<span class="si">%s</span><span class="s1">&#39;&#39;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ident</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_elevation</span><span class="p">,</span> <span class="n">vthi</span><span class="p">,</span> <span class="n">vvp</span><span class="p">,</span> <span class="n">vvs</span><span class="p">,</span> <span class="n">vrho</span><span class="p">,</span>
+<span class="s">%s&#39;&#39;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ident</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_elevation</span><span class="p">,</span> <span class="n">vthi</span><span class="p">,</span> <span class="n">vvp</span><span class="p">,</span> <span class="n">vvs</span><span class="p">,</span> <span class="n">vrho</span><span class="p">,</span>
          <span class="bp">self</span><span class="o">.</span><span class="n">_vp</span><span class="p">[</span><span class="n">LBELOWCRUST</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vs</span><span class="p">[</span><span class="n">LBELOWCRUST</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rho</span><span class="p">[</span><span class="n">LBELOWCRUST</span><span class="p">],</span>
-         <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
-             <span class="s1">&#39;</span><span class="si">%15.5g</span><span class="s1"> </span><span class="si">%15.5g</span><span class="s1"> </span><span class="si">%15.5g</span><span class="s1"> </span><span class="si">%15.5g</span><span class="s1">   </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">x</span>
+         <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+             <span class="s">&#39;%15.5g %15.5g %15.5g %15.5g   %s&#39;</span> <span class="o">%</span> <span class="n">x</span>
              <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
                  <span class="bp">self</span><span class="o">.</span><span class="n">_thickness</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vp</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rho</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
                  <span class="n">Crust2Profile</span><span class="o">.</span><span class="n">layer_names</span><span class="p">)]))</span>
@@ -278,20 +278,20 @@
 <span class="sd">            files are used.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">fn_keys</span> <span class="o">=</span> <span class="s1">&#39;CNtype2_key.txt&#39;</span>
-    <span class="n">fn_elevation</span> <span class="o">=</span> <span class="s1">&#39;CNelevatio2.txt&#39;</span>
-    <span class="n">fn_map</span> <span class="o">=</span> <span class="s1">&#39;CNtype2.txt&#39;</span>
+    <span class="n">fn_keys</span> <span class="o">=</span> <span class="s">&#39;CNtype2_key.txt&#39;</span>
+    <span class="n">fn_elevation</span> <span class="o">=</span> <span class="s">&#39;CNelevatio2.txt&#39;</span>
+    <span class="n">fn_map</span> <span class="o">=</span> <span class="s">&#39;CNtype2.txt&#39;</span>
 
     <span class="n">nlo</span> <span class="o">=</span> <span class="mi">180</span>
     <span class="n">nla</span> <span class="o">=</span> <span class="mi">90</span>
 
-    <span class="n">_instance</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_instance</span> <span class="o">=</span> <span class="k">None</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">profile_keys</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_directory</span> <span class="o">=</span> <span class="n">directory</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_typemap</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_typemap</span> <span class="o">=</span> <span class="k">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_load_crustal_model</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Crust2.get_profile"><a class="viewcode-back" href="../../library/reference/crust2x2.html#pyrocko.crust2x2.Crust2.get_profile">[docs]</a>    <span class="k">def</span> <span class="nf">get_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
@@ -323,25 +323,25 @@
 
     <span class="k">def</span> <span class="nf">_load_crustal_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="n">path_keys</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_directory</span><span class="p">,</span> <span class="n">Crust2</span><span class="o">.</span><span class="n">fn_keys</span><span class="p">)</span>
-            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_keys</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_keys</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">pyrocko.crust2x2_data</span> <span class="k">import</span> <span class="n">decode</span><span class="p">,</span> <span class="n">type2_key</span><span class="p">,</span> <span class="n">type2</span><span class="p">,</span> \
                 <span class="n">elevation</span>
 
             <span class="n">f</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">decode</span><span class="p">(</span><span class="n">type2_key</span><span class="p">))</span>
 
-        <span class="c1"># skip header</span>
+        <span class="c"># skip header</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
             <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
 
         <span class="n">profiles</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">while</span> <span class="k">True</span><span class="p">:</span>
             <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="p">:</span>
                 <span class="k">break</span>
-            <span class="n">ident</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">ident</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="k">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
             <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
             <span class="n">vp</span> <span class="o">=</span> <span class="n">_sa2arr</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="o">*</span> <span class="mf">1000.</span>
             <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
@@ -362,13 +362,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_raw_profiles</span> <span class="o">=</span> <span class="n">profiles</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">profile_keys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">profiles</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="n">path_map</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_directory</span><span class="p">,</span> <span class="n">Crust2</span><span class="o">.</span><span class="n">fn_map</span><span class="p">)</span>
-            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_map</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_map</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">f</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">decode</span><span class="p">(</span><span class="n">type2</span><span class="p">))</span>
 
-        <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>  <span class="c1"># header</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>  <span class="c"># header</span>
 
         <span class="n">amap</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">ila</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
@@ -378,9 +378,9 @@
 
         <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
             <span class="n">path_elevation</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_directory</span><span class="p">,</span> <span class="n">Crust2</span><span class="o">.</span><span class="n">fn_elevation</span><span class="p">)</span>
-            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_elevation</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_elevation</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="n">f</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">decode</span><span class="p">(</span><span class="n">elevation</span><span class="p">))</span>
@@ -401,7 +401,7 @@
 <div class="viewcode-block" id="Crust2.instance"><a class="viewcode-back" href="../../library/reference/crust2x2.html#pyrocko.crust2x2.Crust2.instance">[docs]</a>    <span class="k">def</span> <span class="nf">instance</span><span class="p">():</span>
         <span class="sd">&#39;&#39;&#39;Get the global default Crust2 instance.&#39;&#39;&#39;</span>
 
-        <span class="k">if</span> <span class="n">Crust2</span><span class="o">.</span><span class="n">_instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Crust2</span><span class="o">.</span><span class="n">_instance</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
             <span class="n">Crust2</span><span class="o">.</span><span class="n">_instance</span> <span class="o">=</span> <span class="n">Crust2</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">Crust2</span><span class="o">.</span><span class="n">_instance</span></div></div>
@@ -424,34 +424,34 @@
     <span class="k">return</span> <span class="n">crust2</span><span class="o">.</span><span class="n">get_profile</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="plot_crustal_thickness"><a class="viewcode-back" href="../../library/reference/crust2x2.html#pyrocko.crust2x2.plot_crustal_thickness">[docs]</a><span class="k">def</span> <span class="nf">plot_crustal_thickness</span><span class="p">(</span><span class="n">crust2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;crustal_thickness.pdf&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_crustal_thickness"><a class="viewcode-back" href="../../library/reference/crust2x2.html#pyrocko.crust2x2.plot_crustal_thickness">[docs]</a><span class="k">def</span> <span class="nf">plot_crustal_thickness</span><span class="p">(</span><span class="n">crust2</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s">&#39;crustal_thickness.pdf&#39;</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Create a quick and dirty plot of the crustal thicknesses defined in</span>
 <span class="sd">    CRUST2.0.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">if</span> <span class="n">crust2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">crust2</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
         <span class="n">crust2</span> <span class="o">=</span> <span class="n">Crust2</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">crust2</span><span class="o">.</span><span class="n">get_profile</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">)</span><span class="o">.</span><span class="n">crustal_thickness</span><span class="p">(),</span>
 
-    <span class="n">plot</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">zscaled_unit</span><span class="o">=</span><span class="s1">&#39;km&#39;</span><span class="p">,</span> <span class="n">zscaled_unit_factor</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span></div>
+    <span class="n">plot</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">zscaled_unit</span><span class="o">=</span><span class="s">&#39;km&#39;</span><span class="p">,</span> <span class="n">zscaled_unit_factor</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="plot_vp_belowcrust"><a class="viewcode-back" href="../../library/reference/crust2x2.html#pyrocko.crust2x2.plot_vp_belowcrust">[docs]</a><span class="k">def</span> <span class="nf">plot_vp_belowcrust</span><span class="p">(</span><span class="n">crust2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;vp_below_crust.pdf&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_vp_belowcrust"><a class="viewcode-back" href="../../library/reference/crust2x2.html#pyrocko.crust2x2.plot_vp_belowcrust">[docs]</a><span class="k">def</span> <span class="nf">plot_vp_belowcrust</span><span class="p">(</span><span class="n">crust2</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s">&#39;vp_below_crust.pdf&#39;</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Create a quick and dirty plot of vp below the crust, as defined in</span>
 <span class="sd">    CRUST2.0.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">if</span> <span class="n">crust2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">crust2</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
         <span class="n">crust2</span> <span class="o">=</span> <span class="n">Crust2</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">crust2</span><span class="o">.</span><span class="n">get_profile</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">)</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="n">LBELOWCRUST</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
 
-    <span class="n">plot</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">zscaled_unit</span><span class="o">=</span><span class="s1">&#39;km/s&#39;</span><span class="p">,</span> <span class="n">zscaled_unit_factor</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span></div>
+    <span class="n">plot</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">zscaled_unit</span><span class="o">=</span><span class="s">&#39;km/s&#39;</span><span class="p">,</span> <span class="n">zscaled_unit_factor</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="plot"><a class="viewcode-back" href="../../library/reference/crust2x2.html#pyrocko.crust2x2.plot">[docs]</a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -468,7 +468,7 @@
     <span class="n">marg</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.5</span><span class="o">*</span><span class="n">cm</span><span class="p">,</span> <span class="mf">2.5</span><span class="o">*</span><span class="n">cm</span><span class="p">,</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">cm</span><span class="p">,</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">cm</span><span class="p">)</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">gmtpy</span><span class="o">.</span><span class="n">Simple</span><span class="p">(</span>
         <span class="n">width</span><span class="o">=</span><span class="mi">20</span><span class="o">*</span><span class="n">cm</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">10</span><span class="o">*</span><span class="n">cm</span><span class="p">,</span> <span class="n">margins</span><span class="o">=</span><span class="n">marg</span><span class="p">,</span>
-        <span class="n">with_palette</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">with_palette</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="n">p</span><span class="o">.</span><span class="n">density_plot</span><span class="p">(</span><span class="n">gmtpy</span><span class="o">.</span><span class="n">tabledata</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">thickness</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
     <span class="n">p</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span></div>
