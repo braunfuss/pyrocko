@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta content="Pyrocko is an open source seismology environment." name="description" />
-<meta content="Seismology, Earthquake, Geodesy, Earth, Science, Software, Python, software development, open source" name="keywords" />
+<meta content="Seismology, Earthquake, Geodesy, Earth, Science, Software, Python, software development, open source," name="keywords" />
 <meta content="scientists, students, researcher, software developer" name="audience" />
 <meta content="index, follow" name="robots" />
 
@@ -73,7 +73,7 @@ data and dynamic waveforms, or for seismic source characterization.</p>
     <a href="http://www.uni-kiel.de/"><img style="margin-left:1em; height:2em; display:inline-block;" src="_static/logos/cau.svg" /></a>
     <a href="http://www.uni-hamburg.de/"><img style="margin-left:1em; height:2em; display:inline-block;" src="_static/logos/uhh.svg" /></a>
 </div><div class="section" id="pyrocko-framework">
-<h2>Pyrocko Framework<a class="headerlink" href="#pyrocko-framework" title="Permalink to this headline">¶</a></h2>
+<h2>Pyrocko framework<a class="headerlink" href="#pyrocko-framework" title="Permalink to this headline">¶</a></h2>
 <p>At its core, Pyrocko is a library and framework providing building blocks for
 researchers and students wishing to develop there own applications.</p>
 <div class="icon-button-group">
@@ -98,7 +98,7 @@ researchers and students wishing to develop there own applications.</p>
         Support
     </a>
 
-    <a href="http://pyrocko.org/v0.3/library/examples/" class="icon-button">
+    <a href="https://pyrocko.org/v0.3/library/examples/" class="icon-button">
         <i class="fa fa-graduation-cap" aria-hidden="true"></i><br />
         Code examples
     </a>
@@ -116,8 +116,7 @@ the Pyrocko package</a>. Some others are tightly integrated with Pyrocko for spe
         <i class="fa fa-tag" aria-hidden="true"></i>
         <a href="http://pyrocko.org/v0.3/apps/snuffler/">Part of Pyrocko</a>
     </span>
-</div><div class="section" id="seismogram-browser-and-workbench">
-<h4>Seismogram browser and workbench<a class="headerlink" href="#seismogram-browser-and-workbench" title="Permalink to this headline">¶</a></h4>
+</div><p><em>Seismogram browser and workbench</em></p>
 <img alt="_images/snuffler_screenshot.png" class="align-left" src="_images/snuffler_screenshot.png" />
 <p>The Snuffler is an interactive and extendible seismogram browser that is suited for small and very big datasets and archives. It features plugins (called <a class="reference external" href="http://pyrocko.org/v0.3/apps/snuffler/extensions.html">Snufflings</a>), which are helpful
 for broad variety of seismological applications. Features include:</p>
@@ -127,10 +126,10 @@ for broad variety of seismological applications. Features include:</p>
 <li>Beamforming</li>
 <li>Cross-correlation of traces</li>
 </ul>
-<div style="clear:both;">
+<div style="clear: both; padding-top: 0.5em;">
     <span class="tag">
         <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-        <a href="http://pyrocko.org/v0.3/apps/snuffler/tutorial.html">Tutorial</a>
+        <a href="http://pyrocko.org/v0.3/apps_snuffler_tutorial.html">Tutorial</a>
     </span>
 
     <span class="tag">
@@ -138,7 +137,6 @@ for broad variety of seismological applications. Features include:</p>
         <a href="https://github.com/pyrocko/contrib-snufflings">User contributed Snufflings</a>
     </span>
 </div></div>
-</div>
 <div class="section" id="cake">
 <h3>Cake<a class="headerlink" href="#cake" title="Permalink to this headline">¶</a></h3>
 <div class="application-information">
@@ -146,8 +144,7 @@ for broad variety of seismological applications. Features include:</p>
         <i class="fa fa-tag" aria-hidden="true"></i>
         <a href="http://pyrocko.org/v0.3/apps/cake/">Part of Pyrocko</a>
     </span>
-</div><div class="section" id="d-travel-time-and-ray-path-computations">
-<h4>1D travel-time and ray-path computations<a class="headerlink" href="#d-travel-time-and-ray-path-computations" title="Permalink to this headline">¶</a></h4>
+</div><p><em>1D travel-time and ray-path computations</em></p>
 <img alt="_images/cake_plot_example.png" class="align-left" src="_images/cake_plot_example.png" />
 <p>Cake is a very tasty tool that can be used to solve classical seismic ray theory problems
 for layered-earth models (layer cake models). For various seismic phases it can
@@ -160,7 +157,6 @@ calculate:</p>
 </ul>
 <p>Computations are done for a spherical earth.</p>
 </div>
-</div>
 <div class="section" id="fomosto">
 <h3>Fomosto<a class="headerlink" href="#fomosto" title="Permalink to this headline">¶</a></h3>
 <div class="application-information">
@@ -168,17 +164,21 @@ calculate:</p>
         <i class="fa fa-tag" aria-hidden="true"></i>
         <a href="http://pyrocko.org/v0.3/apps/fomosto/">Part of Pyrocko</a>
     </span>
-</div><div class="section" id="calculate-and-manage-green-s-function-databases">
-<h4>Calculate and manage Green&#8217;s function databases<a class="headerlink" href="#calculate-and-manage-green-s-function-databases" title="Permalink to this headline">¶</a></h4>
-<img alt="_images/fomosto2.png" class="align-left" src="_images/fomosto2.png" />
-<p>Calculation of Green’s functions for synthetic seismograms is a computationally expensive operation and it can be of advantage to calculate and store them in advance. Now, for typical application scenarios, the Green’s function traces can be reused as required. Fomosto offers building of flexible Green&#8217;s function databases that can be shared and passed to other researchers, allowing them to focus on their own application rather then spending days of work to get their Green’s function setup ready.</p>
+</div><p><em>Calculate and manage Green&#8217;s function databases</em></p>
+<img alt="_images/fomosto_synthetic.png" class="align-left" src="_images/fomosto_synthetic.png" />
+<p>Calculation of Green’s functions for synthetic seismograms is a computationally
+expensive operation and it can be of advantage to calculate and store them in
+advance. Now, for typical application scenarios, the Green’s function traces
+can be reused as required. Fomosto offers building of flexible Green&#8217;s function
+databases that can be shared and passed to other researchers, allowing them to
+focus on their own application rather then spending days of work to get their
+Green’s function setup ready.</p>
 <div style="clear:both;">
     <span class="tag">
         <i class="fa fa-database" aria-hidden="true"></i>
         <a href="http://kinherd.org:8080/gfws/static/stores/">Online resource of pre-calculated Green's functions</a>
     </span>
 </div></div>
-</div>
 <div class="section" id="jackseis">
 <h3>Jackseis<a class="headerlink" href="#jackseis" title="Permalink to this headline">¶</a></h3>
 <div class="application-information">
@@ -186,11 +186,16 @@ calculate:</p>
         <i class="fa fa-tag" aria-hidden="true"></i>
         <a href="http://pyrocko.org/v0.3/apps/jackseis/">Part of Pyrocko</a>
     </span>
-</div><div class="section" id="waveform-archive-data-manipulation">
-<h4>Waveform archive data manipulation<a class="headerlink" href="#waveform-archive-data-manipulation" title="Permalink to this headline">¶</a></h4>
+</div><p><em>Waveform archive data manipulation</em></p>
 <img alt="_images/jackseis_250x172.png" class="align-left" src="_images/jackseis_250x172.png" />
-<p>Jackseis is a command-line tool for common manipulations of archived waveform data. You can conveniently select/resample/trim or rename seismic data of various formats.</p>
-</div>
+<p>Jackseis is a command-line tool for common manipulations of archived waveform
+datasets. Have it in your pocket to do:</p>
+<ul class="simple">
+<li>File format conversions</li>
+<li>Dataset conversions between day-files, hour-files, etc.</li>
+<li>Batch replacement of waveform meta-information</li>
+<li>Flexible filename and directory hierarchy manipulations</li>
+</ul>
 </div>
 <div class="section" id="grond">
 <h3>Grond<a class="headerlink" href="#grond" title="Permalink to this headline">¶</a></h3>
@@ -199,29 +204,28 @@ calculate:</p>
         <i class="fa fa-cube" aria-hidden="true"></i>
         <a href="http://gitext.gfz-potsdam.de/heimann/grond">Download and Documentation</a>
     </span>
-</div><div class="section" id="earthquake-source-parameter-optimization">
-<h4>Earthquake source parameter optimization<a class="headerlink" href="#earthquake-source-parameter-optimization" title="Permalink to this headline">¶</a></h4>
-<img alt="_images/fomosto_synthetic.png" class="align-left" src="_images/fomosto_synthetic.png" />
-<p>Grond is a bootstrap-based probabilistic battering ram to explore and efficiently converge in solution spaces of earthquake source parameter estimation problems.</p>
-</div>
+</div><p><em>Probabilistic source optimization</em></p>
+<a class="reference internal image-reference" href="_images/grond_moment-tensor.png"><img alt="_images/grond_moment-tensor.png" class="align-left" src="_images/grond_moment-tensor.png" style="width: 150px;" /></a>
+<p>Grond is a bootstrap-based probabilistic battering ram to explore and
+efficiently converge in solution spaces of earthquake source parameter
+estimation problems.</p>
+<ul class="simple">
+<li>Trade-off analysis</li>
+<li>Highly flexible objective function design</li>
+<li>Integrated robust waveform data preprocessing</li>
+<li>Visual inspection of many aspects of the optimization problem</li>
+</ul>
 </div>
 <div class="section" id="kite">
 <h3>Kite<a class="headerlink" href="#kite" title="Permalink to this headline">¶</a></h3>
 <div class="application-information application-standalone">
     <span class="tag">
-        <i class="fa fa-github" aria-hidden="true"></i>
-        <a href="https://github.com/pyrocko/kite">Download</a>
+        <i class="fa fa-cube" aria-hidden="true"></i>
+        <a href="https://github.com/pyrocko/kite">Download and Documentation</a>
     </span>
-</div><div class="section" id="insar-displacement-analysis-and-postprocessing">
-<h4>InSAR displacement analysis and postprocessing<a class="headerlink" href="#insar-displacement-analysis-and-postprocessing" title="Permalink to this headline">¶</a></h4>
+</div><p><em>InSAR displacement analysis and postprocessing</em></p>
 <img alt="_images/spool_screenshot.png" class="align-left" src="_images/spool_screenshot.png" />
 <p>Get your InSAR displacement maps handled the pyrocko way (and prepared for the deformation source analysis in pyrocko). Experience a highly interactive inspection of static displacement fields and data noise. Do easy quadtree data subsampling and data error variance-covariance estimation of InSAR data for proper data weighting in deformation source optimizations.</p>
-<div style="clear:both;">
-    <span class="tag">
-        <i class="fa fa-book" aria-hidden="true"></i>
-        <a href="https://pyrocko.github.io/kite">Documentation</a>
-    </span>
-</div></div>
 </div>
 </div>
 </div>

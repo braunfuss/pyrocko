@@ -662,8 +662,14 @@ ul.simple {
     margin: 0em .5em;
 }
 
-#applications div.section > p {
-    /* margin-top: 0px; */
+#applications div.section p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+#applications span.tag {
+    background-color: #ededed;
+    border: 1px solid #d6d6d6;
 }
 
 div.application-information {
