@@ -173,13 +173,37 @@ def discretize_rect_source(deltas, deltat, strike, dip, length, width,
         anch_north = 0.
         anch_east = 0.
         anch_depth = 0.
+    elif anchor == 'center_left':
+        anch_north = num.cos(strike * d2r) *\
+            num.cos(dip * d2r) * width
+        anch_east = num.sin(strike * d2r) *\
+            num.cos(dip * d2r) * width
+        anch_depth = 0.
+    elif anchor == 'center_right':
+        anch_north = -(num.cos(strike * d2r) *
+                       num.cos(dip * d2r) * width)
+        anch_east = -(num.sin(strike * d2r) *
+                      num.cos(dip * d2r) * width)
+        anch_depth = 0.
     elif anchor == 'top' or anchor == 'bottom':
         anch_north = num.cos(strike * d2r) *\
             num.cos(dip * d2r) * width * .5
         anch_east = num.sin(strike * d2r) *\
             num.cos(dip * d2r) * width * .5
         anch_depth = num.sin(dip * d2r) * width * .5
-    if anchor == 'bottom':
+    elif anchor == 'top_left' or anchor == 'bottom_left':
+        anch_north = num.cos(strike * d2r) *\
+            num.cos(dip * d2r) * width
+        anch_east = num.sin(strike * d2r) *\
+            num.cos(dip * d2r) * width
+        anch_depth = num.sin(dip * d2r) * width * .5
+    elif anchor == 'top_right' or anchor == 'bottom_right':
+        anch_north = -(num.cos(strike * d2r) *
+                       num.cos(dip * d2r) * width)
+        anch_east = -(num.sin(strike * d2r) *
+                      num.cos(dip * d2r) * width)
+        anch_depth = num.sin(dip * d2r) * width * .5
+    if anchor == 'bottom' or 'bottom_left' or 'bottom_right':
         anch_north *= -1.
         anch_east *= -1.
         anch_depth *= -1.
@@ -204,12 +228,38 @@ def outline_rect_source(strike, dip, length, width, anchor):
     if anchor == 'center':
         anch_north = 0.
         anch_east = 0.
+    elif anchor == 'center_left':
+        anch_north = num.cos(strike * d2r) *\
+            num.cos(dip * d2r) * width
+        anch_east = num.sin(strike * d2r) *\
+            num.cos(dip * d2r) * width
+    elif anchor == 'center_right':
+        anch_north = -(num.cos(strike * d2r) *
+                       num.cos(dip * d2r) * width)
+        anch_east = -(num.sin(strike * d2r) *
+                      num.cos(dip * d2r) * width)
     elif anchor == 'top' or anchor == 'bottom':
         anch_north = num.cos(strike * d2r) *\
             num.cos(dip * d2r) * width * .5
         anch_east = num.sin(strike * d2r) *\
             num.cos(dip * d2r) * width * .5
-    if anchor == 'bottom':
+    elif anchor == 'top' or anchor == 'bottom':
+        anch_north = num.cos(strike * d2r) *\
+            num.cos(dip * d2r) * width * .5
+        anch_east = num.sin(strike * d2r) *\
+            num.cos(dip * d2r) * width * .5
+    elif anchor == 'top_left' or anchor == 'bottom_left':
+        anch_north = num.cos(strike * d2r) *\
+            num.cos(dip * d2r) * width
+        anch_east = num.sin(strike * d2r) *\
+            num.cos(dip * d2r) * width
+    elif anchor == 'top_right' or anchor == 'bottom_right':
+        anch_north = num.cos(strike * d2r) *\
+            num.cos(dip * d2r) * width
+        anch_east = num.sin(strike * d2r) *\
+            num.cos(dip * d2r) * width
+
+    if anchor == 'bottom' or 'bottom_left' or 'bottom_right':
         anch_north *= -1.
         anch_east *= -1.
 
@@ -1113,10 +1163,13 @@ class RectangularExplosionSource(ExplosionSource):
         help='width of rectangular source area [m]')
 
     anchor = StringChoice.T(
-        choices=['top', 'center', 'bottom'],
+        choices=['top', 'top_left', 'top_right', 'center', 'bottom',
+                 'bottom_left', 'bottom_right'],
         default='center',
         optional=True,
-        help='Anchor point for positioning the plane.')
+        help='Anchor point for positioning the plane, can be: top, center or'
+             'bottom and also top_left, top_right,bottom_left,'
+             'bottom_right, center_left and center right')
 
     nucleation_x = Float.T(
         optional=True,
@@ -1409,10 +1462,13 @@ class RectangularSource(DCSource):
         help='width of rectangular source area [m]')
 
     anchor = StringChoice.T(
-        choices=['top', 'center', 'bottom'],
+        choices=['top', 'top_left', 'top_right', 'center', 'bottom',
+                 'bottom_left', 'bottom_right'],
         default='center',
         optional=True,
-        help='Anchor point for positioning the plane.')
+        help='Anchor point for positioning the plane, can be: top, center or'
+             'bottom and also top_left, top_right and bottom_left and'
+             'bottom_right')
 
     nucleation_x = Float.T(
         optional=True,
