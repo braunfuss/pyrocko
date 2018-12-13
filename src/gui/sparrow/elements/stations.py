@@ -23,31 +23,30 @@ guts_prefix = 'sparrow'
 
 
 def stations_to_points(stations):
-    # coords = num.zeros((len(stations), 3))
-    statable = table.Table()
+    coords = num.zeros((len(stations), 3))
 
-    keys = stations[0].__dict__
-    statable.add_cols(
-        [table.Header(name=name) for name in keys.iterkeys()],
-        [num.array([station.__dict__[key] for station in stations])
-            .astype(object) for key in keys],
-        [i for i in len(keys) * [None]])
+    for i, s in enumerate(stations):
+        coords[i, :] = s.lat, s.lon, -s.elevation
+
+    station_table = table.Table()
+
+    # keys = stations[0].__dict__
+    # statable.add_cols(
+    #     [table.Header(name=name) for name in keys.iterkeys()],
+    #     [num.array([station.__dict__[key] for station in stations])
+    #         .astype(object) for key in keys],
+    #     [i for i in len(keys) * [None]])
 
     # for attr in stations[0].iterkeys():
 
-    # stationtable.add_cols(
-    #     [table.Header(name=name) for name in
-    #         ['Latitude', 'Longitude', 'Depth', 'StationID', 'NetworkID']],
-    #     [coords, stat_names, net_names],
-    #     [table.Header(name=name) for name in['Coordinates', None, None]])
+    station_table.add_cols(
+        [table.Header(name=name) for name in
+            ['lat', 'lon', 'depth']],
+        [coords],
+        [table.Header(name=name) for name in['coords']])
 
-    latlondepth = num.array([
-        statable.get_col('lat').astype(float),
-        statable.get_col('lon').astype(float),
-        statable.get_col('elevation').astype(float)])
-    print(latlondepth)
     return geometry.latlondepth2xyz(
-        latlondepth,
+        station_table.get_col_group('coords'),
         planetradius=cake.earthradius)
 
 
@@ -85,8 +84,11 @@ class FileStationSelection(StationSelection):
     paths = List.T(String.T())
 
     def get_stations(self):
-        stations = [model.load_stations(str(path)) for path in self.paths]
-        return [station for sublist in stations for station in sublist]
+        stations = []
+        for path in self.paths:
+            stations.extend(model.load_stations(path))
+
+        return stations
 
 
 class StationsState(ElementState):
@@ -150,6 +152,11 @@ class StationsElement(Element):
 
     def update(self, *args):
         state = self._state
+        if self._pipe and \
+                self._current_selection is not state.station_selection:
+
+            self._parent.remove_actor(self._pipe.actor)
+            self._pipe = None
 
         if self._pipe and not state.visible:
             self._parent.remove_actor(self._pipe.actor)
@@ -159,7 +166,6 @@ class StationsElement(Element):
             if self._current_selection is not state.station_selection:
                 stations = state.station_selection.get_stations()
                 points = stations_to_points(stations)
-                print(points)
                 self._pipe = ScatterPipe(points)
                 self._parent.add_actor(self._pipe.actor)
 
@@ -189,32 +195,6 @@ class StationsElement(Element):
             self._state.FDSNStationsState.site = site
             self._state.visible = True
 
-    def file2points(self):
-        stations = model.load_stations(self._state.FileStationsState.file)
-        coords = num.zeros((len(stations), 3))
-        stat_names = num.ndarray(shape=(len(stations), 1), dtype=object)
-        net_names = num.ndarray(shape=(len(stations), 1), dtype=object)
-
-        for ista, station in enumerate(stations):
-            coords[ista, :] = [station.lat, station.lon, station.depth]
-
-            stat_names[ista] = station.station
-            net_names[ista] = station.network
-
-        stationtable = table.Table()
-
-        stationtable.add_cols(
-            [table.Header(name=name) for name in
-                ['Latitude', 'Longitude', 'Depth', 'StationID', 'NetworkID']],
-            [coords, stat_names, net_names],
-            [table.Header(name=name) for name in['Coordinates', None, None]])
-
-        self._points = geometry.latlondepth2xyz(
-            stationtable.get_col_group('Coordinates'),
-            planetradius=cake.earthradius)
-
-        return self._points
-
     def fdsn2points(self):
         fdsnstate = self._state.FDSNStationsState
 
@@ -243,7 +223,22 @@ class StationsElement(Element):
             paths=[str(fn) for fn in fns])
 
     def open_fdsn_load_dialog(self):
-        pass
+        dialog = qw.QDialog(self._parent)
+        dialog.setWindowTitle('Get stations from FDSN web service')
+
+        layout = qw.QHBoxLayout(dialog)
+
+        layout.addWidget(qw.QLabel('Site'))
+
+        sites = [key.upper() for key in fdsn.g_site_abbr.iterkeys()]
+
+        cb = qw.QComboBox()
+        for i, s in enumerate(sites):
+            cb.insertItem(i, s)
+
+        layout.addWidget(cb)
+
+        dialog.exec_()
 
     def _get_controls(self):
         if not self._controls:
