@@ -40,16 +40,22 @@ class ViewerState(talkie.TalkieRoot):
 
 def state_bind(
         owner, state, paths, update_state,
-        widget, signals, update_widget):
+        widget, signals, update_widget, attribute=None):
 
     def make_wrappers(widget):
         def wrap_update_widget(*args):
-            update_widget(state, widget)
+            if attribute:
+                update_widget(state, attribute, widget)
+            else:
+                update_widget(state, widget)
             common.de_errorize(widget)
 
         def wrap_update_state(*args):
             try:
-                update_state(widget, state)
+                if attribute:
+                    update_state(widget, state, attribute)
+                else:
+                    update_state(widget, state)
                 common.de_errorize(widget)
             except Exception as e:
                 logger.warn('caught exception: %s' % e)

@@ -274,6 +274,15 @@ def outline_rect_source(strike, dip, length, width, anchor):
     return num.dot(rotmat.T, points.T).T
 
 
+class SourceGeometry(Object):
+    pass
+
+
+class Polygon(SourceGeometry):
+    name = String.T() 
+    vertices = List.T()
+
+
 class InvalidGridDef(Exception):
     pass
 
@@ -1841,15 +1850,19 @@ class RectangularSource(SourceWithDerivedMagnitude):
             return points
         elif cs == 'xy':
             return points[:, :2]
-        elif cs in ('latlon', 'lonlat'):
+        elif cs in ('latlon', 'lonlat', 'latlondepth'):
             latlon = ne_to_latlon(
                 self.lat, self.lon, points[:, 0], points[:, 1])
 
             latlon = num.array(latlon).T
             if cs == 'latlon':
                 return latlon
-            else:
+            elif cs == 'lonlat':
                 return latlon[:, ::-1]
+            else:
+                return num.concatenate(
+                    (latlon,points[:, 2].reshape((len(points),1))),
+                    axis=1)
 
     def pyrocko_moment_tensor(self, store=None, target=None):
         return mt.MomentTensor(

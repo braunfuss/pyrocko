@@ -201,3 +201,64 @@ class TrimeshPipe(object):
 
         self.polydata.GetCellData().SetScalars(vvalues)
         self.mapper.SetScalarRange(values.min(), values.max())
+
+
+class PolygonPipe(object):
+    def __init__(self, vertices, faces, values=None):
+
+        vpoints = vtk.vtkPoints()
+        vpoints.SetNumberOfPoints(vertices.shape[0])
+        vpoints.SetData(numpy_to_vtk(vertices))
+
+        pd = vtk.vtkPolyData()
+        pd.SetPoints(vpoints)
+
+        cells = vtk.vtkCellArray()
+        for face in faces:
+            cells.InsertNextCell(face.size)
+            for ivert in face:
+                cells.InsertCellPoint(ivert)
+
+        pd.SetPolys(cells)
+
+        mapper = vtk.vtkPolyDataMapper()
+
+        vtk_set_input(mapper, pd)
+
+        mapper.ScalarVisibilityOff()
+
+        act = vtk.vtkActor()
+        act.SetMapper(mapper)
+        prop = act.GetProperty()
+        prop.SetColor(0.5, 0.5, 0.5)
+        prop.SetAmbientColor(0.3, 0.3, 0.3)
+        prop.SetDiffuseColor(0.5, 0.5, 0.5)
+        prop.SetSpecularColor(1.0, 1.0, 1.0)
+        # prop.SetOpacity(0.7)
+        self.prop = prop
+
+        self.polydata = pd
+        self.mapper = mapper
+        self.actor = act
+
+        if values is not None:
+            self.set_values(values)
+
+    def set_opacity(self, value):
+        self.prop.SetOpacity(value)
+
+    def set_vertices(self, vertices):
+        vpoints = vtk.vtkPoints()
+        vpoints.SetNumberOfPoints(vertices.shape[0])
+        vpoints.SetData(numpy_to_vtk(vertices))
+        self.polydata.SetPoints(vpoints)
+
+    def set_values(self, values):
+        vvalues = numpy_to_vtk(values.astype(num.float64), deep=1)
+
+        vvalues = vtk.vtkDoubleArray()
+        for value in values:
+            vvalues.InsertNextValue(value)
+
+        self.polydata.GetCellData().SetScalars(vvalues)
+        self.mapper.SetScalarRange(values.min(), values.max())
