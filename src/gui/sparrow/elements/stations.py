@@ -5,7 +5,10 @@
 
 from __future__ import absolute_import, print_function, division
 
+import time
+
 import numpy as num
+
 from pyrocko.guts import \
     Object, Bool, Float, StringChoice, Timestamp, String, List
 
@@ -70,14 +73,13 @@ class FDSNStationSelection(StationSelection):
     tmax = Timestamp.T()
 
     def get_stations(self):
-        return [fdsn.station(
+        return fdsn.station(
             site=self.site,
             format='text',
             level='channel',
-            channel='??Z',
             startbefore=self.tmin,
             endafter=self.tmax
-        ).get_pyrocko_stations()]
+        ).get_pyrocko_stations()
 
 
 class FileStationSelection(StationSelection):
@@ -92,7 +94,7 @@ class FileStationSelection(StationSelection):
 
 
 class StationsState(ElementState):
-    visible = Bool.T(default=False)
+    visible = Bool.T(default=True)
     size = Float.T(default=5.0)
     station_selection = StationSelection.T(optional=True)
 
@@ -174,45 +176,6 @@ class StationsElement(Element):
 
         self._parent.update_view()
 
-    def update_stationstate(self, loadingchoice, site=None):
-        assert loadingchoice in LoadingChoice.choices
-
-        if loadingchoice == 'FILE':
-            caption = 'Select one or more files to open'
-
-            fns, _ = fnpatch(qw.QFileDialog.getOpenFileNames(
-                self, caption, options=common.qfiledialog_options))
-            self._state.station_selection = FDSNStationSelection(
-                paths=[fn for fn in fns])
-
-            # stations = [model.load_stations(str(x)) for x in fns]
-            # for stat in stations:
-            #     self.add_stations(stat)
-
-            self._state.visible = True
-
-        elif loadingchoice == 'FDSN':
-            self._state.FDSNStationsState.site = site
-            self._state.visible = True
-
-    def fdsn2points(self):
-        fdsnstate = self._state.FDSNStationsState
-
-        tmin = fdsnstate.tmin
-        tmax = fdsnstate.tmax
-        sx = fdsn.station(
-            site=fdsnstate.site, format='text', level='channel', channel='??Z',
-            startbefore=tmin, endafter=tmax)
-
-        stations = sx.get_pyrocko_stations()
-
-        latlondepth = num.array([(s.lat, s.lon, 0.) for s in stations])
-        self._points = geometry.latlondepth2xyz(
-            latlondepth,
-            planetradius=cake.earthradius)
-
-        return self._points
-
     def open_file_load_dialog(self):
         caption = 'Select one or more files to open'
 
@@ -238,7 +201,25 @@ class StationsElement(Element):
 
         layout.addWidget(cb)
 
+        pb = qw.QPushButton('Cancel')
+        pb.clicked.connect(dialog.reject)
+        layout.addWidget(pb)
+
+        pb = qw.QPushButton('Ok')
+        pb.clicked.connect(dialog.accept)
+        layout.addWidget(pb)
+
         dialog.exec_()
+
+        site = str(cb.currentText()).lower()
+
+        now = time.time()
+
+        if dialog.result() == qw.QDialog.Accepted:
+            self._state.station_selection = FDSNStationSelection(
+                site=site,
+                tmin=now-3600.,
+                tmax=now)
 
     def _get_controls(self):
         if not self._controls:
