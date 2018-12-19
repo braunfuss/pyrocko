@@ -8,12 +8,15 @@ import string
 
 import numpy as num
 
+import vtk
+
 from pyrocko.guts import Bool, Float, String
 
 from pyrocko import cake, gf
 from pyrocko.gui.qt_compat import qw, qc
 
-from pyrocko.gui.vtk_util import ScatterPipe, PolygonPipe
+from pyrocko.gui.vtk_util import\
+    ScatterPipe, PolygonPipe, make_multi_polyline, vtk_set_input
 from .. import state as vstate
 from pyrocko import geometry
 
@@ -22,13 +25,88 @@ from .base import Element, ElementState
 guts_prefix = 'sparrow'
 
 
+map_anchor = {
+    'center': (0.0, 0.0),
+    'center_left': (-1.0, 0.0),
+    'center_right': (1.0, 0.0),
+    'top': (0.0, -1.0),
+    'top_left': (-1.0, -1.0),
+    'top_right': (1.0, -1.0),
+    'bottom': (0.0, 1.0),
+    'bottom_left': (-1.0, 1.0),
+    'bottom_right': (1.0, 1.0)}
+
+
+class SourceOutlinesPipe(object):
+    def __init__(self, polygons):
+
+        self.mapper = vtk.vtkDataSetMapper()
+        self._polyline_grid = {}
+        self.set_source(polygons)
+
+        actor = vtk.vtkActor()
+        actor.SetMapper(self.mapper)
+
+        prop = actor.GetProperty()
+        prop.SetDiffuseColor(1, 1, 1)
+        prop.SetOpacity(1.)
+
+        self.actor = actor
+
+    def set_source(self, polygons):
+        lines = []
+
+        for ipoly, poly in enumerate(polygons):
+            lines.append(poly.points)
+
+        self._polyline_grid = make_multi_polyline(
+            lines_latlondepth=lines)
+
+        vtk_set_input(self.mapper, self._polyline_grid)
+
+
+class Polygon(object):
+    def __init__(self, points):
+        self.points = points
+
+    def refine_3Dpolygon_points(self):
+        import math
+        import pyrocko.orthodrome as od
+
+        points = self.points
+        refined_points = []
+
+        for i in range(len(points) - 1):
+            azim, dist = od.azidist_numpy(
+                points[i, 0], points[i, 1], points[i + 1, 0], points[i + 1, 1])
+            delta_z = points[i + 1, 2] - points[i, 2]
+            total_dist = math.sqrt(dist**2 + (delta_z / 111.)**2)
+            numint = int(math.ceil(total_dist))
+
+            for ii in range(numint):
+                factor = float(ii) / float(numint)
+                point = [None] * 3
+
+                point[:2] = od.azidist_to_latlon(
+                    points[i, 0], points[i, 1], azim, dist * factor)
+
+                point[2] =\
+                    points[i, 2] + delta_z * factor
+
+                refined_points.append(point)
+
+        refined_points.append(points[-1][:])
+
+        self.points = num.array(refined_points)
+
+
 class SourceState(ElementState):
     visible = Bool.T(default=True)
     latitude = Float.T(default=0.)
     longitude = Float.T(default=0)
     depth = Float.T(default=10000.)
     width = Float.T(default=5000.)
-    length = Float.T(default=10000.)
+    length = Float.T(default=2000000.)
     strike = Float.T(default=0.)
     dip = Float.T(default=45.)
     rake = Float.T(default=0.)
@@ -51,7 +129,7 @@ class SourceElement(Element):
     def __init__(self):
         Element.__init__(self)
         self._parent = None
-        self._pipe = None
+        self._pipe = []
         self._controls = None
         self._points = num.array([])
 
@@ -86,8 +164,9 @@ class SourceElement(Element):
         self.unbind_state()
         if self._parent:
             if self._pipe:
-                self._parent.remove_actor(self._pipe.actor)
-                self._pipe = None
+                for pipe in self._pipe:
+                    self._parent.remove_actor(pipe.actor)
+                self._pipe = []
 
             if self._controls:
                 self._parent.remove_panel(self._controls)
@@ -100,11 +179,13 @@ class SourceElement(Element):
         state = self._state
 
         if self._pipe:
-            self._parent.remove_actor(self._pipe.actor)
-            self._pipe = None
+            for pipe in self._pipe:
+                self._parent.remove_actor(pipe.actor)
+            self._pipe = []
 
         if self._pipe and not state.visible:
-            self._parent.remove_actor(self._pipe.actor)
+            for pipe in self._pipe:
+                self._parent.remove_actor(pipe.actor)
 
         if state.visible:
             fault = gf.RectangularSource(
@@ -119,27 +200,41 @@ class SourceElement(Element):
                 nucleation_x=state.nucleation_x * 0.01,
                 nucleation_y=state.nucleation_y * 0.01,
                 anchor=state.anchor)
-            points = geometry.latlondepth2xyz(
-                fault.outline(cs='latlondepth'),
-                planetradius=cake.earthradius)
 
-            vertices = geometry.arr_vertices(points)
-            faces = geometry.arr_faces([[i for i in range(len(points))]])
-            self._pipe = PolygonPipe(
-                vertices,
-                faces)
-            self._parent.add_actor(self._pipe.actor)
+            polygon = Polygon(
+                fault.outline(cs='latlondepth'))
+            polygon.refine_3Dpolygon_points()
 
-            nucl_point = geometry.latlondepth2xyz(
-                fault.points_on_source(
-                    [state.nucleation_x * 0.01], [state.nucleation_y * 0.01],
-                    cs='latlondepth'),
-                planetradius=cake.earthradius)
+            self._pipe.append(
+                SourceOutlinesPipe([polygon]))
+            self._parent.add_actor(self._pipe[-1].actor)
 
-            vertices = geometry.arr_vertices(nucl_point)
-            self._pipe = ScatterPipe(vertices)
-            self._pipe.set_colors(num.array([1, 1, 0]))
-            self._parent.add_actor(self._pipe.actor)
+            # points = geometry.latlondepth2xyz(
+            #     refine_3Dpolygon_points(fault.outline(cs='latlondepth')),
+            #     planetradius=cake.earthradius)
+
+            # vertices = geometry.arr_vertices(points)
+            # faces = geometry.arr_faces([[i for i in range(len(points))]])
+            # self._pipe.append(PolygonPipe(
+            #     vertices,
+            #     faces))
+            # self._parent.add_actor(self._pipe[-1].actor)
+
+            for point, color in zip((
+                    (state.nucleation_x * 0.01, state.nucleation_y * 0.01),
+                    map_anchor[state.anchor]),
+                    (num.array([[1., 0., 0.]]), num.array([[0., 0., 1.]]))):
+
+                points = geometry.latlondepth2xyz(
+                    fault.points_on_source(
+                        [point[0]], [point[1]],
+                        cs='latlondepth'),
+                    planetradius=cake.earthradius)
+
+                vertices = geometry.arr_vertices(points)
+                self._pipe.append(ScatterPipe(vertices))
+                self._pipe[-1].set_colors(color)
+                self._parent.add_actor(self._pipe[-1].actor)
 
         self._parent.update_view()
 

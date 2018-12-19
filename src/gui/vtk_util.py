@@ -13,7 +13,7 @@ from vtk.util.numpy_support import \
     numpy_to_vtk as numpy_to_vtk_, get_vtk_array_type
 # , numpy_to_vtkIdTypeArray
 
-from pyrocko import geometry
+from pyrocko import geometry, cake
 
 logger = logging.getLogger('pyrocko.gui.vtk_util')
 
@@ -36,7 +36,8 @@ def numpy_to_vtk_colors(a):
     return c
 
 
-def make_multi_polyline(lines_rtp=None, lines_latlon=None):
+def make_multi_polyline(
+        lines_rtp=None, lines_latlon=None, lines_latlondepth=None):
     if lines_rtp is not None:
         points = geometry.rtp2xyz(num.vstack(lines_rtp))
         lines = lines_rtp
@@ -44,6 +45,10 @@ def make_multi_polyline(lines_rtp=None, lines_latlon=None):
         points = geometry.latlon2xyz(
             num.vstack(lines_latlon), radius=1.0)
         lines = lines_latlon
+    elif lines_latlondepth is not None:
+        points = geometry.latlondepth2xyz(
+            num.vstack(lines_latlondepth), planetradius=cake.earthradius)
+        lines = lines_latlondepth
 
     vpoints = vtk.vtkPoints()
     vpoints.SetNumberOfPoints(points.shape[0])
