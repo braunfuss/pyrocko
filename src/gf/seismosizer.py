@@ -274,15 +274,28 @@ def outline_rect_source(strike, dip, length, width, anchor):
     return num.dot(rotmat.T, points.T).T
 
 
-class SourceGeometry(Object):
-    pass
+def points_on_rect_source(
+        strike, dip, length, width, anchor, points_x, points_y):
+    
+    assert len(points_x) == len(points_y) 
+    ln = length
+    wd = width
 
+    points = num.zeros(shape=((len(points_x), 3)))
+    for i, (x, y) in enumerate(zip(points_x, points_y)):
+        points[i, :] = num.array(
+            [x * 0.5 * ln, y * 0.5 * wd, 0.0])
 
-class Polygon(SourceGeometry):
-    name = String.T() 
-    vertices = List.T()
+    anch_x, anch_y = map_anchor[anchor]
+    points[:, 0] -= anch_x * 0.5 * length
+    points[:, 1] -= anch_y * 0.5 * width
 
+    rotmat = num.asarray(
+        mt.euler_to_matrix(dip * d2r, strike * d2r, 0.0))
 
+    return num.dot(rotmat.T, points.T).T
+
+ 
 class InvalidGridDef(Exception):
     pass
 
@@ -1843,6 +1856,32 @@ class RectangularSource(SourceWithDerivedMagnitude):
         points = outline_rect_source(self.strike, self.dip, self.length,
                                      self.width, self.anchor)
 
+        points[:, 0] += self.north_shift
+        points[:, 1] += self.east_shift
+        points[:, 2] += self.depth
+        if cs == 'xyz':
+            return points
+        elif cs == 'xy':
+            return points[:, :2]
+        elif cs in ('latlon', 'lonlat', 'latlondepth'):
+            latlon = ne_to_latlon(
+                self.lat, self.lon, points[:, 0], points[:, 1])
+
+            latlon = num.array(latlon).T
+            if cs == 'latlon':
+                return latlon
+            elif cs == 'lonlat':
+                return latlon[:, ::-1]
+            else:
+                return num.concatenate(
+                    (latlon,points[:, 2].reshape((len(points),1))),
+                    axis=1)
+
+    def points_on_source(self, points_x, points_y, cs='xyz'):
+        points = points_on_rect_source(
+            self.strike, self.dip, self.length, self.width,
+            self.anchor, points_x, points_y)
+        
         points[:, 0] += self.north_shift
         points[:, 1] += self.east_shift
         points[:, 2] += self.depth

@@ -13,7 +13,7 @@ from pyrocko.guts import Bool, Float, String
 from pyrocko import cake, gf
 from pyrocko.gui.qt_compat import qw, qc
 
-from pyrocko.gui.vtk_util import PolygonPipe
+from pyrocko.gui.vtk_util import ScatterPipe, PolygonPipe
 from .. import state as vstate
 from pyrocko import geometry
 
@@ -24,6 +24,9 @@ guts_prefix = 'sparrow'
 
 class SourceState(ElementState):
     visible = Bool.T(default=True)
+    latitude = Float.T(default=0.)
+    longitude = Float.T(default=0)
+    depth = Float.T(default=10000.)
     width = Float.T(default=5000.)
     length = Float.T(default=10000.)
     strike = Float.T(default=0.)
@@ -59,8 +62,8 @@ class SourceElement(Element):
         upd = self.update
         self._listeners.append(upd)
         for il, label in enumerate(
-            ['width', 'length', 'strike', 'dip', 'rake',
-             'nucleation_x', 'nucleation_y', 'anchor']):
+            ['latitude', 'longitude', 'depth', 'width', 'length', 'strike',
+             'dip', 'rake', 'nucleation_x', 'nucleation_y', 'anchor']):
 
             state.add_listener(upd, label)
 
@@ -105,16 +108,19 @@ class SourceElement(Element):
 
         if state.visible:
             fault = gf.RectangularSource(
+                lat=state.latitude,
+                lon=state.longitude,
+                depth=state.depth,
                 width=state.width,
                 length=state.length,
                 strike=state.strike,
                 dip=state.dip,
                 rake=state.rake,
-                nucleation_x=state.nucleation_x,
-                nucleation_y=state.nucleation_y,
-                anchor=state.anchor).outline(cs='latlondepth')
+                nucleation_x=state.nucleation_x * 0.01,
+                nucleation_y=state.nucleation_y * 0.01,
+                anchor=state.anchor)
             points = geometry.latlondepth2xyz(
-                fault,
+                fault.outline(cs='latlondepth'),
                 planetradius=cake.earthradius)
 
             vertices = geometry.arr_vertices(points)
@@ -122,6 +128,17 @@ class SourceElement(Element):
             self._pipe = PolygonPipe(
                 vertices,
                 faces)
+            self._parent.add_actor(self._pipe.actor)
+
+            nucl_point = geometry.latlondepth2xyz(
+                fault.points_on_source(
+                    [state.nucleation_x * 0.01], [state.nucleation_y * 0.01],
+                    cs='latlondepth'),
+                planetradius=cake.earthradius)
+
+            vertices = geometry.arr_vertices(nucl_point)
+            self._pipe = ScatterPipe(vertices)
+            self._pipe.set_colors(num.array([1, 1, 0]))
             self._parent.add_actor(self._pipe.actor)
 
         self._parent.update_view()
@@ -152,17 +169,22 @@ class SourceElement(Element):
                         'Value of %s needs to be a float or integer'
                         % string.capwords(attribute))
 
-            widget_value = {'width': {'min': 0., 'max': 1000000., 'step': 1},
+            widget_value = {'latitude': {'min': -90., 'max': 90., 'step': 1},
+                            'longitude':
+                                {'min': -180., 'max': 180., 'step': 1},
+                            'depth': {'min': 0., 'max': 2000000., 'step': 1},
+                            'width': {'min': 0., 'max': 1000000., 'step': 1},
                             'length': {'min': 0., 'max': 2000000., 'step': 1},
-                            'strike': {'min': 0., 'max': 359., 'step': 1},
+                            'strike': {'min': -180., 'max': 180., 'step': 1},
                             'dip': {'min': 0., 'max': 90., 'step': 1},
-                            'rake': {'min': 0., 'max': 359., 'step': 1},
+                            'rake': {'min': -180., 'max': 180., 'step': 1},
                             'nucleation_x':
-                                {'min': -1., 'max': 1., 'step': 0.01},
+                                {'min': -100., 'max': 100., 'step': 1},
                             'nucleation_y':
-                                {'min': -1., 'max': 1., 'step': 0.01}}
+                                {'min': -100., 'max': 100., 'step': 1}}
 
             for il, label in enumerate([
+                    'latitude', 'longitude', 'depth',
                     'width', 'length', 'strike',
                     'dip', 'rake', 'nucleation_x',
                     'nucleation_y']):
