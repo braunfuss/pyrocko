@@ -175,6 +175,7 @@ class StationsElement(Element):
                 self._pipe.set_size(state.size)
 
         self._parent.update_view()
+        self._current_selection = state.station_selection
 
     def open_file_load_dialog(self):
         caption = 'Select one or more files to open'
@@ -218,7 +219,7 @@ class StationsElement(Element):
         if dialog.result() == qw.QDialog.Accepted:
             self._state.station_selection = FDSNStationSelection(
                 site=site,
-                tmin=now-3600.,
+                tmin=now - 3600.,
                 tmax=now)
 
     def _get_controls(self):
