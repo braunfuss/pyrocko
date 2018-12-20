@@ -38,17 +38,20 @@ map_anchor = {
 
 
 class SourceOutlinesPipe(object):
-    def __init__(self, polygons):
+    def __init__(self, polygons, r, g, b, x='source'):
 
         self.mapper = vtk.vtkDataSetMapper()
         self._polyline_grid = {}
-        self.set_source(polygons)
+        if x == 'source':
+            self.set_source(polygons)
+        elif x == 'tree':
+            self.set_tree(polygons)
 
         actor = vtk.vtkActor()
         actor.SetMapper(self.mapper)
 
         prop = actor.GetProperty()
-        prop.SetDiffuseColor(1, 1, 1)
+        prop.SetDiffuseColor(r, g, b)
         prop.SetOpacity(1.)
 
         self.actor = actor
@@ -63,6 +66,18 @@ class SourceOutlinesPipe(object):
             lines_latlondepth=lines)
 
         vtk_set_input(self.mapper, self._polyline_grid)
+
+    def set_tree(self, polygons):
+        lines = []
+
+        for ipoly, poly in enumerate(polygons):
+            lines.append(poly.points)
+
+        self._polyline_grid = make_multi_polyline(
+            lines_latlon=lines)
+
+        vtk_set_input(self.mapper, self._polyline_grid)
+
 
 
 class Polygon(object):
@@ -85,13 +100,22 @@ class Polygon(object):
 
             for ii in range(numint):
                 factor = float(ii) / float(numint)
-                point = [None] * 3
+                
+                if len(points[i]) == 3:
+                    point = [None] * 3
 
-                point[:2] = od.azidist_to_latlon(
-                    points[i, 0], points[i, 1], azim, dist * factor)
+                    point[:2] = od.azidist_to_latlon(
+                        points[i, 0], points[i, 1], azim, dist * factor)
 
-                point[2] =\
-                    points[i, 2] + delta_z * factor
+                    point[2] =\
+                        points[i, 2] + delta_z * factor
+
+                elif len(points[i]) == 2:
+                    point = [None] * 2
+
+                    point[:] = od.azidist_to_latlon(
+                        points[i, 0], points[i, 1], azim, dist * factor)
+
 
                 refined_points.append(point)
 
@@ -206,19 +230,8 @@ class SourceElement(Element):
             polygon.refine_3Dpolygon_points()
 
             self._pipe.append(
-                SourceOutlinesPipe([polygon]))
+                SourceOutlinesPipe([polygon], 1., 1., 1.))
             self._parent.add_actor(self._pipe[-1].actor)
-
-            # points = geometry.latlondepth2xyz(
-            #     refine_3Dpolygon_points(fault.outline(cs='latlondepth')),
-            #     planetradius=cake.earthradius)
-
-            # vertices = geometry.arr_vertices(points)
-            # faces = geometry.arr_faces([[i for i in range(len(points))]])
-            # self._pipe.append(PolygonPipe(
-            #     vertices,
-            #     faces))
-            # self._parent.add_actor(self._pipe[-1].actor)
 
             for point, color in zip((
                     (state.nucleation_x * 0.01, state.nucleation_y * 0.01),
@@ -235,6 +248,31 @@ class SourceElement(Element):
                 self._pipe.append(ScatterPipe(vertices))
                 self._pipe[-1].set_colors(color)
                 self._parent.add_actor(self._pipe[-1].actor)
+
+            points = fault.points_on_source(
+                [-1, 0., 0., 0.7, 0., 0., -1., -1.],
+                [-0.9, -0.3, -0.7, 0., 0.7, 0.3, 0.9, -0.9], cs='latlondepth')
+
+            polygon = Polygon(points)
+            self._pipe.append(
+                SourceOutlinesPipe([polygon], 1., 1., 1., x='tree'))
+            self._parent.add_actor(self._pipe[-1].actor)
+
+            # for point, color in zip((
+            #         (state.nucleation_x * 0.01, state.nucleation_y * 0.01),
+            #         map_anchor[state.anchor]),
+            #         (num.array([[1., 0., 0.]]), num.array([[0., 0., 1.]]))):
+
+            #     points = geometry.latlondepth2xyz(
+            #         fault.points_on_source(
+            #             [point[0]], [point[1]],
+            #             cs='latlondepth'),
+            #         planetradius=cake.earthradius)
+
+            #     vertices = geometry.arr_vertices(points)
+            #     self._pipe.append(ScatterPipe(vertices))
+            #     self._pipe[-1].set_colors(color)
+            #     self._parent.add_actor(self._pipe[-1].actor)
 
         self._parent.update_view()
 
