@@ -10,7 +10,7 @@ import numpy as num
 
 import vtk
 
-from pyrocko.guts import Bool, Float, String
+from pyrocko.guts import Bool, Float, String, Object
 
 from pyrocko import cake, gf
 from pyrocko.gui.qt_compat import qw, qc
@@ -128,19 +128,21 @@ class Polygon(object):
         self.points = num.array(refined_points)
 
 
+class SourceSelection(Object):
+    def __init__(self, sourcetype, **kwargs):
+        sources = gf.source_classes
+        for i, a in enumerate(sources):
+            if a.__name__ is sourcetype:
+                self.source = sources[i](**kwargs)
+
+
 class SourceState(ElementState):
     visible = Bool.T(default=True)
-    latitude = Float.T(default=0.)
-    longitude = Float.T(default=0.)
-    depth = Float.T(default=10000.)
-    width = Float.T(default=5000.)
-    length = Float.T(default=20000.)
-    strike = Float.T(default=0.)
-    dip = Float.T(default=45.)
-    rake = Float.T(default=0.)
-    nucleation_x = Float.T(default=0.)
-    nucleation_y = Float.T(default=0.)
-    anchor = String.T(default='top')
+    source_selection = SourceSelection(
+        'RectangularSource',
+        lat=0., lon=0., depth=10000., width=5000., length=20000.,
+        strike=0., dip=45., rake=0., nucleation_x=0.,
+        nucleation_y=0., anchor='top')
 
     @classmethod
     def get_name(self):
@@ -168,12 +170,12 @@ class SourceElement(Element):
         upd = self.update
         self._listeners.append(upd)
 
-        for il, label in enumerate(
-            ['latitude', 'longitude', 'depth', 'width', 'length', 'strike',
-             'dip', 'rake', 'nucleation_x', 'nucleation_y', 'anchor']):
+        # for il, label in enumerate(
+        #     ['latitude', 'longitude', 'depth', 'width', 'length', 'strike',
+        #      'dip', 'rake', 'nucleation_x', 'nucleation_y', 'anchor']):
 
-            state.add_listener(upd, label)
-
+        #     state.add_listener(upd, label)
+        state.add_listener(upd, 'source_selection')
         state.add_listener(upd, 'visible')
         self._state = state
 
@@ -212,8 +214,11 @@ class SourceElement(Element):
 
     def update_loc(self, *args):
         pstate = self._parent.state
-        self._state.latitude = pstate.lat
-        self._state.longitude = pstate.lon
+        source = self._state.source_selection.source
+        source.lat = pstate.lat
+        source.lon = pstate.lon
+
+        self._state.source_selection.source = source
 
         self.update()
 
@@ -230,18 +235,19 @@ class SourceElement(Element):
                 self._parent.remove_actor(pipe.actor)
 
         if state.visible:
-            fault = gf.RectangularSource(
-                lat=state.latitude,
-                lon=state.longitude,
-                depth=state.depth,
-                width=state.width,
-                length=state.length,
-                strike=state.strike,
-                dip=state.dip,
-                rake=state.rake,
-                nucleation_x=state.nucleation_x * 0.01,
-                nucleation_y=state.nucleation_y * 0.01,
-                anchor=state.anchor)
+            fault = self._state.source_selection.source
+        #     fault = gf.RectangularSource(
+        #         lat=state.latitude,
+        #         lon=state.longitude,
+        #         depth=state.depth,
+        #         width=state.width,
+        #         length=state.length,
+        #         strike=state.strike,
+        #         dip=state.dip,
+        #         rake=state.rake,
+        #         nucleation_x=state.nucleation_x * 0.01,
+        #         nucleation_y=state.nucleation_y * 0.01,
+        #         anchor=state.anchor)
 
             points = fault.outline(cs='latlondepth')
             polygon = Polygon(
@@ -259,21 +265,21 @@ class SourceElement(Element):
                     cs='latlon'))
             self._parent.add_actor(self._pipe[-1].actor)
 
-            for point, color in zip((
-                    (state.nucleation_x * 0.01, state.nucleation_y * 0.01),
-                    map_anchor[state.anchor]),
-                    (num.array([[1., 0., 0.]]), num.array([[0., 0., 1.]]))):
+            # for point, color in zip((
+            #         (state.nucleation_x * 0.01, state.nucleation_y * 0.01),
+            #         map_anchor[state.anchor]),
+            #         (num.array([[1., 0., 0.]]), num.array([[0., 0., 1.]]))):
 
-                points = geometry.latlondepth2xyz(
-                    fault.points_on_source(
-                        [point[0]], [point[1]],
-                        cs='latlondepth'),
-                    planetradius=cake.earthradius)
+            #     points = geometry.latlondepth2xyz(
+            #         fault.points_on_source(
+            #             [point[0]], [point[1]],
+            #             cs='latlondepth'),
+            #         planetradius=cake.earthradius)
 
-                vertices = geometry.arr_vertices(points)
-                self._pipe.append(ScatterPipe(vertices))
-                self._pipe[-1].set_colors(color)
-                self._parent.add_actor(self._pipe[-1].actor)
+            #     vertices = geometry.arr_vertices(points)
+            #     self._pipe.append(ScatterPipe(vertices))
+            #     self._pipe[-1].set_colors(color)
+            #     self._parent.add_actor(self._pipe[-1].actor)
 
         self._parent.update_view()
 
@@ -287,24 +293,24 @@ class SourceElement(Element):
             layout = qw.QGridLayout()
             frame.setLayout(layout)
 
-            def state_to_lineedit(state, attribute, widget):
-                sel = getattr(state, attribute)
+            # def state_to_lineedit(state, attribute, widget):
+            #     sel = getattr(state, attribute)
 
-                widget.setText('%g' % sel)
-                if sel:
-                    widget.selectAll()
+            #     widget.setText('%g' % sel)
+            #     if sel:
+            #         widget.selectAll()
 
-            def lineedit_to_state(widget, state, attribute):
-                s = float(widget.text())
-                try:
-                    setattr(state, attribute, s)
-                except Exception:
-                    raise ValueError(
-                        'Value of %s needs to be a float or integer'
-                        % string.capwords(attribute))
+            # def lineedit_to_state(widget, state, attribute):
+            #     s = float(widget.text())
+            #     try:
+            #         setattr(state, attribute, s)
+            #     except Exception:
+            #         raise ValueError(
+            #             'Value of %s needs to be a float or integer'
+            #             % string.capwords(attribute))
 
-            widget_value = {'latitude': {'min': -90., 'max': 90., 'step': 1},
-                            'longitude':
+            widget_value = {'lat': {'min': -90., 'max': 90., 'step': 1},
+                            'lon':
                                 {'min': -180., 'max': 180., 'step': 1},
                             'depth': {'min': 0., 'max': 2000000., 'step': 1},
                             'width': {'min': 0., 'max': 1000000., 'step': 1},
@@ -317,11 +323,7 @@ class SourceElement(Element):
                             'nucleation_y':
                                 {'min': -100., 'max': 100., 'step': 1}}
 
-            for il, label in enumerate([
-                    'latitude', 'longitude', 'depth',
-                    'width', 'length', 'strike',
-                    'dip', 'rake', 'nucleation_x',
-                    'nucleation_y']):
+            for il, label in enumerate(widget_value.keys()):
                 layout.addWidget(qw.QLabel(string.capwords(label)), il, 0)
 
                 slider = qw.QSlider(qc.Qt.Horizontal)
@@ -333,18 +335,20 @@ class SourceElement(Element):
                 slider.setSingleStep(widget_value[label]['step'])
                 slider.setPageStep(widget_value[label]['step'])
                 layout.addWidget(slider, il, 1)
-                state_bind_slider(self, self._state, label, slider)
+                slider.sliderMoved.connect(
+                    lambda: setattr(self._state.source_selection.source, label, slider.value()))
+                # state_bind_slider(self, self._state, label, slider)
 
                 le = qw.QLineEdit()
                 layout.addWidget(le, il, 2)
 
-                self._state_bind(
-                    [label], lineedit_to_state, le,
-                    [le.editingFinished, le.returnPressed], state_to_lineedit,
-                    attribute=label)
+                # self._state_bind(
+                #     [label], lineedit_to_state, le,
+                #     [le.editingFinished, le.returnPressed], state_to_lineedit,
+                #     attribute=label)
 
-                le.returnPressed.connect(lambda *args: le.selectAll())
-                setattr(self, label, le)
+                # le.returnPressed.connect(lambda *args: le.selectAll())
+                # setattr(self, label, le)
 
             il += 1
             layout.addWidget(qw.QLabel('Anchor'), il, 0)
@@ -353,7 +357,7 @@ class SourceElement(Element):
             for i, s in enumerate(gf.RectangularSource.anchor.choices):
                 cb.insertItem(i, s)
             layout.addWidget(cb, il, 1, 1, 2)
-            state_bind_combobox(self, self._state, 'anchor', cb)
+            # state_bind_combobox(self, self._state, 'anchor', cb)
 
             il += 1
             pb = qw.QPushButton('Move source here')
