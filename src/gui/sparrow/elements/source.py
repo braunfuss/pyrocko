@@ -16,8 +16,9 @@ from pyrocko import cake, gf
 from pyrocko.gui.qt_compat import qw, qc
 
 from pyrocko.gui.vtk_util import\
-    ScatterPipe, PolygonPipe, make_multi_polyline, vtk_set_input
+    ScatterPipe, make_multi_polyline, vtk_set_input
 from .. import state as vstate
+from .. import common
 from pyrocko import geometry
 
 from .base import Element, ElementState
@@ -38,25 +39,25 @@ map_anchor = {
 
 
 class SourceOutlinesPipe(object):
-    def __init__(self, polygons, r, g, b, x='source'):
+    def __init__(self, polygons, RGB, cs='latlondepth'):
 
         self.mapper = vtk.vtkDataSetMapper()
         self._polyline_grid = {}
-        if x == 'source':
-            self.set_source(polygons)
-        elif x == 'tree':
-            self.set_tree(polygons)
+        if cs == 'latlondepth':
+            self.set_3doutline(polygons)
+        elif cs == 'latlon':
+            self.set_2doutline(polygons)
 
         actor = vtk.vtkActor()
         actor.SetMapper(self.mapper)
 
         prop = actor.GetProperty()
-        prop.SetDiffuseColor(r, g, b)
+        prop.SetDiffuseColor(RGB)
         prop.SetOpacity(1.)
 
         self.actor = actor
 
-    def set_source(self, polygons):
+    def set_3doutline(self, polygons):
         lines = []
 
         for ipoly, poly in enumerate(polygons):
@@ -67,7 +68,7 @@ class SourceOutlinesPipe(object):
 
         vtk_set_input(self.mapper, self._polyline_grid)
 
-    def set_tree(self, polygons):
+    def set_2doutline(self, polygons):
         lines = []
 
         for ipoly, poly in enumerate(polygons):
@@ -79,12 +80,11 @@ class SourceOutlinesPipe(object):
         vtk_set_input(self.mapper, self._polyline_grid)
 
 
-
 class Polygon(object):
     def __init__(self, points):
         self.points = points
 
-    def refine_3Dpolygon_points(self):
+    def refine_polygon_points(self, cs='latlondepth'):
         import math
         import pyrocko.orthodrome as od
 
@@ -94,28 +94,32 @@ class Polygon(object):
         for i in range(len(points) - 1):
             azim, dist = od.azidist_numpy(
                 points[i, 0], points[i, 1], points[i + 1, 0], points[i + 1, 1])
-            delta_z = points[i + 1, 2] - points[i, 2]
-            total_dist = math.sqrt(dist**2 + (delta_z / 111.)**2)
+
+            if cs == 'latlondepth':
+                delta_z = points[i + 1, 2] - points[i, 2]
+                total_dist = math.sqrt(dist**2 + (delta_z / 111.)**2)
+
+            elif cs == 'latlon':
+                total_dist = dist
+
             numint = int(math.ceil(total_dist))
 
             for ii in range(numint):
                 factor = float(ii) / float(numint)
-                
-                if len(points[i]) == 3:
+
+                if cs == 'latlondepth':
                     point = [None] * 3
 
                     point[:2] = od.azidist_to_latlon(
                         points[i, 0], points[i, 1], azim, dist * factor)
-
                     point[2] =\
                         points[i, 2] + delta_z * factor
 
-                elif len(points[i]) == 2:
+                elif cs == 'latlon':
                     point = [None] * 2
 
                     point[:] = od.azidist_to_latlon(
                         points[i, 0], points[i, 1], azim, dist * factor)
-
 
                 refined_points.append(point)
 
@@ -127,10 +131,10 @@ class Polygon(object):
 class SourceState(ElementState):
     visible = Bool.T(default=True)
     latitude = Float.T(default=0.)
-    longitude = Float.T(default=0)
+    longitude = Float.T(default=0.)
     depth = Float.T(default=10000.)
     width = Float.T(default=5000.)
-    length = Float.T(default=2000000.)
+    length = Float.T(default=20000.)
     strike = Float.T(default=0.)
     dip = Float.T(default=45.)
     rake = Float.T(default=0.)
@@ -163,6 +167,7 @@ class SourceElement(Element):
     def bind_state(self, state):
         upd = self.update
         self._listeners.append(upd)
+
         for il, label in enumerate(
             ['latitude', 'longitude', 'depth', 'width', 'length', 'strike',
              'dip', 'rake', 'nucleation_x', 'nucleation_y', 'anchor']):
@@ -199,6 +204,19 @@ class SourceElement(Element):
             self._parent.update_view()
             self._parent = None
 
+    def open_file_load_dialog(self):
+        pass
+
+    def open_file_save_dialog(self):
+        pass
+
+    def update_loc(self, *args):
+        pstate = self._parent.state
+        self._state.latitude = pstate.lat
+        self._state.longitude = pstate.lon
+
+        self.update()
+
     def update(self, *args):
         state = self._state
 
@@ -225,12 +243,20 @@ class SourceElement(Element):
                 nucleation_y=state.nucleation_y * 0.01,
                 anchor=state.anchor)
 
+            points = fault.outline(cs='latlondepth')
             polygon = Polygon(
                 fault.outline(cs='latlondepth'))
-            polygon.refine_3Dpolygon_points()
+            polygon.refine_polygon_points(cs='latlondepth')
+            self._pipe.append(
+                SourceOutlinesPipe(
+                    [polygon], (1., 1., 1.),
+                    cs='latlondepth'))
+            self._parent.add_actor(self._pipe[-1].actor)
 
             self._pipe.append(
-                SourceOutlinesPipe([polygon], 1., 1., 1.))
+                SourceOutlinesPipe(
+                    [polygon], (.6, .6, .6),
+                    cs='latlon'))
             self._parent.add_actor(self._pipe[-1].actor)
 
             for point, color in zip((
@@ -248,31 +274,6 @@ class SourceElement(Element):
                 self._pipe.append(ScatterPipe(vertices))
                 self._pipe[-1].set_colors(color)
                 self._parent.add_actor(self._pipe[-1].actor)
-
-            points = fault.points_on_source(
-                [-1, 0., 0., 0.7, 0., 0., -1., -1.],
-                [-0.9, -0.3, -0.7, 0., 0.7, 0.3, 0.9, -0.9], cs='latlondepth')
-
-            polygon = Polygon(points)
-            self._pipe.append(
-                SourceOutlinesPipe([polygon], 1., 1., 1., x='tree'))
-            self._parent.add_actor(self._pipe[-1].actor)
-
-            # for point, color in zip((
-            #         (state.nucleation_x * 0.01, state.nucleation_y * 0.01),
-            #         map_anchor[state.anchor]),
-            #         (num.array([[1., 0., 0.]]), num.array([[0., 0., 1.]]))):
-
-            #     points = geometry.latlondepth2xyz(
-            #         fault.points_on_source(
-            #             [point[0]], [point[1]],
-            #             cs='latlondepth'),
-            #         planetradius=cake.earthradius)
-
-            #     vertices = geometry.arr_vertices(points)
-            #     self._pipe.append(ScatterPipe(vertices))
-            #     self._pipe[-1].set_colors(color)
-            #     self._parent.add_actor(self._pipe[-1].actor)
 
         self._parent.update_view()
 
@@ -353,6 +354,19 @@ class SourceElement(Element):
                 cb.insertItem(i, s)
             layout.addWidget(cb, il, 1, 1, 2)
             state_bind_combobox(self, self._state, 'anchor', cb)
+
+            il += 1
+            pb = qw.QPushButton('Move source here')
+            layout.addWidget(pb, il, 0)
+            pb.clicked.connect(self.update_loc)
+
+            pb = qw.QPushButton('Load')
+            layout.addWidget(pb, il, 1)
+            pb.clicked.connect(self.open_file_load_dialog)
+
+            pb = qw.QPushButton('Save')
+            layout.addWidget(pb, il, 2)
+            pb.clicked.connect(self.open_file_save_dialog)
 
             il += 1
             cb = qw.QCheckBox('Show')

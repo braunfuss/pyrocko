@@ -1855,7 +1855,6 @@ class RectangularSource(SourceWithDerivedMagnitude):
     def outline(self, cs='xyz'):
         points = outline_rect_source(self.strike, self.dip, self.length,
                                      self.width, self.anchor)
-
         points[:, 0] += self.north_shift
         points[:, 1] += self.east_shift
         points[:, 2] += self.depth
@@ -1866,7 +1865,6 @@ class RectangularSource(SourceWithDerivedMagnitude):
         elif cs in ('latlon', 'lonlat', 'latlondepth'):
             latlon = ne_to_latlon(
                 self.lat, self.lon, points[:, 0], points[:, 1])
-
             latlon = num.array(latlon).T
             if cs == 'latlon':
                 return latlon

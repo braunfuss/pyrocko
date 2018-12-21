@@ -53,12 +53,6 @@ def stations_to_points(stations):
         planetradius=cake.earthradius)
 
 
-class LoadingChoice(StringChoice):
-    choices = [choice.upper() for choice in [
-        'file',
-        'fdsn']]
-
-
 class FDSNSiteChoice(StringChoice):
     choices = [key.upper() for key in fdsn.g_site_abbr.iterkeys()]
 
