@@ -135,6 +135,19 @@ class SourceSelection(Object):
             if a.__name__ is sourcetype:
                 self.source = sources[i](**kwargs)
 
+    def update(self, SourceParams):
+        kwargs = SourceParams.__dict__
+        self.source
+        # for a in SourceParams.__dict__:
+        #     if not a.startswith('_'):
+
+
+class SourceParams(ElementState):
+    def __init__(self, source):
+        for a in source.__dict__:
+            if not a.startswith('_'):
+                setattr(self, a, getattr(source, a))
+
 
 class SourceState(ElementState):
     visible = Bool.T(default=True)
@@ -143,6 +156,7 @@ class SourceState(ElementState):
         lat=0., lon=0., depth=10000., width=5000., length=20000.,
         strike=0., dip=45., rake=0., nucleation_x=0.,
         nucleation_y=0., anchor='top')
+
 
     @classmethod
     def get_name(self):
@@ -249,7 +263,8 @@ class SourceElement(Element):
         #         nucleation_y=state.nucleation_y * 0.01,
         #         anchor=state.anchor)
 
-            points = fault.outline(cs='latlondepth')
+            print(fault)
+            # points = fault.outline(cs='latlondepth')
             polygon = Polygon(
                 fault.outline(cs='latlondepth'))
             polygon.refine_polygon_points(cs='latlondepth')
@@ -334,9 +349,9 @@ class SourceElement(Element):
                 slider.setMaximum(widget_value[label]['max'])
                 slider.setSingleStep(widget_value[label]['step'])
                 slider.setPageStep(widget_value[label]['step'])
-                layout.addWidget(slider, il, 1)
                 slider.sliderMoved.connect(
                     lambda: setattr(self._state.source_selection.source, label, slider.value()))
+                layout.addWidget(slider, il, 1)
                 # state_bind_slider(self, self._state, label, slider)
 
                 le = qw.QLineEdit()
