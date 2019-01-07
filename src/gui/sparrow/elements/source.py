@@ -10,16 +10,15 @@ import numpy as num
 
 import vtk
 
-from pyrocko.guts import Bool, Float, String, Object
+from pyrocko.guts import Bool
 
-from pyrocko import cake, gf
+from pyrocko import gf
 from pyrocko.gui.qt_compat import qw, qc
 
 from pyrocko.gui.vtk_util import\
-    ScatterPipe, make_multi_polyline, vtk_set_input
+    make_multi_polyline, vtk_set_input
 from .. import state as vstate
-from .. import common
-from pyrocko import geometry
+from pyrocko.gui.talkie import Talkie
 
 from .base import Element, ElementState
 
@@ -43,10 +42,20 @@ class SourceOutlinesPipe(object):
 
         self.mapper = vtk.vtkDataSetMapper()
         self._polyline_grid = {}
+
+        lines = []
+
+        for ipoly, poly in enumerate(polygons):
+            lines.append(poly.points)
+
         if cs == 'latlondepth':
-            self.set_3doutline(polygons)
+            self._polyline_grid = make_multi_polyline(
+                lines_latlondepth=lines)
         elif cs == 'latlon':
-            self.set_2doutline(polygons)
+            self._polyline_grid = make_multi_polyline(
+                lines_latlon=lines)
+
+        vtk_set_input(self.mapper, self._polyline_grid)
 
         actor = vtk.vtkActor()
         actor.SetMapper(self.mapper)
@@ -56,28 +65,6 @@ class SourceOutlinesPipe(object):
         prop.SetOpacity(1.)
 
         self.actor = actor
-
-    def set_3doutline(self, polygons):
-        lines = []
-
-        for ipoly, poly in enumerate(polygons):
-            lines.append(poly.points)
-
-        self._polyline_grid = make_multi_polyline(
-            lines_latlondepth=lines)
-
-        vtk_set_input(self.mapper, self._polyline_grid)
-
-    def set_2doutline(self, polygons):
-        lines = []
-
-        for ipoly, poly in enumerate(polygons):
-            lines.append(poly.points)
-
-        self._polyline_grid = make_multi_polyline(
-            lines_latlon=lines)
-
-        vtk_set_input(self.mapper, self._polyline_grid)
 
 
 class Polygon(object):
@@ -128,35 +115,30 @@ class Polygon(object):
         self.points = num.array(refined_points)
 
 
-class SourceSelection(Object):
-    def __init__(self, sourcetype, **kwargs):
-        sources = gf.source_classes
-        for i, a in enumerate(sources):
-            if a.__name__ is sourcetype:
-                self.source = sources[i](**kwargs)
-
-    def update(self, SourceParams):
-        kwargs = SourceParams.__dict__
-        self.source
-        # for a in SourceParams.__dict__:
-        #     if not a.startswith('_'):
+class ProxySource(Talkie):
+    pass
 
 
-class SourceParams(ElementState):
-    def __init__(self, source):
-        for a in source.__dict__:
-            if not a.startswith('_'):
-                setattr(self, a, getattr(source, a))
+for source_cls in [gf.RectangularSource, gf.DCSource]:
+
+    cls_name = 'Proxy' + source_cls.__name__
+
+    class proxy_source_cls(ProxySource):
+        class_name = cls_name
+
+    proxy_source_cls.__name__ = cls_name
+    vars()[cls_name] = proxy_source_cls
+
+    for prop in source_cls.T.properties:
+        proxy_source_cls.T.add_property(prop.name, prop)
+
+
+ProxyRectangularSource
 
 
 class SourceState(ElementState):
     visible = Bool.T(default=True)
-    source_selection = SourceSelection(
-        'RectangularSource',
-        lat=0., lon=0., depth=10000., width=5000., length=20000.,
-        strike=0., dip=45., rake=0., nucleation_x=0.,
-        nucleation_y=0., anchor='top')
-
+    source_selection = ProxySource.T(default=ProxyRectangularSource())  # noqa
 
     @classmethod
     def get_name(self):
@@ -166,6 +148,7 @@ class SourceState(ElementState):
         element = SourceElement()
         element.bind_state(self)
         return element
+
 
 
 class SourceElement(Element):
