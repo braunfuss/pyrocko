@@ -143,7 +143,7 @@ ProxyRectangularSource._ranges = {
     'length': {'min': 0., 'max': 2000000., 'step': 1, 'ini': 100000.},
     'strike': {'min': -180., 'max': 180., 'step': 1, 'ini': 0.},
     'dip': {'min': 0., 'max': 90., 'step': 1, 'ini': 45.},
-    'rake': {'min': -180., 'max': 180., 'step': 1, 'ini': 0.}} #,
+    'rake': {'min': -180., 'max': 180., 'step': 1, 'ini': 0.}}#,
     # 'nucleation_x': {'min': -100., 'max': 100., 'step': 1, 'ini': 0.},
     # 'nucleation_y': {'min': -100., 'max': 100., 'step': 1, 'ini': 0.}}
 
@@ -217,7 +217,7 @@ class SourceElement(Element):
     def update_loc(self, *args):
         pstate = self._parent.state
         state = self._state
-        
+
         source = state.source_selection
         source.lat = pstate.lat
         source.lon = pstate.lon
@@ -225,6 +225,15 @@ class SourceElement(Element):
         self._state.source_selection.source = source
 
         self.update()
+
+    def update_source(self, *args):
+        source = self._state.source_selection
+
+        source_new = ProxyRectangularSource()
+
+        for propname in source_new.T.propnames:
+            setattr(source_new, propname, source.__dict__[propname])
+
 
     def update(self, *args):
         state = self._state
@@ -340,9 +349,10 @@ class SourceElement(Element):
                         'Value of %s needs to be a float or integer'
                         % string.capwords(attribute))
 
+            self._state.listerners = []
+
             for il, label in enumerate(source.T.propnames):
                 if label in source._ranges.keys():
-                    print(label, getattr(source, label))
 
                     layout.addWidget(qw.QLabel(string.capwords(label)), il, 0)
 
@@ -370,7 +380,7 @@ class SourceElement(Element):
                         [le.editingFinished, le.returnPressed],
                         state_to_lineedit, attribute=label)
 
-                    # le.returnPressed.connect(lambda *args: le.selectAll())
+                    le.returnPressed.connect(lambda *args: le.selectAll())
                     # setattr(self._state.source_selection, label, le)
 
             il += 1
@@ -409,6 +419,7 @@ class SourceElement(Element):
             layout.addWidget(qw.QFrame(), il, 0, 1, 3)
 
         self._controls = frame
+        self.bind_state(self._state)
 
         return self._controls
 
