@@ -12,13 +12,13 @@ import vtk
 
 from pyrocko.guts import Bool
 
-from pyrocko import gf
-from pyrocko.gui.qt_compat import qw, qc
+from pyrocko import cake, geometry, gf
+from pyrocko.gui.qt_compat import qw, qc, fnpatch
 
 from pyrocko.gui.vtk_util import\
-    make_multi_polyline, vtk_set_input
+    make_multi_polyline, ScatterPipe, vtk_set_input
 from .. import state as vstate
-from pyrocko.gui.talkie import Talkie
+from .. import common
 
 from .base import Element, ElementState
 
@@ -119,12 +119,21 @@ class ProxySource(ElementState):
     pass
 
 
-for source_cls in [gf.RectangularSource, gf.DCSource]:
+for source_cls in [gf.RectangularSource]:
 
     cls_name = 'Proxy' + source_cls.__name__
 
     class proxy_source_cls(ProxySource):
         class_name = cls_name
+
+        def __init__(self, **kwargs):
+            ProxySource.__init__(self)
+            for key, value in self._ranges.iteritems():
+                setattr(self, key, value['ini'])
+
+            if kwargs is not None:
+                for it in kwargs.items():
+                    setattr(self, it[0], it[1])
 
     proxy_source_cls.__name__ = cls_name
     vars()[cls_name] = proxy_source_cls
@@ -138,14 +147,14 @@ ProxyRectangularSource._name = 'RectangularSource'
 ProxyRectangularSource._ranges = {
     'lat': {'min': -90., 'max': 90., 'step': 1, 'ini': 0.},
     'lon': {'min': -180., 'max': 180., 'step': 1, 'ini': 0.},
-    'depth': {'min': 0., 'max': 2000000., 'step': 1, 'ini': 10000.},
-    'width': {'min': 0., 'max': 1000000., 'step': 1, 'ini': 30000.},
-    'length': {'min': 0., 'max': 2000000., 'step': 1, 'ini': 100000.},
+    'depth': {'min': 0., 'max': 600000., 'step': 1, 'ini': 10000.},
+    'width': {'min': 0., 'max': 500000., 'step': 1, 'ini': 10000.},
+    'length': {'min': 0., 'max': 1000000., 'step': 1, 'ini': 50000.},
     'strike': {'min': -180., 'max': 180., 'step': 1, 'ini': 0.},
     'dip': {'min': 0., 'max': 90., 'step': 1, 'ini': 45.},
-    'rake': {'min': -180., 'max': 180., 'step': 1, 'ini': 0.}}#,
-    # 'nucleation_x': {'min': -100., 'max': 100., 'step': 1, 'ini': 0.},
-    # 'nucleation_y': {'min': -100., 'max': 100., 'step': 1, 'ini': 0.}}
+    'rake': {'min': -180., 'max': 180., 'step': 1, 'ini': 0.},
+    'nucleation_x': {'min': -100., 'max': 100., 'step': 1, 'ini': 0.},
+    'nucleation_y': {'min': -100., 'max': 100., 'step': 1, 'ini': 0.}}
 
 
 class SourceState(ElementState):
@@ -172,7 +181,7 @@ class SourceElement(Element):
         self._points = num.array([])
 
     def _state_bind(self, *args, **kwargs):
-        vstate.state_bind(self, self._state, *args, **kwargs)
+        vstate.state_bind(self, self._state.source_selection, *args, **kwargs)
 
     def bind_state(self, state):
         upd = self.update
@@ -209,10 +218,47 @@ class SourceElement(Element):
             self._parent = None
 
     def open_file_load_dialog(self):
-        pass
+        caption = 'Select one file to open'
+        fns, _ = fnpatch(qw.QFileDialog.getOpenFileNames(
+            self._parent, caption, options=common.qfiledialog_options))
 
-    def open_file_save_dialog(self):
-        pass
+        if fns:
+            self.load_file(str(fns[0]))
+        else:
+            return
+
+    def load_file(self, path):
+        loaded_source = gf.load(filename=path)
+        source = ProxyRectangularSource(
+            **{prop: getattr(loaded_source, prop)
+                for prop in loaded_source.T.propnames
+                if getattr(loaded_source, prop)})
+
+        self._parent.remove_panel(self._controls)
+        self._controls = None
+        self._state.source_selection = source
+        self._parent.add_panel(
+            self.get_name(), self._get_controls(), visible=True)
+
+        self.update()
+
+    def open_file_save_dialog(self, fn=None):
+        caption = 'Choose a file name to write source'
+        if not fn:
+            fn, _ = fnpatch(qw.QFileDialog.getSaveFileName(
+                self._parent, caption, options=common.qfiledialog_options))
+        if fn:
+            self.save_file(str(fn))
+
+    def save_file(self, path):
+        source = self._state.source_selection
+        source2dump = gf.RectangularSource(
+            **{prop: getattr(source, prop) for prop in source.T.propnames})
+
+        if path.split('.')[-1].lower() in ['xml']:
+            source2dump.dump_xml(filename=path)
+        else:
+            source2dump.dump(filename=path)
 
     def update_loc(self, *args):
         pstate = self._parent.state
@@ -225,15 +271,6 @@ class SourceElement(Element):
         self._state.source_selection.source = source
 
         self.update()
-
-    def update_source(self, *args):
-        source = self._state.source_selection
-
-        source_new = ProxyRectangularSource()
-
-        for propname in source_new.T.propnames:
-            setattr(source_new, propname, source.__dict__[propname])
-
 
     def update(self, *args):
         state = self._state
@@ -271,56 +308,25 @@ class SourceElement(Element):
                             cs='latlon'))
                     self._parent.add_actor(self._pipe[-1].actor)
 
+                    for point, color in zip((
+                            (source.nucleation_x * 0.01,
+                             source.nucleation_y * 0.01),
+                            map_anchor[source.anchor]),
+                            (num.array([[1., 0., 0.]]),
+                             num.array([[0., 0., 1.]]))):
+
+                        points = geometry.latlondepth2xyz(
+                            fault.points_on_source(
+                                [point[0]], [point[1]],
+                                cs='latlondepth'),
+                            planetradius=cake.earthradius)
+
+                        vertices = geometry.arr_vertices(points)
+                        self._pipe.append(ScatterPipe(vertices))
+                        self._pipe[-1].set_colors(color)
+                        self._parent.add_actor(self._pipe[-1].actor)
+
         self._parent.update_view()
-
-
-    # def update_old(self, *args):
-    #     state = self._state
-
-    #     if self._pipe:
-    #         for pipe in self._pipe:
-    #             self._parent.remove_actor(pipe.actor)
-    #         self._pipe = []
-
-    #     if self._pipe and not state.visible:
-    #         for pipe in self._pipe:
-    #             self._parent.remove_actor(pipe.actor)
-
-    #     if state.visible:
-
-    #         # fault = 
-    #         polygon = Polygon(
-    #             fault.outline(cs='latlondepth'))
-    #         polygon.refine_polygon_points(cs='latlondepth')
-    #         self._pipe.append(
-    #             SourceOutlinesPipe(
-    #                 [polygon], (1., 1., 1.),
-    #                 cs='latlondepth'))
-    #         self._parent.add_actor(self._pipe[-1].actor)
-
-    #         self._pipe.append(
-    #             SourceOutlinesPipe(
-    #                 [polygon], (.6, .6, .6),
-    #                 cs='latlon'))
-    #         self._parent.add_actor(self._pipe[-1].actor)
-
-            # for point, color in zip((
-            #         (state.nucleation_x * 0.01, state.nucleation_y * 0.01),
-            #         map_anchor[state.anchor]),
-            #         (num.array([[1., 0., 0.]]), num.array([[0., 0., 1.]]))):
-
-            #     points = geometry.latlondepth2xyz(
-            #         fault.points_on_source(
-            #             [point[0]], [point[1]],
-            #             cs='latlondepth'),
-            #         planetradius=cake.earthradius)
-
-            #     vertices = geometry.arr_vertices(points)
-            #     self._pipe.append(ScatterPipe(vertices))
-            #     self._pipe[-1].set_colors(color)
-            #     self._parent.add_actor(self._pipe[-1].actor)
-
-        # self._parent.update_view()
 
     def _get_controls(self):
         if not self._controls:
@@ -334,7 +340,7 @@ class SourceElement(Element):
             frame.setLayout(layout)
 
             def state_to_lineedit(state, attribute, widget):
-                sel = getattr(state.source_selection, attribute)
+                sel = getattr(state, attribute)
 
                 widget.setText('%g' % sel)
                 if sel:
@@ -343,13 +349,11 @@ class SourceElement(Element):
             def lineedit_to_state(widget, state, attribute):
                 s = float(widget.text())
                 try:
-                    setattr(state.source_selection, attribute, s)
+                    setattr(state, attribute, s)
                 except Exception:
                     raise ValueError(
                         'Value of %s needs to be a float or integer'
                         % string.capwords(attribute))
-
-            self._state.listerners = []
 
             for il, label in enumerate(source.T.propnames):
                 if label in source._ranges.keys():
@@ -362,12 +366,8 @@ class SourceElement(Element):
                             qw.QSizePolicy.Expanding, qw.QSizePolicy.Fixed))
                     slider.setMinimum(source._ranges[label]['min'])
                     slider.setMaximum(source._ranges[label]['max'])
-                    # slider.setSingleStep(source._ranges[label]['step'])
-                    # slider.setPageStep(source._ranges[label]['step'])
-                    # slider.setValue(source._ranges[label]['ini'])
-                    # slider.setValue(
-                    #     (source._ranges[label]['max'] +
-                    #         source._ranges[label]['min']) * 0.5)
+                    slider.setSingleStep(source._ranges[label]['step'])
+                    slider.setPageStep(source._ranges[label]['step'])
                     layout.addWidget(slider, il, 1)
                     state_bind_slider(
                         self, self._state.source_selection, label, slider)
@@ -379,9 +379,6 @@ class SourceElement(Element):
                         [label], lineedit_to_state, le,
                         [le.editingFinished, le.returnPressed],
                         state_to_lineedit, attribute=label)
-
-                    le.returnPressed.connect(lambda *args: le.selectAll())
-                    # setattr(self._state.source_selection, label, le)
 
             il += 1
             layout.addWidget(qw.QLabel('Anchor'), il, 0)
@@ -395,15 +392,16 @@ class SourceElement(Element):
 
             il += 1
             pb = qw.QPushButton('Move source here')
-            layout.addWidget(pb, il, 0)
+            layout.addWidget(pb, il, 2)
             pb.clicked.connect(self.update_loc)
 
+            # il += 1
             pb = qw.QPushButton('Load')
-            layout.addWidget(pb, il, 1)
+            layout.addWidget(pb, il, 0)
             pb.clicked.connect(self.open_file_load_dialog)
 
             pb = qw.QPushButton('Save')
-            layout.addWidget(pb, il, 2)
+            layout.addWidget(pb, il, 1)
             pb.clicked.connect(self.open_file_save_dialog)
 
             il += 1
@@ -419,7 +417,6 @@ class SourceElement(Element):
             layout.addWidget(qw.QFrame(), il, 0, 1, 3)
 
         self._controls = frame
-        self.bind_state(self._state)
 
         return self._controls
 

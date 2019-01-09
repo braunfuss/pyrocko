@@ -80,9 +80,16 @@ class FileStationSelection(StationSelection):
     paths = List.T(String.T())
 
     def get_stations(self):
+        from pyrocko.io import stationxml
+
         stations = []
         for path in self.paths:
-            stations.extend(model.load_stations(path))
+            if path.split('.')[-1].lower() in ['xml']:
+                stxml = stationxml.load_xml(filename=path)
+                stations.extend(stxml.get_pyrocko_stations())
+
+            else:
+                stations.extend(model.load_stations(path))
 
         return stations
 
