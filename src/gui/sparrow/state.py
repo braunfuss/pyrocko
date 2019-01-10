@@ -75,15 +75,15 @@ def state_bind(
     wrap_update_widget()
 
 
-def state_bind_slider(owner, state, path, widget):
+def state_bind_slider(owner, state, path, widget, factor=1.):
 
     def make_funcs():
         def update_state(widget, state):
-            state.set(path, widget.value())
+            state.set(path, widget.value() * factor)
 
         def update_widget(state, widget):
             widget.blockSignals(True)
-            widget.setValue(state.get(path))
+            widget.setValue(state.get(path) * 1. / factor)
             widget.blockSignals(False)
 
         return update_state, update_widget

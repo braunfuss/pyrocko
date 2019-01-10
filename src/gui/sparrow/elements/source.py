@@ -16,7 +16,7 @@ from pyrocko import cake, geometry, gf
 from pyrocko.gui.qt_compat import qw, qc, fnpatch
 
 from pyrocko.gui.vtk_util import\
-    make_multi_polyline, ScatterPipe, vtk_set_input
+    make_multi_polyline, PolygonPipe, ScatterPipe, vtk_set_input
 from .. import state as vstate
 from .. import common
 
@@ -157,12 +157,17 @@ ProxyRectangularSource._ranges = {
         {'min': -100., 'max': 100., 'step': 1, 'ini': 0., 'fac': .01},
     'nucleation_y':
         {'min': -100., 'max': 100., 'step': 1, 'ini': 0., 'fac': .01},
-    'slip': {'min': 0., 'max': 1000., 'step': 1, 'ini': 1., 'fac': .01}}
+    'slip': {'min': 0., 'max': 1000., 'step': 1, 'ini': 1., 'fac': .01},
+    'decimation_factor': {'min': 1, 'max': 10., 'step': 1, 'ini': 1}}
 
 
 class SourceState(ElementState):
     visible = Bool.T(default=True)
     source_selection = ProxySource.T(default=ProxyRectangularSource())  # noqa
+
+    engine = gf.LocalEngine(store_superdirs=['.'])
+    store_id = 'crust2_dd'
+    store = engine.get_store(store_id=store_id)
 
     @classmethod
     def get_name(self):
@@ -275,6 +280,29 @@ class SourceElement(Element):
 
         self.update()
 
+    def update_raster(self, source):
+        sg = gf.SourceGeometry()
+        sg.get_discrete_source(source, self._state.store)
+
+        if sg.patches:
+            vertices = geometry.arr_vertices(
+                geometry.latlondepth2xyz(
+                    num.concatenate(([patch.points for patch in sg.patches])),
+                    planetradius=cake.earthradius))
+
+            faces = num.empty_like(sg.patches)
+            values = num.empty_like(sg.patches)
+
+            for ip, patch in enumerate(sg.patches):
+                faces[ip] = num.array(
+                    [i + ip * len(patch.points)
+                        for i in range(len(patch.points))])
+                values[ip] = patch.time
+
+            self._pipe.append(
+                PolygonPipe(vertices, faces, values=values, contour=False))
+            self._parent.add_actor(self._pipe[-1].actor)
+
     def update(self, *args):
         state = self._state
         source = state.source_selection
@@ -328,6 +356,8 @@ class SourceElement(Element):
                         self._pipe.append(ScatterPipe(vertices))
                         self._pipe[-1].set_colors(color)
                         self._parent.add_actor(self._pipe[-1].actor)
+
+                    self.update_raster(fault)
 
         self._parent.update_view()
 

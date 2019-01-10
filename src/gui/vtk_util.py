@@ -209,7 +209,7 @@ class TrimeshPipe(object):
 
 
 class PolygonPipe(object):
-    def __init__(self, vertices, faces, values=None):
+    def __init__(self, vertices, faces, values=None, contour=False):
 
         vpoints = vtk.vtkPoints()
         vpoints.SetNumberOfPoints(vertices.shape[0])
@@ -230,15 +230,25 @@ class PolygonPipe(object):
 
         vtk_set_input(mapper, pd)
 
-        mapper.ScalarVisibilityOff()
-
         act = vtk.vtkActor()
-        act.SetMapper(mapper)
+
+        if contour:
+            pass
+            # scalar_range = pd.GetScalarRange()
+            # vcontour = vtk.vtkContourFilter()
+            # vcontour.SetInputConnection(mapper.GetOutputPort())
+            # vcontour.GenerateValues(12, scalar_range)
+            # mapper.SetInputConnection(vcontour.GetOutputPort())
+            # act.SetMapper(mapper)
+
+        else:
+            act.SetMapper(mapper)
+
         prop = act.GetProperty()
-        prop.SetColor(0.5, 0.5, 0.5)
-        prop.SetAmbientColor(0.3, 0.3, 0.3)
-        prop.SetDiffuseColor(0.5, 0.5, 0.5)
-        prop.SetSpecularColor(1.0, 1.0, 1.0)
+        # prop.SetColor(0.5, 0.5, 0.5)
+        # prop.SetAmbientColor(0.3, 0.3, 0.3)
+        # prop.SetDiffuseColor(0.5, 0.5, 0.5)
+        # prop.SetSpecularColor(1.0, 1.0, 1.0)
         # prop.SetOpacity(0.7)
         self.prop = prop
 
@@ -259,7 +269,7 @@ class PolygonPipe(object):
         self.polydata.SetPoints(vpoints)
 
     def set_values(self, values):
-        vvalues = numpy_to_vtk(values.astype(num.float64), deep=1)
+        vvalues = numpy_to_vtk(values.astype(num.float64))#, deep=1)
 
         vvalues = vtk.vtkDoubleArray()
         for value in values:
