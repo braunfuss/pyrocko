@@ -84,7 +84,7 @@ class Polygon(object):
 
             if cs == 'latlondepth':
                 delta_z = points[i + 1, 2] - points[i, 2]
-                total_dist = math.sqrt(dist**2 + (delta_z / 111.)**2)
+                total_dist = math.sqrt(dist**2 + (delta_z / 11100.)**2)
 
             elif cs == 'latlon':
                 total_dist = dist
@@ -147,14 +147,17 @@ ProxyRectangularSource._name = 'RectangularSource'
 ProxyRectangularSource._ranges = {
     'lat': {'min': -90., 'max': 90., 'step': 1, 'ini': 0.},
     'lon': {'min': -180., 'max': 180., 'step': 1, 'ini': 0.},
-    'depth': {'min': 0., 'max': 600000., 'step': 1, 'ini': 10000.},
-    'width': {'min': 0., 'max': 500000., 'step': 1, 'ini': 10000.},
-    'length': {'min': 0., 'max': 1000000., 'step': 1, 'ini': 50000.},
+    'depth': {'min': 0., 'max': 600000., 'step': 1000, 'ini': 10000.},
+    'width': {'min': 0., 'max': 500000., 'step': 1000, 'ini': 10000.},
+    'length': {'min': 0., 'max': 1000000., 'step': 1000, 'ini': 50000.},
     'strike': {'min': -180., 'max': 180., 'step': 1, 'ini': 0.},
     'dip': {'min': 0., 'max': 90., 'step': 1, 'ini': 45.},
     'rake': {'min': -180., 'max': 180., 'step': 1, 'ini': 0.},
-    'nucleation_x': {'min': -100., 'max': 100., 'step': 1, 'ini': 0.},
-    'nucleation_y': {'min': -100., 'max': 100., 'step': 1, 'ini': 0.}}
+    'nucleation_x':
+        {'min': -100., 'max': 100., 'step': 1, 'ini': 0., 'fac': .01},
+    'nucleation_y':
+        {'min': -100., 'max': 100., 'step': 1, 'ini': 0., 'fac': .01},
+    'slip': {'min': 0., 'max': 1000., 'step': 1, 'ini': 1., 'fac': .01}}
 
 
 class SourceState(ElementState):
@@ -309,8 +312,8 @@ class SourceElement(Element):
                     self._parent.add_actor(self._pipe[-1].actor)
 
                     for point, color in zip((
-                            (source.nucleation_x * 0.01,
-                             source.nucleation_y * 0.01),
+                            (source.nucleation_x,
+                             source.nucleation_y),
                             map_anchor[source.anchor]),
                             (num.array([[1., 0., 0.]]),
                              num.array([[0., 0., 1.]]))):
@@ -369,8 +372,13 @@ class SourceElement(Element):
                     slider.setSingleStep(source._ranges[label]['step'])
                     slider.setPageStep(source._ranges[label]['step'])
                     layout.addWidget(slider, il, 1)
-                    state_bind_slider(
-                        self, self._state.source_selection, label, slider)
+                    try:
+                        state_bind_slider(
+                            self, self._state.source_selection, label, slider,
+                            factor=source._ranges[label]['fac'])
+                    except Exception:
+                        state_bind_slider(
+                            self, self._state.source_selection, label, slider)
 
                     le = qw.QLineEdit()
                     layout.addWidget(le, il, 2)
