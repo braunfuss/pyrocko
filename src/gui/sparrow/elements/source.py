@@ -16,7 +16,8 @@ from pyrocko import cake, geometry, gf
 from pyrocko.gui.qt_compat import qw, qc, fnpatch
 
 from pyrocko.gui.vtk_util import\
-    make_multi_polyline, PolygonPipe, ScatterPipe, vtk_set_input
+    make_multi_polyline, PolygonPipe, ScatterPipe, StructuredGridPipe,\
+    vtk_set_input
 from .. import state as vstate
 from .. import common
 
@@ -283,12 +284,21 @@ class SourceElement(Element):
     def update_raster(self, source):
         sg = gf.SourceGeometry()
         sg.get_discrete_source(source, self._state.store)
+        contour = True
 
         if sg.patches:
+            # if contour is False:
             vertices = geometry.arr_vertices(
                 geometry.latlondepth2xyz(
-                    num.concatenate(([patch.points for patch in sg.patches])),
+                    num.concatenate(([
+                        patch.points for patch in sg.patches])),
                     planetradius=cake.earthradius))
+            # else:
+            #     vertices = geometry.arr_vertices(
+            #         geometry.latlondepth2xyz(
+            #             num.array([
+            #                 patch.central_point for patch in sg.patches]),
+            #             planetradius=cake.earthradius))
 
             faces = num.empty_like(sg.patches)
             values = num.empty_like(sg.patches)
@@ -299,8 +309,12 @@ class SourceElement(Element):
                         for i in range(len(patch.points))])
                 values[ip] = patch.time
 
-            self._pipe.append(
-                PolygonPipe(vertices, faces, values=values, contour=False))
+            if contour is True:
+                self._pipe.append(StructuredGridPipe(vertices, faces, values))
+            else:
+                self._pipe.append(
+                    PolygonPipe(vertices, faces, values=values))
+
             self._parent.add_actor(self._pipe[-1].actor)
 
     def update(self, *args):

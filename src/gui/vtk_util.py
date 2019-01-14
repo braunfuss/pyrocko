@@ -209,8 +209,7 @@ class TrimeshPipe(object):
 
 
 class PolygonPipe(object):
-    def __init__(self, vertices, faces, values=None, contour=False):
-
+    def __init__(self, vertices, faces, values=None):
         vpoints = vtk.vtkPoints()
         vpoints.SetNumberOfPoints(vertices.shape[0])
         vpoints.SetData(numpy_to_vtk(vertices))
@@ -227,22 +226,10 @@ class PolygonPipe(object):
         pd.SetPolys(cells)
 
         mapper = vtk.vtkPolyDataMapper()
-
         vtk_set_input(mapper, pd)
 
         act = vtk.vtkActor()
-
-        if contour:
-            pass
-            # scalar_range = pd.GetScalarRange()
-            # vcontour = vtk.vtkContourFilter()
-            # vcontour.SetInputConnection(mapper.GetOutputPort())
-            # vcontour.GenerateValues(12, scalar_range)
-            # mapper.SetInputConnection(vcontour.GetOutputPort())
-            # act.SetMapper(mapper)
-
-        else:
-            act.SetMapper(mapper)
+        act.SetMapper(mapper)
 
         prop = act.GetProperty()
         # prop.SetColor(0.5, 0.5, 0.5)
@@ -277,3 +264,76 @@ class PolygonPipe(object):
 
         self.polydata.GetCellData().SetScalars(vvalues)
         self.mapper.SetScalarRange(values.min(), values.max())
+
+
+class StructuredGridPipe(object):
+    def __init__(self, vertices, faces, values):
+        vpoints = vtk.vtkPoints()
+        vpoints.SetNumberOfPoints(vertices.shape[0])
+        vpoints.SetData(numpy_to_vtk(vertices))
+
+        sgrid = vtk.vtkUnstructuredGrid()
+        sgrid.SetPoints(vpoints)
+        sgrid = self.set_values(sgrid, values)
+
+        cells = vtk.vtkCellArray()
+        for face in faces:
+            cells.InsertNextCell(face.size)
+            for ivert in face:
+                cells.InsertCellPoint(ivert)
+
+        sgrid.SetCells(10, cells)
+        sgrid = self.set_values(sgrid, values)
+        scalar_range = sgrid.GetScalarRange()
+
+        vcontour = vtk.vtkContourGrid()
+        vcontour.SetInputData(sgrid)
+        vcontour.GenerateValues(100, 0., 10.)
+        # vcontour.Update()
+
+        mapper = vtk.vtkPolyDataMapper()
+        mapper.SetInputConnection(vcontour.GetOutputPort())
+
+        # mapper = vtk.vtkDataSetMapper()
+        # vtk_set_input(mapper, sgrid)
+
+
+        # hedgehog = vtk.vtkHedgeHog()
+        # hedgehog.SetInputData(sgrid)
+        # hedgehog.SetScaleFactor(0.1)
+
+        # vcontour = vtk.vtkContourFilter()
+        # vcontour.SetInputConnection(hedgehog.GetOutputPort())
+        # vcontour.GenerateValues(12, scalar_range)
+        # mapper = vtk.vtkPolyDataMapper()
+        # mapper.SetInputConnection(vcontour.GetOutputPort())
+
+        act = vtk.vtkActor()
+        act.SetMapper(mapper)
+
+        prop = act.GetProperty()
+        prop.SetLineWidth(2.)
+        prop.SetColor(0.5, 0.5, 0.5)
+        prop.SetAmbientColor(0.3, 0.3, 0.3)
+        prop.SetDiffuseColor(0.5, 0.5, 0.5)
+        prop.SetSpecularColor(1.0, 1.0, 1.0)
+
+        self.prop = prop
+        self.polydata = sgrid
+        self.mapper = mapper
+        self.actor = act
+
+
+    def set_values(self, sgrid, values):
+        vvalues = numpy_to_vtk(values.astype(num.float64))#, deep=1)
+
+        vvalues = vtk.vtkDoubleArray()
+        for value in values:
+            vvalues.InsertNextValue(value)
+
+        try:
+            sgrid.GetCellData().SetScalars(vvalues)
+        except Exception:
+            sgrid.GetPointData().SetScalars(vvalues)
+
+        return sgrid
