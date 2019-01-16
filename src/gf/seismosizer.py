@@ -1856,7 +1856,7 @@ class RectangularSource(SourceWithDerivedMagnitude):
             self.strike, self.dip, self.length, self.width, self.anchor,
             self.velocity, stf=stf, nucleation_x=nucx, nucleation_y=nucy,
             decimation_factor=self.decimation_factor)
-
+        
         if self.slip is not None:
             if target is not None:
                 interpolation = target.interpolation

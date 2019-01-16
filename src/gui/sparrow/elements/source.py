@@ -10,14 +10,13 @@ import numpy as num
 
 import vtk
 
-from pyrocko.guts import Bool
+from pyrocko.guts import Bool, Float, Object, String
 
 from pyrocko import cake, geometry, gf
 from pyrocko.gui.qt_compat import qw, qc, fnpatch
 
 from pyrocko.gui.vtk_util import\
-    make_multi_polyline, PolygonPipe, ScatterPipe, StructuredGridPipe,\
-    vtk_set_input
+    make_multi_polyline, PolygonPipe, ScatterPipe, vtk_set_input
 from .. import state as vstate
 from .. import common
 
@@ -158,17 +157,39 @@ ProxyRectangularSource._ranges = {
         {'min': -100., 'max': 100., 'step': 1, 'ini': 0., 'fac': .01},
     'nucleation_y':
         {'min': -100., 'max': 100., 'step': 1, 'ini': 0., 'fac': .01},
-    'slip': {'min': 0., 'max': 1000., 'step': 1, 'ini': 1., 'fac': .01},
-    'decimation_factor': {'min': 1, 'max': 10., 'step': 1, 'ini': 1}}
+    'slip': {'min': 0., 'max': 1000., 'step': 1, 'ini': 1., 'fac': .01}}
+
+
+class ProxyConfig(Object):
+    deltas = num.array([1000., 1000.])
+    deltat = Float.T(default=0.5)
+    rho = Float.T(default=2800)
+    vs = Float.T(default=3600)
+
+    def get_shear_moduli(self, *args, **kwargs):
+        points = kwargs.get('points')
+        return num.ones(len(points)) * num.power(self.vs, 2) * self.rho
+
+
+class ProxyStore(Object):
+    def __init__(self, **kwargs):
+        config = ProxyConfig()
+        if kwargs:
+            config.deltas = kwargs.get('deltas', config.deltas)
+            config.deltat = kwargs.get('deltat', config.deltat)
+            config.rho = kwargs.get('rho', config.rho)
+            config.vs = kwargs.get('vs', config.vs)
+
+        self.config = config
+        self.mode = String.T(default='r')
+        self._f_data = None
+        self._f_index = None
 
 
 class SourceState(ElementState):
     visible = Bool.T(default=True)
     source_selection = ProxySource.T(default=ProxyRectangularSource())  # noqa
-
-    engine = gf.LocalEngine(store_superdirs=['.'])
-    store_id = 'crust2_dd'
-    store = engine.get_store(store_id=store_id)
+    deltat = Float.T(default=0.5)
 
     @classmethod
     def get_name(self):
@@ -189,14 +210,18 @@ class SourceElement(Element):
         self._controls = None
         self._points = num.array([])
 
-    def _state_bind(self, *args, **kwargs):
+    def _state_bind_source(self, *args, **kwargs):
         vstate.state_bind(self, self._state.source_selection, *args, **kwargs)
+
+    def _state_bind_store(self, *args, **kwargs):
+        vstate.state_bind(self, self._state, *args, **kwargs)
 
     def bind_state(self, state):
         upd = self.update
         self._listeners.append(upd)
         state.add_listener(upd, 'source_selection')
         state.add_listener(upd, 'visible')
+        state.add_listener(upd, 'deltat')
         self._state = state
 
     def unbind_state(self):
@@ -282,23 +307,19 @@ class SourceElement(Element):
         self.update()
 
     def update_raster(self, source):
+        store = ProxyStore(
+            deltat=self._state.deltat)
+        store.config.deltas = num.array(
+            [(store.config.deltat * store.config.vs) + 1] * 2)
         sg = gf.SourceGeometry()
-        sg.get_discrete_source(source, self._state.store)
-        contour = True
+        sg.get_discrete_source(source, store)
 
         if sg.patches:
-            # if contour is False:
             vertices = geometry.arr_vertices(
                 geometry.latlondepth2xyz(
                     num.concatenate(([
                         patch.points for patch in sg.patches])),
                     planetradius=cake.earthradius))
-            # else:
-            #     vertices = geometry.arr_vertices(
-            #         geometry.latlondepth2xyz(
-            #             num.array([
-            #                 patch.central_point for patch in sg.patches]),
-            #             planetradius=cake.earthradius))
 
             faces = num.empty_like(sg.patches)
             values = num.empty_like(sg.patches)
@@ -309,18 +330,14 @@ class SourceElement(Element):
                         for i in range(len(patch.points))])
                 values[ip] = patch.time
 
-            if contour is True:
-                self._pipe.append(StructuredGridPipe(vertices, faces, values))
-            else:
-                self._pipe.append(
-                    PolygonPipe(vertices, faces, values=values))
+            self._pipe.append(
+                PolygonPipe(vertices, faces, values=values))
 
             self._parent.add_actor(self._pipe[-1].actor)
 
     def update(self, *args):
         state = self._state
         source = state.source_selection
-
         source_list = gf.source_classes
 
         if self._pipe:
@@ -427,10 +444,34 @@ class SourceElement(Element):
                     le = qw.QLineEdit()
                     layout.addWidget(le, il, 2)
 
-                    self._state_bind(
+                    self._state_bind_source(
                         [label], lineedit_to_state, le,
                         [le.editingFinished, le.returnPressed],
                         state_to_lineedit, attribute=label)
+
+            for label, name in zip(
+                    ['GF dt'], ['deltat']):
+                il += 1
+                layout.addWidget(qw.QLabel(label), il, 0)
+                slider = qw.QSlider(qc.Qt.Horizontal)
+                slider.setSizePolicy(
+                    qw.QSizePolicy(
+                        qw.QSizePolicy.Expanding, qw.QSizePolicy.Fixed))
+                slider.setMinimum(1.)
+                slider.setMaximum(1000.)
+                slider.setSingleStep(1)
+                slider.setPageStep(1)
+                layout.addWidget(slider, il, 1)
+                state_bind_slider(
+                    self, self._state, name, slider, factor=0.01)
+
+                le = qw.QLineEdit()
+                layout.addWidget(le, il, 2)
+
+                self._state_bind_store(
+                    [name], lineedit_to_state, le,
+                    [le.editingFinished, le.returnPressed],
+                    state_to_lineedit, attribute=name)
 
             il += 1
             layout.addWidget(qw.QLabel('Anchor'), il, 0)
@@ -447,7 +488,6 @@ class SourceElement(Element):
             layout.addWidget(pb, il, 2)
             pb.clicked.connect(self.update_loc)
 
-            # il += 1
             pb = qw.QPushButton('Load')
             layout.addWidget(pb, il, 0)
             pb.clicked.connect(self.open_file_load_dialog)
