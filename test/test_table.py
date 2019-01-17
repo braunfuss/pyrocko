@@ -15,14 +15,17 @@ class TableTestCase(unittest.TestCase):
         coords = num.random.random(size=(npoints, 3))
         times = num.random.random(size=npoints)
 
-        t.add_cols(
-            [table.Header(name=name) for name in ['x', 'y', 'z', 't']],
-            [coords, times],
-            [table.Header(name='coordinates'), None])
+        t.add_cols([
+            table.Header(name='coords', sub_headers=[
+                table.SubHeader(name=name) for name in ['x', 'y', 'z']]),
+            table.Header(name='t')],
+            [coords, times])
+
+        t.add_rows([coords, times])
 
         print(t)
         for c, i in [('x', 0), ('y', 1), ('z', 2)]:
-            assert num.all(t.get_col_group('coordinates')[:, i] == t.get_col(c))
+            assert num.all(t.get_col('coords')[:, i] == t.get_col(c))
 
 
 if __name__ == '__main__':
