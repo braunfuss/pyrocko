@@ -174,8 +174,7 @@ class Table(object):
             array = header.default_array(nrows_current)
 
         array = num.asarray(array)
-        print(header.get_ncols(), ncols(array))
-
+        
         assert header.get_ncols() == ncols(array)
         assert array.ndim in (1, 2)
         if self._arrays:
@@ -248,7 +247,6 @@ class Table(object):
             recipe = self.get_recipe_for_col(name)
             recipe._update_col(self, name)
 
-            print('mm', mask)
             return recipe.get_table().get_col(name, mask)
 
     def get_header(self, name):
@@ -281,13 +279,9 @@ class Table(object):
 
     def get_recipe_for_col(self, name):
         for recipe in self.recipes:
-            print(recipe, recipe.has_col(name), name)
             if recipe.has_col(name):
-                print('xx')
                 return recipe
-                print('yyy')
-
-        print('yy')
+                
         raise NoSuchRecipe(name)
 
     def get_description(self):
@@ -367,7 +361,6 @@ class Recipe(object):
 
     def _update_col(self, table, name):
         if not self._table.has_col(name):
-            print('aufruf')
             self._col_update_map[name](table)
 
     def _add_rows_handler(self, table, nrows_added):

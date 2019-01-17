@@ -26,6 +26,7 @@ from pyrocko.guts_array import Array
 
 from pyrocko import moment_tensor as mt
 from pyrocko import trace, util, config, model
+from pyrocko.table import Table, Header, SubHeader
 from pyrocko.orthodrome import ne_to_latlon
 from pyrocko.model import Location
 
@@ -294,6 +295,19 @@ def points_on_rect_source(
         mt.euler_to_matrix(dip * d2r, strike * d2r, 0.0))
 
     return num.dot(rotmat.T, points.T).T
+
+
+class Geometry(Object):
+    centroid = Table()
+    patches = List.T(optional=True)
+    outline = List.T(optional=True)
+
+    def set_centroid(self, event, **kwargs):
+        for prop in event.T.propnames:
+            array = num.array([getattr(event, prop)])
+            if array:
+                print(prop,num.array([getattr(event, prop)]))
+                self.centroid.add_col(prop, array)
 
 
 class SourceGeometry(Object):
@@ -1166,6 +1180,14 @@ class Source(Location, Cloneable):
             depth=self.depth,
             duration=duration,
             **kwargs)
+
+    def geometry(self, **kwargs):
+        geom = Geometry()
+        evt = self.pyrocko_event(**kwargs)
+
+        geom.set_centroid(evt)
+
+        return geom
 
     def outline(self, cs='xyz'):
         points = num.atleast_2d(num.zeros([1, 3]))
