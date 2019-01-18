@@ -304,10 +304,15 @@ class Geometry(Object):
 
     def set_centroid(self, event, **kwargs):
         for prop in event.T.propnames:
-            array = num.array([getattr(event, prop)])
-            if array:
-                print(prop,num.array([getattr(event, prop)]))
-                self.centroid.add_col(prop, array)
+            value = getattr(event, prop)
+            if value or value==0.:
+                self.centroid.add_col(prop, [value])
+
+    def set_patches(self):
+        pass
+
+    def set_outline(self):
+        pass
 
 
 class SourceGeometry(Object):
@@ -1183,9 +1188,7 @@ class Source(Location, Cloneable):
 
     def geometry(self, **kwargs):
         geom = Geometry()
-        evt = self.pyrocko_event(**kwargs)
-
-        geom.set_centroid(evt)
+        geom.set_centroid(self.pyrocko_event(**kwargs))
 
         return geom
 
