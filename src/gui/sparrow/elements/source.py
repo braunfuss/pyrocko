@@ -379,7 +379,7 @@ class SourceElement(Element):
 
                         points = geometry.latlondepth2xyz(
                             fault.points_on_source(
-                                [point[0]], [point[1]],
+                                points_x=[point[0]], points_y=[point[1]],
                                 cs='latlondepth'),
                             planetradius=cake.earthradius)
 

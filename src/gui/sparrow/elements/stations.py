@@ -35,12 +35,6 @@ def stations_to_points(stations):
 
     station_table.add_col(('coords', '', ('lat', 'lon', 'depth')), coords)
 
-    # station_table.add_cols(
-    #     [table.Header(name=name) for name in
-    #         ['lat', 'lon', 'depth']],
-    #     [coords],
-    #     [table.Header(name=name) for name in['coords']])
-
     return geometry.latlondepth2xyz(
         station_table.get_col('coords'),
         planetradius=cake.earthradius)

@@ -21,12 +21,12 @@ import numpy as num
 
 from pyrocko.guts import (Object, Float, String, StringChoice, List,
                           Timestamp, Int, SObject, ArgumentError, Dict,
-                          ValidationError)
+                          ValidationError, Any)
 from pyrocko.guts_array import Array
 
 from pyrocko import moment_tensor as mt
 from pyrocko import trace, util, config, model
-from pyrocko.table import Table, Header, SubHeader
+from pyrocko.table import Table, LocationRecipe
 from pyrocko.orthodrome import ne_to_latlon
 from pyrocko.model import Location
 
@@ -276,20 +276,37 @@ def outline_rect_source(strike, dip, length, width, anchor):
 
 
 def points_on_rect_source(
-        strike, dip, length, width, anchor, points_x, points_y):
-    
-    assert len(points_x) == len(points_y) 
+        strike, dip, length, width, anchor,
+        discretized_basesource=None, points_x=None, points_y=None):
+
     ln = length
     wd = width
 
-    points = num.zeros(shape=((len(points_x), 3)))
-    for i, (x, y) in enumerate(zip(points_x, points_y)):
-        points[i, :] = num.array(
-            [x * 0.5 * ln, y * 0.5 * wd, 0.0])
+    if discretized_basesource:
+        ds = discretized_basesource
 
-    anch_x, anch_y = map_anchor[anchor]
-    points[:, 0] -= anch_x * 0.5 * length
-    points[:, 1] -= anch_y * 0.5 * width
+        nl_patches = ds.nl + 1
+        nw_patches = ds.nw + 1
+        
+        npoints = nl_patches * nw_patches
+        points = num.zeros(shape=(npoints, 3))
+        for il in range(nl_patches):
+            for iw in range(nw_patches):
+                points[il * nw_patches + iw, :] = num.array(
+                    [il * ds.dl, iw * ds.dw, 0.0])
+
+        anch_x, anch_y = map_anchor['bottom_right']
+
+    elif points_x and points_y:
+        points = num.zeros(shape=((len(points_x), 3)))
+        for i, (x, y) in enumerate(zip(points_x, points_y)):
+            points[i, :] = num.array(
+                [x * 0.5 * ln, y * 0.5 * wd, 0.0])
+
+        anch_x, anch_y = map_anchor[anchor]
+    
+    points[:, 0] -= anch_x * 0.5 * ln
+    points[:, 1] -= anch_y * 0.5 * wd
 
     rotmat = num.asarray(
         mt.euler_to_matrix(dip * d2r, strike * d2r, 0.0))
@@ -297,10 +314,43 @@ def points_on_rect_source(
     return num.dot(rotmat.T, points.T).T
 
 
+def lists_to_c5(
+        ref_lat, ref_lon,
+        points=[], north_shifts=[], east_shifts=[], depths=[]):
+    
+    if len(north_shifts) != 0:
+        npoints = len(north_shifts)
+    else:
+        npoints = len(points)
+
+    def to_arr(list):
+        arr = num.asarray(list)
+
+        if arr.ndim == 1:
+            return arr.reshape(len(arr), 1)
+        else:
+            return arr
+
+    if len(points) == 0:
+        points = num.concatenate((
+            to_arr(north_shifts), to_arr(east_shifts), to_arr(depths)), axis=1)
+
+    return num.concatenate((
+        to_arr([ref_lat] * npoints), to_arr([ref_lon] * npoints),
+        to_arr(points)), axis=1)
+
+
+class Patch(Object):
+    def __init__(self, points, vertices=None, faces=None):
+        self.points = points
+        self.vertices = vertices
+        self.faces = faces
+
+
 class Geometry(Object):
-    centroid = Table()
-    patches = List.T(optional=True)
-    outline = List.T(optional=True)
+    centroid = Any.T(default=Table())
+    outline = None
+    patches = None
 
     def set_centroid(self, event, **kwargs):
         for prop in event.T.propnames:
@@ -308,59 +358,102 @@ class Geometry(Object):
             if value or value==0.:
                 self.centroid.add_col(prop, [value])
 
-    def set_patches(self):
-        pass
+    def set_outline(self, ref_lat, ref_lon, points):
+        coords = lists_to_c5(ref_lat, ref_lon, points=points)
 
-    def set_outline(self):
-        pass
+        vertices = Table()
+        vertices.add_recipe(LocationRecipe())
+        vertices.add_col((
+            'c5', '',
+            ('ref_lat', 'ref_lon', 'north_shift', 'east_shift', 'depth')),
+            coords)
+
+        fcs = [tuple((-1, 0, 1, 2, 3))]
+        fcs = num.array(fcs, dtype=num.dtype(','.join(['int'] * len(fcs[0]))))
+        faces = Table()
+        faces.add_col('outline', fcs)
+
+        self.outline = Patch(self.centroid, vertices=vertices, faces=faces)
+
+    def set_patches(self, discretized_basesource, vertices, faces, **kwargs):
+        ds = discretized_basesource
+
+        points = Table()
+        points.add_recipe(LocationRecipe())
+        coords = lists_to_c5(
+            ds.lat, ds.lon,
+            north_shifts=ds.north_shifts,
+            east_shifts=ds.east_shifts,
+            depths=ds.depths)
+        points.add_col((
+            'c5', '',
+            ('ref_lat', 'ref_lon', 'north_shift', 'east_shift', 'depth')),
+            coords)
+
+        verts = Table()
+        verts.add_recipe(LocationRecipe())
+        coords = lists_to_c5(ds.lat, ds.lon, vertices)
+        verts.add_col((
+            'c5', '',
+            ('ref_lat', 'ref_lon', 'north_shift', 'east_shift', 'depth')),
+            coords)
+
+        fcs = Table()
+        fcs.add_col((
+            'patch_faces', ''), faces)
+
+        for key, value in kwargs.iteritems():
+            points.add_col(key, value)
+            fcs.add_col(key, value)
+
+        self.patches = Patch(points, vertices=verts, faces=fcs)
+
+# class SourceGeometry(Object):
+#     patches = []
+#     dl = None
+#     dw = None
+
+#     def get_discrete_source(self, source, *args, **kwargs):
+#         ds = source.discretize_basesource(*args)
+
+#         self.dl = ds.dl
+#         self.dw = ds.dw
+
+#         latlon = ne_to_latlon(
+#             source.lat, source.lon, ds.north_shifts[:], ds.east_shifts[:])
+#         latlon = num.array(latlon).T
+#         latlondepth = num.concatenate(
+#                     (latlon,ds.depths.reshape((len(ds.depths), 1))),
+#                     axis=1)
+
+#         self.patches = [Patch(
+#             latlondepth[i], self.dl, self.dw, source,
+#             time=ds.times[i], ms6=ds.m6s[i]) for i in range(ds.nelements)]
 
 
-class SourceGeometry(Object):
-    patches = []
-    dl = None
-    dw = None
+# class Patch(SourceGeometry):
+#     points = []
+#     central_point = None
 
-    def get_discrete_source(self, source, *args, **kwargs):
-        ds = source.discretize_basesource(*args)
+#     def __init__(self, point, dl, dw, source, **kwargs):
+#         self.central_point = point
+#         points = outline_rect_source(
+#             source.strike, source.dip, dl, dw, 'center')
 
-        self.dl = ds.dl
-        self.dw = ds.dw
+#         points[:, 0] += point[0]
+#         points[:, 1] += point[1]
+#         points[:, 2] += point[2]
 
-        latlon = ne_to_latlon(
-            source.lat, source.lon, ds.north_shifts[:], ds.east_shifts[:])
-        latlon = num.array(latlon).T
-        latlondepth = num.concatenate(
-                    (latlon,ds.depths.reshape((len(ds.depths), 1))),
-                    axis=1)
+#         latlon = ne_to_latlon(
+#             point[0], point[1], points[:, 0], points[:, 1])
+#         latlon = num.array(latlon).T
+#         self.points = num.concatenate(
+#                     (latlon,points[:, 2].reshape((len(points[:, 2]), 1))),
+#                     axis=1)
 
-        self.patches = [Patch(
-            latlondepth[i], self.dl, self.dw, source,
-            time=ds.times[i], ms6=ds.m6s[i]) for i in range(ds.nelements)]
-
-
-class Patch(SourceGeometry):
-    points = []
-    central_point = None
-
-    def __init__(self, point, dl, dw, source, **kwargs):
-        self.central_point = point
-        points = outline_rect_source(
-            source.strike, source.dip, dl, dw, 'center')
-
-        points[:, 0] += point[0]
-        points[:, 1] += point[1]
-        points[:, 2] += point[2]
-
-        latlon = ne_to_latlon(
-            point[0], point[1], points[:, 0], points[:, 1])
-        latlon = num.array(latlon).T
-        self.points = num.concatenate(
-                    (latlon,points[:, 2].reshape((len(points[:, 2]), 1))),
-                    axis=1)
-
-        if kwargs:
-            for key, value in kwargs.iteritems():
-                setattr(self, key, value)
+#         if kwargs:
+#             for key, value in kwargs.iteritems():
+#                 setattr(self, key, value)
 
  
 class InvalidGridDef(Exception):
@@ -1189,6 +1282,7 @@ class Source(Location, Cloneable):
     def geometry(self, **kwargs):
         geom = Geometry()
         geom.set_centroid(self.pyrocko_event(**kwargs))
+        geom.set_outline(self.lat, self.lon, self.outline(cs='xyz'))
 
         return geom
 
@@ -1881,7 +1975,7 @@ class RectangularSource(SourceWithDerivedMagnitude):
             self.strike, self.dip, self.length, self.width, self.anchor,
             self.velocity, stf=stf, nucleation_x=nucx, nucleation_y=nucy,
             decimation_factor=self.decimation_factor)
-        
+
         if self.slip is not None:
             if target is not None:
                 interpolation = target.interpolation
@@ -1901,11 +1995,12 @@ class RectangularSource(SourceWithDerivedMagnitude):
         else:
             amplitudes *= self.get_moment(store, target)
 
-        return points, times, amplitudes, dl, dw
+        return points, times, amplitudes, dl, dw, nl, nw
 
     def discretize_basesource(self, store, target=None):
 
-        points, times, amplitudes, dl, dw = self._discretize(store, target)
+        points, times, amplitudes, dl, dw, nl, nw = self._discretize(
+            store, target)
 
         mot = mt.MomentTensor(
             strike=self.strike, dip=self.dip, rake=self.rake)
@@ -1922,9 +2017,35 @@ class RectangularSource(SourceWithDerivedMagnitude):
             depths=points[:, 2],
             m6s=m6s,
             dl=dl,
-            dw=dw)
+            dw=dw,
+            nl=nl,
+            nw=nw)
 
         return ds
+
+    def geometry(self, *args, **kwargs):
+        geom = Geometry()
+        geom.set_centroid(self.pyrocko_event(**kwargs))
+        geom.set_outline(self.lat, self.lon, self.outline(cs='xyz'), **kwargs)
+
+        ds = self.discretize_basesource(*args)
+        vertices = self.points_on_source(
+            cs='xyz', discretized_basesource=ds)
+
+        faces = []
+        for il in range(ds.nl):
+            for iw in range(ds.nw):
+                faces.append((
+                    il + iw * ds.nl,
+                    il + iw * ds.nl + 1,
+                    il + (iw + 1) * ds.nl -1,
+                    il + (iw + 1) * ds.nl,
+                    il + iw * ds.nl))
+        faces = num.array(faces, dtype=num.dtype(('int,int,int,int,int')))
+
+        geom.set_patches(ds, vertices, faces, **kwargs)
+
+        return geom
 
     def outline(self, cs='xyz'):
         points = outline_rect_source(self.strike, self.dip, self.length,
@@ -1949,10 +2070,11 @@ class RectangularSource(SourceWithDerivedMagnitude):
                     (latlon,points[:, 2].reshape((len(points),1))),
                     axis=1)
 
-    def points_on_source(self, points_x, points_y, cs='xyz'):
+    def points_on_source(self, cs='xyz', **kwargs):
+
         points = points_on_rect_source(
             self.strike, self.dip, self.length, self.width,
-            self.anchor, points_x, points_y)
+            self.anchor, **kwargs)
         
         points[:, 0] += self.north_shift
         points[:, 1] += self.east_shift
@@ -3476,7 +3598,6 @@ stf_classes = [
 ]
 
 __all__ = '''
-SourceGeometry
 SeismosizerError
 BadRequest
 NoSuchStore
