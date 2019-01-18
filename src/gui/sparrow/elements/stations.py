@@ -33,23 +33,16 @@ def stations_to_points(stations):
 
     station_table = table.Table()
 
-    # keys = stations[0].__dict__
-    # statable.add_cols(
-    #     [table.Header(name=name) for name in keys.iterkeys()],
-    #     [num.array([station.__dict__[key] for station in stations])
-    #         .astype(object) for key in keys],
-    #     [i for i in len(keys) * [None]])
+    station_table.add_col(('coords', '', ('lat', 'lon', 'depth')), coords)
 
-    # for attr in stations[0].iterkeys():
-
-    station_table.add_cols(
-        [table.Header(name=name) for name in
-            ['lat', 'lon', 'depth']],
-        [coords],
-        [table.Header(name=name) for name in['coords']])
+    # station_table.add_cols(
+    #     [table.Header(name=name) for name in
+    #         ['lat', 'lon', 'depth']],
+    #     [coords],
+    #     [table.Header(name=name) for name in['coords']])
 
     return geometry.latlondepth2xyz(
-        station_table.get_col_group('coords'),
+        station_table.get_col('coords'),
         planetradius=cake.earthradius)
 
 
