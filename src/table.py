@@ -1,6 +1,7 @@
 import math
 import numpy as num
 from pyrocko.guts import Object, String, Unicode, List, Int, SObject, Any
+from pyrocko import geometry, cake
 from pyrocko import orthodrome as od
 from pyrocko.util import num_full
 
@@ -414,10 +415,19 @@ class LocationRecipe(Recipe):
 
         self._register_computed_col(self._latlon_header, self._update_latlon)
 
+        self._xyz_header = Header(name='xyz', sub_headers=[
+            SubHeader(name='x', unit='m'),
+            SubHeader(name='y', unit='m'),
+            SubHeader(name='z', unit='m')])
+
+        self._register_computed_col(self._xyz_header, self._update_xyz)
+
     def _add_rows_handler(self, table, nrows_added):
         Recipe._add_rows_handler(self, table, nrows_added)
-        if self._table.has_col('latlon'):
-            self._table.remove_col('latlon')
+
+        for colname in ['latlon', 'xyz']:
+            if self._table.has_col(colname):
+                self._table.remove_col(colname)
 
     def _update_latlon(self, table):
         lats, lons = od.ne_to_latlon(
@@ -431,6 +441,19 @@ class LocationRecipe(Recipe):
         latlons[:, 1] = lons
 
         self._table.add_col(self._latlon_header, latlons)
+
+    def _update_xyz(self, table):
+        self._update_latlon(table)
+
+        xyzs = geometry.latlondepth2xyz(
+            num.concatenate((
+                table.get_col('lat').reshape(-1, 1),
+                table.get_col('lon').reshape(-1, 1),
+                table.get_col('depth').reshape(-1, 1)),
+                axis=1),
+            planetradius=cake.earthradius)
+
+        self._table.add_col(self._xyz_header, xyzs)
 
 
 class EventRecipe(LocationRecipe):

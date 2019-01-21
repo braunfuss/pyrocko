@@ -38,15 +38,22 @@ map_anchor = {
 
 
 class SourceOutlinesPipe(object):
-    def __init__(self, polygons, RGB, cs='latlondepth'):
+    def __init__(self, geometry, RGB, cs='latlondepth'):
 
         self.mapper = vtk.vtkDataSetMapper()
         self._polyline_grid = {}
 
         lines = []
 
-        for ipoly, poly in enumerate(polygons):
-            lines.append(poly.points)
+        latlon = geometry.outline.vertices.get_col('latlon')
+        depth = geometry.outline.vertices.get_col('depth')
+
+        points = num.concatenate(
+            (latlon, depth.reshape(len(depth), 1)),
+            axis=1)
+        points = num.concatenate((points, points[0].reshape(1, -1)), axis=0)
+
+        lines.append(points)
 
         if cs == 'latlondepth':
             self._polyline_grid = make_multi_polyline(
@@ -65,54 +72,6 @@ class SourceOutlinesPipe(object):
         prop.SetOpacity(1.)
 
         self.actor = actor
-
-
-class Polygon(object):
-    def __init__(self, points):
-        self.points = points
-
-    def refine_polygon_points(self, cs='latlondepth'):
-        import math
-        import pyrocko.orthodrome as od
-
-        points = self.points
-        refined_points = []
-
-        for i in range(len(points) - 1):
-            azim, dist = od.azidist_numpy(
-                points[i, 0], points[i, 1], points[i + 1, 0], points[i + 1, 1])
-
-            if cs == 'latlondepth':
-                delta_z = points[i + 1, 2] - points[i, 2]
-                total_dist = math.sqrt(dist**2 + (delta_z / 11100.)**2)
-
-            elif cs == 'latlon':
-                total_dist = dist
-
-            numint = int(math.ceil(total_dist))
-
-            for ii in range(numint):
-                factor = float(ii) / float(numint)
-
-                if cs == 'latlondepth':
-                    point = [None] * 3
-
-                    point[:2] = od.azidist_to_latlon(
-                        points[i, 0], points[i, 1], azim, dist * factor)
-                    point[2] =\
-                        points[i, 2] + delta_z * factor
-
-                elif cs == 'latlon':
-                    point = [None] * 2
-
-                    point[:] = od.azidist_to_latlon(
-                        points[i, 0], points[i, 1], azim, dist * factor)
-
-                refined_points.append(point)
-
-        refined_points.append(points[-1][:])
-
-        self.points = num.array(refined_points)
 
 
 class ProxySource(ElementState):
@@ -306,39 +265,30 @@ class SourceElement(Element):
 
         self.update()
 
-    def update_raster(self, source):
-        store = ProxyStore(
-            deltat=self._state.deltat)
-        store.config.deltas = num.array(
-            [(store.config.deltat * store.config.vs) + 1] * 2)
-        sg = gf.SourceGeometry()
-        sg.get_discrete_source(source, store)
+    def update_raster(self, fault_geometry):
+        patches = fault_geometry.patches
 
-        if sg.patches:
-            vertices = geometry.arr_vertices(
-                geometry.latlondepth2xyz(
-                    num.concatenate(([
-                        patch.points for patch in sg.patches])),
-                    planetradius=cake.earthradius))
+        vertices = geometry.arr_vertices(
+            patches.vertices.get_col('xyz'))
 
-            faces = num.empty_like(sg.patches)
-            values = num.empty_like(sg.patches)
+        values = patches.faces.get_col('times')
+        faces = [list(face) for face in patches.faces.get_col('patch_faces')]
+        faces = num.array(faces)
 
-            for ip, patch in enumerate(sg.patches):
-                faces[ip] = num.array(
-                    [i + ip * len(patch.points)
-                        for i in range(len(patch.points))])
-                values[ip] = patch.time
+        self._pipe.append(
+            PolygonPipe(vertices, faces, values=values))
 
-            self._pipe.append(
-                PolygonPipe(vertices, faces, values=values))
-
-            self._parent.add_actor(self._pipe[-1].actor)
+        self._parent.add_actor(self._pipe[-1].actor)
 
     def update(self, *args):
         state = self._state
         source = state.source_selection
         source_list = gf.source_classes
+
+        store = ProxyStore(
+            deltat=self._state.deltat)
+        store.config.deltas = num.array(
+            [(store.config.deltat * store.config.vs) + 1] * 2)
 
         if self._pipe:
             for pipe in self._pipe:
@@ -355,18 +305,18 @@ class SourceElement(Element):
                     fault = a(
                         **{prop: source.__dict__[prop]
                             for prop in source.T.propnames})
-                    polygon = Polygon(
-                        fault.outline(cs='latlondepth'))
-                    polygon.refine_polygon_points(cs='latlondepth')
+                    fault_geometry = fault.geometry(store)
+
+                    fault_geometry.refine_outline(0.1)
                     self._pipe.append(
                         SourceOutlinesPipe(
-                            [polygon], (1., 1., 1.),
+                            fault_geometry, (1., 1., 1.),
                             cs='latlondepth'))
                     self._parent.add_actor(self._pipe[-1].actor)
 
                     self._pipe.append(
                         SourceOutlinesPipe(
-                            [polygon], (.6, .6, .6),
+                            fault_geometry, (.6, .6, .6),
                             cs='latlon'))
                     self._parent.add_actor(self._pipe[-1].actor)
 
@@ -388,7 +338,7 @@ class SourceElement(Element):
                         self._pipe[-1].set_colors(color)
                         self._parent.add_actor(self._pipe[-1].actor)
 
-                    self.update_raster(fault)
+                    self.update_raster(fault_geometry)
 
         self._parent.update_view()
 

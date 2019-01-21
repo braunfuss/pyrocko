@@ -27,7 +27,8 @@ from pyrocko.guts_array import Array
 from pyrocko import moment_tensor as mt
 from pyrocko import trace, util, config, model
 from pyrocko.table import Table, LocationRecipe
-from pyrocko.orthodrome import ne_to_latlon
+from pyrocko.orthodrome import (ne_to_latlon, azidist_numpy,
+                                azidist_to_latlon, latlon_to_ne_numpy)
 from pyrocko.model import Location
 
 from . import meta, store, ws
@@ -335,9 +336,14 @@ def lists_to_c5(
         points = num.concatenate((
             to_arr(north_shifts), to_arr(east_shifts), to_arr(depths)), axis=1)
 
-    return num.concatenate((
-        to_arr([ref_lat] * npoints), to_arr([ref_lon] * npoints),
-        to_arr(points)), axis=1)
+    if isinstance(ref_lat, list) and isinstance(ref_lon, list):
+        return num.concatenate((
+            to_arr(ref_lat), to_arr(ref_lon),
+            to_arr(points)), axis=1)
+    elif isinstance(ref_lat, float) and isinstance(ref_lon, float): 
+        return num.concatenate((
+            to_arr([ref_lat] * npoints), to_arr([ref_lon] * npoints),
+            to_arr(points)), axis=1)
 
 
 class Patch(Object):
@@ -368,12 +374,62 @@ class Geometry(Object):
             ('ref_lat', 'ref_lon', 'north_shift', 'east_shift', 'depth')),
             coords)
 
-        fcs = [tuple((-1, 0, 1, 2, 3))]
+        fcs = [tuple([i for i in range(-1, len(coords))])]
         fcs = num.array(fcs, dtype=num.dtype(','.join(['int'] * len(fcs[0]))))
         faces = Table()
         faces.add_col('outline', fcs)
 
         self.outline = Patch(self.centroid, vertices=vertices, faces=faces)
+
+    def refine_outline(self, deltadeg):
+        import math
+
+        assert self.outline
+
+        deg2m = 111120.
+
+        verts = self.outline.vertices
+        latlon = verts.get_col('latlon')
+        ref_lat = verts.get_col('ref_lat')
+        ref_lon = verts.get_col('ref_lon')
+        depth = verts.get_col('depth')
+
+        points = []
+
+        for i in range(len(latlon) - 1):
+            azim, dist = azidist_numpy(
+                latlon[i, 0], latlon[i, 1], latlon[i + 1, 0], latlon[i + 1, 1])
+
+            delta_z = depth[i + 1] - depth[i]
+            total_dist = math.sqrt(dist**2 + (delta_z / deg2m)**2)
+
+            numint = int(math.ceil(total_dist / deltadeg))
+
+            for ii in range(numint):
+                factor = float(ii) / float(numint)
+
+                point = [None] * 3
+
+                point[:2] = azidist_to_latlon(
+                    latlon[i, 0], latlon[i, 1], azim, dist * factor)
+                point[2] =\
+                    depth[i] + delta_z * factor
+
+                points.append(point)
+
+        points.append(points[-1][:])
+        points = num.array(points)
+
+        norths, easts = latlon_to_ne_numpy(
+            ref_lat[0], ref_lon[0], points[:, 0], points[:, 1])
+        depths_new = num.array(points[:, 2]).reshape(len(points[:, 2]), 1)
+
+        coords = num.concatenate(
+            (norths.reshape(len(norths), 1), easts.reshape(len(norths), 1),
+                depths_new),
+            axis=1)
+
+        self.set_outline(ref_lat[0], ref_lon[0], coords)
 
     def set_patches(self, discretized_basesource, vertices, faces, **kwargs):
         ds = discretized_basesource
@@ -402,58 +458,17 @@ class Geometry(Object):
         fcs.add_col((
             'patch_faces', ''), faces)
 
-        for key, value in kwargs.iteritems():
-            points.add_col(key, value)
-            fcs.add_col(key, value)
+        props = ds.T.propnames
+        for prop, unit, sub_header in zip(
+            ['times', 'm6s'], ['s', 'Pa'],
+            [(), ('mnn', 'mee', 'mdd', 'mne', 'mnd', 'med')]):
+
+            if prop in props:
+                values = getattr(ds, prop)
+                points.add_col((prop, unit, sub_header), values)
+                fcs.add_col((prop, unit, sub_header), values)
 
         self.patches = Patch(points, vertices=verts, faces=fcs)
-
-# class SourceGeometry(Object):
-#     patches = []
-#     dl = None
-#     dw = None
-
-#     def get_discrete_source(self, source, *args, **kwargs):
-#         ds = source.discretize_basesource(*args)
-
-#         self.dl = ds.dl
-#         self.dw = ds.dw
-
-#         latlon = ne_to_latlon(
-#             source.lat, source.lon, ds.north_shifts[:], ds.east_shifts[:])
-#         latlon = num.array(latlon).T
-#         latlondepth = num.concatenate(
-#                     (latlon,ds.depths.reshape((len(ds.depths), 1))),
-#                     axis=1)
-
-#         self.patches = [Patch(
-#             latlondepth[i], self.dl, self.dw, source,
-#             time=ds.times[i], ms6=ds.m6s[i]) for i in range(ds.nelements)]
-
-
-# class Patch(SourceGeometry):
-#     points = []
-#     central_point = None
-
-#     def __init__(self, point, dl, dw, source, **kwargs):
-#         self.central_point = point
-#         points = outline_rect_source(
-#             source.strike, source.dip, dl, dw, 'center')
-
-#         points[:, 0] += point[0]
-#         points[:, 1] += point[1]
-#         points[:, 2] += point[2]
-
-#         latlon = ne_to_latlon(
-#             point[0], point[1], points[:, 0], points[:, 1])
-#         latlon = num.array(latlon).T
-#         self.points = num.concatenate(
-#                     (latlon,points[:, 2].reshape((len(points[:, 2]), 1))),
-#                     axis=1)
-
-#         if kwargs:
-#             for key, value in kwargs.iteritems():
-#                 setattr(self, key, value)
 
  
 class InvalidGridDef(Exception):
@@ -2033,14 +2048,16 @@ class RectangularSource(SourceWithDerivedMagnitude):
             cs='xyz', discretized_basesource=ds)
 
         faces = []
-        for il in range(ds.nl):
-            for iw in range(ds.nw):
+        for iw in range(ds.nw):
+            for il in range(ds.nl):
                 faces.append((
-                    il + iw * ds.nl,
-                    il + iw * ds.nl + 1,
-                    il + (iw + 1) * ds.nl -1,
-                    il + (iw + 1) * ds.nl,
-                    il + iw * ds.nl))
+                    iw + il * ds.nw,
+                    iw + il * ds.nw + 1,
+                    iw + (il + 1) * ds.nw + 2,
+                    iw + (il + 1) * ds.nw + 1,
+                    iw + il * ds.nw))
+
+        print(ds.nw, ds.nl, faces[0])
         faces = num.array(faces, dtype=num.dtype(('int,int,int,int,int')))
 
         geom.set_patches(ds, vertices, faces, **kwargs)
