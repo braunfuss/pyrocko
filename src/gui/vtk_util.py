@@ -209,7 +209,7 @@ class TrimeshPipe(object):
 
 
 class PolygonPipe(object):
-    def __init__(self, vertices, faces, values=None):
+    def __init__(self, vertices, faces, values=None, **kwargs):
         vpoints = vtk.vtkPoints()
         vpoints.SetNumberOfPoints(vertices.shape[0])
         vpoints.SetData(numpy_to_vtk(vertices))
@@ -245,6 +245,8 @@ class PolygonPipe(object):
 
         if values is not None:
             self.set_values(values)
+            colorbar_actor = self.get_colorbar_actor(**kwargs)
+            self.actor = [act, colorbar_actor]
 
     def set_opacity(self, value):
         self.prop.SetOpacity(value)
@@ -264,3 +266,31 @@ class PolygonPipe(object):
 
         self.polydata.GetCellData().SetScalars(vvalues)
         self.mapper.SetScalarRange(values.min(), values.max())
+
+    def get_colorbar_actor(self, cbar_title=None):
+        lut = vtk.vtkLookupTable()
+        lut.Build()
+        self.mapper.SetLookupTable(lut)
+
+        scalar_bar = vtk.vtkScalarBarActor()
+        scalar_bar.SetMaximumHeightInPixels(500)
+        scalar_bar.SetMaximumWidthInPixels(50)
+        scalar_bar.SetLookupTable(lut)
+        scalar_bar.SetTitle(cbar_title)
+        scalar_bar.UnconstrainedFontSizeOn()
+
+        prop_title = vtk.vtkTextProperty()
+        prop_title.SetFontFamilyToArial()
+        prop_title.SetColor(.8, .8, .8)
+        prop_title.SetFontSize(int(prop_title.GetFontSize() * 1.3))
+        prop_title.BoldOn()
+        scalar_bar.SetTitleTextProperty(prop_title)
+        scalar_bar.SetVerticalTitleSeparation(20)
+
+        prop_label = vtk.vtkTextProperty()
+        prop_label.SetFontFamilyToArial()
+        prop_label.SetColor(.8, .8, .8)
+        prop_label.SetFontSize(int(prop_label.GetFontSize() * 1.1))
+        scalar_bar.SetLabelTextProperty(prop_label)
+
+        return scalar_bar

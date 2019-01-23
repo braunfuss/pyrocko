@@ -291,12 +291,19 @@ def points_on_rect_source(
         
         npoints = nl_patches * nw_patches
         points = num.zeros(shape=(npoints, 3))
+        ln_patches = num.array([il for il in range(nl_patches)])
+        wd_patches = num.array([iw for iw in range(nw_patches)])
+
+        points_ln =\
+            2 * ((ln_patches - num.min(ln_patches)) / num.ptp(ln_patches)) - 1
+        points_wd =\
+            2 * ((wd_patches - num.min(wd_patches)) / num.ptp(wd_patches)) - 1
+
         for il in range(nl_patches):
             for iw in range(nw_patches):
-                points[il * nw_patches + iw, :] = num.array(
-                    [il * ds.dl, iw * ds.dw, 0.0])
-
-        anch_x, anch_y = map_anchor['bottom_right']
+                points[il * nw_patches + iw, :] = num.array([
+                    points_ln[il] * ln * 0.5,
+                    points_wd[iw] * wd * 0.5, 0.0])
 
     elif points_x and points_y:
         points = num.zeros(shape=((len(points_x), 3)))
@@ -304,7 +311,7 @@ def points_on_rect_source(
             points[i, :] = num.array(
                 [x * 0.5 * ln, y * 0.5 * wd, 0.0])
 
-        anch_x, anch_y = map_anchor[anchor]
+    anch_x, anch_y = map_anchor[anchor]
     
     points[:, 0] -= anch_x * 0.5 * ln
     points[:, 1] -= anch_y * 0.5 * wd

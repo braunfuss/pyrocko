@@ -145,10 +145,15 @@ class ProxyStore(Object):
         self._f_index = None
 
 
+parameter_label = {
+    'Time (s)': 'times'}
+
+
 class SourceState(ElementState):
     visible = Bool.T(default=True)
     source_selection = ProxySource.T(default=ProxyRectangularSource())  # noqa
     deltat = Float.T(default=0.5)
+    display_parameter = String.T(default='Time (s)')
 
     @classmethod
     def get_name(self):
@@ -181,6 +186,7 @@ class SourceElement(Element):
         state.add_listener(upd, 'source_selection')
         state.add_listener(upd, 'visible')
         state.add_listener(upd, 'deltat')
+        state.add_listener(upd, 'display_parameter')
         self._state = state
 
     def unbind_state(self):
@@ -265,20 +271,26 @@ class SourceElement(Element):
 
         self.update()
 
-    def update_raster(self, fault_geometry):
+    def update_raster(self, fault_geometry, param):
         patches = fault_geometry.patches
 
         vertices = geometry.arr_vertices(
             patches.vertices.get_col('xyz'))
 
-        values = patches.faces.get_col('times')
+        values = patches.faces.get_col(parameter_label[param])
         faces = [list(face) for face in patches.faces.get_col('patch_faces')]
         faces = num.array(faces)
 
         self._pipe.append(
-            PolygonPipe(vertices, faces, values=values))
+            PolygonPipe(
+                vertices, faces, values=values, cbar_title=param))
 
-        self._parent.add_actor(self._pipe[-1].actor)
+        if isinstance(self._pipe[-1].actor, list):
+            for actor in self._pipe[-1].actor:
+                self._parent.add_actor(actor)
+        else:
+            self._parent.add_actor(self._pipe[-1].actor)
+
 
     def update(self, *args):
         state = self._state
@@ -292,12 +304,13 @@ class SourceElement(Element):
 
         if self._pipe:
             for pipe in self._pipe:
-                self._parent.remove_actor(pipe.actor)
-            self._pipe = []
+                try:
+                    self._parent.remove_actor(pipe.actor)
+                except Exception:
+                    for actor in pipe.actor:
+                        self._parent.remove_actor(actor)
 
-        if self._pipe and not state.visible:
-            for pipe in self._pipe:
-                self._parent.remove_actor(pipe.actor)
+            self._pipe = []
 
         if state.visible:
             for i, a in enumerate(source_list):
@@ -338,7 +351,7 @@ class SourceElement(Element):
                         self._pipe[-1].set_colors(color)
                         self._parent.add_actor(self._pipe[-1].actor)
 
-                    self.update_raster(fault_geometry)
+                    self.update_raster(fault_geometry, state.display_parameter)
 
         self._parent.update_view()
 
@@ -432,6 +445,16 @@ class SourceElement(Element):
             layout.addWidget(cb, il, 1, 1, 2)
             state_bind_combobox(
                 self, self._state.source_selection, 'anchor', cb)
+
+            il += 1
+            layout.addWidget(qw.QLabel('Display Parameter'), il, 0)
+
+            cb = qw.QComboBox()
+            for i, s in enumerate(['Time (s)']):
+                cb.insertItem(i, s)
+            layout.addWidget(cb, il, 1, 1, 2)
+            state_bind_combobox(
+                self, self._state, 'display_parameter', cb)
 
             il += 1
             pb = qw.QPushButton('Move source here')
