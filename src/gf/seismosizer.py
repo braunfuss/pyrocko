@@ -2051,13 +2051,12 @@ class RectangularSource(SourceWithDerivedMagnitude):
         for iw in range(ds.nw):
             for il in range(ds.nl):
                 faces.append((
-                    iw + il * ds.nw,
-                    iw + il * ds.nw + 1,
-                    iw + (il + 1) * ds.nw + 2,
-                    iw + (il + 1) * ds.nw + 1,
-                    iw + il * ds.nw))
+                    il * (ds.nw + 1) + iw,
+                    il * (ds.nw + 1) + iw + 1,
+                    (il + 1) * (ds.nw + 1) + iw + 1,
+                    (il + 1) * (ds.nw + 1) + iw,
+                    il * (ds.nw + 1) + iw))
 
-        print(ds.nw, ds.nl, faces[0])
         faces = num.array(faces, dtype=num.dtype(('int,int,int,int,int')))
 
         geom.set_patches(ds, vertices, faces, **kwargs)
