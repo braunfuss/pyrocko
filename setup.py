@@ -564,6 +564,7 @@ else:
 
 subpacknames = [
     'pyrocko.gf',
+    'pyrocko.gf.analytical',
     'pyrocko.fomosto',
     'pyrocko.fomosto.report',
     'pyrocko.client',
@@ -742,6 +743,13 @@ setup(
             include_dirs=[get_python_inc()],
             extra_compile_args=['-Wno-parentheses', '-Wno-uninitialized'],
             extra_link_args=[] if sys.platform != 'sunos5' else ['-Wl,-x']),
+
+        # Extension(
+        #     'disloc_ext',
+        #     include_dirs=[get_python_inc(), numpy.get_include()],
+        #     extra_compile_args=['-Wextra'] + omp_arg,
+        #     extra_link_args=[] + omp_lib,
+        #     sources=[op.join('src', 'gf', 'ext', 'disloc.c')])
     ],
 
     scripts=[
