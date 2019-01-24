@@ -277,7 +277,10 @@ class PolygonPipe(object):
         scalar_bar.SetMaximumWidthInPixels(50)
         scalar_bar.SetLookupTable(lut)
         scalar_bar.SetTitle(cbar_title)
-        scalar_bar.UnconstrainedFontSizeOn()
+        try:
+            scalar_bar.SetUnconstrainedFontSize(True)
+        except AttributeError:
+            pass
 
         prop_title = vtk.vtkTextProperty()
         prop_title.SetFontFamilyToArial()
@@ -285,7 +288,10 @@ class PolygonPipe(object):
         prop_title.SetFontSize(int(prop_title.GetFontSize() * 1.3))
         prop_title.BoldOn()
         scalar_bar.SetTitleTextProperty(prop_title)
-        scalar_bar.SetVerticalTitleSeparation(20)
+        try:
+            scalar_bar.SetVerticalTitleSeparation(20)
+        except AttributeError:
+            pass
 
         prop_label = vtk.vtkTextProperty()
         prop_label.SetFontFamilyToArial()

@@ -746,8 +746,7 @@ setup(
         Extension(
             'disloc_ext',
             include_dirs=[get_python_inc(), numpy.get_include()],
-            extra_compile_args=['Wmissing-field-initializers',
-                                '-Wextra'] + omp_arg,
+            extra_compile_args=['-Wextra'] + omp_arg,
             extra_link_args=[] + omp_lib,
             sources=[op.join('src', 'model', 'ext', 'disloc.c')])
     ],
