@@ -202,13 +202,13 @@ class StationsElement(Element):
 
         site = str(cb.currentText()).lower()
 
-        now = time.time()
+        vstate = self._parent.state
 
         if dialog.result() == qw.QDialog.Accepted:
             self._state.station_selection = FDSNStationSelection(
                 site=site,
-                tmin=now - 3600.,
-                tmax=now)
+                tmin=vstate.tmin,
+                tmax=vstate.tmax)
 
     def _get_controls(self):
         if not self._controls:
