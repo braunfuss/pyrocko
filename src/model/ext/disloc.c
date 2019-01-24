@@ -38,7 +38,15 @@ struct module_state {
     PyObject *error;
 };
 
-#define GETSTATE(m) ((struct module_state*)PyModule_GetState(m))
+#if PY_MAJOR_VERSION >= 3
+  #define GETSTATE(m) ((struct module_state*)PyModule_GetState(m))
+#else
+  #define GETSTATE(m) (&_state); (void) m;
+  static struct module_state _state;
+#endif
+
+
+// #define GETSTATE(m) ((struct module_state*)PyModule_GetState(m))
 
 
 
@@ -327,12 +335,14 @@ static PyObject* w_disloc(PyObject *m, PyObject *args) {
   return (PyObject*) output_arr;
 }
 
-
 static PyMethodDef OkadaExtMethods[] = {
   {"disloc", w_disloc, METH_VARARGS,
    "Calculates the static displacement for an Okada Source"},
   {NULL, NULL}        /* Sentinel */
 };
+
+
+#if PY_MAJOR_VERSION >= 3
 
 static int disloc_traverse(PyObject *m, visitproc visit, void *arg) {
     Py_VISIT(GETSTATE(m)->error);
@@ -357,21 +367,39 @@ static struct PyModuleDef moduledef = {
 };
 
 #define INITERROR return NULL
-
 PyMODINIT_FUNC
 PyInit_disloc_ext(void)
+
+#else
+#define INITERROR return
+
+
+void
+initdisloc_ext(void)
+#endif
 {
+#if PY_MAJOR_VERSION >= 3
   PyObject *module = PyModule_Create(&moduledef);
+#else
+  PyObject *module = Py_InitModule('disloc_ext', OkadaExtMethods);
+#endif
+  import_array()
   if (module == NULL)
     INITERROR;
-  import_array();
+  // import_array();
   
   struct module_state *st = GETSTATE(module);
-  st->error = PyErr_NewException("disloc_ext.error", NULL, NULL);
+  st->error = PyErr_NewException("pyrocko.model.disloc_ext.DislocExtError", NULL, NULL);
   if (st->error == NULL) {
       Py_DECREF(module);
       INITERROR;
   }
 
+  Py_INCREF(st->error);
+  PyModule_AddObject(module, 'DislocExtError', st->error);
+
+#if PY_MAJOR_VERSION >= 3
   return module;
+#endif
+
 }
