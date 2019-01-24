@@ -440,11 +440,11 @@ class Viewer(qw.QMainWindow):
         self.register_state_listener(update_panel_visibility)
         self.state.add_listener(update_panel_visibility, 'panels_visible')
 
-        layout.addWidget(qw.QLabel('T min'), 3, 0)
+        layout.addWidget(qw.QLabel('T<sub>MIN</sub>'), 3, 0)
         le_tmin = qw.QLineEdit()
         layout.addWidget(le_tmin, 3, 1)
 
-        layout.addWidget(qw.QLabel('T max'), 4, 0)
+        layout.addWidget(qw.QLabel('T<sub>MAX</sub>'), 4, 0)
         le_tmax = qw.QLineEdit()
         layout.addWidget(le_tmax, 4, 1)
 
@@ -473,7 +473,7 @@ class Viewer(qw.QMainWindow):
                     attribute,
                     str_to_time(time_str, format='%Y-%m-%d %H:%M'))
             else:
-                raise ValueError('Use time format: YYYY-MM-dd [HH:mm]')
+                raise ValueError('Use time format: YYYY-mm-dd [HH:MM]')
 
         self._state_bind(
             ['tmin'], lineedit_to_time, le_tmin,
