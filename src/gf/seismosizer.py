@@ -3623,6 +3623,7 @@ stf_classes = [
 __all__ = '''
 SeismosizerError
 BadRequest
+Cloneable
 NoSuchStore
 DerivedMagnitudeError
 STFMode

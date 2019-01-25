@@ -45,11 +45,6 @@ struct module_state {
   static struct module_state _state;
 #endif
 
-
-// #define GETSTATE(m) ((struct module_state*)PyModule_GetState(m))
-
-
-
 void Okada(double *pSS, double *pDS, double *pTS, double alp, double sd, double cd, double len, double wid,
            double dep, double X, double Y, double SS, double DS, double TS)
 {
@@ -307,7 +302,7 @@ static PyObject* w_disloc(PyObject *m, PyObject *args) {
   npy_intp output_dims[2];
   int nthreads;
   npy_float64 *output, *coords, *models, nu;
-  
+
   struct module_state *st = GETSTATE(m);
 
   if (! PyArg_ParseTuple(args, "OOfI", &models_arr, &coords_arr, &nu, &nthreads)) {
@@ -335,10 +330,11 @@ static PyObject* w_disloc(PyObject *m, PyObject *args) {
   return (PyObject*) output_arr;
 }
 
-static PyMethodDef OkadaExtMethods[] = {
+static PyMethodDef okada_ext_methods[] = {
   {"disloc", w_disloc, METH_VARARGS,
    "Calculates the static displacement for an Okada Source"},
-  {NULL, NULL}        /* Sentinel */
+
+  {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
 
@@ -359,7 +355,7 @@ static struct PyModuleDef moduledef = {
         "disloc_ext",
         NULL,
         sizeof(struct module_state),
-        OkadaExtMethods,
+        okada_ext_methods,
         NULL,
         disloc_traverse,
         disloc_clear,
@@ -367,28 +363,29 @@ static struct PyModuleDef moduledef = {
 };
 
 #define INITERROR return NULL
+
 PyMODINIT_FUNC
 PyInit_disloc_ext(void)
 
 #else
 #define INITERROR return
 
-
 void
 initdisloc_ext(void)
 #endif
+
 {
 #if PY_MAJOR_VERSION >= 3
   PyObject *module = PyModule_Create(&moduledef);
 #else
-  PyObject *module = Py_InitModule('disloc_ext', OkadaExtMethods);
+  PyObject *module = Py_InitModule("disloc_ext", okada_ext_methods);
 #endif
-  import_array()
+  import_array();
+
   if (module == NULL)
     INITERROR;
-  // import_array();
-  
   struct module_state *st = GETSTATE(module);
+
   st->error = PyErr_NewException("pyrocko.model.disloc_ext.DislocExtError", NULL, NULL);
   if (st->error == NULL) {
       Py_DECREF(module);
@@ -396,10 +393,9 @@ initdisloc_ext(void)
   }
 
   Py_INCREF(st->error);
-  PyModule_AddObject(module, 'DislocExtError', st->error);
+  PyModule_AddObject(module, "DislocExtError", st->error);
 
 #if PY_MAJOR_VERSION >= 3
   return module;
 #endif
-
 }
