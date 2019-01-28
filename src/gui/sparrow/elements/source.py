@@ -304,9 +304,11 @@ class SourceElement(Element):
         nucl_x = source.nucleation_x
         nucl_y = source.nucleation_y
 
+        ln_wd = source.length / source.width
+
         endpoint = [None] * 2
         endpoint[0] = nucl_x + num.cos(rake) * slip_norm
-        endpoint[1] = nucl_y + num.sin(-rake) * slip_norm
+        endpoint[1] = nucl_y + num.sin(-rake) * slip_norm * ln_wd
 
         points = geometry.latlondepth2xyz(
             fault.points_on_source(
