@@ -16,13 +16,16 @@ from pyrocko import cake, geometry, gf
 from pyrocko.gui.qt_compat import qw, qc, fnpatch
 
 from pyrocko.gui.vtk_util import\
-    make_multi_polyline, PolygonPipe, ScatterPipe, vtk_set_input
+    make_multi_polyline, ArrowPipe, PolygonPipe, ScatterPipe, vtk_set_input
 from .. import state as vstate
 from .. import common
 
 from .base import Element, ElementState
 
 guts_prefix = 'sparrow'
+
+
+d2r = num.pi / 180.
 
 
 map_anchor = {
@@ -283,7 +286,8 @@ class SourceElement(Element):
 
         self._pipe.append(
             PolygonPipe(
-                vertices, faces, values=values, cbar_title=param))
+                vertices, faces,
+                values=values, cluster=True, cbar_title=param))
 
         if isinstance(self._pipe[-1].actor, list):
             for actor in self._pipe[-1].actor:
@@ -291,6 +295,28 @@ class SourceElement(Element):
         else:
             self._parent.add_actor(self._pipe[-1].actor)
 
+    def update_rake_arrow(self, fault):
+        source = self._state.source_selection
+        rake = source.rake * d2r
+        slip_norm = source.slip / (
+            source._ranges['slip']['max'] * source._ranges['slip']['fac'])
+
+        nucl_x = source.nucleation_x
+        nucl_y = source.nucleation_y
+
+        endpoint = [None] * 2
+        endpoint[0] = nucl_x + num.cos(rake) * slip_norm
+        endpoint[1] = nucl_y + num.sin(-rake) * slip_norm
+
+        points = geometry.latlondepth2xyz(
+            fault.points_on_source(
+                points_x=[nucl_x, endpoint[0]],
+                points_y=[nucl_y, endpoint[1]],
+                cs='latlondepth'),
+            planetradius=cake.earthradius)
+        vertices = geometry.arr_vertices(points)
+        self._pipe.append(ArrowPipe(vertices[0], vertices[1]))
+        self._parent.add_actor(self._pipe[-1].actor)
 
     def update(self, *args):
         state = self._state
@@ -352,6 +378,7 @@ class SourceElement(Element):
                         self._parent.add_actor(self._pipe[-1].actor)
 
                     self.update_raster(fault_geometry, state.display_parameter)
+                    self.update_rake_arrow(fault)
 
         self._parent.update_view()
 

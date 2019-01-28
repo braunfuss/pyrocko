@@ -5,8 +5,6 @@
 
 from __future__ import absolute_import, print_function, division
 
-import time
-
 import numpy as num
 
 from pyrocko.guts import \
@@ -157,6 +155,8 @@ class StationsElement(Element):
                 stations = state.station_selection.get_stations()
                 points = stations_to_points(stations)
                 self._pipe = ScatterPipe(points)
+                self._parent.add_actor(self._pipe.actor)
+            elif self._pipe:
                 self._parent.add_actor(self._pipe.actor)
 
             if self._pipe:
