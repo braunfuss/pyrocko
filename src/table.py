@@ -416,9 +416,9 @@ class LocationRecipe(Recipe):
         self._register_computed_col(self._latlon_header, self._update_latlon)
 
         self._xyz_header = Header(name='xyz', sub_headers=[
-            SubHeader(name='x', unit='m'),
-            SubHeader(name='y', unit='m'),
-            SubHeader(name='z', unit='m')])
+            SubHeader(name='x', unit=''),
+            SubHeader(name='y', unit=''),
+            SubHeader(name='z', unit='')])
 
         self._register_computed_col(self._xyz_header, self._update_xyz)
 

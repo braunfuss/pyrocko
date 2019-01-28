@@ -27,18 +27,19 @@ class AnalyticalSource(Location, Cloneable):
 
     time = Timestamp.T(
         default=0.,
-        help='source origin time')
+        help='source origin time',
+        optional=True)
 
     def __init__(self, **kwargs):
         Location.__init__(self, **kwargs)
 
     @property
     def northing(self):
-        return latlon_to_ne_numpy(0., 0., self.lat, self.lon)[0]
+        return self.north_shift
 
     @property
     def easting(self):
-        return latlon_to_ne_numpy(0., 0., self.lat, self.lon)[1]
+        return self.east_shift
 
     update = Source.update
 
@@ -89,6 +90,11 @@ class OkadaSource(AnalyticalRectangularSource):
         help='Poisson\'s ratio, typically 0.25',
         optional=True)
 
+    mu = Float.T(
+        default=32e9,
+        help='Shear modulus along the plane [Pa]',
+        optional=True)
+
     @property
     def seismic_moment(self):
         '''Scalar Seismic moment
@@ -109,8 +115,12 @@ class OkadaSource(AnalyticalRectangularSource):
         :rtype: float
         '''
 
-        if self.nu:
-            mu = (8. * (1 + self.nu)) / (1 - 2. * self.nu)
+        if self.nu and self.mu:
+            mu = self.mu
+        elif self.nu and not self.mu:
+            self.mu = (8. * (1 + self.nu)) / (1 - 2. * self.nu)
+        elif self.mu:
+            mu = self.mu
         else:
             mu = 32e9  # GPa
 
@@ -120,6 +130,7 @@ class OkadaSource(AnalyticalRectangularSource):
     @property
     def moment_magnitude(self):
         '''Moment magnitude from Seismic moment
+         Code copied from Kite
 
         We assume :math:`M_\\mathrm{w} = {\\frac{2}{3}}\\log_{10}(M_0) - 10.7`
 

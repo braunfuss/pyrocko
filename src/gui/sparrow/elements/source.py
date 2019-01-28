@@ -13,6 +13,7 @@ import vtk
 from pyrocko.guts import Bool, Float, Object, String
 
 from pyrocko import cake, geometry, gf
+from pyrocko.modelling import OkadaSource, DislocProcessor
 from pyrocko.gui.qt_compat import qw, qc, fnpatch
 
 from pyrocko.gui.vtk_util import\
@@ -40,16 +41,44 @@ map_anchor = {
     'bottom_right': (1.0, 1.0)}
 
 
+def patches_to_okada(Geometry, source, **kwargs):
+    points = Geometry.patches.points
+    ref_lat = points.get_col('ref_lat')
+    ref_lon = points.get_col('ref_lon')
+    north_shift = points.get_col('north_shift')
+    east_shift = points.get_col('east_shift')
+    depth = points.get_col('depth')
+    times = points.get_col('times')
+
+    length = num.array([Geometry.patches.dl] * len(ref_lat))
+    width = num.array([Geometry.patches.dw] * len(ref_lat))
+
+    slip = num.array([source.slip] * len(ref_lat))
+    strike = num.array([source.strike] * len(ref_lat))
+    dip = num.array([source.dip] * len(ref_lat))
+    rake = num.array([source.rake] * len(ref_lat))
+
+    segments = [OkadaSource(
+        ref_lat=ref_lat[i], ref_lon=ref_lon[i],
+        north_shift=north_shift[i], east_shift=east_shift[i],
+        depth=depth[i], length=length[i], width=width[i],
+        time=times[i], slip=slip[i],
+        strike=strike[i], dip=dip[i], rake=rake[i], **kwargs)
+        for i in range(len(ref_lat))]
+
+    return segments
+
+
 class SourceOutlinesPipe(object):
-    def __init__(self, geometry, RGB, cs='latlondepth'):
+    def __init__(self, Geometry, RGB, cs='latlondepth'):
 
         self.mapper = vtk.vtkDataSetMapper()
         self._polyline_grid = {}
 
         lines = []
 
-        latlon = geometry.outline.vertices.get_col('latlon')
-        depth = geometry.outline.vertices.get_col('depth')
+        latlon = Geometry.outline.vertices.get_col('latlon')
+        depth = Geometry.outline.vertices.get_col('depth')
 
         points = num.concatenate(
             (latlon, depth.reshape(len(depth), 1)),

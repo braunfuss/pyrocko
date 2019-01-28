@@ -477,6 +477,9 @@ class Geometry(Object):
 
         self.patches = Patch(points, vertices=verts, faces=fcs)
 
+        for prop in ['dl', 'dw', 'nl', 'nw']:
+            setattr(self.patches, prop, getattr(ds, prop))
+
  
 class InvalidGridDef(Exception):
     pass
