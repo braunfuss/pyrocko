@@ -257,6 +257,10 @@ class Viewer(qw.QMainWindow):
     def add_actor(self, actor):
         self.ren.AddActor(actor)
 
+    def add_actor_list(self, actorlist):
+        for actor in actorlist:
+            self.add_actor(actor)
+
     def remove_actor(self, actor):
         self.ren.RemoveActor(actor)
 
@@ -440,11 +444,11 @@ class Viewer(qw.QMainWindow):
         self.register_state_listener(update_panel_visibility)
         self.state.add_listener(update_panel_visibility, 'panels_visible')
 
-        layout.addWidget(qw.QLabel('T<sub>MIN</sub>'), 3, 0)
+        layout.addWidget(qw.QLabel('T<sub>MIN</sub> UTC:'), 3, 0)
         le_tmin = qw.QLineEdit()
         layout.addWidget(le_tmin, 3, 1)
 
-        layout.addWidget(qw.QLabel('T<sub>MAX</sub>'), 4, 0)
+        layout.addWidget(qw.QLabel('T<sub>MAX</sub> UTC:'), 4, 0)
         le_tmax = qw.QLineEdit()
         layout.addWidget(le_tmax, 4, 1)
 

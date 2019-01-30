@@ -5,7 +5,6 @@
 import numpy as num
 import logging
 
-from pyrocko.orthodrome import latlon_to_ne_numpy
 from pyrocko.guts import Bool, Float, List, String, Timestamp
 from pyrocko.gf import Cloneable, Source
 from pyrocko.model import Location
@@ -117,8 +116,8 @@ class OkadaSource(AnalyticalRectangularSource):
 
         if self.nu and self.mu:
             mu = self.mu
-        elif self.nu and not self.mu:
-            self.mu = (8. * (1 + self.nu)) / (1 - 2. * self.nu)
+        # elif self.nu and not self.mu:
+        #     self.mu = (8. * (1 + self.nu)) / (1 - 2. * self.nu)
         elif self.mu:
             mu = self.mu
         else:
@@ -187,126 +186,126 @@ class OkadaSegment(OkadaSource):
         optional=True)
 
 
-class OkadaPath(AnalyticalSource):
+# class OkadaPath(AnalyticalSource):
 
-    depth = None
-    nu = Float.T(
-        default=0.25,
-        help='Poisson\'s ratio, typically 0.25')
-    nodes = List.T(
-        default=[],
-        optional=True,
-        help='Nodes of the segments as (easting, northing) tuple of [m]')
-    segments__ = List.T(
-        default=[],
-        optional=True,
-        help='List of all segments.')
+#     depth = None
+#     nu = Float.T(
+#         default=0.25,
+#         help='Poisson\'s ratio, typically 0.25')
+#     nodes = List.T(
+#         default=[],
+#         optional=True,
+#         help='Nodes of the segments as (easting, northing) tuple of [m]')
+#     segments__ = List.T(
+#         default=[],
+#         optional=True,
+#         help='List of all segments.')
 
-    def __init__(self, *args, **kwargs):
-        AnalyticalSource.__init__(self, *args, **kwargs)
+#     def __init__(self, *args, **kwargs):
+#         AnalyticalSource.__init__(self, *args, **kwargs)
 
-        self._segments = []
+#         self._segments = []
 
-        if not self.nodes:
-            self.nodes.append(
-                [self.easting, self.northing])
+#         if not self.nodes:
+#             self.nodes.append(
+#                 [self.easting, self.northing])
 
-    @property
-    def segments(self):
-        return self._segments
+#     @property
+#     def segments(self):
+#         return self._segments
 
-    @segments.setter
-    def segments(self, segments):
-        self._segments = segments
+#     @segments.setter
+#     def segments(self, segments):
+#         self._segments = segments
 
-    @staticmethod
-    def _new_segment(e1, n1, e2, n2, **kwargs):
-        d_e = e2 - e1
-        d_n = n2 - n1
-        length = (d_n**2 + d_e**2)**.5
-        '''Width Scaling relation after
+#     @staticmethod
+#     def _new_segment(e1, n1, e2, n2, **kwargs):
+#         d_e = e2 - e1
+#         d_n = n2 - n1
+#         length = (d_n**2 + d_e**2)**.5
+#         '''Width Scaling relation after
 
-        Leonard, M. (2010). Earthquake fault scaling: Relating rupture length,
-            width, average displacement, and moment release, Bull. Seismol.
-            Soc. Am. 100, no. 5, 1971-1988.
-        '''
-        segment = {
-            'northing': n1 + d_n / 2,
-            'easting': e1 + d_e / 2,
-            'depth': 0.,
-            'length': length,
-            'width': 15. * length**.66,
-            'strike': num.arccos(d_n / length) * r2d,
-            'slip': 45.,
-            'rake': 90.,
-        }
-        segment.update(kwargs)
-        return OkadaSegment(**segment)
+#         Leonard, M. (2010). Earthquake fault scaling: Relating rupture length,
+#             width, average displacement, and moment release, Bull. Seismol.
+#             Soc. Am. 100, no. 5, 1971-1988.
+#         '''
+#         segment = {
+#             'northing': n1 + d_n / 2,
+#             'easting': e1 + d_e / 2,
+#             'depth': 0.,
+#             'length': length,
+#             'width': 15. * length**.66,
+#             'strike': num.arccos(d_n / length) * r2d,
+#             'slip': 45.,
+#             'rake': 90.,
+#         }
+#         segment.update(kwargs)
+#         return OkadaSegment(**segment)
 
-    def _move_segment(self, pos, e1, n1, e2, n2):
-        d_e = e2 - e1
-        d_n = n2 - n1
-        length = (d_n**2 + d_e**2)**.5
+#     def _move_segment(self, pos, e1, n1, e2, n2):
+#         d_e = e2 - e1
+#         d_n = n2 - n1
+#         length = (d_n**2 + d_e**2)**.5
 
-        segment_update = {
-            'northing': n1 + d_n / 2,
-            'easting': e1 + d_e / 2,
-            'length': length,
-            'width': 15. * length**.66,
-            'strike': num.arccos(d_n / length) * r2d,
-        }
+#         segment_update = {
+#             'northing': n1 + d_n / 2,
+#             'easting': e1 + d_e / 2,
+#             'length': length,
+#             'width': 15. * length**.66,
+#             'strike': num.arccos(d_n / length) * r2d,
+#         }
 
-        segment = self.segments[pos]
-        for attr, val in segment_update.items():
-            segment.__setattr__(attr, val)
+#         segment = self.segments[pos]
+#         for attr, val in segment_update.items():
+#             segment.__setattr__(attr, val)
 
-    def add_node(self, easting, northing):
-        self.nodes.append([easting, northing])
-        self.segments.append(
-            self._newSegment(
-                e1=self.nodes[-2][0],
-                n1=self.nodes[-2][1],
-                e2=self.nodes[-1][0],
-                n2=self.nodes[-1][1]))
+#     def add_node(self, easting, northing):
+#         self.nodes.append([easting, northing])
+#         self.segments.append(
+#             self._newSegment(
+#                 e1=self.nodes[-2][0],
+#                 n1=self.nodes[-2][1],
+#                 e2=self.nodes[-1][0],
+#                 n2=self.nodes[-1][1]))
 
-    def insert_node(self, pos, easting, northing):
-        self.nodes.insert(pos, [easting, northing])
-        self.segments.append(
-            self._newSegment(
-                e1=self.nodes[pos][0],
-                n1=self.nodes[pos][1],
-                e2=self.nodes[pos + 1][0],
-                n2=self.nodes[pos + 1][1]))
-        self._moveSegment(
-            pos - 1,
-            e1=self.nodes[pos - 1][0],
-            n1=self.nodes[pos - 1][1],
-            e2=self.nodes[pos][0],
-            n2=self.nodes[pos][1])
+#     def insert_node(self, pos, easting, northing):
+#         self.nodes.insert(pos, [easting, northing])
+#         self.segments.append(
+#             self._newSegment(
+#                 e1=self.nodes[pos][0],
+#                 n1=self.nodes[pos][1],
+#                 e2=self.nodes[pos + 1][0],
+#                 n2=self.nodes[pos + 1][1]))
+#         self._moveSegment(
+#             pos - 1,
+#             e1=self.nodes[pos - 1][0],
+#             n1=self.nodes[pos - 1][1],
+#             e2=self.nodes[pos][0],
+#             n2=self.nodes[pos][1])
 
-    def move_node(self, pos, easting, northing):
-        self.nodes[pos] = [easting, northing]
-        if pos < len(self):
-            self._moveSegment(
-                pos,
-                e1=self.nodes[pos][0],
-                n1=self.nodes[pos][1],
-                e2=self.nodes[pos + 1][0],
-                n2=self.nodes[pos + 1][1])
-        if pos != 0:
-            self._moveSegment(
-                pos,
-                e1=self.nodes[pos - 1][0],
-                n1=self.nodes[pos - 1][1],
-                e2=self.nodes[pos][0],
-                n2=self.nodes[pos][1])
+#     def move_node(self, pos, easting, northing):
+#         self.nodes[pos] = [easting, northing]
+#         if pos < len(self):
+#             self._moveSegment(
+#                 pos,
+#                 e1=self.nodes[pos][0],
+#                 n1=self.nodes[pos][1],
+#                 e2=self.nodes[pos + 1][0],
+#                 n2=self.nodes[pos + 1][1])
+#         if pos != 0:
+#             self._moveSegment(
+#                 pos,
+#                 e1=self.nodes[pos - 1][0],
+#                 n1=self.nodes[pos - 1][1],
+#                 e2=self.nodes[pos][0],
+#                 n2=self.nodes[pos][1])
 
-    def __len__(self):
-        return len(self.segments)
+#     def __len__(self):
+#         return len(self.segments)
 
-    def disloc_source(self):
-        return num.array([seg.disloc_source() for seg in self.segments
-                          if seg.enabled])
+#     def disloc_source(self):
+#         return num.array([seg.disloc_source() for seg in self.segments
+#                           if seg.enabled])
 
 
 class ProcessorProfile(dict):
