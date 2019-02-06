@@ -57,11 +57,11 @@ def get_shift_zero_coord(source, *args):
     :return: Northin and easting from nucleation point to ref_loc
     :rtype: tuple, float
     """
-    nucl = source.points_on_source(
-        points_x=[source.nucleation_x], points_y=[source.nucleation_y],
+    ref_pt = source.points_on_source(
+        points_x=[0.], points_y=[-1.],
         cs='latlon')
 
-    return latlon_to_ne_numpy(nucl[0, 0], nucl[0, 1], *args)
+    return ref_pt, latlon_to_ne_numpy(ref_pt[0, 0], ref_pt[0, 1], *args)
 
 
 def patches_to_okadasources(source_geom, source, **kwargs):
@@ -82,7 +82,7 @@ def patches_to_okadasources(source_geom, source, **kwargs):
     ref_lat = points.get_col('ref_lat')[0]
     ref_lon = points.get_col('ref_lon')[0]
 
-    north_shift_diff, east_shift_diff = get_shift_zero_coord(
+    ref_pt, (north_shift_diff, east_shift_diff) = get_shift_zero_coord(
         source, ref_lat, ref_lon)
 
     north_shift = points.get_col('north_shift') + north_shift_diff
@@ -99,46 +99,72 @@ def patches_to_okadasources(source_geom, source, **kwargs):
     rake = num.array([source.rake] * len(north_shift))
 
     segments = [OkadaSource(
-        lat=ref_lat, lon=ref_lon,
+        lat=ref_pt[0, 0], lon=ref_pt[0, 1],
         north_shift=north_shift[i], east_shift=east_shift[i],
         depth=depth[i], length=length[i], width=width[i],
         time=times[i], slip=slip[i],
         strike=strike[i], dip=dip[i], rake=rake[i], **kwargs)
         for i in range(len(north_shift))]
 
-    return segments
+    return segments, ref_pt
 
 
-def receiver_to_okadacoords(receiver_geom, north_diff, east_diff, dim=2):
-    north_shift = receiver_geom.get_col('north_shift') + north_diff
-    east_shift = receiver_geom.get_col('east_shift') + east_diff
-    depth = receiver_geom.get_col('depth')
+def receiver_to_okadacoords(receiver_geom, dim=2):
+    """Build array of coordinate tuples (triples) for each receiver
 
-    coords = num.empty((len(north_shift), dim))
-    coords[:, 0] = north_shift
-    coords[:, 1] = east_shift
+    For a given receiver geometry, the north and east shift (in 2D) or the
+    north, the east shift and the depth are concatenated in array
+
+    :param receiver_geom: Receiver geometry containing lat, lon, depth
+    :type receiver_geom: :py:class:`pyrocko.table.Table`
+    :param dim: Dimension of coordinate array: 2 - easting, northing,
+        3 - easting, northing, depth
+    ;type dim: :py:class:`int`
+
+    :return: array of receiver coordinates
+    ;rtype: :py:class:`numpy.ndarray`, ``(Nxdim)
+    """
+    coords = num.empty((len(receiver_geom.get_col('north_shift')), dim))
+    coords[:, 0] = receiver_geom.get_col('east_shift')
+    coords[:, 1] = receiver_geom.get_col('north_shift')
 
     if dim == 3:
-        coords[:, 2] = depth
+        coords[:, 2] = receiver_geom.get_col('depth')
 
     return coords
 
 
 def okada_surface_displacement(
         source_geom, disp_window, source, dim=2, **kwargs):
+    """Calculate Displacement due to Okada Sources for in certain window
 
-    segs = patches_to_okadasources(source_geom, source, **kwargs)
+    For a given source geometry and source, the surface displacements in 3D are
+    calculated. The grid for displacement calculation is defined via a
+    LatLonWindow.
+    Assisiting functions are `:py:func:`patches_to_okadasources`,
+    :py:func:`receiver_to_okadacoords`,
+    :py:func:`DisplacementWindow.get_raster` and
+    :py:func:`pyrocko.modelling.okada.DislocProcessor.process
 
-    ref_lat = source_geom.patches.points.get_col('ref_lat')[0]
-    ref_lon = source_geom.patches.points.get_col('ref_lon')[0]
+    :param source_geom: Geometry of the source and its patches
+    :type source_geom: :py:class:`pyrocko.gf.Geometry`
+    :param disp_window: Definition of the Displacement Calculation Grid
+    :type disp_window:
+        :py:class:`pyrocko.gui.sparrow.elements.source.DisplacementWindow`
+    :param source: Given extended source model
+    :type source: :py:class:`pyrocko.gf.Source`
+    :param dim: Dimension of the receiver coordinates
+    :type dim: :py:class:`int`
 
-    north_diff, east_diff = get_shift_zero_coord(
-        source, ref_lat, ref_lon)
+    :return: Geometry of the Receiver and the calculated dislocations
+    :rtype: :py:class:`pyrocko.table.Table` and :py:class:`dict`
+    """
+    segs, ref_pt = patches_to_okadasources(source_geom, source, **kwargs)
 
-    receiver_geom = disp_window.get_raster(ref_lat, ref_lon)
+    receiver_geom = disp_window.get_raster(ref_pt[0, 0], ref_pt[0, 1])
 
     coords = receiver_to_okadacoords(
-        receiver_geom, north_diff, east_diff, dim=dim)
+        receiver_geom, dim=dim)
 
     return receiver_geom, DislocProcessor.process(segs, coords)
 
@@ -500,15 +526,20 @@ class SourceElement(Element):
         receiver_geom, disloc = okada_surface_displacement(
             source_geom, state.disp_window, source, dim=dim, **kwargs)
 
-        points = receiver_geom.get_col('xyz')
+        vertices = geometry.arr_vertices(
+            receiver_geom.get_col('xyz'))
 
-        vertices = geometry.arr_vertices(points)
         vectors = num.concatenate((
             disloc['displacement.n'][:, num.newaxis],
             disloc['displacement.e'][:, num.newaxis],
-            -disloc['displacement.d'][:, num.newaxis]),
+            disloc['displacement.d'][:, num.newaxis]),
             axis=1)
 
+        vectors = geometry.ned2xyz(
+            vectors, num.concatenate((
+                receiver_geom.get_col('latlon'),
+                receiver_geom.get_col('depth')[:, num.newaxis]), axis=1),
+            planetradius=cake.earthradius)
         vectors = geometry.arr_vertices(vectors)
 
         self._pipe.append(

@@ -419,7 +419,7 @@ class Glyph3DPipe(object):
         glyph.SetVectorModeToUseVector()
         glyph.OrientOn()
         glyph.SetScaleModeToScaleByVector()
-        glyph.SetScaleFactor(0.0001 * 2**sizefactor)
+        glyph.SetScaleFactor(10**sizefactor)
         glyph.Update()
 
         mapper = vtk.vtkPolyDataMapper()

@@ -150,7 +150,7 @@ class OkadaSource(AnalyticalRectangularSource):
         dsrc[1] = self.width
         dsrc[2] = self.depth
         dsrc[3] = -dip
-        dsrc[4] = self.strike
+        dsrc[4] = self.strike - 180.
         dsrc[5] = self.easting
         dsrc[6] = self.northing
 

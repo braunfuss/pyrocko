@@ -232,6 +232,7 @@ class Viewer(qw.QMainWindow):
         self.state.elements.append(elements.GridState())
         self.state.elements.append(elements.CoastlinesState())
         # self.state.elements.append(elements.StationsState())
+        # self.state.elements.append(elements.SourceState())
 
         self.timer = qc.QTimer(self)
         self.timer.timeout.connect(self.periodical)
