@@ -855,7 +855,7 @@ static okada_error_t dc3d_flexi(
 
     rotvec31(r, rotmat, rrot);
 
-    iret = dc3d(alpha, rrot[0], rrot[1], -rrot[2], -ds, dip, al1, al2, aw1, aw2, disl1, disl2, disl3, uokada);
+    iret = dc3d(alpha, rrot[0], rrot[1], -rrot[2], ds, dip, al1, al2, aw1, aw2, disl1, disl2, disl3, uokada);
     assert(iret == 0);
 
     /*
@@ -864,7 +864,6 @@ static okada_error_t dc3d_flexi(
     */
 
     rotu(uokada, rotmat, u);
-
     return iret;
 }
 
@@ -968,48 +967,57 @@ int good_array(
 
 
 static PyObject* w_dc3d_flexi(PyObject *m, PyObject *args) {
-    int nrec, nsources, irec, isource;
-    PyObject *coords_s_arr, *coords_r_arr, *disl_arr, *orient_arr, *geom_arr, *output_arr;
-    npy_float64 *coords_r, *coords_s, *orient, *disl;
+    int nrec, nsources, irec, isource, i;
+    PyObject *coordsS_arr, *coordsR_arr, *disl_arr, *orient_arr, *geom_arr, *output_arr;
+    npy_float64 *coordsR, *coordsS, *orient, *disl;
     npy_float64 *output, *geom;
     npy_float64 poisson;
+    double uout[12];
     npy_intp output_dims[2];
 
     struct module_state *st = GETSTATE(m);
 
-    if (! PyArg_ParseTuple(args, "OOfI", &coords_s_arr, &orient_arr, &disl_arr, &coords_r_arr, &geom_arr, &poisson)) {
-        PyErr_SetString(st->error, "usage: ");
+    if (! PyArg_ParseTuple(args, "OOOOOf", &coordsS_arr, &orient_arr, &disl_arr, &coordsR_arr, &geom_arr, &poisson)) {
+        PyErr_SetString(st->error, "usage: okada(SourceCoords, SourceOrientations, SourceDislocations, ReceiverCoords, PatchGeometry, Poisson");
         return NULL;
     }
 
-    printf("blabalas");
-    if (! good_array(coords_s_arr, NPY_FLOAT64, -1, 2, 3, NULL))
+    if (! good_array(coordsS_arr, NPY_FLOAT64, -1, 2, 3, NULL))
         return NULL;
     if (! good_array(orient_arr, NPY_FLOAT64, -1, 2, 2, NULL))
         return NULL;
     if (! good_array(disl_arr, NPY_FLOAT64, -1, 2, 3, NULL))
         return NULL;
-    if (! good_array(coords_r_arr, NPY_FLOAT64, -1, 2, 3, NULL))
+    if (! good_array(coordsR_arr, NPY_FLOAT64, -1, 2, 3, NULL))
         return NULL;
-    if (! good_array(geom_arr, NPY_FLOAT64, -1, 1, 4, NULL))
+    if (! good_array(geom_arr, NPY_FLOAT64, -1, 2, 4, NULL))
         return NULL;
 
-    nrec = PyArray_SHAPE((PyArrayObject*) coords_r_arr)[0];
-    nsources = PyArray_SHAPE((PyArrayObject*) coords_s_arr)[0];
-    coords_r = PyArray_DATA((PyArrayObject*) coords_r_arr);
-    coords_s = PyArray_DATA((PyArrayObject*) coords_s_arr);
+    nrec = PyArray_SHAPE((PyArrayObject*) coordsR_arr)[0];
+    nsources = PyArray_SHAPE((PyArrayObject*) coordsS_arr)[0];
+    coordsR = PyArray_DATA((PyArrayObject*) coordsR_arr);
+    coordsS = PyArray_DATA((PyArrayObject*) coordsS_arr);
     disl = PyArray_DATA((PyArrayObject*) disl_arr);
     orient = PyArray_DATA((PyArrayObject*) orient_arr);
     geom = PyArray_DATA((PyArrayObject*) geom_arr);
 
-    output_dims[0] = PyArray_SHAPE((PyArrayObject*) coords_r_arr)[0];
+    output_dims[0] = PyArray_SHAPE((PyArrayObject*) coordsR_arr)[0];
     output_dims[1] = 12;
     output_arr = PyArray_ZEROS(2, output_dims, NPY_FLOAT64, 0);
     output = PyArray_DATA((PyArrayObject*) output_arr);
 
     for (irec=0; irec<nrec; irec++) {
         for (isource=0; isource<nsources; isource++) {
-            dc3d_flexi(1.0 - 2.0 * poisson, coords_r[irec*3], coords_r[irec*3+1], coords_r[irec*3+2], coords_s[isource*3], coords_s[isource*3+1], coords_s[isource*3+2], orient[isource*2], orient[isource*2+1], geom[0], geom[1], geom[2], geom[3], disl[isource*3], disl[isource*3+1], disl[isource*3+2], output);
+            if (irec == isource) continue;
+            dc3d_flexi(1.0 - 2.0 * poisson, coordsR[irec*3], coordsR[irec*3+1], coordsR[irec*3+2], coordsS[isource*3], coordsS[isource*3+1], coordsS[isource*3+2], orient[isource*2], orient[isource*2+1], geom[0], geom[1], geom[2], geom[3], disl[isource*3], disl[isource*3+1], disl[isource*3+2], uout);
+
+            for (i=0; i<12; i++) {
+                output[irec*12+i] += uout[i];
+
+                if (isnan(uout[i])) {
+                    printf("%g, %d, %d, %g, %g\n", uout[i], irec, isource, coordsR[irec*3+2], coordsS[isource*3+2]);                    
+                }
+            }
         }
     }
 
