@@ -15,6 +15,8 @@ d2r = num.pi / 180.
 class OkadaTestCase(unittest.TestCase):
 
     def test_okada(self):
+        n = 10
+
         strike = 100.
         dip = 50.
         al1 = 0.
@@ -23,19 +25,24 @@ class OkadaTestCase(unittest.TestCase):
         aw2 = 0.25
         poisson = 0.25
 
-        coords_s = num.random.random_sample((10, 3)) * 0.5
+        source_coords = num.random.random_sample((n, 3)) * 0.5
         coords_r = coords_s
-        orient = num.zeros((10, 2))
-        orient[:, 0] = strike
-        orient[:, 1] = dip
-        patch_geom = num.array([al1, al2, aw1, aw2])[num.newaxis, :]
-        disl = num.random.random_sample((10, 3))
+        source_patches = num.zeros((n, 9))
+        source_patches[:, 0] = north
+        source_patches[:, 1] = east
+        source_patches[:, 2] = down
+        source_patches[:, 3] = strike
+        source_patches[:, 4] = dip
+        source_patches[:, 5] = al1
+        source_patches[:, 6] = al2
+        source_patches[:, 7] = aw1
+        source_patches[:, 8] = aw2
+        disl_s = num.random.random_sample((n, 3))
 
         results = okada_ext.okada(
-            coords_s, orient, disl, coords_r, patch_geom, poisson)
+            source_coords, orient_s, disl_s, coords_r, patch_geom, poisson)
 
-        assert results.shape == tuple((coords_r.shape[0], 12))
-
+        assert results.shape == tuple((n, 12)) 
         # print(results)
 
 
