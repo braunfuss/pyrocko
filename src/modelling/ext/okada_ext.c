@@ -593,6 +593,8 @@ static okada_error_t dc3d(
     int kxi[2], ket[2];
     double du[12], dua[12], dub[12], duc[12];
 
+    // printf("\n3D\n%g, %g\n%g, %g\n%g, %g, %g, %g\n", x, y, depth, cos(dip*D2R), al1, al2, aw1, aw2);
+
     if (z > 0.) {
         return POSITIVE_Z;
     }
@@ -728,33 +730,7 @@ static okada_error_t dc3d(
 }
 
 
-void rottensor33(
-        double tensin[3][3],
-        double rotmat[3][3],
-        double tensrot[3][3]) {
-
-    /*
-     * Apply Rotation on tensor
-     * Rotation of a 3x3 tensor with a 3x3 rotation matrix
-    */
-
-    int i, j, m, n;
-
-    for (i=0; i<3; i++) {
-        for (j=0; j<3; j++) {
-            tensrot[i][j] = 0.0;
-
-            for (m=0; m<3; m++){
-                for (n=0; n<3; n++){
-                    tensrot[i][j] += rotmat[i][m]*rotmat[j][n]*tensin[m][n];
-                }    
-            }
-        }
-    }
-}
-
-
-void rotvec31(
+void rot_vec31(
         double vecin[3],
         double rotmat[3][3],
         double vecrot[3]) {
@@ -775,7 +751,33 @@ void rotvec31(
 }
 
 
-void rotu(
+void rot_tensor33(
+        double tensin[3][3],
+        double rotmat[3][3],
+        double tensrot[3][3]) {
+
+    /*
+     * Apply Rotation on tensor
+     * Rotation of a 3x3 tensor with a 3x3 rotation matrix
+    */
+
+    int i, j, m, n;
+
+    for (i=0; i<3; i++) {
+        for (j=0; j<3; j++) {
+            tensrot[i][j] = 0.0;
+
+            for (m=0; m<3; m++){
+                for (n=0; n<3; n++){
+                    tensrot[i][j] += rotmat[i][m]*rotmat[j][n]*tensin[m][n];
+                }
+            }
+        }
+    }
+}
+
+
+void rot_u(
         double uin[12],
         double rotmat[3][3],
         double uout[12]) {
@@ -783,6 +785,12 @@ void rotu(
     double uinvec[3], uoutvec[3];
     double duin[3][3], duout[3][3];
     int i, j;
+
+    /*
+     * Apply Backrotation on displacement and its derivatives vector
+     * Rotation of a 12x1 / 1x12 vector, where uin[0:2] are ux, uy, uz and
+     * uin[3:11] are uxx, uyx, uzx, uxy, uyy, uzy, uxz, uyz, uzz
+    */
 
     for (i=0; i<3; i++) {
         uinvec[i] = uin[i];
@@ -792,8 +800,8 @@ void rotu(
         }
     }
 
-    rotvec31(uinvec, rotmat, uoutvec);
-    rottensor33(duin, rotmat, duout);
+    rot_vec31(uinvec, rotmat, uoutvec);
+    rot_tensor33(duin, rotmat, duout);
 
     for (i=0; i<3; i++) {
         uout[i] = uoutvec[i];
@@ -853,9 +861,9 @@ static okada_error_t dc3d_flexi(
     r[1] = er - es;
     r[2] = dr;
 
-    rotvec31(r, rotmat, rrot);
+    rot_vec31(r, rotmat, rrot);
 
-    iret = dc3d(alpha, rrot[0], rrot[1], -rrot[2], ds, dip, al1, al2, aw1, aw2, disl1, disl2, disl3, uokada);
+    iret = dc3d(alpha, rrot[0], rrot[1], rrot[2], ds, dip, al1, al2, aw1, aw2, disl1, disl2, disl3, uokada);
     assert(iret == 0);
 
     /*
@@ -863,53 +871,10 @@ static okada_error_t dc3d_flexi(
      * with the transposed rotmat equals rotmat
     */
 
-    rotu(uokada, rotmat, u);
+    rot_u(uokada, rotmat, u);
+
     return iret;
 }
-
-
-// int main(void) {
-//     double poisson;
-//     double u[12];
-//     double strike, dip, nr, er, dr, ns, es, ds, al1, al2, aw1, aw2;
-//     int nl, nw;
-//     int il, iw;
-//     int ilr, iwr;
-//     okada_error_t iret;
-
-//     poisson = 0.25;
-//     strike = 50.;
-//     dip = 30.;
-
-//     al1 = 0.0;
-//     al2 = 0.5;
-//     aw1 = 0.0;
-//     aw2 = 0.5;
-
-//     nl = 75;
-//     nw = 10;
-
-//     for (il=0; il<nl; il++) {
-//         for (iw=0; iw<nw; iw++) {
-//             ns = cos(strike*D2R) * (il * (al1 + al2) + al1) - sin(strike*D2R) * cos(dip*D2R) * (iw * (aw1 + aw2) + aw1);
-//             es = sin(strike*D2R) * (il * (al1 + al2) + al1) - cos(strike*D2R) * cos(dip*D2R) * (iw * (aw1 + aw2) + aw1);
-//             ds = -5.0 - sin(dip*D2R) * iw * (aw1 + aw2) + aw1;
-
-//             for (ilr=0; ilr<nl; ilr++) {
-//                 for (iwr=0; iwr<nw; iwr++) {
-//                     if (iw == iwr && il == ilr) continue;
-//                     ns = cos(strike*D2R) * (ilr * (al1 + al2) + al1) - sin(strike*D2R) * cos(dip*D2R) * (iwr * (aw1 + aw2) + aw1);
-//                     es = sin(strike*D2R) * (ilr * (al1 + al2) + al1) - cos(strike*D2R) * cos(dip*D2R) * (iwr * (aw1 + aw2) + aw1);
-//                     ds = -5.0 - sin(dip*D2R) * iwr * (aw1 + aw2) + aw1;                    
-//                     iret = dc3d_flexi(1.0 - 2.0 * poisson, nr, er, dr, ns, es, ds, strike, dip, al1, al2, aw1, aw2, 0.01, 0.01, 0.01, u);
-//                     // iret = dc3d(1.0 - 2.0 * poisson, x, y, zr, zs, dip, 0.5, 0., 0.5, 0., 0.01, 0.01, 0.01, u);
-//                     assert(iret == 0);
-//                 }
-//             }
-//         }
-//     }
-//     return 0;
-// }
 
 
 int good_array(
@@ -968,55 +933,45 @@ int good_array(
 
 static PyObject* w_dc3d_flexi(PyObject *m, PyObject *args) {
     int nrec, nsources, irec, isource, i;
-    PyObject *coordsS_arr, *coordsR_arr, *disl_arr, *orient_arr, *geom_arr, *output_arr;
-    npy_float64 *coordsR, *coordsS, *orient, *disl;
-    npy_float64 *output, *geom;
+    PyObject *source_patches_arr, *source_disl_arr, *receiver_coords_arr, *output_arr;
+    npy_float64  *source_patches, *source_disl, *receiver_coords;
+    npy_float64 *output;
     npy_float64 poisson;
     double uout[12];
     npy_intp output_dims[2];
 
     struct module_state *st = GETSTATE(m);
 
-    if (! PyArg_ParseTuple(args, "OOOOOf", &coordsS_arr, &orient_arr, &disl_arr, &coordsR_arr, &geom_arr, &poisson)) {
-        PyErr_SetString(st->error, "usage: okada(SourceCoords, SourceOrientations, SourceDislocations, ReceiverCoords, PatchGeometry, Poisson");
+    if (! PyArg_ParseTuple(args, "OOOf", &source_patches_arr, &source_disl_arr, &receiver_coords_arr, &poisson)) {
+        PyErr_SetString(st->error, "usage: okada(Sourcepatches(north, east, down, strike, dip, al1, al2, aw1, aw2), Dislocation(strike, dip, opening), ReceiverCoords(north, east, down), Poisson");
         return NULL;
     }
 
-    if (! good_array(coordsS_arr, NPY_FLOAT64, -1, 2, 3, NULL))
+    if (! good_array(source_patches_arr, NPY_FLOAT64, -1, 2, 9, NULL))
         return NULL;
-    if (! good_array(orient_arr, NPY_FLOAT64, -1, 2, 2, NULL))
+    if (! good_array(source_disl_arr, NPY_FLOAT64, -1, 2, 3, NULL))
         return NULL;
-    if (! good_array(disl_arr, NPY_FLOAT64, -1, 2, 3, NULL))
-        return NULL;
-    if (! good_array(coordsR_arr, NPY_FLOAT64, -1, 2, 3, NULL))
-        return NULL;
-    if (! good_array(geom_arr, NPY_FLOAT64, -1, 2, 4, NULL))
+    if (! good_array(receiver_coords_arr, NPY_FLOAT64, -1, 2, 3, NULL))
         return NULL;
 
-    nrec = PyArray_SHAPE((PyArrayObject*) coordsR_arr)[0];
-    nsources = PyArray_SHAPE((PyArrayObject*) coordsS_arr)[0];
-    coordsR = PyArray_DATA((PyArrayObject*) coordsR_arr);
-    coordsS = PyArray_DATA((PyArrayObject*) coordsS_arr);
-    disl = PyArray_DATA((PyArrayObject*) disl_arr);
-    orient = PyArray_DATA((PyArrayObject*) orient_arr);
-    geom = PyArray_DATA((PyArrayObject*) geom_arr);
+    nrec = PyArray_SHAPE((PyArrayObject*) receiver_coords_arr)[0];
+    nsources = PyArray_SHAPE((PyArrayObject*) source_patches_arr)[0];
+    receiver_coords = PyArray_DATA((PyArrayObject*) receiver_coords_arr);
+    source_patches = PyArray_DATA((PyArrayObject*) source_patches_arr);
+    source_disl = PyArray_DATA((PyArrayObject*) source_disl_arr);
 
-    output_dims[0] = PyArray_SHAPE((PyArrayObject*) coordsR_arr)[0];
+    output_dims[0] = PyArray_SHAPE((PyArrayObject*) receiver_coords_arr)[0];
     output_dims[1] = 12;
     output_arr = PyArray_ZEROS(2, output_dims, NPY_FLOAT64, 0);
     output = PyArray_DATA((PyArrayObject*) output_arr);
 
     for (irec=0; irec<nrec; irec++) {
         for (isource=0; isource<nsources; isource++) {
-            if (irec == isource) continue;
-            dc3d_flexi(1.0 - 2.0 * poisson, coordsR[irec*3], coordsR[irec*3+1], coordsR[irec*3+2], coordsS[isource*3], coordsS[isource*3+1], coordsS[isource*3+2], orient[isource*2], orient[isource*2+1], geom[0], geom[1], geom[2], geom[3], disl[isource*3], disl[isource*3+1], disl[isource*3+2], uout);
+            // if (irec == isource) continue;
+            dc3d_flexi(1.0 - 2.0 * poisson, receiver_coords[irec*3], receiver_coords[irec*3+1], receiver_coords[irec*3+2], source_patches[isource*9], source_patches[isource*9+1], source_patches[isource*9+2], source_patches[isource*9+3], source_patches[isource*9+4], source_patches[isource*9+5], source_patches[isource*9+6], source_patches[isource*9+7], source_patches[isource*9+8], source_disl[isource*3], source_disl[isource*3+1], source_disl[isource*3+2], uout);
 
             for (i=0; i<12; i++) {
                 output[irec*12+i] += uout[i];
-
-                if (isnan(uout[i])) {
-                    printf("%g, %d, %d, %g, %g\n", uout[i], irec, isource, coordsR[irec*3+2], coordsS[isource*3+2]);                    
-                }
             }
         }
     }

@@ -54,6 +54,9 @@ void Okada(double *pSS, double *pDS, double *pTS, double alp, double sd, double 
 
      (void) r3;
 
+     // printf("\n2D\n%g, %g\n%g, %g\n%g, %g, %g, %g\n", X, Y, dep, cd, len, 0.0, wid, 0.0);
+
+
      ala[0] = len;
      ala[1] = 0.0;
      awa[0] = wid;

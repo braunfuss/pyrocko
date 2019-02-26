@@ -47,7 +47,7 @@ def get_shift_zero_coord(source, *args):
     """Relative cartesian coordinates with respect to nucleation point.
 
     Get the north and east shift [m] between the nucleation point and the
-    reference point of a rectangular fault (import for Okada routine)
+    reference point of a rectangular fault (important for Okada routine)
 
     :param source: Rectangular Source
     ;type source: :py:class:`pyrocko.gf.RectangularSource`
