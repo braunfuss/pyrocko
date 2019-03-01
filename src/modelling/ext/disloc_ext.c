@@ -54,9 +54,6 @@ void Okada(double *pSS, double *pDS, double *pTS, double alp, double sd, double 
 
      (void) r3;
 
-     // printf("\n2D\n%g, %g\n%g, %g\n%g, %g, %g, %g\n", X, Y, dep, cd, len, 0.0, wid, 0.0);
-
-
      ala[0] = len;
      ala[1] = 0.0;
      awa[0] = wid;
@@ -165,8 +162,7 @@ void Disloc(double *pOutput, double *pModel, double *pCoords, double nu, int Num
 
 
      /*Loop through dislocations*/
-     /*printf("%d, %d\n", NumStat, NumDisl);*/
-
+     
      for (i=0; i < NumDisl; i++)
      {
           dIndex=i*10;
@@ -211,7 +207,6 @@ void Disloc(double *pOutput, double *pModel, double *pCoords, double nu, int Num
 
               sIndex = j*2;
               kIndex = j*3;
-
               Okada(&SS[0], &DS[0], &TS[0], 1 - 2*nu, sd, cd, pModel[dIndex], pModel[dIndex+1], pModel[dIndex+2],
                    cosAngle * (pCoords[sIndex] - pModel[dIndex+5]) - sinAngle * (pCoords[sIndex + 1] - pModel[dIndex+6]) +  0.5 * pModel[dIndex],
                    sinAngle * (pCoords[sIndex] - pModel[dIndex+5]) + cosAngle * (pCoords[sIndex + 1] - pModel[dIndex+6]),
@@ -308,7 +303,7 @@ static PyObject* w_disloc(PyObject *m, PyObject *args) {
 
   struct module_state *st = GETSTATE(m);
 
-  if (! PyArg_ParseTuple(args, "OOfI", &models_arr, &coords_arr, &nu, &nthreads)) {
+  if (! PyArg_ParseTuple(args, "OOdI", &models_arr, &coords_arr, &nu, &nthreads)) {
     PyErr_SetString(st->error, "usage: disloc(model, target_coordinates)");
     return NULL;
   }

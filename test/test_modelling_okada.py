@@ -123,7 +123,8 @@ class OkadaTestCase(unittest.TestCase):
                     ntot, 1, n, sharex=sharedaxis, sharey=sharedaxis)
                 scat = ax.scatter(
                     receiver_coords[:, 1], receiver_coords[:, 0], s=20,
-                    c=param, vmin=vmin, vmax=vmax, cmap='seismic')
+                    c=param, vmin=vmin, vmax=vmax, cmap='seismic',
+                    edgecolor='none')
                 fig.colorbar(scat, shrink=0.5, aspect=5)
                 rect = plt.Rectangle((
                     -num.sin(strike * d2r) * length / 2.,
@@ -231,7 +232,7 @@ class OkadaTestCase(unittest.TestCase):
                 scat = ax.scatter(
                     receiver_coords[:, 1], receiver_coords[:, 0], zs=0,
                     zdir='z', s=20,
-                    c=param)
+                    c=param, edgecolor='None')
                 fig.colorbar(scat, shrink=0.5, aspect=5)
 
             fig = plt.figure()

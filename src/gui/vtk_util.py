@@ -413,8 +413,13 @@ class Glyph3DPipe(object):
         arrow.Update()
 
         glyph = vtk.vtkGlyph3D()
-        glyph.SetSourceData(arrow.GetOutput())
-        glyph.SetInputData(pd)
+        if vtk.vtkVersion.GetVTKMajorVersion() > 5:
+            glyph.SetSourceData(arrow.GetOutput())
+            glyph.SetInputData(pd)
+        else:
+            glyph.SetSource(arrow.GetOutput())
+            glyph.SetInput(pd)
+
         glyph.ScalingOn()
         glyph.SetVectorModeToUseVector()
         glyph.OrientOn()

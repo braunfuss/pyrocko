@@ -593,8 +593,6 @@ static okada_error_t dc3d(
     int kxi[2], ket[2];
     double du[12], dua[12], dub[12], duc[12];
 
-    // printf("\n3D\n%g, %g\n%g, %g\n%g, %g, %g, %g\n", x, y, depth, cos(dip*D2R), al1, al2, aw1, aw2);
-
     if (z > 0.) {
         return POSITIVE_Z;
     }
@@ -942,11 +940,11 @@ static PyObject* w_dc3d_flexi(PyObject *m, PyObject *args) {
 
     struct module_state *st = GETSTATE(m);
 
-    if (! PyArg_ParseTuple(args, "OOOf", &source_patches_arr, &source_disl_arr, &receiver_coords_arr, &poisson)) {
+    if (! PyArg_ParseTuple(args, "OOOd", &source_patches_arr, &source_disl_arr, &receiver_coords_arr, &poisson)) {
         PyErr_SetString(st->error, "usage: okada(Sourcepatches(north, east, down, strike, dip, al1, al2, aw1, aw2), Dislocation(strike, dip, opening), ReceiverCoords(north, east, down), Poisson");
         return NULL;
     }
-
+    
     if (! good_array(source_patches_arr, NPY_FLOAT64, -1, 2, 9, NULL))
         return NULL;
     if (! good_array(source_disl_arr, NPY_FLOAT64, -1, 2, 3, NULL))
