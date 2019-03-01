@@ -59,9 +59,9 @@ class OkadaTestCase(unittest.TestCase):
         length = 50. * m2km
         width = 10. * m2km
 
-        strike = 0.
-        dip = 0.01
-        rake = 0.
+        strike = 45.
+        dip = 89.
+        rake = 90.
         slip = 1.0
         opening = 0.
         poisson = 0.25
@@ -129,7 +129,7 @@ class OkadaTestCase(unittest.TestCase):
                     receiver_coords[:, 1], receiver_coords[:, 0], s=20,
                     c=param, vmin=vmin, vmax=vmax, cmap='seismic',
                     edgecolor='none')
-                fig.colorbar(scat, shrink=0.5, aspect=5)
+                fig.colorbar(scat, shrink=0.8, aspect=5)
                 rect = plt.Rectangle((
                     -num.sin(strike * d2r) * length / 2.,
                     -num.cos(strike * d2r) * length / 2.),
@@ -142,8 +142,9 @@ class OkadaTestCase(unittest.TestCase):
 
             fig = plt.figure()
             ax = add_subplot(
-                fig, param1 - param2, 3, 1,
-                title='Okada Surface minus Okada Halfspace')
+                fig, 100. * (param1 - param2) / num.max(num.abs([
+                    valmin, valmax])), 3, 1,
+                title='Okada Surface minus Okada Halfspace [%]')
             add_subplot(
                 fig, param1, 3, 2, sharedaxis=ax,
                 title='Okada Surface', vmin=valmin, vmax=valmax)
@@ -154,7 +155,7 @@ class OkadaTestCase(unittest.TestCase):
             plt.show()
 
         if show_plot:
-            compare_plot(res_ok2d['displacement.d'], res_ok3d[:, 2])
+            compare_plot(res_ok2d['displacement.e'], res_ok3d[:, 1])
 
     def test_okada_vs_disloc(self):
         ref_lat = 0.

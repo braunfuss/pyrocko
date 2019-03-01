@@ -932,6 +932,33 @@ int good_array(
 }
 
 
+int source_receiver_pair_check(
+    double receiver_n,
+    double receiver_e,
+    double receiver_d,
+    double source_n,
+    double source_e,
+    double source_d,
+    double source_aw1,
+    double source_aw2,
+    double source_dip) {
+
+    /*
+     * Check, that the whole Okada source plane is not on the receiver point and below z=0
+    */
+
+    if (receiver_n == source_n && receiver_e == source_e && receiver_d == source_d) {
+        return 0;
+    }
+
+    if (source_d - sin(source_dip*D2R) * source_aw1 < 0 || source_d - sin(source_dip*D2R) * source_aw2 < 0 ) {
+        return 0;
+    }
+
+    return 1;
+}
+
+
 static PyObject* w_dc3d_flexi(PyObject *m, PyObject *args) {
     int nrec, nsources, irec, isource, i, nthreads;
     PyObject *source_patches_arr, *source_disl_arr, *receiver_coords_arr, *output_arr;
@@ -975,11 +1002,11 @@ static PyObject* w_dc3d_flexi(PyObject *m, PyObject *args) {
             private(uout, irec, isource, i)\
             num_threads(nthreads)
         {
-            #pragma omp for schedule(static) nowait
-        #endif
+        #pragma omp for schedule(static) nowait
+    #endif
         for (irec=0; irec<nrec; irec++) {
             for (isource=0; isource<nsources; isource++) {
-                // if (irec == isource) continue;
+                if (!source_receiver_pair_check(receiver_coords[irec*3], receiver_coords[irec*3+1], receiver_coords[irec*3+2], source_patches[isource*9], source_patches[isource*9+1], source_patches[isource*9+2], source_patches[isource*9+7], source_patches[isource*9+8], source_patches[isource*9+4])) continue;
                 dc3d_flexi(1.0 - 2.0 * poisson, receiver_coords[irec*3], receiver_coords[irec*3+1], receiver_coords[irec*3+2], source_patches[isource*9], source_patches[isource*9+1], source_patches[isource*9+2], source_patches[isource*9+3], source_patches[isource*9+4], source_patches[isource*9+5], source_patches[isource*9+6], source_patches[isource*9+7], source_patches[isource*9+8], source_disl[isource*3], source_disl[isource*3+1], source_disl[isource*3+2], uout);
 
                 for (i=0; i<12; i++) {
