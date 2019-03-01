@@ -31,6 +31,8 @@ class OkadaTestCase(unittest.TestCase):
         aw2 = 0.25
         poisson = 0.25
 
+        nthreads = 0
+
         source_patches = num.zeros((n, 9))
         source_patches[:, 0] = north
         source_patches[:, 1] = east
@@ -46,7 +48,7 @@ class OkadaTestCase(unittest.TestCase):
         receiver_coords = source_patches[:, :3].copy()
 
         results = okada_ext.okada(
-            source_patches, source_disl, receiver_coords, poisson)
+            source_patches, source_disl, receiver_coords, poisson, nthreads)
 
         assert results.shape == tuple((n, 12))
 
@@ -57,12 +59,14 @@ class OkadaTestCase(unittest.TestCase):
         length = 50. * m2km
         width = 10. * m2km
 
-        strike = 45.
-        dip = 80.
-        rake = 90.
+        strike = 0.
+        dip = 0.01
+        rake = 0.
         slip = 1.0
-        opening = 0.2
+        opening = 0.
         poisson = 0.25
+
+        nthreads = 0
 
         al1 = -length / 2.
         al2 = length / 2.
@@ -107,7 +111,7 @@ class OkadaTestCase(unittest.TestCase):
             segments, num.array(receiver_coords[:, ::-1][:, 1:]))
 
         res_ok3d = okada_ext.okada(
-            source_patch, source_disl, receiver_coords, poisson)
+            source_patch, source_disl, receiver_coords, poisson, nthreads)
 
         def compare_plot(param1, param2):
             import matplotlib.pyplot as plt
@@ -129,7 +133,7 @@ class OkadaTestCase(unittest.TestCase):
                 rect = plt.Rectangle((
                     -num.sin(strike * d2r) * length / 2.,
                     -num.cos(strike * d2r) * length / 2.),
-                    num.sin(dip * d2r) * width, length,
+                    num.cos(dip * d2r) * width, length,
                     angle=-strike, edgecolor='green', facecolor='None')
                 ax.add_patch(rect)
                 ax.set_title(title)
@@ -145,7 +149,7 @@ class OkadaTestCase(unittest.TestCase):
                 title='Okada Surface', vmin=valmin, vmax=valmax)
             add_subplot(
                 fig, param2, 3, 3, sharedaxis=ax,
-                title='Okada Surface', vmin=valmin, vmax=valmax)
+                title='Okada Halfspace', vmin=valmin, vmax=valmax)
 
             plt.show()
 
@@ -173,6 +177,8 @@ class OkadaTestCase(unittest.TestCase):
         aw1 = -width
         aw2 = 0.
         poisson = 0.25
+
+        nthreads = 0
 
         npoints = nlength * nwidth
         source_patches = num.zeros((npoints, 9))
@@ -210,7 +216,7 @@ class OkadaTestCase(unittest.TestCase):
         source_disl[:, 2] = opening
 
         res_ok3d = okada_ext.okada(
-            source_patches, source_disl, receiver_coords, poisson)
+            source_patches, source_disl, receiver_coords, poisson, nthreads)
 
         segments = [OkadaSource(
             lat=ref_lat, lon=ref_lon,

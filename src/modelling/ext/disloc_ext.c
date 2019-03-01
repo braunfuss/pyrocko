@@ -162,7 +162,7 @@ void Disloc(double *pOutput, double *pModel, double *pCoords, double nu, int Num
 
 
      /*Loop through dislocations*/
-     
+
      for (i=0; i < NumDisl; i++)
      {
           dIndex=i*10;

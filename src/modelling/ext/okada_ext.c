@@ -6,6 +6,9 @@
 #include <math.h>
 #include "numpy/arrayobject.h"
 #include <numpy/npy_math.h>
+#if defined(_OPENMP)
+    #include <omp.h>
+#endif
 
 #define D2R (M_PI / 180.)
 #define EPS 1.0e-6
@@ -930,7 +933,7 @@ int good_array(
 
 
 static PyObject* w_dc3d_flexi(PyObject *m, PyObject *args) {
-    int nrec, nsources, irec, isource, i;
+    int nrec, nsources, irec, isource, i, nthreads;
     PyObject *source_patches_arr, *source_disl_arr, *receiver_coords_arr, *output_arr;
     npy_float64  *source_patches, *source_disl, *receiver_coords;
     npy_float64 *output;
@@ -940,11 +943,11 @@ static PyObject* w_dc3d_flexi(PyObject *m, PyObject *args) {
 
     struct module_state *st = GETSTATE(m);
 
-    if (! PyArg_ParseTuple(args, "OOOd", &source_patches_arr, &source_disl_arr, &receiver_coords_arr, &poisson)) {
-        PyErr_SetString(st->error, "usage: okada(Sourcepatches(north, east, down, strike, dip, al1, al2, aw1, aw2), Dislocation(strike, dip, opening), ReceiverCoords(north, east, down), Poisson");
+    if (! PyArg_ParseTuple(args, "OOOdI", &source_patches_arr, &source_disl_arr, &receiver_coords_arr, &poisson, &nthreads)) {
+        PyErr_SetString(st->error, "usage: okada(Sourcepatches(north, east, down, strike, dip, al1, al2, aw1, aw2), Dislocation(strike, dip, opening), ReceiverCoords(north, east, down), Poisson, NumThreads(0 equals all)");
         return NULL;
     }
-    
+
     if (! good_array(source_patches_arr, NPY_FLOAT64, -1, 2, 9, NULL))
         return NULL;
     if (! good_array(source_disl_arr, NPY_FLOAT64, -1, 2, 3, NULL))
@@ -963,16 +966,31 @@ static PyObject* w_dc3d_flexi(PyObject *m, PyObject *args) {
     output_arr = PyArray_ZEROS(2, output_dims, NPY_FLOAT64, 0);
     output = PyArray_DATA((PyArrayObject*) output_arr);
 
-    for (irec=0; irec<nrec; irec++) {
-        for (isource=0; isource<nsources; isource++) {
-            // if (irec == isource) continue;
-            dc3d_flexi(1.0 - 2.0 * poisson, receiver_coords[irec*3], receiver_coords[irec*3+1], receiver_coords[irec*3+2], source_patches[isource*9], source_patches[isource*9+1], source_patches[isource*9+2], source_patches[isource*9+3], source_patches[isource*9+4], source_patches[isource*9+5], source_patches[isource*9+6], source_patches[isource*9+7], source_patches[isource*9+8], source_disl[isource*3], source_disl[isource*3+1], source_disl[isource*3+2], uout);
+    #if defined(_OPENMP)
+        Py_BEGIN_ALLOW_THREADS
+        if (nthreads == 0)
+            nthreads = omp_get_num_procs();
+        #pragma omp parallel\
+            shared(nrec, nsources, poisson, receiver_coords, source_patches, source_disl, output)\
+            private(uout, irec, isource, i)\
+            num_threads(nthreads)
+        {
+            #pragma omp for schedule(static) nowait
+        #endif
+        for (irec=0; irec<nrec; irec++) {
+            for (isource=0; isource<nsources; isource++) {
+                // if (irec == isource) continue;
+                dc3d_flexi(1.0 - 2.0 * poisson, receiver_coords[irec*3], receiver_coords[irec*3+1], receiver_coords[irec*3+2], source_patches[isource*9], source_patches[isource*9+1], source_patches[isource*9+2], source_patches[isource*9+3], source_patches[isource*9+4], source_patches[isource*9+5], source_patches[isource*9+6], source_patches[isource*9+7], source_patches[isource*9+8], source_disl[isource*3], source_disl[isource*3+1], source_disl[isource*3+2], uout);
 
-            for (i=0; i<12; i++) {
-                output[irec*12+i] += uout[i];
+                for (i=0; i<12; i++) {
+                    output[irec*12+i] += uout[i];
+                }
             }
         }
-    }
+    #if defined(_OPENMP)
+        }
+        Py_END_ALLOW_THREADS
+    #endif
 
     return (PyObject*) output_arr;
 }
