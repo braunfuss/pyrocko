@@ -267,7 +267,7 @@ for source_cls in [gf.RectangularSource]:
 
         def __init__(self, **kwargs):
             ProxySource.__init__(self)
-            for key, value in self._ranges.iteritems():
+            for key, value in self._ranges.items():
                 setattr(self, key, value['ini'])
 
             if kwargs is not None:
