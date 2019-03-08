@@ -944,14 +944,16 @@ int source_receiver_pair_check(
     double source_dip) {
 
     /*
-     * Check, that the whole Okada source plane is not on the receiver point and below z=0
+     * Check for Okada source center not equal to receiver point and below z=0
     */
 
     if (receiver_n == source_n && receiver_e == source_e && receiver_d == source_d) {
+        // printf("Source %g, %g, %g (N, E, D) equals receiver point and is therefore excluded\n", source_n, source_e, source_d);
         return 0;
     }
 
-    if (source_d - sin(source_dip*D2R) * source_aw1 < 0 || source_d - sin(source_dip*D2R) * source_aw2 < 0 ) {
+    if ((source_d - sin(source_dip*D2R) * source_aw1) < 0 || (source_d - sin(source_dip*D2R) * source_aw2) < 0 ) {
+        printf("Source %g, %g, %g (N, E, D) is (partially) above z=0 and therefore excluded\n", source_n, source_e, source_d);
         return 0;
     }
 
@@ -959,7 +961,10 @@ int source_receiver_pair_check(
 }
 
 
-static PyObject* w_dc3d_flexi(PyObject *m, PyObject *args) {
+static PyObject* w_dc3d_flexi(
+    PyObject *m,
+    PyObject *args) {
+
     int nrec, nsources, irec, isource, i, nthreads;
     PyObject *source_patches_arr, *source_disl_arr, *receiver_coords_arr, *output_arr;
     npy_float64  *source_patches, *source_disl, *receiver_coords;

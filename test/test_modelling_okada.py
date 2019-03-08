@@ -4,6 +4,7 @@ import numpy as num
 import unittest
 
 from pyrocko import util
+from pyrocko.orthodrome import latlon_to_ne_numpy
 from pyrocko.modelling import okada_ext, OkadaSource, DislocProcessor
 
 
@@ -55,7 +56,7 @@ class OkadaTestCase(unittest.TestCase):
     def test_okada_vs_disloc_single_Source(self):
         north = 0.
         east = 0.
-        depth = 10.
+        depth = 10. * m2km
         length = 50. * m2km
         width = 10. * m2km
 
@@ -181,6 +182,7 @@ class OkadaTestCase(unittest.TestCase):
 
         nthreads = 0
 
+        ref_north, ref_east = latlon_to_ne_numpy(0., 0., ref_lat, ref_lon)
         npoints = nlength * nwidth
         source_patches = num.zeros((npoints, 9))
 
@@ -251,6 +253,120 @@ class OkadaTestCase(unittest.TestCase):
 
         if show_plot:
             compare_plot(res_ok2d['displacement.d'], res_ok3d[:, 2])
+
+    def test_okada_GF_fill(self):
+        ref_north = 0.
+        ref_east = 0.
+        ref_depth = 10.
+
+        nlength = 10
+        nwidth = 8
+
+        strike = 0.
+        dip = 50.
+        length = 0.5
+        width = 0.25
+
+        al1 = -length / 2.
+        al2 = length / 2.
+        aw1 = -width / 2.
+        aw2 = width / 2.
+        poisson = 0.25
+        mu = 32. * 1e9
+        lamb = (2 * poisson * mu) / (1 - 2 * poisson)
+
+        nthreads = 0
+
+        npoints = nlength * nwidth
+        source_patches = num.zeros((npoints, 9))
+
+        for il in range(nlength):
+            for iw in range(nwidth):
+                idx = il * nwidth + iw
+                source_patches[idx, 0] = \
+                    num.cos(strike * d2r) * (
+                        il * (num.abs(al1) + num.abs(al2)) + num.abs(al1)) - \
+                    num.sin(strike * d2r) * num.cos(dip * d2r) * (
+                        iw * (num.abs(aw1) + num.abs(aw2)) + num.abs(aw1)) + \
+                    ref_north
+                source_patches[idx, 1] = \
+                    num.sin(strike * d2r) * (
+                        il * (num.abs(al1) + num.abs(al2)) + num.abs(al1)) - \
+                    num.cos(strike * d2r) * num.cos(dip * d2r) * (
+                        iw * (num.abs(aw1) + num.abs(aw2)) + num.abs(aw1)) + \
+                    ref_east
+                source_patches[idx, 2] = \
+                    ref_depth + num.sin(dip * d2r) * iw * (
+                        num.abs(aw1) + num.abs(aw2)) + num.abs(aw1)
+
+        receiver_coords = source_patches[:, :3].copy()
+
+        source_patches[:, 3] = strike
+        source_patches[:, 4] = dip
+        source_patches[:, 5] = al1
+        source_patches[:, 6] = al2
+        source_patches[:, 7] = aw1
+        source_patches[:, 8] = aw2
+
+        gf = num.zeros((
+            receiver_coords.shape[0] * 6, source_patches.shape[0] * 3))
+
+        slip_strike = 1.0
+        slip_dip = 1.0
+        slip_tensile = 1.0
+
+        rotmat = num.zeros((3, 3))
+        rotmat[0, 0] = num.cos(strike * d2r)
+        rotmat[0, 1] = num.sin(strike * d2r)
+        rotmat[0, 2] = 0.
+        rotmat[1, 0] = num.sin(strike * d2r) * num.cos(dip * d2r)
+        rotmat[1, 1] = num.cos(strike * d2r) * num.cos(dip * d2r)
+        rotmat[1, 2] = -num.sin(dip * d2r)
+        rotmat[2, 0] = -num.sin(strike * d2r) * num.sin(dip * d2r)
+        rotmat[2, 1] = num.cos(strike * d2r) * num.sin(dip * d2r)
+        rotmat[2, 2] = -num.cos(dip * d2r)
+
+        def rot_tens33(tensor, rotmat):
+            tensor_out = num.zeros((3, 3))
+            for i in range(3):
+                for j in range(3):
+                    tensor_out[i, j] = num.sum([[
+                        rotmat[i, m] * rotmat[j, n] * tensor[m, n]
+                        for n in range(3)] for m in range(3)])
+            return tensor_out
+
+        for isource, source in enumerate(source_patches):
+            for idisl, disl in enumerate(num.array([
+                [slip_strike, 0., 0.],
+                [0., slip_dip, 0.],
+                    [slip_tensile, 0., 0.]])):
+
+                results = okada_ext.okada(
+                    source[num.newaxis, :],
+                    disl[num.newaxis, :],
+                    receiver_coords,
+                    poisson,
+                    nthreads)
+
+                for irec in range(receiver_coords.shape[0]):
+                    eps = num.zeros((3, 3))
+
+                    for m in range(3):
+                        for n in range(3):
+                            eps[m, n] = 0.5 * (
+                                results[irec][m * 3 + n + 3] +
+                                results[irec][n * 3 + m + 3])
+
+                    eps_rot = rot_tens33(eps, rotmat)
+
+                    for isig, (m, n) in enumerate(zip([
+                            0, 0, 0, 1, 1, 2], [0, 1, 2, 1, 2, 2])):
+
+                        sig = \
+                            lamb * num.kron(m, n) * eps_rot[m, n] + \
+                            2. * mu * eps_rot[m, n]
+                        gf[irec * 6 + isig, isource * 3 + idisl] = \
+                            sig / num.max(disl)
 
 
 if __name__ == '__main__':
