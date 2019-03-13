@@ -319,12 +319,12 @@ class OkadaTestCase(unittest.TestCase):
         rotmat[0, 0] = num.cos(strike * d2r)
         rotmat[0, 1] = num.sin(strike * d2r)
         rotmat[0, 2] = 0.
-        rotmat[1, 0] = num.sin(strike * d2r) * num.cos(dip * d2r)
+        rotmat[1, 0] = -num.sin(strike * d2r) * num.cos(dip * d2r)
         rotmat[1, 1] = num.cos(strike * d2r) * num.cos(dip * d2r)
-        rotmat[1, 2] = -num.sin(dip * d2r)
-        rotmat[2, 0] = -num.sin(strike * d2r) * num.sin(dip * d2r)
+        rotmat[1, 2] = num.sin(dip * d2r)
+        rotmat[2, 0] = num.sin(strike * d2r) * num.sin(dip * d2r)
         rotmat[2, 1] = num.cos(strike * d2r) * num.sin(dip * d2r)
-        rotmat[2, 2] = -num.cos(dip * d2r)
+        rotmat[2, 2] = num.cos(dip * d2r)
 
         def rot_tens33(tensor, rotmat):
             tensor_out = num.zeros((3, 3))
@@ -339,7 +339,7 @@ class OkadaTestCase(unittest.TestCase):
             for idisl, disl in enumerate(num.array([
                 [slip_strike, 0., 0.],
                 [0., slip_dip, 0.],
-                    [slip_tensile, 0., 0.]])):
+                    [0., 0., slip_tensile]])):
 
                 results = okada_ext.okada(
                     source[num.newaxis, :],
@@ -358,6 +358,9 @@ class OkadaTestCase(unittest.TestCase):
                                 results[irec][n * 3 + m + 3])
 
                     eps_rot = rot_tens33(eps, rotmat)
+                    assert num.abs(eps_rot[0, 1] - eps_rot[1, 0]) < 1e-6
+                    assert num.abs(eps_rot[0, 2] - eps_rot[2, 0]) < 1e-6
+                    assert num.abs(eps_rot[1, 2] - eps_rot[2, 1]) < 1e-6
 
                     for isig, (m, n) in enumerate(zip([
                             0, 0, 0, 1, 1, 2], [0, 1, 2, 1, 2, 2])):
@@ -366,7 +369,39 @@ class OkadaTestCase(unittest.TestCase):
                             lamb * num.kron(m, n) * eps_rot[m, n] + \
                             2. * mu * eps_rot[m, n]
                         gf[irec * 6 + isig, isource * 3 + idisl] = \
-                            sig / num.max(disl)
+                            sig / disl[disl.nonzero()][0]
+
+        gf = num.matrix(gf)
+        assert num.linalg.det(gf.T * gf) != 0.
+
+        # Function to test the computed GF
+        dstress_xz = -1.5e9
+
+        stress = num.zeros((npoints * 6, 1))
+        for il in range(nlength):
+            for iw in range(nwidth):
+                idx = il * nwidth + iw
+
+                if il > 1 and il < 8 and iw > 1 and iw < 7:
+                    stress[idx * 6 + 2] = dstress_xz
+
+        disloc_est = num.linalg.inv(gf.T * gf) * gf.T * stress
+
+        if show_plot:
+            import matplotlib.pyplot as plt
+            from mpl_toolkits.mplot3d import Axes3D
+
+            fig = plt.figure()
+            ax = fig.add_subplot(1, 1, 1, projection='3d')
+            scat = ax.scatter(
+                receiver_coords[:, 1], receiver_coords[:, 0],
+                zs=-receiver_coords[:, 2], zdir='z', s=20,
+                c=num.array([i for i in disloc_est[::3]]),
+                edgecolor='None')
+            fig.colorbar(scat, shrink=0.5, aspect=5)
+
+            plt.show()
+
 
 
 if __name__ == '__main__':
