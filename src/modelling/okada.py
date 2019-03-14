@@ -5,7 +5,7 @@
 import numpy as num
 import logging
 
-from pyrocko.guts import Bool, Float, List, String, Timestamp
+from pyrocko.guts import Bool, Float, String, Timestamp
 from pyrocko.gf import Cloneable, Source
 from pyrocko.model import Location
 from pyrocko.modelling import disloc_ext
@@ -61,18 +61,34 @@ class AnalyticalRectangularSource(AnalyticalSource):
              'measured counter-clockwise from right-horizontal '
              'in on-plane view')
 
-    length = Float.T(
+    al1 = Float.T(
         default=0.,
-        help='length of rectangular source area [m]')
+        help='Distance "left" side to source point [m]')
 
-    width = Float.T(
+    al2 = Float.T(
         default=0.,
-        help='width of rectangular source area [m]')
+        help='Distance "right" side to source point [m]')
+
+    aw1 = Float.T(
+        default=0.,
+        help='Distance "lower" side to source point [m]')
+
+    aw2 = Float.T(
+        default=0.,
+        help='Distance "upper" side to source point [m]')
 
     slip = Float.T(
         default=0.,
         help='Slip on the rectangular source area [m]',
         optional=True)
+
+    @property
+    def length(self):
+        return num.abs(self.al1) + num.abs(self.al2)
+
+    @property
+    def width(self):
+        return num.abs(self.aw1) + num.abs(self.aw2)
 
 
 class OkadaSource(AnalyticalRectangularSource):
@@ -164,6 +180,32 @@ class OkadaSource(AnalyticalRectangularSource):
 
         return dsrc
 
+    def source_patch(self, source_patch=None):
+        if source_patch is None:
+            source_patch = num.empty(9)
+
+        source_patch[0] = self.northing
+        source_patch[1] = self.easting
+        source_patch[2] = self.depth
+        source_patch[3] = self.strike
+        source_patch[4] = self.dip
+        source_patch[5] = self.al1
+        source_patch[6] = self.al2
+        source_patch[7] = self.aw1
+        source_patch[8] = self.aw2
+
+        return source_patch
+
+    def source_disloc(self, source_disl=None):
+        if source_disl is None:
+            source_disl = num.empty(3)
+
+        source_disl[0] = num.cos(self.rake * d2r) * self.slip
+        source_disl[1] = num.sin(self.rake * d2r) * self.slip
+        source_disl[2] = self.opening
+
+        return source_disl
+
     def get_parameters_array(self):
         return num.array([self.__getattribute__(p) for p in self.parameters])
 
@@ -184,128 +226,6 @@ class OkadaSegment(OkadaSource):
     enabled = Bool.T(
         default=True,
         optional=True)
-
-
-# class OkadaPath(AnalyticalSource):
-
-#     depth = None
-#     nu = Float.T(
-#         default=0.25,
-#         help='Poisson\'s ratio, typically 0.25')
-#     nodes = List.T(
-#         default=[],
-#         optional=True,
-#         help='Nodes of the segments as (easting, northing) tuple of [m]')
-#     segments__ = List.T(
-#         default=[],
-#         optional=True,
-#         help='List of all segments.')
-
-#     def __init__(self, *args, **kwargs):
-#         AnalyticalSource.__init__(self, *args, **kwargs)
-
-#         self._segments = []
-
-#         if not self.nodes:
-#             self.nodes.append(
-#                 [self.easting, self.northing])
-
-#     @property
-#     def segments(self):
-#         return self._segments
-
-#     @segments.setter
-#     def segments(self, segments):
-#         self._segments = segments
-
-#     @staticmethod
-#     def _new_segment(e1, n1, e2, n2, **kwargs):
-#         d_e = e2 - e1
-#         d_n = n2 - n1
-#         length = (d_n**2 + d_e**2)**.5
-#         '''Width Scaling relation after
-
-#         Leonard, M. (2010). Earthquake fault scaling: Relating rupture length,
-#             width, average displacement, and moment release, Bull. Seismol.
-#             Soc. Am. 100, no. 5, 1971-1988.
-#         '''
-#         segment = {
-#             'northing': n1 + d_n / 2,
-#             'easting': e1 + d_e / 2,
-#             'depth': 0.,
-#             'length': length,
-#             'width': 15. * length**.66,
-#             'strike': num.arccos(d_n / length) * r2d,
-#             'slip': 45.,
-#             'rake': 90.,
-#         }
-#         segment.update(kwargs)
-#         return OkadaSegment(**segment)
-
-#     def _move_segment(self, pos, e1, n1, e2, n2):
-#         d_e = e2 - e1
-#         d_n = n2 - n1
-#         length = (d_n**2 + d_e**2)**.5
-
-#         segment_update = {
-#             'northing': n1 + d_n / 2,
-#             'easting': e1 + d_e / 2,
-#             'length': length,
-#             'width': 15. * length**.66,
-#             'strike': num.arccos(d_n / length) * r2d,
-#         }
-
-#         segment = self.segments[pos]
-#         for attr, val in segment_update.items():
-#             segment.__setattr__(attr, val)
-
-#     def add_node(self, easting, northing):
-#         self.nodes.append([easting, northing])
-#         self.segments.append(
-#             self._newSegment(
-#                 e1=self.nodes[-2][0],
-#                 n1=self.nodes[-2][1],
-#                 e2=self.nodes[-1][0],
-#                 n2=self.nodes[-1][1]))
-
-#     def insert_node(self, pos, easting, northing):
-#         self.nodes.insert(pos, [easting, northing])
-#         self.segments.append(
-#             self._newSegment(
-#                 e1=self.nodes[pos][0],
-#                 n1=self.nodes[pos][1],
-#                 e2=self.nodes[pos + 1][0],
-#                 n2=self.nodes[pos + 1][1]))
-#         self._moveSegment(
-#             pos - 1,
-#             e1=self.nodes[pos - 1][0],
-#             n1=self.nodes[pos - 1][1],
-#             e2=self.nodes[pos][0],
-#             n2=self.nodes[pos][1])
-
-#     def move_node(self, pos, easting, northing):
-#         self.nodes[pos] = [easting, northing]
-#         if pos < len(self):
-#             self._moveSegment(
-#                 pos,
-#                 e1=self.nodes[pos][0],
-#                 n1=self.nodes[pos][1],
-#                 e2=self.nodes[pos + 1][0],
-#                 n2=self.nodes[pos + 1][1])
-#         if pos != 0:
-#             self._moveSegment(
-#                 pos,
-#                 e1=self.nodes[pos - 1][0],
-#                 n1=self.nodes[pos - 1][1],
-#                 e2=self.nodes[pos][0],
-#                 n2=self.nodes[pos][1])
-
-#     def __len__(self):
-#         return len(self.segments)
-
-#     def disloc_source(self):
-#         return num.array([seg.disloc_source() for seg in self.segments
-#                           if seg.enabled])
 
 
 class ProcessorProfile(dict):
