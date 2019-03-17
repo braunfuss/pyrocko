@@ -228,6 +228,99 @@ class OkadaSegment(OkadaSource):
         optional=True)
 
 
+class GFCalculator(object):
+
+    @staticmethod
+    def get_gf_mat(source_patches_list, receiver_coords):
+                receiver_coords = source_coords.copy()
+        slip = 1.0
+        opening = 1.0
+        disl_cases = {
+            "strike": {
+                "slip": slip,
+                "rake": 0.,
+                "opening": 0.},
+            "dip": {
+                "slip": slip,
+                "rake": 90.,
+                "opening": 0.},
+            "tensile": {
+                "slip": 0.,
+                "rake": 0.,
+                "opening": opening}}
+
+        gf = num.zeros((npoints * 6, npoints * 3))
+
+        rotmat = num.zeros((3, 3))
+        rotmat[0, 0] = num.cos(strike * d2r)
+        rotmat[0, 1] = num.sin(strike * d2r)
+        rotmat[0, 2] = 0.
+        rotmat[1, 0] = -num.sin(strike * d2r) * num.cos(dip * d2r)
+        rotmat[1, 1] = num.cos(strike * d2r) * num.cos(dip * d2r)
+        rotmat[1, 2] = num.sin(dip * d2r)
+        rotmat[2, 0] = num.sin(strike * d2r) * num.sin(dip * d2r)
+        rotmat[2, 1] = num.cos(strike * d2r) * num.sin(dip * d2r)
+        rotmat[2, 2] = num.cos(dip * d2r)
+
+        def rot_tens33(tensor, rotmat):
+            tensor_out = num.zeros((3, 3))
+            for i in range(3):
+                for j in range(3):
+                    tensor_out[i, j] = num.sum([[
+                        rotmat[i, m] * rotmat[j, n] * tensor[m, n]
+                        for n in range(3)] for m in range(3)])
+            return tensor_out
+
+        for idisl, disl_type in enumerate(['strike', 'dip', 'tensile']):
+            disl = disl_cases[disl_type]
+            source_list = [OkadaSource(
+                lat=0., lon=0.,
+                north_shift=coords[0], east_shift=coords[1],
+                depth=coords[2], al1=al1, al2=al2, aw1=aw1, aw2=aw2,
+                strike=strike, dip=dip, rake=disl[1]['rake'],
+                slip=disl[1]['slip'], opening=disl[1]['opening'],
+                nu=poisson)
+                for coords in source_coords]
+
+            source_patches = [src.source_patch() for src in source_list]
+            source_disl = [src.source_disloc() for src in source_list]
+
+            for isource, (source, disl) in enumerate(zip(
+                    source_patches, source_disl)):
+
+                results = okada_ext.okada(
+                    source[num.newaxis, :],
+                    disl[num.newaxis, :],
+                    receiver_coords,
+                    poisson,
+                    nthreads)
+
+                for irec in range(receiver_coords.shape[0]):
+                    eps = num.zeros((3, 3))
+
+                    for m in range(3):
+                        for n in range(3):
+                            eps[m, n] = 0.5 * (
+                                results[irec][m * 3 + n + 3] +
+                                results[irec][n * 3 + m + 3])
+
+                    eps_rot = rot_tens33(eps, rotmat)
+                    assert num.abs(eps_rot[0, 1] - eps_rot[1, 0]) < 1e-6
+                    assert num.abs(eps_rot[0, 2] - eps_rot[2, 0]) < 1e-6
+                    assert num.abs(eps_rot[1, 2] - eps_rot[2, 1]) < 1e-6
+
+                    for isig, (m, n) in enumerate(zip([
+                            0, 0, 0, 1, 1, 2], [0, 1, 2, 1, 2, 2])):
+
+                        sig = \
+                            lamb * num.kron(m, n) * eps_rot[m, n] + \
+                            2. * mu * eps_rot[m, n]
+                        gf[irec * 6 + isig, isource * 3 + idisl] = \
+                            sig / disl[disl.nonzero()][0]
+
+        return num.matrix(gf)
+
+
 class ProcessorProfile(dict):
     pass
 
