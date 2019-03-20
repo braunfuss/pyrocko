@@ -5,10 +5,11 @@
 import numpy as num
 import logging
 
-from pyrocko.guts import Bool, Float, String, Timestamp
+from pyrocko.guts import Bool, Float, Object, String, Timestamp
+from pyrocko.guts_array import Array
 from pyrocko.gf import Cloneable, Source
 from pyrocko.model import Location
-from pyrocko.modelling import disloc_ext
+from pyrocko.modelling import disloc_ext, okada_ext
 
 guts_prefix = 'modelling'
 
@@ -17,6 +18,45 @@ logger = logging.getLogger('pyrocko.modelling.okada')
 d2r = num.pi / 180.
 r2d = 180. / num.pi
 km = 1e3
+
+
+class CrackSolutions(Object):
+    pass
+
+
+class GriffithCrack(CrackSolutions):
+    width = Float.T(
+        help='Width equals to 2*a',
+        default=1.)
+
+    poisson = Float.T(
+        help='Poisson ratio',
+        default=.25)
+
+    shear_mod = Float.T(
+        help='Shear modulus [Pa]',
+        default=1.e9)
+
+    stressdrop = Array.T(
+        help='Stress drop array:'
+             '[sig12_r - sig12_c, sig13_r - sig13_c, sig11_r - sig11_c]'
+             '[dsig_Strike, dsig_Dip, dsig_Tensile]',
+        default=num.array([0., 0., 0.]))
+
+    @property
+    def a(self):
+        return self.width / 2.
+
+    def disloc_modeI(self, x_obs):
+        if type(x_obs) is not num.ndarray:
+            x_obs = num.array(x_obs)
+
+        disl = num.zeros((x_obs.shape[0], 3))
+        disl[:, 2] = \
+            self.stressdrop[2] * num.sqrt(self.a**2 - x_obs**2) * (
+            2 * (1 - self.poisson)) / self.shear_mod
+
+        return disl
 
 
 class AnalyticalSource(Location, Cloneable):
@@ -109,6 +149,10 @@ class OkadaSource(AnalyticalRectangularSource):
         default=32e9,
         help='Shear modulus along the plane [Pa]',
         optional=True)
+
+    @property
+    def lamb(self):
+        return (2 * self.nu * self.mu) / (1 - 2 * self.nu)
 
     @property
     def seismic_moment(self):
@@ -228,97 +272,109 @@ class OkadaSegment(OkadaSource):
         optional=True)
 
 
-class GFCalculator(object):
-
+class DislocationInverter(object):
     @staticmethod
-    def get_gf_mat(source_patches_list, receiver_coords):
-                receiver_coords = source_coords.copy()
-        slip = 1.0
-        opening = 1.0
+    def get_coef_mat(source_patches_list, pure_shear=False):
+        source_patches = num.array([
+            src.source_patch() for src in source_patches_list])
+        receiver_coords = source_patches[:, :3].copy()
+
+        npoints = len(source_patches_list)
+
+        if pure_shear:
+            n_eq = 2
+        else:
+            n_eq = 3
+
+        coefmat = num.zeros((npoints * n_eq, npoints * n_eq))
+
+        def get_normal(strike, dip):
+            return num.array([
+                -num.sin(strike * d2r) * num.sin(dip * d2r),
+                num.cos(strike * d2r) * num.sin(dip * d2r),
+                -num.cos(dip * d2r)])
+
+        unit_disl = 1.
         disl_cases = {
-            "strike": {
-                "slip": slip,
-                "rake": 0.,
-                "opening": 0.},
-            "dip": {
-                "slip": slip,
-                "rake": 90.,
-                "opening": 0.},
-            "tensile": {
-                "slip": 0.,
-                "rake": 0.,
-                "opening": opening}}
+            'strikeslip': {
+                'slip': unit_disl,
+                'opening': 0.,
+                'rake': 0.},
+            'dipslip': {
+                'slip': unit_disl,
+                'opening': 0.,
+                'rake': 90.},
+            'tensileslip': {
+                'slip': 0.,
+                'opening': unit_disl,
+                'rake': 0.}
+        }
 
-        gf = num.zeros((npoints * 6, npoints * 3))
+        for idisl, case_type in enumerate([
+                'strikeslip', 'dipslip', 'tensileslip'][:n_eq]):
+            case = disl_cases[case_type]
+            source_disl = num.array([
+                case['slip'] * num.cos(case['rake'] * d2r),
+                case['slip'] * num.sin(case['rake'] * d2r),
+                case['opening']])
 
-        rotmat = num.zeros((3, 3))
-        rotmat[0, 0] = num.cos(strike * d2r)
-        rotmat[0, 1] = num.sin(strike * d2r)
-        rotmat[0, 2] = 0.
-        rotmat[1, 0] = -num.sin(strike * d2r) * num.cos(dip * d2r)
-        rotmat[1, 1] = num.cos(strike * d2r) * num.cos(dip * d2r)
-        rotmat[1, 2] = num.sin(dip * d2r)
-        rotmat[2, 0] = num.sin(strike * d2r) * num.sin(dip * d2r)
-        rotmat[2, 1] = num.cos(strike * d2r) * num.sin(dip * d2r)
-        rotmat[2, 2] = num.cos(dip * d2r)
-
-        def rot_tens33(tensor, rotmat):
-            tensor_out = num.zeros((3, 3))
-            for i in range(3):
-                for j in range(3):
-                    tensor_out[i, j] = num.sum([[
-                        rotmat[i, m] * rotmat[j, n] * tensor[m, n]
-                        for n in range(3)] for m in range(3)])
-            return tensor_out
-
-        for idisl, disl_type in enumerate(['strike', 'dip', 'tensile']):
-            disl = disl_cases[disl_type]
-            source_list = [OkadaSource(
-                lat=0., lon=0.,
-                north_shift=coords[0], east_shift=coords[1],
-                depth=coords[2], al1=al1, al2=al2, aw1=aw1, aw2=aw2,
-                strike=strike, dip=dip, rake=disl[1]['rake'],
-                slip=disl[1]['slip'], opening=disl[1]['opening'],
-                nu=poisson)
-                for coords in source_coords]
-
-            source_patches = [src.source_patch() for src in source_list]
-            source_disl = [src.source_disloc() for src in source_list]
-
-            for isource, (source, disl) in enumerate(zip(
-                    source_patches, source_disl)):
-
+            for isource, source in enumerate(source_patches):
                 results = okada_ext.okada(
                     source[num.newaxis, :],
-                    disl[num.newaxis, :],
+                    source_disl[num.newaxis, :],
                     receiver_coords,
-                    poisson,
-                    nthreads)
+                    source_patches_list[isource].nu,
+                    0)
 
                 for irec in range(receiver_coords.shape[0]):
                     eps = num.zeros((3, 3))
-
                     for m in range(3):
                         for n in range(3):
                             eps[m, n] = 0.5 * (
                                 results[irec][m * 3 + n + 3] +
                                 results[irec][n * 3 + m + 3])
 
-                    eps_rot = rot_tens33(eps, rotmat)
-                    assert num.abs(eps_rot[0, 1] - eps_rot[1, 0]) < 1e-6
-                    assert num.abs(eps_rot[0, 2] - eps_rot[2, 0]) < 1e-6
-                    assert num.abs(eps_rot[1, 2] - eps_rot[2, 1]) < 1e-6
+                    stress_tens = num.zeros((3, 3))
+                    delta = num.sum([eps[i, i] for i in range(3)])
 
-                    for isig, (m, n) in enumerate(zip([
-                            0, 0, 0, 1, 1, 2], [0, 1, 2, 1, 2, 2])):
+                    for m, n in zip([0, 0, 0, 1, 1, 2], [0, 1, 2, 1, 2, 2]):
+                        if m == n:
+                            stress_tens[m, n] = \
+                                source_patches_list[isource].lamb * delta + \
+                                2. * source_patches_list[isource].mu * \
+                                eps[m, n]
 
-                        sig = \
-                            lamb * num.kron(m, n) * eps_rot[m, n] + \
-                            2. * mu * eps_rot[m, n]
-                        gf[irec * 6 + isig, isource * 3 + idisl] = \
-                            sig / disl[disl.nonzero()][0]
+                        else:
+                            stress_tens[m, n] = \
+                                2. * source_patches_list[isource].mu * \
+                                eps[m, n]
+                            stress_tens[n, m] = stress_tens[m, n]
 
-        return num.matrix(gf)
+                    normal = get_normal(
+                        source_patches_list[isource].strike,
+                        source_patches_list[isource].dip)
+
+                    for isig in range(n_eq):
+                        tension = num.sum(stress_tens[isig, :] * normal)
+                        coefmat[irec * n_eq + isig, isource * n_eq + idisl] = \
+                            tension / unit_disl
+
+        return num.matrix(coefmat)
+
+    @staticmethod
+    def get_disloc_lsq(
+            stress_field, coef_mat=None, source_list=None, **kwargs):
+
+        if source_list and not coef_mat:
+            coef_mat = DislocationInverter.get_coef_mat(
+                source_list, **kwargs)
+
+        if not (coef_mat is None):
+            if stress_field.shape[0] == coef_mat.shape[0]:
+                coef_mat = num.matrix(coef_mat)
+
+                return num.linalg.inv(
+                    coef_mat.T * coef_mat) * coef_mat.T * stress_field
 
 
 class ProcessorProfile(dict):
@@ -358,4 +414,6 @@ __all__ = [
     'DislocProcessor',
     'AnalyticalSource',
     'AnalyticalRectangularSource',
-    'OkadaSource']
+    'OkadaSource',
+    'DislocationInverter',
+    'GriffithCrack']

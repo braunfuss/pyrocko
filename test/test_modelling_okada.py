@@ -4,8 +4,8 @@ import numpy as num
 import unittest
 
 from pyrocko import util
-from pyrocko.orthodrome import latlon_to_ne_numpy
-from pyrocko.modelling import okada_ext, OkadaSource, DislocProcessor
+from pyrocko.modelling import DislocProcessor, DislocationInverter,\
+    okada_ext, OkadaSource
 
 
 d2r = num.pi / 180.
@@ -16,16 +16,15 @@ show_plot = int(os.environ.get('MPL_SHOW', 0))
 
 
 class OkadaTestCase(unittest.TestCase):
-
     def test_okada(self):
-        n = 10
+        n = 1
 
         north = num.linspace(0., 5., n)
         east = num.linspace(-5., 0., n)
         down = num.linspace(15., 5., n)
 
-        strike = 100.
-        dip = 50.
+        strike = 0.
+        dip = 0.
         rake = 90.
         slip = 1.0
         opening = 0.
@@ -79,7 +78,6 @@ class OkadaTestCase(unittest.TestCase):
         results2 = okada_ext.okada(
             source_patches2, source_disl2, receiver_coords, poisson, nthreads)
         assert (results == results2).all()
-
 
     def test_okada_vs_disloc_single_Source(self):
         north = 0.
@@ -172,18 +170,41 @@ class OkadaTestCase(unittest.TestCase):
         if show_plot:
             compare_plot(res_ok2d['displacement.e'], res_ok3d[:, 1])
 
+    def test_okada_online_example(self):
+        source_list = [OkadaSource(
+            lat=0., lon=0., north_shift=0., east_shift=0., depth=50.,
+            al1=-80., al2=120., aw1=-30., aw2=25., strike=0., dip=70.,
+            opening=1., slip=2.5, rake=323.130103)]
+
+        receiver_coords = num.array([10., -20., 30.])[num.newaxis, :]
+        poisson = 1. / 6.
+
+        u = okada_ext.okada(
+            num.array([source.source_patch() for source in source_list]),
+            num.array([source.source_disloc() for source in source_list]),
+            receiver_coords, poisson, 0)
+
+        u_check = num.array([-0.378981, -0.631789, -0.14960])
+        # Example values from:
+        # http://www.bosai.go.jp/study/application/dc3d/download/DC3Dmanual.pdf
+
+        for i in range(3):
+            vals = num.array([u[0][i], u_check[i]])
+            assert num.abs(u[0][i]) - num.abs(u_check[i]) < 1e-5
+            assert num.all(vals > 0.) or num.all(vals < 0.)
+
     def test_okada_GF_fill(self):
         ref_north = 0.
         ref_east = 0.
-        ref_depth = 10.
+        ref_depth = 100000.
 
-        nlength = 10
-        nwidth = 8
+        nlength = 20
+        nwidth = 16
 
         strike = 0.
-        dip = 50.
+        dip = 90.
         length = 0.5
-        width = 0.25
+        width = 0.5
 
         al1 = -length / 2.
         al2 = length / 2.
@@ -191,9 +212,6 @@ class OkadaTestCase(unittest.TestCase):
         aw2 = width / 2.
         poisson = 0.25
         mu = 32. * 1e9
-        lamb = (2 * poisson * mu) / (1 - 2 * poisson)
-
-        nthreads = 0
 
         npoints = nlength * nwidth
         source_coords = num.zeros((npoints, 3))
@@ -218,104 +236,37 @@ class OkadaTestCase(unittest.TestCase):
                         num.abs(aw1) + num.abs(aw2)) + num.abs(aw1)
 
         receiver_coords = source_coords.copy()
-        slip = 1.0
-        opening = 1.0
-        disl_cases = {
-            "strike": {
-                "slip": slip,
-                "rake": 0.,
-                "opening": 0.},
-            "dip": {
-                "slip": slip,
-                "rake": 90.,
-                "opening": 0.},
-            "tensile": {
-                "slip": 0.,
-                "rake": 0.,
-                "opening": opening}}
 
-        gf = num.zeros((npoints * 6, npoints * 3))
+        source_list = [OkadaSource(
+            lat=0., lon=0.,
+            north_shift=coords[0], east_shift=coords[1],
+            depth=coords[2], al1=al1, al2=al2, aw1=aw1, aw2=aw2,
+            strike=strike, dip=dip, rake=0.,
+            mu=mu, nu=poisson) for coords in source_coords]
 
-        rotmat = num.zeros((3, 3))
-        rotmat[0, 0] = num.cos(strike * d2r)
-        rotmat[0, 1] = num.sin(strike * d2r)
-        rotmat[0, 2] = 0.
-        rotmat[1, 0] = -num.sin(strike * d2r) * num.cos(dip * d2r)
-        rotmat[1, 1] = num.cos(strike * d2r) * num.cos(dip * d2r)
-        rotmat[1, 2] = num.sin(dip * d2r)
-        rotmat[2, 0] = num.sin(strike * d2r) * num.sin(dip * d2r)
-        rotmat[2, 1] = num.cos(strike * d2r) * num.sin(dip * d2r)
-        rotmat[2, 2] = num.cos(dip * d2r)
+        pure_shear = False
+        if pure_shear:
+            n_eq = 2
+        else:
+            n_eq = 3
 
-        def rot_tens33(tensor, rotmat):
-            tensor_out = num.zeros((3, 3))
-            for i in range(3):
-                for j in range(3):
-                    tensor_out[i, j] = num.sum([[
-                        rotmat[i, m] * rotmat[j, n] * tensor[m, n]
-                        for n in range(3)] for m in range(3)])
-            return tensor_out
-
-        for idisl, disl_type in enumerate(['strike', 'dip', 'tensile']):
-            disl = disl_cases[disl_type]
-            source_list = [OkadaSource(
-                lat=0., lon=0.,
-                north_shift=coords[0], east_shift=coords[1],
-                depth=coords[2], al1=al1, al2=al2, aw1=aw1, aw2=aw2,
-                strike=strike, dip=dip, rake=disl[1]['rake'],
-                slip=disl[1]['slip'], opening=disl[1]['opening'],
-                nu=poisson)
-                for coords in source_coords]
-
-            source_patches = [src.source_patch() for src in source_list]
-            source_disl = [src.source_disloc() for src in source_list]
-
-            for isource, (source, disl) in enumerate(zip(
-                    source_patches, source_disl)):
-
-                results = okada_ext.okada(
-                    source[num.newaxis, :],
-                    disl[num.newaxis, :],
-                    receiver_coords,
-                    poisson,
-                    nthreads)
-
-                for irec in range(receiver_coords.shape[0]):
-                    eps = num.zeros((3, 3))
-
-                    for m in range(3):
-                        for n in range(3):
-                            eps[m, n] = 0.5 * (
-                                results[irec][m * 3 + n + 3] +
-                                results[irec][n * 3 + m + 3])
-
-                    eps_rot = rot_tens33(eps, rotmat)
-                    assert num.abs(eps_rot[0, 1] - eps_rot[1, 0]) < 1e-6
-                    assert num.abs(eps_rot[0, 2] - eps_rot[2, 0]) < 1e-6
-                    assert num.abs(eps_rot[1, 2] - eps_rot[2, 1]) < 1e-6
-
-                    for isig, (m, n) in enumerate(zip([
-                            0, 0, 0, 1, 1, 2], [0, 1, 2, 1, 2, 2])):
-
-                        sig = \
-                            lamb * num.kron(m, n) * eps_rot[m, n] + \
-                            2. * mu * eps_rot[m, n]
-                        gf[irec * 6 + isig, isource * 3 + idisl] = \
-                            sig / disl[disl.nonzero()][0]
-
-        gf = num.matrix(gf)
+        gf = DislocationInverter.get_coef_mat(
+            source_list, pure_shear=pure_shear)
         assert num.linalg.det(gf.T * gf) != 0.
 
         # Function to test the computed GF
-        dstress_xz = -1.5e9
+        dstress = -1.5e9
+        stress_comp = 1
 
-        stress = num.zeros((npoints * 6, 1))
+        stress = num.zeros((npoints * n_eq, 1))
         for il in range(nlength):
             for iw in range(nwidth):
                 idx = il * nwidth + iw
 
-                if il > 1 and il < 8 and iw > 1 and iw < 7:
-                    stress[idx * 6 + 2] = dstress_xz
+                if (il > 8 and il < 16) and (iw > 2 and iw < 12):
+                    stress[idx * n_eq + stress_comp] = dstress
+                elif (il > 2 and il < 10) and (iw > 2 and iw < 12):
+                    stress[idx * n_eq + stress_comp] = dstress / 4.
 
         disloc_est = num.linalg.inv(gf.T * gf) * gf.T * stress
 
@@ -323,17 +274,131 @@ class OkadaTestCase(unittest.TestCase):
             import matplotlib.pyplot as plt
             from mpl_toolkits.mplot3d import Axes3D
 
-            fig = plt.figure()
-            ax = fig.add_subplot(1, 1, 1, projection='3d')
-            scat = ax.scatter(
-                receiver_coords[:, 1], receiver_coords[:, 0],
-                zs=-receiver_coords[:, 2], zdir='z', s=20,
-                c=num.array([i for i in disloc_est[::3]]),
-                edgecolor='None')
-            fig.colorbar(scat, shrink=0.5, aspect=5)
+            def add_subplot(fig, ntot, n, param, title, **kwargs):
+                ax = fig.add_subplot(ntot, 1, n, projection='3d')
+                scat = ax.scatter(
+                    receiver_coords[:, 1], receiver_coords[:, 0],
+                    zs=-receiver_coords[:, 2], zdir='z', s=20,
+                    c=num.array(param), cmap='jet',
+                    edgecolor='None', **kwargs)
+                fig.colorbar(scat, shrink=0.5, aspect=5)
+                ax.set_title(title)
 
+            param = disloc_est
+            vmin = num.min(param)
+            vmax = num.max(param)
+
+            fig = plt.figure()
+            add_subplot(
+                fig, n_eq + 1, 1, [i for i in stress[stress_comp::n_eq]],
+                'stress')
+            add_subplot(
+                fig, n_eq + 1, 2, [i for i in param[::n_eq]],
+                '$u_{strike}$', vmin=vmin, vmax=vmax)
+            add_subplot(
+                fig, n_eq + 1, 3, [i for i in param[1::n_eq]],
+                '$u_{dip}$', vmin=vmin, vmax=vmax)
+            if n_eq == 3:
+                add_subplot(
+                    fig, n_eq + 1, 4, [i for i in param[2::n_eq]],
+                    '$u_{opening}$', vmin=vmin, vmax=vmax)
             plt.show()
 
+    def test_okada_vs_griffith(self):
+        from pyrocko.modelling import GriffithCrack
+
+        nlength = 20
+        nwidth = 24
+        length = 30.
+        width = 20.
+
+        al1 = -length / 2.
+        al2 = length / 2.
+        aw1 = -width / 2.
+        aw2 = width / 2.
+        poisson = 0.25
+        mu = 32e9
+
+        dstress = -0.5e9
+        min_x = -30.
+        max_x = 30.
+
+        npoints = nlength * nwidth
+
+        source_coords = num.zeros((npoints, 3))
+        stress = num.zeros((npoints * 3, 1))
+        for il in range(nlength):
+            for iw in range(nwidth):
+                idx = il * nwidth + iw
+                source_coords[idx, 0] = \
+                    il * length - (nlength - 1) / 2. * length
+                source_coords[idx, 1] = \
+                    iw * width - (nwidth - 1) / 2. * width
+
+                if (source_coords[idx, 1] > min_x and
+                        source_coords[idx, 1] < max_x):
+                    if (il > 0) and (il < nlength - 1):
+                        stress[idx * 3 + 2, 0] = dstress
+
+        source_coords[:, 2] = 10000.
+        receiver_coords = source_coords.copy()
+
+        source_list = [OkadaSource(
+            lat=0., lon=0.,
+            north_shift=coords[0], east_shift=coords[1],
+            depth=coords[2], al1=al1, al2=al2, aw1=aw1, aw2=aw2,
+            strike=0., dip=0., rake=0.,
+            slip=0., opening=1.,
+            mu=mu, nu=poisson) for coords in source_coords]
+
+        gf = DislocationInverter.get_coef_mat(source_list, pure_shear=False)
+        disloc_est = DislocationInverter.get_disloc_lsq(stress, coef_mat=gf)
+
+        stressdrop = num.zeros((3, 1))
+        stressdrop[2] = dstress
+        width = num.sum(num.abs([min_x, max_x]))
+        rec_grif = num.linspace(min_x, max_x, 100)
+
+        griffith = GriffithCrack(
+            width=width, poisson=poisson, shear_mod=mu, stressdrop=stressdrop)
+        disloc_grif = griffith.disloc_modeI(rec_grif)
+
+        if show_plot:
+            import matplotlib.pyplot as plt
+
+            line = int(nlength / 2)
+            def add_subplot(fig, ntot, n, title, comp, typ='line'): 
+                idx = line * nwidth
+                idx2 = (line + 1) * nwidth
+                ax = fig.add_subplot(ntot, 1, n)
+                if typ == 'line':
+                    ax.plot(
+                        receiver_coords[idx:idx2, 1],
+                        disloc_est[idx * 3 + comp:idx2 * 3 + comp:3],
+                        'b-', label='Okada Solution')
+                    ax.plot(
+                        rec_grif,
+                        disloc_grif[:, comp],
+                        'r-', label='Griffith crack sol.')
+                    plt.legend()
+                elif typ == 'scatter':
+                    scat = ax.scatter(
+                        receiver_coords[:, 1], receiver_coords[:, 0],
+                        c=num.array([i for i in disloc_est[comp::3]]))
+                    fig.colorbar(scat, shrink=0.8, aspect=5)
+                    plt.axis('equal')
+                ax.set_title(title)
+
+            fig = plt.figure()
+            add_subplot(fig, 3, 1, '$u_{strike}$ along profile %i' % line, 0)
+            add_subplot(fig, 3, 2, '$u_{dip}$', 1)
+            add_subplot(fig, 3, 3, '$u_{normal}$', 2)
+
+            fig = plt.figure()
+            add_subplot(fig, 3, 1, '$u_{strike}$', 0, typ='scatter')
+            add_subplot(fig, 3, 2, '$u_{dip}$', 1, typ='scatter')
+            add_subplot(fig, 3, 3, '$u_{normal}$', 2, typ='scatter')
+            plt.show()
 
 
 if __name__ == '__main__':

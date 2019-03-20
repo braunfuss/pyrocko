@@ -864,9 +864,11 @@ static okada_error_t dc3d_flexi(
 
     rot_vec31(r, rotmat, rrot);
 
+    if (dip == 90.) {
+        dip -= 1E-3;
+    }
     iret = dc3d(alpha, rrot[0], rrot[1], rrot[2], ds, dip, al1, al2, aw1, aw2, disl1, disl2, disl3, uokada);
-    assert(iret == 0);
-
+    
     /*
      * Back rotation of displacement and strain vector/tensor
      * with the transposed rotmat equals rotmat
@@ -881,9 +883,7 @@ static okada_error_t dc3d_flexi(
 int good_array(
         PyObject* o,
         int typenum,
-        npy_intp size_want,
         int ndim_want,
-        int ncols_want,
         npy_intp* shape_want) {
 
     int i;
@@ -901,18 +901,6 @@ int good_array(
     if (!PyArray_ISCARRAY((PyArrayObject*)o)) {
         PyErr_SetString(PyExc_AttributeError, "array is not contiguous or not well behaved");
         return 0;
-    }
-
-    if (size_want != -1 && size_want != PyArray_SIZE((PyArrayObject*)o)) {
-        PyErr_SetString(PyExc_AttributeError, "array is of unexpected size");
-        return 0;
-    }
-
-    if (ncols_want != -1) {
-        if (PyArray_SHAPE((PyArrayObject*) o)[1] != ncols_want) {
-            PyErr_SetString(PyExc_AttributeError, "array has unexpected number of columns");
-            return 0;
-        }
     }
 
     if (ndim_want != -1 && ndim_want != PyArray_NDIM((PyArrayObject*)o)) {
@@ -933,9 +921,6 @@ int good_array(
 
 
 int source_receiver_pair_check(
-    double receiver_n,
-    double receiver_e,
-    double receiver_d,
     double source_n,
     double source_e,
     double source_d,
@@ -944,13 +929,8 @@ int source_receiver_pair_check(
     double source_dip) {
 
     /*
-     * Check for Okada source center not equal to receiver point and below z=0
+     * Check for Okada source below z=0
     */
-
-    if (receiver_n == source_n && receiver_e == source_e && receiver_d == source_d) {
-        // printf("Source %g, %g, %g (N, E, D) equals receiver point and is therefore excluded\n", source_n, source_e, source_d);
-        return 0;
-    }
 
     if ((source_d - sin(source_dip*D2R) * source_aw1) < 0 || (source_d - sin(source_dip*D2R) * source_aw2) < 0 ) {
         printf("Source %g, %g, %g (N, E, D) is (partially) above z=0 and therefore excluded\n", source_n, source_e, source_d);
@@ -971,6 +951,7 @@ static PyObject* w_dc3d_flexi(
     npy_float64 *output;
     npy_float64 poisson;
     double uout[12];
+    npy_intp shape_want[2];
     npy_intp output_dims[2];
 
     struct module_state *st = GETSTATE(m);
@@ -980,11 +961,17 @@ static PyObject* w_dc3d_flexi(
         return NULL;
     }
 
-    if (! good_array(source_patches_arr, NPY_FLOAT64, -1, 2, 9, NULL))
+    shape_want[0] = PyArray_SHAPE((PyArrayObject*) source_patches_arr)[0];
+    shape_want[1] = 9;
+    if (! good_array(source_patches_arr, NPY_FLOAT64, 2, shape_want))
         return NULL;
-    if (! good_array(source_disl_arr, NPY_FLOAT64, -1, 2, 3, NULL))
+
+    shape_want[1] = 3;
+    if (! good_array(source_disl_arr, NPY_FLOAT64, 2, shape_want))
         return NULL;
-    if (! good_array(receiver_coords_arr, NPY_FLOAT64, -1, 2, 3, NULL))
+
+    shape_want[0] = PyArray_SHAPE((PyArrayObject*) receiver_coords_arr)[0];
+    if (! good_array(receiver_coords_arr, NPY_FLOAT64, 2, shape_want))
         return NULL;
 
     nrec = PyArray_SHAPE((PyArrayObject*) receiver_coords_arr)[0];
@@ -1011,7 +998,7 @@ static PyObject* w_dc3d_flexi(
     #endif
         for (irec=0; irec<nrec; irec++) {
             for (isource=0; isource<nsources; isource++) {
-                // if (!source_receiver_pair_check(receiver_coords[irec*3], receiver_coords[irec*3+1], receiver_coords[irec*3+2], source_patches[isource*9], source_patches[isource*9+1], source_patches[isource*9+2], source_patches[isource*9+7], source_patches[isource*9+8], source_patches[isource*9+4])) continue;
+                if (!source_receiver_pair_check(source_patches[isource*9], source_patches[isource*9+1], source_patches[isource*9+2], source_patches[isource*9+7], source_patches[isource*9+8], source_patches[isource*9+4])) continue;
                 dc3d_flexi(1.0 - 2.0 * poisson, receiver_coords[irec*3], receiver_coords[irec*3+1], receiver_coords[irec*3+2], source_patches[isource*9], source_patches[isource*9+1], source_patches[isource*9+2], source_patches[isource*9+3], source_patches[isource*9+4], source_patches[isource*9+5], source_patches[isource*9+6], source_patches[isource*9+7], source_patches[isource*9+8], source_disl[isource*3], source_disl[isource*3+1], source_disl[isource*3+2], uout);
 
                 for (i=0; i<12; i++) {

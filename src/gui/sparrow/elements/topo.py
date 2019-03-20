@@ -266,7 +266,7 @@ class TopoElement(Element):
             slider = qw.QSlider(qc.Qt.Horizontal)
             slider.setSizePolicy(
                 qw.QSizePolicy(
-                    qw.QSizePolicy.Expanding, qw.QSizePolicy.Minimum))
+                    qw.QSizePolicy.Expanding, qw.QSizePolicy.Fixed))
             slider.setMinimum(0)
             slider.setMaximum(2000)
             layout.addWidget(slider, 0, 1)
@@ -280,7 +280,7 @@ class TopoElement(Element):
             slider = qw.QSlider(qc.Qt.Horizontal)
             slider.setSizePolicy(
                 qw.QSizePolicy(
-                    qw.QSizePolicy.Expanding, qw.QSizePolicy.Minimum))
+                    qw.QSizePolicy.Expanding, qw.QSizePolicy.Fixed))
             slider.setMinimum(0)
             slider.setMaximum(1000)
             layout.addWidget(slider, 1, 1)
@@ -303,6 +303,8 @@ class TopoElement(Element):
             pb = qw.QPushButton('Remove')
             layout.addWidget(pb, 4, 1)
             pb.clicked.connect(self.unset_parent)
+
+            layout.addWidget(qw.QFrame(), 5, 0, 1, 2)
 
         self._controls = frame
 
