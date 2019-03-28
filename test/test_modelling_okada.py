@@ -307,10 +307,13 @@ class OkadaTestCase(unittest.TestCase):
     def test_okada_vs_griffith(self):
         from pyrocko.modelling import GriffithCrack
 
+        length_total = 600.
+        width_total = 60.
+
         nlength = 20
         nwidth = 24
-        length = 30.
-        width = 20.
+        length = length_total / nlength
+        width = width_total / nwidth
 
         al1 = -length / 2.
         al2 = length / 2.

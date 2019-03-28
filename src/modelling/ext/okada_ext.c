@@ -920,23 +920,41 @@ int good_array(
 }
 
 
-int source_receiver_pair_check(
-    double source_n,
-    double source_e,
-    double source_d,
-    double source_aw1,
-    double source_aw2,
-    double source_dip) {
+int halfspace_check(
+    double *source_patches,
+    double *receiver_coords,
+    double nsources,
+    double nreceivers) {
 
     /*
      * Check for Okada source below z=0
     */
 
-    if ((source_d - sin(source_dip*D2R) * source_aw1) < 0 || (source_d - sin(source_dip*D2R) * source_aw2) < 0 ) {
-        printf("Source %g, %g, %g (N, E, D) is (partially) above z=0 and therefore excluded\n", source_n, source_e, source_d);
-        return 0;
+    int irec, isrc, src_idx;
+    char msg[1024];
+
+
+    for (isrc=0; isrc<nsources; isrc++) {
+        src_idx = isrc * 9;
+        if ((source_patches[src_idx + 2] - sin(source_patches[src_idx + 4]*D2R) * source_patches[src_idx + 7]) < 0 || (source_patches[src_idx + 2] - sin(source_patches[src_idx + 4]*D2R) * source_patches[src_idx + 8]) < 0 ) {
+            sprintf(msg, "Source %g, %g, %g (N, E, D) is (partially) above z=0.\nCalculation was terminated. Please check.", source_patches[src_idx], source_patches[src_idx + 1], source_patches[src_idx + 2]);
+            PyErr_SetString(PyExc_ValueError, msg);
+            return 0;
+        }
+        if (source_patches[src_idx + 2] < 0) {
+            sprintf(msg, "Source %g, %g, %g (N, E, D) is (partially) above z=0.\nCalculation was terminated. Please check.", source_patches[src_idx], source_patches[src_idx + 1], source_patches[src_idx + 2]);
+            PyErr_SetString(PyExc_ValueError, msg);
+            return 0;
+        }
     }
 
+    for (irec=0; irec<nreceivers; irec++) {
+        if (receiver_coords[irec * 3 + 2] < 0) {
+            sprintf(msg, "Receiver %g, %g, %g (N, E, D) is above z=0.\nCalculation was terminated.  Please check!", receiver_coords[irec * 3], receiver_coords[irec * 3 + 1], receiver_coords[irec * 3 + 2]);
+            PyErr_SetString(PyExc_ValueError, msg);
+            return 0;
+        }
+    }
     return 1;
 }
 
@@ -985,6 +1003,9 @@ static PyObject* w_dc3d_flexi(
     output_arr = PyArray_ZEROS(2, output_dims, NPY_FLOAT64, 0);
     output = PyArray_DATA((PyArrayObject*) output_arr);
 
+    if (!halfspace_check(source_patches, receiver_coords, nsources, nrec))
+        return NULL;
+
     #if defined(_OPENMP)
         Py_BEGIN_ALLOW_THREADS
         if (nthreads == 0)
@@ -998,7 +1019,6 @@ static PyObject* w_dc3d_flexi(
     #endif
         for (irec=0; irec<nrec; irec++) {
             for (isource=0; isource<nsources; isource++) {
-                if (!source_receiver_pair_check(source_patches[isource*9], source_patches[isource*9+1], source_patches[isource*9+2], source_patches[isource*9+7], source_patches[isource*9+8], source_patches[isource*9+4])) continue;
                 dc3d_flexi(1.0 - 2.0 * poisson, receiver_coords[irec*3], receiver_coords[irec*3+1], receiver_coords[irec*3+2], source_patches[isource*9], source_patches[isource*9+1], source_patches[isource*9+2], source_patches[isource*9+3], source_patches[isource*9+4], source_patches[isource*9+5], source_patches[isource*9+6], source_patches[isource*9+7], source_patches[isource*9+8], source_disl[isource*3], source_disl[isource*3+1], source_disl[isource*3+2], uout);
 
                 for (i=0; i<12; i++) {

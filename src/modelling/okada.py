@@ -2,6 +2,7 @@
 #
 # The Pyrocko Developers, 21st Century
 # ---|P------/S----------~Lg----------
+import time
 import numpy as num
 import logging
 
@@ -39,8 +40,8 @@ class GriffithCrack(CrackSolutions):
 
     stressdrop = Array.T(
         help='Stress drop array:'
-             '[sig12_r - sig12_c, sig13_r - sig13_c, sig11_r - sig11_c]'
-             '[dsig_Strike, dsig_Dip, dsig_Tensile]',
+             '[sig13_r - sig13_c, sig12_r - sig12_c, sig11_r - sig11_c]'
+             '[dsig_Dip, dsig_Strike, dsig_Tensile]',
         default=num.array([0., 0., 0.]))
 
     @property
@@ -84,7 +85,8 @@ class AnalyticalSource(Location, Cloneable):
 
 
 class AnalyticalRectangularSource(AnalyticalSource):
-    '''Rectangular analytical source model
+    '''
+    Rectangular analytical source model
     '''
 
     strike = Float.T(
@@ -132,7 +134,8 @@ class AnalyticalRectangularSource(AnalyticalSource):
 
 
 class OkadaSource(AnalyticalRectangularSource):
-    '''Rectangular Okada source model
+    '''
+    Rectangular Okada source model
     '''
 
     opening = Float.T(
@@ -156,7 +159,9 @@ class OkadaSource(AnalyticalRectangularSource):
 
     @property
     def seismic_moment(self):
-        '''Scalar Seismic moment
+        '''
+        Scalar Seismic moment
+
         Code copied from Kite
 
         Disregarding the opening (as for now)
@@ -188,8 +193,10 @@ class OkadaSource(AnalyticalRectangularSource):
 
     @property
     def moment_magnitude(self):
-        '''Moment magnitude from Seismic moment
-         Code copied from Kite
+        '''
+        Moment magnitude from Seismic moment
+
+        Code copied from Kite
 
         We assume :math:`M_\\mathrm{w} = {\\frac{2}{3}}\\log_{10}(M_0) - 10.7`
 
@@ -275,6 +282,86 @@ class OkadaSegment(OkadaSource):
 class DislocationInverter(object):
     @staticmethod
     def get_coef_mat(source_patches_list, pure_shear=False):
+        source_patches = num.array([
+            src.source_patch() for src in source_patches_list])
+        receiver_coords = source_patches[:, :3].copy()
+
+        npoints = len(source_patches_list)
+
+        if pure_shear:
+            n_eq = 2
+        else:
+            n_eq = 3
+
+        coefmat = num.zeros((npoints * n_eq, npoints * n_eq))
+
+        def get_normal(strike, dip):
+            return num.array([
+                -num.sin(strike * d2r) * num.sin(dip * d2r),
+                num.cos(strike * d2r) * num.sin(dip * d2r),
+                -num.cos(dip * d2r)])
+
+        unit_disl = 1.
+        disl_cases = {
+            'strikeslip': {
+                'slip': unit_disl,
+                'opening': 0.,
+                'rake': 0.},
+            'dipslip': {
+                'slip': unit_disl,
+                'opening': 0.,
+                'rake': 90.},
+            'tensileslip': {
+                'slip': 0.,
+                'opening': unit_disl,
+                'rake': 0.}
+        }
+
+        for idisl, case_type in enumerate([
+                'strikeslip', 'dipslip', 'tensileslip'][:n_eq]):
+            case = disl_cases[case_type]
+            source_disl = num.array([
+                case['slip'] * num.cos(case['rake'] * d2r),
+                case['slip'] * num.sin(case['rake'] * d2r),
+                case['opening']])
+
+            for isource, source in enumerate(source_patches):
+                results = okada_ext.okada(
+                    source[num.newaxis, :],
+                    source_disl[num.newaxis, :],
+                    receiver_coords,
+                    source_patches_list[isource].nu,
+                    0)
+
+                eps = \
+                    0.5 * (
+                        results[:, 3:] +
+                        results[:, [3, 6, 9, 4, 7, 10, 5, 8, 11]])
+
+                diag_ind = [0, 4, 8]
+                delta = num.sum(eps[:, diag_ind], axis=1)[:, num.newaxis]
+                lamb = source_patches_list[isource].lamb
+                mu = source_patches_list[isource].mu
+                kron = num.zeros_like(eps)
+                kron[:, diag_ind] = 1.
+
+                stress = kron * lamb * delta + 2. * mu * eps
+
+                normal = num.tile(get_normal(
+                    source_patches_list[isource].strike,
+                    source_patches_list[isource].dip), (stress.shape[0], 1))
+
+                coefmat[::n_eq, isource * n_eq + idisl] = \
+                    num.sum(stress[:, :3] * normal, axis=1) / unit_disl
+                coefmat[1::n_eq, isource * n_eq + idisl] = \
+                    num.sum(stress[:, 3:6] * normal, axis=1) / unit_disl
+                coefmat[2::n_eq, isource * n_eq + idisl] = \
+                    num.sum(stress[:, 6:] * normal, axis=1) / unit_disl
+
+        return num.matrix(coefmat)
+
+    @staticmethod
+    def get_coef_mat_slow(source_patches_list, pure_shear=False):
         source_patches = num.array([
             src.source_patch() for src in source_patches_list])
         receiver_coords = source_patches[:, :3].copy()
