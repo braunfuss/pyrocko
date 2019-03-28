@@ -44,7 +44,8 @@ map_anchor = {
 
 
 def get_shift_zero_coord(source, *args):
-    """Relative cartesian coordinates with respect to nucleation point.
+    """
+    Relative cartesian coordinates with respect to nucleation point.
 
     Get the north and east shift [m] between the nucleation point and the
     reference point of a rectangular fault (important for Okada routine)
@@ -65,7 +66,8 @@ def get_shift_zero_coord(source, *args):
 
 
 def patches_to_okadasources(source_geom, source, **kwargs):
-    """Compute list of Okada Sources out of given fault patches.
+    """
+    Compute list of Okada Sources out of given fault patches.
 
     For a given fault geometry with sub fault (patches), a list of Okada Source
     segments is populated and returned
@@ -121,7 +123,8 @@ def patches_to_okadasources(source_geom, source, **kwargs):
 
 
 def receiver_to_okadacoords(receiver_geom, dim=2):
-    """Build array of coordinate tuples (triples) for each receiver
+    """
+    Build array of coordinate tuples (triples) for each receiver
 
     For a given receiver geometry, the north and east shift (in 2D) or the
     north, the east shift and the depth are concatenated in array
@@ -147,7 +150,8 @@ def receiver_to_okadacoords(receiver_geom, dim=2):
 
 def okada_surface_displacement(
         source_geom, disp_window, source, dim=2, **kwargs):
-    """Calculate Displacement due to Okada Sources for in certain window
+    """
+    Calculate Displacement due to Okada Sources for in certain window
 
     For a given source geometry and source, the surface displacements in 3D are
     calculated. The grid for displacement calculation is defined via a

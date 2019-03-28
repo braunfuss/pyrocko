@@ -2,12 +2,10 @@
 #
 # The Pyrocko Developers, 21st Century
 # ---|P------/S----------~Lg----------
-import time
 import numpy as num
 import logging
 
-from pyrocko.guts import Bool, Float, Object, String, Timestamp
-from pyrocko.guts_array import Array
+from pyrocko.guts import Bool, Float, String, Timestamp
 from pyrocko.gf import Cloneable, Source
 from pyrocko.model import Location
 from pyrocko.modelling import disloc_ext, okada_ext
@@ -19,45 +17,6 @@ logger = logging.getLogger('pyrocko.modelling.okada')
 d2r = num.pi / 180.
 r2d = 180. / num.pi
 km = 1e3
-
-
-class CrackSolutions(Object):
-    pass
-
-
-class GriffithCrack(CrackSolutions):
-    width = Float.T(
-        help='Width equals to 2*a',
-        default=1.)
-
-    poisson = Float.T(
-        help='Poisson ratio',
-        default=.25)
-
-    shear_mod = Float.T(
-        help='Shear modulus [Pa]',
-        default=1.e9)
-
-    stressdrop = Array.T(
-        help='Stress drop array:'
-             '[sig13_r - sig13_c, sig12_r - sig12_c, sig11_r - sig11_c]'
-             '[dsig_Dip, dsig_Strike, dsig_Tensile]',
-        default=num.array([0., 0., 0.]))
-
-    @property
-    def a(self):
-        return self.width / 2.
-
-    def disloc_modeI(self, x_obs):
-        if type(x_obs) is not num.ndarray:
-            x_obs = num.array(x_obs)
-
-        disl = num.zeros((x_obs.shape[0], 3))
-        disl[:, 2] = \
-            self.stressdrop[2] * num.sqrt(self.a**2 - x_obs**2) * (
-            2 * (1 - self.poisson)) / self.shear_mod
-
-        return disl
 
 
 class AnalyticalSource(Location, Cloneable):
@@ -155,6 +114,15 @@ class OkadaSource(AnalyticalRectangularSource):
 
     @property
     def lamb(self):
+        '''
+        Calculation of first Lame's parameter
+
+        According to Mueller (2007), the first Lame parameter lambda can be
+        determined from the formulation for the poisson ration nu:
+        nu = lambda / (2 * (lambda + mu))
+        with the shear modulus mu
+        '''
+
         return (2 * self.nu * self.mu) / (1 - 2 * self.nu)
 
     @property
@@ -206,7 +174,18 @@ class OkadaSource(AnalyticalRectangularSource):
         return 2. / 3 * num.log10(self.seismic_moment * 1e7) - 10.7
 
     def disloc_source(self, dsrc=None):
-        if dsrc is None:
+        '''
+        Build array for disloc_ext input
+
+        :param dsrc: optional, :py:class:`numpy.ndarray`
+        :type dsrc: array containing source information, which will be
+        overwritten
+
+        :return: array of the source data as input for disloc_ext
+        :rtype: py:class:`numpy.ndarray`, ``(1, 10)
+        '''
+
+        if dsrc is None or dsrc.shape != tuple(9, ):
             dsrc = num.empty(10)
 
         dip = self.dip
@@ -223,17 +202,21 @@ class OkadaSource(AnalyticalRectangularSource):
 
         ss_slip = num.cos(self.rake * d2r) * self.slip
         ds_slip = num.sin(self.rake * d2r) * self.slip
-        # print '{:<13}{}\n{:<13}{}'.format(
-        #     'strike_slip', ss_slip, 'dip_slip', ds_slip)
         dsrc[7] = -ss_slip  # SS Strike-Slip
         dsrc[8] = -ds_slip  # DS Dip-Slip
         dsrc[9] = self.opening  # TS Tensional-Slip
 
         return dsrc
 
-    def source_patch(self, source_patch=None):
-        if source_patch is None:
-            source_patch = num.empty(9)
+    def source_patch(self):
+        '''
+        Build source information array for okada_ext.okada input
+
+        :return: array of the source data as input for okada_ext.okada
+        :rtype: py:class:`numpy.ndarray`, ``(1, 9)
+        '''
+
+        source_patch = num.empty(9)
 
         source_patch[0] = self.northing
         source_patch[1] = self.easting
@@ -248,8 +231,15 @@ class OkadaSource(AnalyticalRectangularSource):
         return source_patch
 
     def source_disloc(self, source_disl=None):
-        if source_disl is None:
-            source_disl = num.empty(3)
+        '''
+        Build source dislocation for okada_ext.okada input
+
+        :return: array of the source dislocation data as input for
+        okada_ext.okada
+        :rtype: py:class:`numpy.ndarray`, ``(1, 3)
+        '''
+
+        source_disl = num.empty(3)
 
         source_disl[0] = num.cos(self.rake * d2r) * self.slip
         source_disl[1] = num.sin(self.rake * d2r) * self.slip
@@ -280,8 +270,35 @@ class OkadaSegment(OkadaSource):
 
 
 class DislocationInverter(object):
+    '''
+    Toolbox for Boundary Element Method (BEM) and dislocation inversion based
+    on okada_ext.okada
+    '''
+
     @staticmethod
     def get_coef_mat(source_patches_list, pure_shear=False):
+        '''
+        Build coefficient matrix for given source_patches
+
+        The BEM for a fault and the determination of the slip distribution from
+        the stress drop is based on the relation stress = coef_mat * displ.
+        Here the coefficient matrix is build and filled based on the
+        okada_ext.okada displacements and partial displacement
+        differentiations.
+
+        :param source_patches_list: list of all OkadaSources, which shall be
+            used for BEM
+        :type source_patches_list: list of
+            py:class:`pyrocko.modelling.OkadaSource`
+        :param pure_shear: Flag, if also opening mode shall be taken into
+            account (False) or the fault is described as pure shear (True).
+        :type pure_shear: optional, Bool
+
+        :return: coefficient matrix for all sources
+        :rtype: :py:class:`numpy.matrix`,
+            ``(source_patches_list.shape[0] * 3, source_patches.shape[] * 3(2))
+        '''
+
         source_patches = num.array([
             src.source_patch() for src in source_patches_list])
         receiver_coords = source_patches[:, :3].copy()
@@ -339,13 +356,13 @@ class DislocationInverter(object):
                         results[:, [3, 6, 9, 4, 7, 10, 5, 8, 11]])
 
                 diag_ind = [0, 4, 8]
-                delta = num.sum(eps[:, diag_ind], axis=1)[:, num.newaxis]
+                dilatation = num.sum(eps[:, diag_ind], axis=1)[:, num.newaxis]
                 lamb = source_patches_list[isource].lamb
                 mu = source_patches_list[isource].mu
                 kron = num.zeros_like(eps)
                 kron[:, diag_ind] = 1.
 
-                stress = kron * lamb * delta + 2. * mu * eps
+                stress = kron * lamb * dilatation + 2. * mu * eps
 
                 normal = num.tile(get_normal(
                     source_patches_list[isource].strike,
@@ -355,13 +372,36 @@ class DislocationInverter(object):
                     num.sum(stress[:, :3] * normal, axis=1) / unit_disl
                 coefmat[1::n_eq, isource * n_eq + idisl] = \
                     num.sum(stress[:, 3:6] * normal, axis=1) / unit_disl
-                coefmat[2::n_eq, isource * n_eq + idisl] = \
-                    num.sum(stress[:, 6:] * normal, axis=1) / unit_disl
+                if n_eq == 3:
+                    coefmat[2::n_eq, isource * n_eq + idisl] = \
+                        num.sum(stress[:, 6:] * normal, axis=1) / unit_disl
 
         return num.matrix(coefmat)
 
     @staticmethod
     def get_coef_mat_slow(source_patches_list, pure_shear=False):
+        '''
+        Build coefficient matrix for given source_patches (Slow version)
+
+        The BEM for a fault and the determination of the slip distribution from
+        the stress drop is based on the relation stress = coef_mat * displ.
+        Here the coefficient matrix is build and filled based on the
+        okada_ext.okada displacements and partial displacement
+        differentiations.
+
+        :param source_patches_list: list of all OkadaSources, which shall be
+            used for BEM
+        :type source_patches_list: list of
+            py:class:`pyrocko.modelling.OkadaSource`
+        :param pure_shear: Flag, if also opening mode shall be taken into
+            account (False) or the fault is described as pure shear (True).
+        :type pure_shear: optional, Bool
+
+        :return: coefficient matrix for all sources
+        :rtype: :py:class:`numpy.matrix`,
+            ``(source_patches_list.shape[0] * 3, source_patches.shape[] * 3(2))
+        '''
+
         source_patches = num.array([
             src.source_patch() for src in source_patches_list])
         receiver_coords = source_patches[:, :3].copy()
@@ -422,12 +462,13 @@ class DislocationInverter(object):
                                 results[irec][n * 3 + m + 3])
 
                     stress_tens = num.zeros((3, 3))
-                    delta = num.sum([eps[i, i] for i in range(3)])
+                    dilatation = num.sum([eps[i, i] for i in range(3)])
 
                     for m, n in zip([0, 0, 0, 1, 1, 2], [0, 1, 2, 1, 2, 2]):
                         if m == n:
                             stress_tens[m, n] = \
-                                source_patches_list[isource].lamb * delta + \
+                                source_patches_list[isource].lamb * \
+                                dilatation + \
                                 2. * source_patches_list[isource].mu * \
                                 eps[m, n]
 
@@ -451,6 +492,34 @@ class DislocationInverter(object):
     @staticmethod
     def get_disloc_lsq(
             stress_field, coef_mat=None, source_list=None, **kwargs):
+        '''
+        Least square inversion to get displacement from stress
+
+        Follows approach for Least-Square Inversion published in Menke (1989)
+        to calculate displacements on a fault with several segments from a
+        given stress field. If not done, the coefficient matrix is determined
+        within the code.
+
+        :param stress_field: Array containing the stress change [Pa] for each
+            source patch (order: [
+            src1 dstress_Strike, src1 dstress_Dip, src1 dstress_Tensile,
+            src2 dstress_Strike, ...])
+        :type stress_field: :py:class:`numpy.ndarray`, ``(n_sources * 3, )
+        :param coef_mat: Coefficient matrix to connect source patches
+            displacement and the resulting stress field
+        :type coef_mat: optional, :py:class:`numpy.matrix`,
+            ``(source_patches_list.shape[0] * 3, source_patches.shape[] * 3(2)
+        :param source_list: list of all OkadaSources, which shall be
+            used for BEM
+        :type source_list: optional, list of
+            py:class:`pyrocko.modelling.OkadaSource`
+
+        :return: inverted displacements (u_strike, u_dip , u_tensile) for each
+            source patch. order: [
+            patch1 u_Strike, patch1 u_Dip, patch1 u_Tensile,
+            patch2 u_Strike, ...]
+        :rtype: :py:class:`numpy.ndarray`, ``(n_sources * 3, 1)
+        '''
 
         if source_list and not coef_mat:
             coef_mat = DislocationInverter.get_coef_mat(
@@ -502,5 +571,4 @@ __all__ = [
     'AnalyticalSource',
     'AnalyticalRectangularSource',
     'OkadaSource',
-    'DislocationInverter',
-    'GriffithCrack']
+    'DislocationInverter']

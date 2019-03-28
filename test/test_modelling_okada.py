@@ -255,7 +255,7 @@ class OkadaTestCase(unittest.TestCase):
         assert num.linalg.det(gf.T * gf) != 0.
 
         # Function to test the computed GF
-        dstress = -1.5e9
+        dstress = -1.5e6
         stress_comp = 1
 
         stress = num.zeros((npoints * n_eq, 1))
@@ -322,7 +322,7 @@ class OkadaTestCase(unittest.TestCase):
         poisson = 0.25
         mu = 32e9
 
-        dstress = -0.5e9
+        dstress = -0.5e6
         min_x = -30.
         max_x = 30.
 
@@ -357,20 +357,21 @@ class OkadaTestCase(unittest.TestCase):
         gf = DislocationInverter.get_coef_mat(source_list, pure_shear=False)
         disloc_est = DislocationInverter.get_disloc_lsq(stress, coef_mat=gf)
 
-        stressdrop = num.zeros((3, 1))
+        stressdrop = num.zeros(3, )
         stressdrop[2] = dstress
-        width = num.sum(num.abs([min_x, max_x]))
         rec_grif = num.linspace(min_x, max_x, 100)
 
         griffith = GriffithCrack(
-            width=width, poisson=poisson, shear_mod=mu, stressdrop=stressdrop)
+            width=num.sum(num.abs([min_x, max_x])),
+            poisson=poisson, shear_mod=mu, stressdrop=stressdrop)
         disloc_grif = griffith.disloc_modeI(rec_grif)
 
         if show_plot:
             import matplotlib.pyplot as plt
 
             line = int(nlength / 2)
-            def add_subplot(fig, ntot, n, title, comp, typ='line'): 
+
+            def add_subplot(fig, ntot, n, title, comp, typ='line'):
                 idx = line * nwidth
                 idx2 = (line + 1) * nwidth
                 ax = fig.add_subplot(ntot, 1, n)
