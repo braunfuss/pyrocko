@@ -31,14 +31,10 @@ def events_to_points(events):
 
     station_table = table.Table()
 
-    station_table.add_cols(
-        [table.Header(name=name) for name in
-            ['lat', 'lon', 'depth']],
-        [coords],
-        [table.Header(name=name) for name in['coords']])
+    station_table.add_col(('coords', '', ('lat', 'lon', 'depth')), coords)
 
     return geometry.latlondepth2xyz(
-        station_table.get_col_group('coords'),
+        station_table.get_col('coords'),
         planetradius=cake.earthradius)
 
 
