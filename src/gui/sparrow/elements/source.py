@@ -51,13 +51,14 @@ def get_shift_zero_coord(source, *args):
     reference point of a rectangular fault (important for Okada routine)
 
     :param source: Rectangular Source
-    ;type source: :py:class:`pyrocko.gf.RectangularSource`
+    :type source: :py:class:`pyrocko.gf.RectangularSource`
     :param refloc: Location reference point
     :type refloc: :py:class:`pyrocko.orthodrome.Loc`
 
     :return: Northin and easting from nucleation point to ref_loc
     :rtype: tuple, float
     """
+
     ref_pt = source.points_on_source(
         points_x=[0.], points_y=[-1.],
         cs='latlon')
@@ -75,11 +76,12 @@ def patches_to_okadasources(source_geom, source, **kwargs):
     :param source_geom: Source geometry of extended source
     :type source_geom: :py:class:`pyrocko.gf.Geometry`
     :param source: Rectangular Source
-    ;type source: :py:class:`pyrocko.gf.RectangularSource`
+    :type source: :py:class:`pyrocko.gf.RectangularSource`
 
     :return: list of Okada Sources
-    ;rtype: list
+    :rtype: list
     """
+
     points = source_geom.patches.points
     npoints = points.get_col('ref_lat').shape[0]
     ref_lat = points.get_col('ref_lat')[0]
@@ -133,11 +135,12 @@ def receiver_to_okadacoords(receiver_geom, dim=2):
     :type receiver_geom: :py:class:`pyrocko.table.Table`
     :param dim: Dimension of coordinate array: 2 - easting, northing,
         3 - easting, northing, depth
-    ;type dim: :py:class:`int`
+    :type dim: :py:class:`int`
 
     :return: array of receiver coordinates
-    ;rtype: :py:class:`numpy.ndarray`, ``(Nxdim)
+    :rtype: :py:class:`numpy.ndarray`, ``(Nxdim)
     """
+
     coords = num.empty((len(receiver_geom.get_col('north_shift')), dim))
     coords[:, 0] = receiver_geom.get_col('north_shift')
     coords[:, 1] = receiver_geom.get_col('east_shift')
@@ -174,6 +177,7 @@ def okada_surface_displacement(
     :return: Geometry of the Receiver and the calculated dislocations
     :rtype: :py:class:`pyrocko.table.Table` and :py:class:`dict`
     """
+
     source_patches, source_disl, ref_pt = patches_to_okadasources(
         source_geom, source, **kwargs)
 
@@ -182,8 +186,12 @@ def okada_surface_displacement(
     receiver_coords = receiver_to_okadacoords(
         receiver_geom, dim=dim)
 
+    poisson = 0.25
+    mu = 32.e9
+    lamb = (2 * poisson * mu) / (1 - 2 * poisson)
+
     return receiver_geom, okada_ext.okada(
-        source_patches, source_disl, receiver_coords, 0.25, 0)
+        source_patches, source_disl, receiver_coords, lamb, mu, 0)
 
 class LatLonWindow(ElementState):
     pass
