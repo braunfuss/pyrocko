@@ -131,7 +131,6 @@ class OkadaSource(AnalyticalRectangularSource):
         Scalar Seismic moment
 
         Code copied from Kite
-
         Disregarding the opening (as for now)
         We assume a shear modulus of :math:`\mu = 36 \mathrm{GPa}`
         and :math:`M_0 = \mu A D`
@@ -143,16 +142,12 @@ class OkadaSource(AnalyticalRectangularSource):
             Through :math:`\\mu = \\frac{3K(1-2\\nu)}{2(1+\\nu)}` this leads to
             :math:`\\mu = \\frac{8(1+\\nu)}{1-2\\nu}`
 
-        :returns: Seismic moment release
+        :return: Seismic moment release
         :rtype: float
         '''
 
-        if self.nu and self.mu:
-            mu = self.mu
-        # elif self.nu and not self.mu:
-        #     self.mu = (8. * (1 + self.nu)) / (1 - 2. * self.nu)
-        elif self.mu:
-            mu = self.mu
+        if self.poisson and not self.mu:
+            self.mu = (8. * (1 + self.poisson)) / (1 - 2. * self.poisson)
         else:
             mu = 32e9  # GPa
 
@@ -164,13 +159,13 @@ class OkadaSource(AnalyticalRectangularSource):
         '''
         Moment magnitude from Seismic moment
 
-        Code copied from Kite
-
+        Copied from Kite. Returns the moment magnitude
         We assume :math:`M_\\mathrm{w} = {\\frac{2}{3}}\\log_{10}(M_0) - 10.7`
 
         :returns: Moment magnitude
         :rtype: float
         '''
+
         return 2. / 3 * num.log10(self.seismic_moment * 1e7) - 10.7
 
     def disloc_source(self, dsrc=None):
@@ -182,7 +177,7 @@ class OkadaSource(AnalyticalRectangularSource):
         overwritten
 
         :return: array of the source data as input for disloc_ext
-        :rtype: py:class:`numpy.ndarray`, ``(1, 10)
+        :rtype: py:class:`numpy.ndarray`, ``(1, 10)``
         '''
 
         if dsrc is None or dsrc.shape != tuple(9, ):
@@ -213,7 +208,7 @@ class OkadaSource(AnalyticalRectangularSource):
         Build source information array for okada_ext.okada input
 
         :return: array of the source data as input for okada_ext.okada
-        :rtype: py:class:`numpy.ndarray`, ``(1, 9)
+        :rtype: py:class:`numpy.ndarray`, ``(1, 9)``
         '''
 
         source_patch = num.empty(9)
@@ -230,13 +225,13 @@ class OkadaSource(AnalyticalRectangularSource):
 
         return source_patch
 
-    def source_disloc(self, source_disl=None):
+    def source_disloc(self):
         '''
         Build source dislocation for okada_ext.okada input
 
         :return: array of the source dislocation data as input for
         okada_ext.okada
-        :rtype: py:class:`numpy.ndarray`, ``(1, 3)
+        :rtype: py:class:`numpy.ndarray`, ``(1, 3)``
         '''
 
         source_disl = num.empty(3)
@@ -296,7 +291,8 @@ class DislocationInverter(object):
 
         :return: coefficient matrix for all sources
         :rtype: :py:class:`numpy.matrix`,
-            ``(source_patches_list.shape[0] * 3, source_patches.shape[] * 3(2))
+            ``(source_patches_list.shape[0] * 3,
+            source_patches.shape[] * 3(2))``
         '''
 
         source_patches = num.array([
@@ -347,7 +343,8 @@ class DislocationInverter(object):
                     source[num.newaxis, :],
                     source_disl[num.newaxis, :],
                     receiver_coords,
-                    source_patches_list[isource].nu,
+                    source_patches_list[isource].lamb,
+                    source_patches_list[isource].mu,
                     0)
 
                 eps = \
@@ -399,7 +396,8 @@ class DislocationInverter(object):
 
         :return: coefficient matrix for all sources
         :rtype: :py:class:`numpy.matrix`,
-            ``(source_patches_list.shape[0] * 3, source_patches.shape[] * 3(2))
+            ``(source_patches_list.shape[0] * 3,
+            source_patches.shape[] * 3(2))``
         '''
 
         source_patches = num.array([
@@ -450,7 +448,8 @@ class DislocationInverter(object):
                     source[num.newaxis, :],
                     source_disl[num.newaxis, :],
                     receiver_coords,
-                    source_patches_list[isource].nu,
+                    source_patches_list[isource].lamb,
+                    source_patches_list[isource].mu,
                     0)
 
                 for irec in range(receiver_coords.shape[0]):
@@ -504,11 +503,12 @@ class DislocationInverter(object):
             source patch (order: [
             src1 dstress_Strike, src1 dstress_Dip, src1 dstress_Tensile,
             src2 dstress_Strike, ...])
-        :type stress_field: :py:class:`numpy.ndarray`, ``(n_sources * 3, )
+        :type stress_field: :py:class:`numpy.ndarray`, ``(n_sources * 3, )``
         :param coef_mat: Coefficient matrix to connect source patches
             displacement and the resulting stress field
         :type coef_mat: optional, :py:class:`numpy.matrix`,
-            ``(source_patches_list.shape[0] * 3, source_patches.shape[] * 3(2)
+            ``(source_patches_list.shape[0] * 3,
+            source_patches.shape[] * 3(2)``
         :param source_list: list of all OkadaSources, which shall be
             used for BEM
         :type source_list: optional, list of
@@ -518,7 +518,7 @@ class DislocationInverter(object):
             source patch. order: [
             patch1 u_Strike, patch1 u_Dip, patch1 u_Tensile,
             patch2 u_Strike, ...]
-        :rtype: :py:class:`numpy.ndarray`, ``(n_sources * 3, 1)
+        :rtype: :py:class:`numpy.ndarray`, ``(n_sources * 3, 1)``
         '''
 
         if source_list and not coef_mat:

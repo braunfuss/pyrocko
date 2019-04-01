@@ -967,15 +967,15 @@ static PyObject* w_dc3d_flexi(
     PyObject *source_patches_arr, *source_disl_arr, *receiver_coords_arr, *output_arr;
     npy_float64  *source_patches, *source_disl, *receiver_coords;
     npy_float64 *output;
-    npy_float64 poisson;
-    double uout[12];
+    npy_float64 lambda, mu;
+    double uout[12], alpha;
     npy_intp shape_want[2];
     npy_intp output_dims[2];
 
     struct module_state *st = GETSTATE(m);
 
-    if (! PyArg_ParseTuple(args, "OOOdI", &source_patches_arr, &source_disl_arr, &receiver_coords_arr, &poisson, &nthreads)) {
-        PyErr_SetString(st->error, "usage: okada(Sourcepatches(north, east, down, strike, dip, al1, al2, aw1, aw2), Dislocation(strike, dip, opening), ReceiverCoords(north, east, down), Poisson, NumThreads(0 equals all)");
+    if (! PyArg_ParseTuple(args, "OOOddI", &source_patches_arr, &source_disl_arr, &receiver_coords_arr, &lambda, &mu, &nthreads)) {
+        PyErr_SetString(st->error, "usage: okada(Sourcepatches(north, east, down, strike, dip, al1, al2, aw1, aw2), Dislocation(strike, dip, opening), ReceiverCoords(north, east, down), Lambda, Mu, NumThreads(0 equals all)");
         return NULL;
     }
 
@@ -1011,15 +1011,16 @@ static PyObject* w_dc3d_flexi(
         if (nthreads == 0)
             nthreads = omp_get_num_procs();
         #pragma omp parallel\
-            shared(nrec, nsources, poisson, receiver_coords, source_patches, source_disl, output)\
-            private(uout, irec, isource, i)\
+            shared(nrec, nsources, lambda, mu, receiver_coords, source_patches, source_disl, output)\
+            private(uout, irec, isource, i, alpha)\
             num_threads(nthreads)
         {
         #pragma omp for schedule(static) nowait
     #endif
         for (irec=0; irec<nrec; irec++) {
             for (isource=0; isource<nsources; isource++) {
-                dc3d_flexi(1.0 - 2.0 * poisson, receiver_coords[irec*3], receiver_coords[irec*3+1], receiver_coords[irec*3+2], source_patches[isource*9], source_patches[isource*9+1], source_patches[isource*9+2], source_patches[isource*9+3], source_patches[isource*9+4], source_patches[isource*9+5], source_patches[isource*9+6], source_patches[isource*9+7], source_patches[isource*9+8], source_disl[isource*3], source_disl[isource*3+1], source_disl[isource*3+2], uout);
+                alpha = (lambda + mu) / (lambda + 2. * mu);
+                dc3d_flexi(alpha, receiver_coords[irec*3], receiver_coords[irec*3+1], receiver_coords[irec*3+2], source_patches[isource*9], source_patches[isource*9+1], source_patches[isource*9+2], source_patches[isource*9+3], source_patches[isource*9+4], source_patches[isource*9+5], source_patches[isource*9+6], source_patches[isource*9+7], source_patches[isource*9+8], source_disl[isource*3], source_disl[isource*3+1], source_disl[isource*3+2], uout);
 
                 for (i=0; i<12; i++) {
                     output[irec*12+i] += uout[i];
