@@ -9,7 +9,7 @@ from pyrocko.modelling import DislocProcessor, DislocationInverter,\
 
 
 d2r = num.pi / 180.
-km2m = 1000.
+km = 1000.
 
 
 show_plot = int(os.environ.get('MPL_SHOW', 0))
@@ -67,7 +67,8 @@ class OkadaTestCase(unittest.TestCase):
             north_shift=north[i], east_shift=east[i],
             depth=down[i], al1=al1, al2=al2, aw1=aw1, aw2=aw2,
             strike=strike, dip=dip,
-            rake=rake, slip=slip, opening=opening, nu=poisson, mu=mu)
+            rake=rake, slip=slip, opening=opening,
+            poisson=poisson, shearmod=mu)
             for i in range(n)]
         source_patches2 = num.array([
             source.source_patch() for source in source_list2])
@@ -84,9 +85,9 @@ class OkadaTestCase(unittest.TestCase):
     def test_okada_vs_disloc_single_Source(self):
         north = 0.
         east = 0.
-        depth = 10. * km2m
-        length = 50. * km2m
-        width = 10. * km2m
+        depth = 10. * km
+        length = 50. * km
+        width = 10. * km
 
         strike = 45.
         dip = 89.
@@ -120,7 +121,8 @@ class OkadaTestCase(unittest.TestCase):
             north_shift=north, east_shift=east,
             depth=depth, al1=al1, al2=al2, aw1=aw1, aw2=aw2,
             strike=strike, dip=dip,
-            rake=rake, slip=slip, opening=opening, nu=poisson, mu=mu)]
+            rake=rake, slip=slip, opening=opening,
+            poisson=poisson, shearmod=mu)]
 
         res_ok2d = DislocProcessor.process(
             segments, num.array(receiver_coords[:, ::-1][:, 1:]))
@@ -145,7 +147,7 @@ class OkadaTestCase(unittest.TestCase):
                 scat = ax.scatter(
                     receiver_coords[:, 1], receiver_coords[:, 0], s=20,
                     c=param, vmin=vmin, vmax=vmax, cmap='seismic',
-                    edgecolor='none')
+                    edgecolor='None')
                 fig.colorbar(scat, shrink=0.8, aspect=5)
                 rect = plt.Rectangle((
                     -num.sin(strike * d2r) * length / 2.,
@@ -199,6 +201,38 @@ class OkadaTestCase(unittest.TestCase):
             assert num.abs(u[0][i]) - num.abs(u_check[i]) < 1e-5
             assert num.all(vals > 0.) or num.all(vals < 0.)
 
+    def test_okada_discretize(self):
+        nlength = 100
+        nwidth = 10
+
+        al1 = -80.
+        al2 = 120.
+        aw1 = -30.
+        aw2 = 25.
+        strike = 0.
+        dip = 70.
+
+        source = OkadaSource(
+            lat=1., lon=-1., north_shift=100., east_shift=200., depth=50.,
+            al1=al1, al2=al2, aw1=aw1, aw2=aw2, strike=strike, dip=dip)
+
+        source_disc = source.discretize(nlength, nwidth)
+
+        if show_plot:
+            import matplotlib.pyplot as plt
+            from mpl_toolkits.mplot3d import Axes3D
+
+            fig = plt.figure()
+            ax = fig.add_subplot(1, 1, 1, projection='3d')
+            ax.scatter(
+                [src.east_shift for src in source_disc],
+                [src.north_shift for src in source_disc],
+                zs=[-src.depth for src in source_disc], s=20)
+            ax.scatter(
+                [200.], [100.], zs=[-50.], s=200, c='red')
+            plt.axis('equal')
+            plt.show()
+
     def test_okada_GF_fill(self):
         ref_north = 0.
         ref_east = 0.
@@ -248,7 +282,7 @@ class OkadaTestCase(unittest.TestCase):
             north_shift=coords[0], east_shift=coords[1],
             depth=coords[2], al1=al1, al2=al2, aw1=aw1, aw2=aw2,
             strike=strike, dip=dip, rake=0.,
-            mu=mu, nu=poisson) for coords in source_coords]
+            shearmod=mu, poisson=poisson) for coords in source_coords]
 
         pure_shear = False
         if pure_shear:
@@ -258,7 +292,7 @@ class OkadaTestCase(unittest.TestCase):
 
         gf = DislocationInverter.get_coef_mat(
             source_list, pure_shear=pure_shear)
-        assert num.linalg.det(gf.T * gf) != 0.
+        assert num.linalg.det(num.dot(gf.T, gf)) != 0.
 
         # Function to test the computed GF
         dstress = -1.5e6
@@ -274,7 +308,8 @@ class OkadaTestCase(unittest.TestCase):
                 elif (il > 2 and il < 10) and (iw > 2 and iw < 12):
                     stress[idx * n_eq + stress_comp] = dstress / 4.
 
-        disloc_est = num.linalg.inv(gf.T * gf) * gf.T * stress
+        disloc_est = DislocationInverter.get_disloc_lsq(
+            stress, coef_mat=gf)
 
         if show_plot:
             import matplotlib.pyplot as plt
@@ -357,7 +392,7 @@ class OkadaTestCase(unittest.TestCase):
             north_shift=coords[0], east_shift=coords[1],
             depth=coords[2], al1=al1, al2=al2, aw1=aw1, aw2=aw2,
             strike=0., dip=0., rake=0.,
-            mu=mu, nu=poisson) for coords in source_coords]
+            shearmod=mu, poisson=poisson) for coords in source_coords]
 
         gf = DislocationInverter.get_coef_mat(source_list, pure_shear=False)
         disloc_est = DislocationInverter.get_disloc_lsq(stress, coef_mat=gf)
@@ -456,7 +491,7 @@ class OkadaTestCase(unittest.TestCase):
             north_shift=coords[0], east_shift=coords[1],
             depth=coords[2], al1=al1, al2=al2, aw1=aw1, aw2=aw2,
             strike=0., dip=0., rake=0.,
-            mu=mu, nu=poisson) for coords in source_coords]
+            shearmod=mu, poisson=poisson) for coords in source_coords]
 
         gf = DislocationInverter.get_coef_mat(source_list, pure_shear=False)
         disloc_est = DislocationInverter.get_disloc_lsq(stress, coef_mat=gf)

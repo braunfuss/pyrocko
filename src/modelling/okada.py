@@ -5,6 +5,7 @@
 import numpy as num
 import logging
 
+from pyrocko import moment_tensor as mt
 from pyrocko.guts import Bool, Float, String, Timestamp
 from pyrocko.gf import Cloneable, Source
 from pyrocko.model import Location
@@ -16,7 +17,7 @@ logger = logging.getLogger('pyrocko.modelling.okada')
 
 d2r = num.pi / 180.
 r2d = 180. / num.pi
-km = 1e3
+km = 1.0e3
 
 
 class AnalyticalSource(Location, Cloneable):
@@ -102,12 +103,12 @@ class OkadaSource(AnalyticalRectangularSource):
         help='Opening of the plane in [m]',
         optional=True)
 
-    nu = Float.T(
+    poisson = Float.T(
         default=0.25,
         help='Poisson\'s ratio, typically 0.25',
         optional=True)
 
-    mu = Float.T(
+    shearmod = Float.T(
         default=32e9,
         help='Shear modulus along the plane [Pa]',
         optional=True)
@@ -123,7 +124,7 @@ class OkadaSource(AnalyticalRectangularSource):
         with the shear modulus mu
         '''
 
-        return (2 * self.nu * self.mu) / (1 - 2 * self.nu)
+        return (2 * self.poisson * self.shearmod) / (1 - 2 * self.poisson)
 
     @property
     def seismic_moment(self):
@@ -146,8 +147,9 @@ class OkadaSource(AnalyticalRectangularSource):
         :rtype: float
         '''
 
-        if self.poisson and not self.mu:
-            self.mu = (8. * (1 + self.poisson)) / (1 - 2. * self.poisson)
+        if self.poisson and not self.shearmod:
+            self.shearmod = (8. * (1 + self.poisson)) / (1 - 2. * self.poisson)
+            mu = self.shearmod
         else:
             mu = 32e9  # GPa
 
@@ -253,6 +255,62 @@ class OkadaSource(AnalyticalRectangularSource):
         for ip, param in enumerate(self.parameters):
             self.__setattr__(param, parameter_arr[ip])
 
+    def discretize(self, nlength, nwidth):
+        '''
+        Discretize the given fault by nlength * nwidth fault patches
+
+        Discretizing the fault into several sub faults. Nlength is number of
+        points in strike direction, nwidth in down dip direction along the
+        fault. Fault orientation, slip and elastic parameters are kept.
+
+        :param nlength: Number of discrete points in faults strike direction
+        :type nlength: int
+        :param nwidth: Number of discrete points in faults down-dip direction
+        :type nwidth: int
+
+        :return: Discrete fault patches
+        :rtype: list of :py:class:`pyrocko.modelling.OkadaSource` objects
+        '''
+
+        il = num.repeat(num.arange(0, nlength, 1), nwidth)
+        iw = num.tile(num.arange(0, nwidth, 1), (1, nlength))
+
+        patch_length = self.length / nlength
+        patch_width = self.width / nwidth
+        al1 = -patch_length / 2.
+        al2 = patch_length / 2.
+        aw1 = -patch_width / 2.
+        aw2 = patch_width / 2.
+
+        source_points = num.zeros((nlength * nwidth, 3))
+        source_points[:, 0] = (
+            il - 1) * patch_length + num.abs(al1)
+        source_points[:, 1] = (
+            iw - 1) * patch_width + num.abs(aw1)
+
+        source_points[:, 0] += self.al1
+        source_points[:, 1] -= self.aw2
+
+        rotmat = num.asarray(
+            mt.euler_to_matrix(self.dip * d2r, self.strike * d2r, 0.0))
+
+        source_points_rot = num.dot(rotmat.T, source_points.T).T
+        source_points_rot[:, 0] += self.northing
+        source_points_rot[:, 1] += self.easting
+        source_points_rot[:, 2] += self.depth
+
+        kwargs = {
+            prop: getattr(self, prop) for prop in self.T.propnames
+            if prop not in [
+                'north_shift', 'east_shift', 'depth',
+                'al1', 'al2', 'aw1', 'aw2']}
+
+        return [OkadaSource(
+            north_shift=coord[0], east_shift=coord[1],
+            depth=coord[2], al1=al1, al2=al2, aw1=aw1, aw2=aw2,
+            **kwargs)
+            for coord in source_points_rot]
+
     @property
     def segments(self):
         yield self
@@ -290,7 +348,7 @@ class DislocationInverter(object):
         :type pure_shear: optional, Bool
 
         :return: coefficient matrix for all sources
-        :rtype: :py:class:`numpy.matrix`,
+        :rtype: :py:class:`numpy.ndarray`,
             ``(source_patches_list.shape[0] * 3,
             source_patches.shape[] * 3(2))``
         '''
@@ -344,7 +402,7 @@ class DislocationInverter(object):
                     source_disl[num.newaxis, :],
                     receiver_coords,
                     source_patches_list[isource].lamb,
-                    source_patches_list[isource].mu,
+                    source_patches_list[isource].shearmod,
                     0)
 
                 eps = \
@@ -355,7 +413,7 @@ class DislocationInverter(object):
                 diag_ind = [0, 4, 8]
                 dilatation = num.sum(eps[:, diag_ind], axis=1)[:, num.newaxis]
                 lamb = source_patches_list[isource].lamb
-                mu = source_patches_list[isource].mu
+                mu = source_patches_list[isource].shearmod
                 kron = num.zeros_like(eps)
                 kron[:, diag_ind] = 1.
 
@@ -373,7 +431,7 @@ class DislocationInverter(object):
                     coefmat[2::n_eq, isource * n_eq + idisl] = \
                         num.sum(stress[:, 6:] * normal, axis=1) / unit_disl
 
-        return num.matrix(coefmat)
+        return coefmat
 
     @staticmethod
     def get_coef_mat_slow(source_patches_list, pure_shear=False):
@@ -395,7 +453,7 @@ class DislocationInverter(object):
         :type pure_shear: optional, Bool
 
         :return: coefficient matrix for all sources
-        :rtype: :py:class:`numpy.matrix`,
+        :rtype: :py:class:`numpy.ndarray`,
             ``(source_patches_list.shape[0] * 3,
             source_patches.shape[] * 3(2))``
         '''
@@ -468,12 +526,12 @@ class DislocationInverter(object):
                             stress_tens[m, n] = \
                                 source_patches_list[isource].lamb * \
                                 dilatation + \
-                                2. * source_patches_list[isource].mu * \
+                                2. * source_patches_list[isource].shearmod * \
                                 eps[m, n]
 
                         else:
                             stress_tens[m, n] = \
-                                2. * source_patches_list[isource].mu * \
+                                2. * source_patches_list[isource].shearmod * \
                                 eps[m, n]
                             stress_tens[n, m] = stress_tens[m, n]
 
@@ -486,7 +544,7 @@ class DislocationInverter(object):
                         coefmat[irec * n_eq + isig, isource * n_eq + idisl] = \
                             tension / unit_disl
 
-        return num.matrix(coefmat)
+        return coefmat
 
     @staticmethod
     def get_disloc_lsq(
@@ -506,7 +564,7 @@ class DislocationInverter(object):
         :type stress_field: :py:class:`numpy.ndarray`, ``(n_sources * 3, )``
         :param coef_mat: Coefficient matrix to connect source patches
             displacement and the resulting stress field
-        :type coef_mat: optional, :py:class:`numpy.matrix`,
+        :type coef_mat: optional, :py:class:`numpy.ndarray`,
             ``(source_patches_list.shape[0] * 3,
             source_patches.shape[] * 3(2)``
         :param source_list: list of all OkadaSources, which shall be
@@ -527,10 +585,8 @@ class DislocationInverter(object):
 
         if not (coef_mat is None):
             if stress_field.shape[0] == coef_mat.shape[0]:
-                coef_mat = num.matrix(coef_mat)
-
-                return num.linalg.inv(
-                    coef_mat.T * coef_mat) * coef_mat.T * stress_field
+                return num.linalg.multi_dot([num.linalg.inv(
+                    num.dot(coef_mat.T, coef_mat)), coef_mat.T, stress_field])
 
 
 class ProcessorProfile(dict):
@@ -552,11 +608,11 @@ class DislocProcessor(AnalyticalSourceProcessor):
             'displacement.d': num.zeros((coords.shape[0])),
         }
 
-        src_nu = set(src.nu for src in sources)
+        src_nu = set(src.poisson for src in sources)
 
         for nu in src_nu:
             src_arr = num.vstack([src.disloc_source() for src in sources
-                                  if src.nu == nu])
+                                  if src.poisson == nu])
             res = disloc_ext.disloc(src_arr, coords, nu, nthreads)
             result['displacement.e'] += res[:, 0]
             result['displacement.n'] += res[:, 1]
