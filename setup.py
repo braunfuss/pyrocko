@@ -772,7 +772,7 @@ setup(
                    'data/colortables/*.cpt',
                    'data/tectonics/*.txt',
                    'data/fomosto_report/gfreport.*',
-                   'gui/snufflings/map/*ml',
-                   'gui/snufflings/map/*.js',
+                   'gui/snuffler/snufflings/map/*ml',
+                   'gui/snuffler/snufflings/map/*.js',
                    ] + get_readme_paths()}
 )
