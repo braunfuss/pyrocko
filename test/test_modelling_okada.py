@@ -190,7 +190,7 @@ class OkadaTestCase(unittest.TestCase):
         u = okada_ext.okada(
             num.array([source.source_patch() for source in source_list]),
             num.array([source.source_disloc() for source in source_list]),
-            receiver_coords, lamb, mu, 0)
+            receiver_coords.copy(), lamb, mu, 0)
 
         u_check = num.array([-0.378981, -0.631789, -0.14960])
         # Example values from:
