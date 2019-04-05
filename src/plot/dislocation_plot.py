@@ -2,14 +2,27 @@ import numpy as num
 
 km = 1000.
 
-def draw(dislocation, coordinates, axes=None):
+def draw(
+        dislocation,
+        coordinates,
+        axes=None,
+        cmap='coolwarm',
+        zero_center=False):
     if axes is not None:
+        if zero_center:
+            vmax = num.max(num.abs([
+                num.min(dislocation), num.max(dislocation)]))
+            vmin = -vmax
+        else:
+            vmax = num.max(dislocation)
+            vmin = num.min(dislocation)
         scat = axes.scatter(
             coordinates[:, 1] * 1. / km,
             coordinates[:, 0] * 1. / km,
             c=dislocation,
-            cmap='coolwarm',
-            edgecolor='None')
+            cmap=cmap,
+            edgecolor='None',
+            vmin=vmin, vmax=vmax)
 
         return scat
 
@@ -30,7 +43,9 @@ def plot(
         dpi=100,
         fontsize=10.,
         figsize=None,
-        titles=None):
+        titles=None,
+        cmap='coolwarm',
+        zero_center=False):
 
     from matplotlib import pyplot as plt
     from pyrocko.plot import mpl_init, mpl_margins, mpl_papersize
@@ -54,7 +69,7 @@ def plot(
             'Displacement North',
             'Displacement East',
             'Displacement Down',
-            'Displacement Total']
+            '||Displacement||']
 
     assert len(titles) == 4
 
@@ -71,7 +86,12 @@ def plot(
             xlabeling=False if iax < 3 else True,
             ylabeling=False if iax in [2, 4] else True)
 
-        scat = draw(num.squeeze(data[:, iax - 1]), coordinates, axes=axes)
+        scat = draw(
+            num.squeeze(data[:, iax - 1]),
+            coordinates,
+            axes=axes,
+            cmap=cmap,
+            zero_center=zero_center)
         cbar = fig.colorbar(scat)
         cbar.set_label('[$m$]')
 

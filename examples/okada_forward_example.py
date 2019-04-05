@@ -46,4 +46,4 @@ result = okada_ext.okada(
     source.lamb, source.shearmod, 0)
 
 # Plot
-dislocation_plot.plot(result, receiver_coords)
+dislocation_plot.plot(result, receiver_coords, zero_center=True)

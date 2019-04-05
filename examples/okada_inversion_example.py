@@ -52,4 +52,5 @@ disloc_est = DislocationInverter.get_disloc_lsq(
 dislocation_plot.plot(
     disloc_est.reshape(npoints, 3),
     receiver_coords,
-    titles=['$u_{strike}$', '$u_{dip}$', '$u_{opening}$', '$u_{total}$'])
+    titles=['$u_{strike}$', '$u_{dip}$', '$u_{opening}$', '$u_{total}$'],
+    cmap='viridis_r')
