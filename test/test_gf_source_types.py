@@ -2,11 +2,19 @@ from __future__ import division, print_function, absolute_import
 from builtins import range
 
 import unittest
+import logging
+import os
+
 import numpy as num
 from pyrocko import gf, util
 
+
+logger = logging.getLogger('pyrocko.test.test_gf_source_types')
+
 km = 1e3
 
+
+show_plot = int(os.environ.get('MPL_SHOW', 0))
 
 class GFSourceTypesTestCase(unittest.TestCase):
 
@@ -40,6 +48,29 @@ class GFSourceTypesTestCase(unittest.TestCase):
 
         plt.axis('equal')
         plt.show()
+
+
+    def test_rectangular_dynamic_source(self):
+        store_id = 'crust2_dd'
+
+        if not os.path.exists(store_id):
+            gf.ws.download_gf_store(site='kinherd', store_id=store_id)
+
+        engine = gf.LocalEngine(store_superdirs=['.'])
+        store = engine.get_store(store_id)
+
+        rds = gf.RectangularDynamicSource(
+            length=20000., width=10000., depth=2000.,
+            anchor='top', gamma=0.8)
+
+        points_lw, vr, times = rds.discretize_OkadaSource(store)
+
+        if show_plot:
+            import matplotlib.pyplot as plt
+            plt.gcf().add_subplot(1, 1, 1, aspect=1.0)
+            plt.contourf(points_lw[:42, 0], points_lw[::42, 1], times.T)
+            # plt.contourf(points_lw[:, 0], points_lw[:, 1], vr, alpha=0.1, cmap='gray')
+            plt.show()
 
 
 if __name__ == '__main__':

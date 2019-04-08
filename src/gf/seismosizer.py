@@ -18,11 +18,14 @@ import logging
 import resource
 
 import numpy as num
+from scipy.interpolate import interp2d
 
 from pyrocko.guts import (Object, Float, String, StringChoice, List,
                           Timestamp, Int, SObject, ArgumentError, Dict,
                           ValidationError, Any)
 from pyrocko.guts_array import Array
+
+from pyrocko import eikonal_ext
 
 from pyrocko import moment_tensor as mt
 from pyrocko import trace, util, config, model
@@ -2151,6 +2154,127 @@ class RectangularSource(SourceWithDerivedMagnitude):
         return super(RectangularSource, cls).from_pyrocko_event(ev, **d)
 
 
+class RectangularDynamicSource(RectangularSource):
+    gamma = Float.T(
+        default=0.8,
+        help='Scaling factor between S wave velocity and rupture velocity: '
+             'v_r = gamma * v_s')
+
+    def discretize_OkadaSource(self, store, target=None):
+        points, _, _, dl, dw, nl, nw = self._discretize(store, target)
+
+        if target is not None:
+            interpolation = target.interpolation
+        else:
+            interpolation = 'nearest_neighbor'
+            logger.warn(
+                'no target information available, will use '
+                '"nearest_neighbor" interpolation when extracting shear '
+                'modulus from earth model')
+
+        interpolation = 'multilinear'
+        if interpolation == 'multilinear':
+            kind = 'linear'
+        else:
+            raise TypeError(
+                'Interpolation method %s not available' % interpolation)
+
+        vr = store.config.get_vs(
+            self.lat, self.lon,
+            points=points,
+            interpolation=interpolation) * self.gamma
+
+        points_orig_lw = num.zeros((nl * nw, 2))
+        points_orig_lw[:, 0] = num.tile(
+            num.array([dl * il + dl / 2. for il in range(nl)]),
+            nw)
+        points_orig_lw[:, 1] = num.repeat(
+            num.array([
+                dw * iw + dw / 2. for iw in range(nw)]),
+            nl)
+
+        interpolator = interp2d(
+            points_orig_lw[:, 0],
+            points_orig_lw[:, 1],
+            vr,
+            kind=kind)
+
+        delta = num.min([
+            num.min(store.config.deltat * vr),
+            num.min(store.config.deltas),
+            dl,
+            dw])
+
+        nl_ipl = int(num.ceil(self.length / delta))
+        delta = self.length / nl_ipl
+
+        nw_ipl = int(num.ceil(self.width / delta)) - 1
+
+        points_ipl = num.zeros((nl_ipl * nw_ipl, 2))
+        points_ipl[:, 0] = num.tile(
+            num.array([delta * il + delta / 2. for il in range(nl_ipl)]),
+            nw_ipl)
+        points_ipl[:, 1] = num.repeat(
+            num.array([
+                delta * iw + (self.width - nw_ipl * delta) / 2. for iw in range(nw_ipl)]),
+            nl_ipl)
+
+        vr_ipl = num.diag(interpolator(points_ipl[:, 0], points_ipl[:, 1]))
+
+        times = num.zeros((nl_ipl, nw_ipl)) - 1.0
+        times[0, :] = 0.
+
+        eikonal_ext.eikonal_solver_fmm_cartesian(
+                        vr_ipl.reshape(nl_ipl, nw_ipl).copy(),
+                        times,
+                        delta)
+
+        return points_ipl, vr_ipl, times
+
+    # def _discretize_BEM(self, store, vs, dl, dw, nl, nw, interpolation):
+    #     len_orig = num.tile(
+    #         num.array([dl * il + dl / 2. for il in range(nl)]),
+    #         nw)
+    #     wid_orig = num.repeat(
+    #         num.array([dw * iw + dw / 2. for iw in range(nw)]),
+    #         nl)
+
+    #     if interpolation == 'multilinear':
+    #         kind = 'linear'
+    #     else:
+    #         raise TypeError(
+    #             'Interpolation method %s not available' % interpolation)
+
+    #     interpolator = interp2d(len_orig, wid_orig, self.gamma * vs, kind=kind)
+
+    #     delta = num.min([
+    #         num.max(store.config.deltat * vs), num.max(store.config.deltas)])
+
+    #     nlength = int(num.ceil(self.length / delta))
+    #     delta = self.length / nlength
+
+    #     nwidth = int(num.ceil(self.width / delta)) - 1
+
+    #     len_interp = num.tile(
+    #         num.array([delta * il + dl / 2. for il in range(nlength)]),
+    #         nwidth)
+    #     wid_interp = num.repeat(
+    #         num.array([
+    #             delta * iw + (delta * nwidth) / 2. for iw in range(nwidth)]),
+    #         nlength)
+
+    #     vr_interp = num.diag(interpolator(len_interp, wid_interp))
+    #     times = num.zeros((nlength, nwidth)) - 1.0
+    #     times[0, 0] = 0.
+
+    #     eikonal_ext.eikonal_solver_fmm_cartesian(
+    #                     vr_interp.reshape(nlength, nwidth).copy(),
+    #                     times,
+    #                     delta)
+
+    #     return num.hstack((len_interp, wid_interp)), vr_interp, times, delta
+
+
 class DoubleDCSource(SourceWithMagnitude):
     '''
     Two double-couple point sources separated in space and time.
@@ -3609,6 +3733,7 @@ source_classes = [
     CLVDSource,
     MTSource,
     RectangularSource,
+    RectangularDynamicSource,
     DoubleDCSource,
     RingfaultSource,
     SFSource,
