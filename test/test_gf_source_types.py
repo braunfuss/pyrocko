@@ -16,6 +16,7 @@ km = 1e3
 
 show_plot = int(os.environ.get('MPL_SHOW', 0))
 
+
 class GFSourceTypesTestCase(unittest.TestCase):
 
     def test_rectangular_source(self):
@@ -27,9 +28,9 @@ class GFSourceTypesTestCase(unittest.TestCase):
             src = gf.RectangularSource(
                 lat=0., lon=0.,
                 anchor='bottom',
-                north_shift=5000., east_shift=9000., depth=4.*km,
-                width=2.*km, length=8.*km,
-                dip=0., rake=0., strike=(180./nsrc + 1) * n,
+                north_shift=5000., east_shift=9000., depth=4. * km,
+                width=2. * km, length=8. * km,
+                dip=0., rake=0., strike=(180. / nsrc + 1) * n,
                 slip=1.)
             rect_sources.append(src)
 
@@ -49,9 +50,9 @@ class GFSourceTypesTestCase(unittest.TestCase):
         plt.axis('equal')
         plt.show()
 
-
     def test_rectangular_dynamic_source(self):
-        store_id = 'crust2_dd'
+        # store_id = 'crust2_dd'
+        store_id = 'homogeneous_10km'
 
         if not os.path.exists(store_id):
             gf.ws.download_gf_store(site='kinherd', store_id=store_id)
@@ -69,7 +70,8 @@ class GFSourceTypesTestCase(unittest.TestCase):
             import matplotlib.pyplot as plt
             plt.gcf().add_subplot(1, 1, 1, aspect=1.0)
             plt.contourf(points_lw[:42, 0], points_lw[::42, 1], times.T)
-            # plt.contourf(points_lw[:, 0], points_lw[:, 1], vr, alpha=0.1, cmap='gray')
+            # plt.contourf(
+            #   points_lw[:, 0], points_lw[:, 1], vr, alpha=0.1, cmap='gray')
             plt.show()
 
 
