@@ -51,8 +51,7 @@ class GFSourceTypesTestCase(unittest.TestCase):
         plt.show()
 
     def test_rectangular_dynamic_source(self):
-        # store_id = 'crust2_dd'
-        store_id = 'homogeneous_10km'
+        store_id = 'crust2_dd'
 
         if not os.path.exists(store_id):
             gf.ws.download_gf_store(site='kinherd', store_id=store_id)
@@ -62,16 +61,23 @@ class GFSourceTypesTestCase(unittest.TestCase):
 
         rds = gf.RectangularDynamicSource(
             length=20000., width=10000., depth=2000.,
-            anchor='top', gamma=0.8)
+            anchor='top', gamma=0.8, dip=90., strike=0.)
 
-        points_lw, vr, times = rds.discretize_OkadaSource(store)
+        points, vr, times = rds.discretize_time(store, factor=10.)
 
         if show_plot:
             import matplotlib.pyplot as plt
+            x_val = points[:times.shape[1], 0]
+            y_val = points[::times.shape[1], 2]
+
             plt.gcf().add_subplot(1, 1, 1, aspect=1.0)
-            plt.contourf(points_lw[:42, 0], points_lw[::42, 1], times.T)
-            # plt.contourf(
-            #   points_lw[:, 0], points_lw[:, 1], vr, alpha=0.1, cmap='gray')
+            plt.imshow(
+                vr,
+                extent=[
+                    num.min(x_val), num.max(x_val),
+                    num.max(y_val), num.min(y_val)])
+            plt.contourf(x_val, y_val, times, cmap='gray', alpha=0.7)
+            plt.colorbar()
             plt.show()
 
 

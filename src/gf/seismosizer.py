@@ -18,7 +18,6 @@ import logging
 import resource
 
 import numpy as num
-from scipy.interpolate import interp2d
 
 from pyrocko.guts import (Object, Float, String, StringChoice, List,
                           Timestamp, Int, SObject, ArgumentError, Dict,
@@ -286,6 +285,11 @@ def points_on_rect_source(
     ln = length
     wd = width
 
+    if isinstance(points_x, list) or isinstance(points_x, float):
+        points_x = num.array([points_x])
+    if isinstance(points_y, list) or isinstance(points_y, float):
+        points_y = num.array([points_y])
+
     if discretized_basesource:
         ds = discretized_basesource
 
@@ -308,7 +312,7 @@ def points_on_rect_source(
                     points_ln[il] * ln * 0.5,
                     points_wd[iw] * wd * 0.5, 0.0])
 
-    elif points_x and points_y:
+    elif points_x.any() and points_y.any():
         points = num.zeros(shape=((len(points_x), 3)))
         for i, (x, y) in enumerate(zip(points_x, points_y)):
             points[i, :] = num.array(
@@ -2160,8 +2164,32 @@ class RectangularDynamicSource(RectangularSource):
         help='Scaling factor between S wave velocity and rupture velocity: '
              'v_r = gamma * v_s')
 
-    def discretize_OkadaSource(self, store, target=None):
-        points, _, _, dl, dw, nl, nw = self._discretize(store, target)
+    def _discretize_points(self, store, factor=1., **kwargs):
+        vs_min = store.config.earthmodel_1d.min(get='vs')
+
+        delta = 1. / factor  * num.min([
+            num.min(store.config.deltat * vs_min),
+            num.min(store.config.deltas)])
+        nl = int(num.floor(self.length / delta)) + 1
+
+        delta = self.length / nl
+        nw = int(num.floor(self.width / delta)) + 1
+
+        points_ln = num.tile(
+            num.linspace(-1. + 1. / nl, 1. - 1. / nl, nl),
+            nw)
+        points_wd = num.repeat(
+            num.linspace(-1. + 1. / nw, 1. - 1. / nw, nw),
+            nl)
+        
+        return nl, nw, delta, self.points_on_source(
+            points_x=points_ln,
+            points_y=points_wd,
+            **kwargs)
+
+    def _discretize_vr(self, store=None, target=None, points=None):
+        if points is None and store is not None:
+             _, _, _, points = self._discretize_points(store, cs='xyz')
 
         if target is not None:
             interpolation = target.interpolation
@@ -2172,64 +2200,46 @@ class RectangularDynamicSource(RectangularSource):
                 '"nearest_neighbor" interpolation when extracting shear '
                 'modulus from earth model')
 
-        interpolation = 'multilinear'
-        if interpolation == 'multilinear':
-            kind = 'linear'
-        else:
-            raise TypeError(
-                'Interpolation method %s not available' % interpolation)
-
-        vr = store.config.get_vs(
-            self.lat, self.lon,
+        return store.config.get_vs(
+            self.lat,
+            self.lon,
             points=points,
             interpolation=interpolation) * self.gamma
 
-        points_orig_lw = num.zeros((nl * nw, 2))
-        points_orig_lw[:, 0] = num.tile(
-            num.array([dl * il + dl / 2. for il in range(nl)]),
-            nw)
-        points_orig_lw[:, 1] = num.repeat(
-            num.array([
-                dw * iw + dw / 2. for iw in range(nw)]),
-            nl)
+    def discretize_time(
+            self,
+            store,
+            target=None,
+            factor=2.,
+            times=None):
 
-        interpolator = interp2d(
-            points_orig_lw[:, 0],
-            points_orig_lw[:, 1],
-            vr,
-            kind=kind)
+        nl, nw, delta, points = self._discretize_points(
+            store,
+            factor=factor,
+            cs='xyz')
 
-        delta = num.min([
-            num.min(store.config.deltat * vr),
-            num.min(store.config.deltas),
-            dl,
-            dw])
+        vr = self._discretize_vr(
+            store=store, target=target, points=points).reshape(nw, nl)
 
-        nl_ipl = int(num.ceil(self.length / delta))
-        delta = self.length / nl_ipl
-
-        nw_ipl = int(num.ceil(self.width / delta)) - 1
-
-        points_ipl = num.zeros((nl_ipl * nw_ipl, 2))
-        points_ipl[:, 0] = num.tile(
-            num.array([delta * il + delta / 2. for il in range(nl_ipl)]),
-            nw_ipl)
-        points_ipl[:, 1] = num.repeat(
-            num.array([
-                delta * iw + (self.width - nw_ipl * delta) / 2. for iw in range(nw_ipl)]),
-            nl_ipl)
-
-        vr_ipl = num.diag(interpolator(points_ipl[:, 0], points_ipl[:, 1]))
-
-        times = num.zeros((nl_ipl, nw_ipl)) - 1.0
-        times[0, :] = 0.
+        if times is None:
+            times = num.zeros((nw, nl)) - 1.0
+            times[0, 0] = 0.
+        elif times.shape != tuple(nw, nl):
+            times = num.zeros((nw, nl)) - 1.0
+            times[0, 0] = 0.
+            logger.warn(
+                'Given times are not in right shape. Therefore standard time '
+                'array is used.')
 
         eikonal_ext.eikonal_solver_fmm_cartesian(
-                        vr_ipl.reshape(nl_ipl, nw_ipl).copy(),
+                        vr,
                         times,
                         delta)
 
-        return points_ipl, vr_ipl, times
+        return points, vr, times
+
+    def discretize_slip(self):
+        pass
 
     # def _discretize_BEM(self, store, vs, dl, dw, nl, nw, interpolation):
     #     len_orig = num.tile(
