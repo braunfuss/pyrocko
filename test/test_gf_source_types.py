@@ -63,7 +63,9 @@ class GFSourceTypesTestCase(unittest.TestCase):
             length=20000., width=10000., depth=2000.,
             anchor='top', gamma=0.8, dip=90., strike=0.)
 
-        points, vr, times = rds.discretize_time(store, factor=10.)
+        points, vr, times, _ = rds.discretize_time(store, factor=2.)
+
+        rds.discretize_slip(store=store, factor=10.)
 
         if show_plot:
             import matplotlib.pyplot as plt

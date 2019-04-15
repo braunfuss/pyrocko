@@ -216,11 +216,11 @@ class OkadaTestCase(unittest.TestCase):
             lat=1., lon=-1., north_shift=100., east_shift=200., depth=50.,
             al1=al1, al2=al2, aw1=aw1, aw2=aw2, strike=strike, dip=dip)
 
-        source_disc = source.discretize(nlength, nwidth)
+        source_disc, _ = source.discretize(nlength, nwidth)
 
         if show_plot:
             import matplotlib.pyplot as plt
-            from mpl_toolkits.mplot3d import Axes3D
+            from mpl_toolkits.mplot3d import Axes3D # noqa
 
             fig = plt.figure()
             ax = fig.add_subplot(1, 1, 1, projection='3d')
@@ -313,7 +313,7 @@ class OkadaTestCase(unittest.TestCase):
 
         if show_plot:
             import matplotlib.pyplot as plt
-            from mpl_toolkits.mplot3d import Axes3D
+            from mpl_toolkits.mplot3d import Axes3D # noqa
 
             def add_subplot(fig, ntot, n, param, title, **kwargs):
                 ax = fig.add_subplot(ntot, 1, n, projection='3d')
@@ -542,6 +542,7 @@ class OkadaTestCase(unittest.TestCase):
             add_subplot(fig, 3, 2, '$u_{dip}$', 1, typ='scatter')
             add_subplot(fig, 3, 3, '$u_{normal}$', 2, typ='scatter')
             plt.show()
+
 
 if __name__ == '__main__':
     util.setup_logging('test_okada', 'warning')

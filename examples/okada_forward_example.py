@@ -26,7 +26,7 @@ source = OkadaSource(
     al1=al1, al2=al2, aw1=aw1, aw2=aw2, strike=45., dip=90., rake=90.,
     slip=1., opening=0., poisson=0.25, shearmod=32.0e9)
 
-source_discretized = source.discretize(nlength, nwidth)
+source_discretized, _ = source.discretize(nlength, nwidth)
 
 # Set receiver at the surface
 receiver_coords = num.zeros((10000, 3))

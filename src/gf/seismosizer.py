@@ -18,6 +18,7 @@ import logging
 import resource
 
 import numpy as num
+from scipy.interpolate import interp2d
 
 from pyrocko.guts import (Object, Float, String, StringChoice, List,
                           Timestamp, Int, SObject, ArgumentError, Dict,
@@ -32,6 +33,7 @@ from pyrocko.table import Table, LocationRecipe
 from pyrocko.orthodrome import (ne_to_latlon, azidist_numpy,
                                 azidist_to_latlon, latlon_to_ne_numpy)
 from pyrocko.model import Location
+from pyrocko.modelling import OkadaSource
 
 from . import meta, store, ws
 from .targets import Target, StaticTarget, SatelliteTarget
@@ -2164,32 +2166,33 @@ class RectangularDynamicSource(RectangularSource):
         help='Scaling factor between S wave velocity and rupture velocity: '
              'v_r = gamma * v_s')
 
-    def _discretize_points(self, store, factor=1., **kwargs):
+    def _discretize_points(self, store, factor=1., *args, **kwargs):
         vs_min = store.config.earthmodel_1d.min(get='vs')
 
         delta = 1. / factor  * num.min([
             num.min(store.config.deltat * vs_min),
             num.min(store.config.deltas)])
-        nl = int(num.floor(self.length / delta)) + 1
+        nx = int(num.floor(self.length / delta)) + 1
 
-        delta = self.length / nl
-        nw = int(num.floor(self.width / delta)) + 1
+        delta = self.length / nx
+        ny = int(num.floor(self.width / delta)) + 1
 
-        points_ln = num.tile(
-            num.linspace(-1. + 1. / nl, 1. - 1. / nl, nl),
-            nw)
-        points_wd = num.repeat(
-            num.linspace(-1. + 1. / nw, 1. - 1. / nw, nw),
-            nl)
+        points_xy = num.zeros((nx * ny, 2))
+        points_xy[:, 0] = num.tile(
+            num.linspace(-1. + 1. / nx, 1. - 1. / nx, nx),
+            ny)
+        points_xy[:, 1] = num.repeat(
+            num.linspace(-1. + 1. / ny, 1. - 1. / ny, ny),
+            nx)
         
-        return nl, nw, delta, self.points_on_source(
-            points_x=points_ln,
-            points_y=points_wd,
-            **kwargs)
+        return nx, ny, delta, self.points_on_source(
+            points_x=points_xy[:, 0],
+            points_y=points_xy[:, 1],
+            **kwargs), points_xy
 
     def _discretize_vr(self, store=None, target=None, points=None):
         if points is None and store is not None:
-             _, _, _, points = self._discretize_points(store, cs='xyz')
+             _, _, _, points, _= self._discretize_points(store, cs='xyz')
 
         if target is not None:
             interpolation = target.interpolation
@@ -2211,21 +2214,23 @@ class RectangularDynamicSource(RectangularSource):
             store,
             target=None,
             factor=2.,
-            times=None):
+            times=None,
+            *args,
+            **kwargs):
 
-        nl, nw, delta, points = self._discretize_points(
+        nx, ny, delta, points, points_xy = self._discretize_points(
             store,
             factor=factor,
             cs='xyz')
 
         vr = self._discretize_vr(
-            store=store, target=target, points=points).reshape(nw, nl)
+            store=store, target=target, points=points).reshape(ny, nx)
 
         if times is None:
-            times = num.zeros((nw, nl)) - 1.0
+            times = num.zeros((ny, nx)) - 1.0
             times[0, 0] = 0.
-        elif times.shape != tuple(nw, nl):
-            times = num.zeros((nw, nl)) - 1.0
+        elif times.shape != tuple(ny, nx):
+            times = num.zeros((ny, nx)) - 1.0
             times[0, 0] = 0.
             logger.warn(
                 'Given times are not in right shape. Therefore standard time '
@@ -2236,10 +2241,95 @@ class RectangularDynamicSource(RectangularSource):
                         times,
                         delta)
 
-        return points, vr, times
+        return points, vr, times, points_xy
 
-    def discretize_slip(self):
-        pass
+    def discretize_slip(
+            self,
+            stress=None,
+            interpolation='multilinear',
+            factor=1.,
+            *args,
+            **kwargs):
+
+        _, _, times, points_xy = self.discretize_time(
+            factor=factor, *args, **kwargs)
+
+        anch_x, anch_y = map_anchor[self.anchor]
+        points_xy[:, 0] = (points_xy[:, 0] - anch_x) * self.length * 0.5
+        points_xy[:, 1] = (points_xy[:, 1] - anch_y) * self.width * 0.5
+        
+        if interpolation == 'multilinear':
+            kind = 'linear'
+        else:
+            raise TypeError(
+                'Interpolation method %s not available' % interpolation)
+
+        ny, nx = times.shape
+
+        interpolator = interp2d(
+            points_xy[:nx, 0], points_xy[::nx, 1], times, kind=kind)
+
+        al = self.length / 2.
+        aw = self.width / 2.
+
+        src = OkadaSource(
+            lat=self.lat, lon=self.lon,
+            strike=self.strike, dip=self.dip, rake=self.rake,
+            north_shift=self.north_shift, east_shift=self.east_shift,
+            depth=self.depth,
+            al1=-al, al2=al, aw1=-aw, aw2=aw)
+
+        nx_interp = int(num.floor(nx / factor))
+        ny_interp = int(num.floor(ny / factor))
+
+        source_disc, source_points = src.discretize(nx_interp, ny_interp)
+
+        times_interp = num.diag(interpolator(
+            source_points[:, 0],
+            source_points[:, 1])).reshape(ny_interp, nx_interp)
+        
+        # receiver_coords = num.array([
+            # src.source_patch()[:3] for src in source_disc])
+        print(num.min(source_points[:, 0]), num.max(source_points[:, 0]))
+        print(num.min(source_points[:, 1]), num.max(source_points[:, 1]))
+        print(times_interp.shape, nx_interp, ny_interp)
+
+        import matplotlib.pyplot as plt
+        fig = plt.figure()
+        ax = fig.add_subplot(2, 1, 1)
+        contf = ax.contourf(points_xy[:nx, 0], -points_xy[::nx, 1], times)
+        plt.colorbar(contf)
+
+        ax = fig.add_subplot(2, 1, 2)
+        # contf = ax.contourf(
+        #     points_xy[:nx, 0],
+        #     -points_xy[::nx, 1],
+        #     times_interp)
+        contf = ax.contourf(
+            source_points[:nx_interp, 0],
+            -source_points[::nx_interp, 1],
+            times_interp)
+        plt.colorbar(contf)
+        plt.show()        
+
+    #     al_aw = delta / 2.
+
+    #     source_patches = [OkadaSource(
+    #         ref_lat=self.lat, ref_lon=self.lon,
+    #         strike=self.strike, dip=self.dip, rake=self.rake,
+    #         north_shift=pt[0], east_shift=pt[1], depth=pt[2],
+    #         al1=-al_aw, al2=al_aw, aw1=-al_aw, aw2=al_aw)
+    #         for pt in points]
+
+
+    #     if stress is None:
+    #         stress = num.zeros(())
+    #         logger.warn('No stress field given. Zero stress drop is nassumed.')
+    #     elif stress.shape != tuple()
+
+
+        # Von Punkte und Delta auf OkadaSourcepatches
+        # for given stress get slip distribution
 
     # def _discretize_BEM(self, store, vs, dl, dw, nl, nw, interpolation):
     #     len_orig = num.tile(

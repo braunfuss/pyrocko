@@ -25,7 +25,7 @@ source = OkadaSource(
     slip=1., opening=0., poisson=0.25, shearmod=32.0e9)
 
 # Discretize source and set receiver locations on source plane center points
-source_discretized = source.discretize(nlength, nwidth)
+source_discretized, _ = source.discretize(nlength, nwidth)
 
 receiver_coords = num.array([
     src.source_patch()[:3] for src in source_discretized])

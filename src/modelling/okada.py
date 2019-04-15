@@ -331,8 +331,8 @@ class OkadaSource(AnalyticalRectangularSource):
         source_points[:, 0] = il * patch_length + num.abs(al1)
         source_points[:, 1] = iw * patch_width + num.abs(aw1)
 
-        source_points[:, 0] += num.abs(self.al1)
-        source_points[:, 1] -= num.abs(self.aw2)
+        source_points[:, 0] += self.al1
+        source_points[:, 1] -= self.aw2
 
         rotmat = num.asarray(
             mt.euler_to_matrix(self.dip * d2r, self.strike * d2r, 0.0))
