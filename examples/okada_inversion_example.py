@@ -35,9 +35,9 @@ dstress = -1.5e6
 stress_comp = 1
 
 stress_field = num.zeros((npoints * 3, 1))
-for il in range(nlength):
-    for iw in range(nwidth):
-        idx = (il * nwidth + iw) * 3
+for iw in range(nwidth):
+    for il in range(nlength):
+        idx = (iw * nlength + il) * 3
         if (il > nlength / 2. and il < nlength - 4) and \
                 (iw > 2 and iw < nwidth - 4):
             stress_field[idx + stress_comp] = dstress
