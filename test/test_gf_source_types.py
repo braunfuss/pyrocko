@@ -7,6 +7,7 @@ import os
 
 import numpy as num
 from pyrocko import gf, util
+from pyrocko.modelling import DislocationInverter
 
 
 logger = logging.getLogger('pyrocko.test.test_gf_source_types')
@@ -63,11 +64,38 @@ class GFSourceTypesTestCase(unittest.TestCase):
             length=20000., width=10000., depth=2000.,
             anchor='top', gamma=0.8, dip=90., strike=0.)
 
-        points, vr, times, _ = rds.discretize_time(store, factor=2.)
+        points, _, vr, times = rds.discretize_time(store, factor=2.)
+        assert times.shape == vr.shape
+        assert points.shape[0] == times.shape[0] * times.shape[1]
 
-        rds.discretize_slip(store=store, factor=10.)
+        _, source_disc, times_interp = rds.discretize_okada(
+            store=store, factor=10., interpolation='nearest_neighbor')
+        assert len(source_disc) == (
+            times_interp.shape[0] * times_interp.shape[1])
+
+        stress_field = num.zeros((len(source_disc) * 3, 1))
+        stress_field[2::3] = -0.5e6
+
+        time = num.max(times_interp) * 0.5
+
+        disloc_est = rds.get_okada_slip(
+            stress_field=stress_field,
+            times=times_interp,
+            source_list=source_disc,
+            t=time)
+
+        coef_mat = DislocationInverter.get_coef_mat(source_disc)
+
+        disloc_est2 = rds.get_okada_slip(
+            stress_field=stress_field,
+            times=times_interp,
+            coef_mat=coef_mat,
+            t=time)
+        assert (disloc_est2 == disloc_est).all()
 
         if show_plot:
+            level = num.arange(0., 15., 1.5)
+
             import matplotlib.pyplot as plt
             x_val = points[:times.shape[1], 0]
             y_val = points[::times.shape[1], 2]
@@ -78,8 +106,27 @@ class GFSourceTypesTestCase(unittest.TestCase):
                 extent=[
                     num.min(x_val), num.max(x_val),
                     num.max(y_val), num.min(y_val)])
-            plt.contourf(x_val, y_val, times, cmap='gray', alpha=0.7)
-            plt.colorbar()
+            plt.contourf(x_val, y_val, times, level, cmap='gray', alpha=0.7)
+            plt.colorbar(label='Rupture Propagation Time [s]')
+            plt.show()
+
+            x_val = num.array([
+                src.northing for src in source_disc])[:times_interp.shape[1]]
+            y_val = num.array([
+                src.depth for src in source_disc])[::times_interp.shape[1]]
+
+            plt.gcf().add_subplot(1, 1, 1, aspect=1.0)
+            im = plt.imshow(
+                disloc_est[2::3].reshape(y_val.shape[0], x_val.shape[0]),
+                extent=[
+                    num.min(x_val), num.max(x_val),
+                    num.max(y_val), num.min(y_val)])
+            plt.contourf(
+                x_val, y_val,
+                times_interp,
+                level,
+                cmap='gray', alpha=0.5)
+            plt.colorbar(im, label='Opening [m] after %.2f s' % time)
             plt.show()
 
 

@@ -317,8 +317,8 @@ class OkadaSource(AnalyticalRectangularSource):
         :rtype: list of :py:class:`pyrocko.modelling.OkadaSource` objects
         '''
 
-        il = num.repeat(num.arange(0, nlength, 1), nwidth)
-        iw = num.tile(num.arange(0, nwidth, 1), (1, nlength))
+        il = num.tile(num.arange(0, nlength, 1), nwidth)
+        iw = num.repeat(num.arange(0, nwidth, 1), nlength)
 
         patch_length = self.length / nlength
         patch_width = self.width / nwidth
@@ -498,7 +498,7 @@ class DislocationInverter(object):
         :return: coefficient matrix for all sources
         :rtype: :py:class:`numpy.ndarray`,
             ``(source_patches_list.shape[0] * 3,
-            source_patches.shape[] * 3(2))``
+            source_patches_list.shape[0] * 3(2))``
         '''
 
         source_patches = num.array([
@@ -622,7 +622,7 @@ class DislocationInverter(object):
         :rtype: :py:class:`numpy.ndarray`, ``(n_sources * 3, 1)``
         '''
 
-        if source_list and not coef_mat:
+        if source_list is not None and coef_mat is None:
             coef_mat = DislocationInverter.get_coef_mat(
                 source_list, **kwargs)
 
