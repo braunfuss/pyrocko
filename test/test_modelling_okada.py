@@ -82,6 +82,13 @@ class OkadaTestCase(unittest.TestCase):
             source_patches2, source_disl2, receiver_coords, lamb, mu, nthreads)
         assert (results == results2).all()
 
+        seismic_moment = \
+            mu * num.sum(num.abs([al1, al2])) * \
+            num.sum(num.abs([aw1, aw2])) * num.sqrt(num.sum(
+                [slip**2, opening**2]))
+
+        assert source_list2[0].seismic_moment == seismic_moment
+
     def test_okada_vs_disloc_single_Source(self):
         north = 0.
         east = 0.
@@ -206,17 +213,55 @@ class OkadaTestCase(unittest.TestCase):
         nwidth = 10
 
         al1 = -80.
-        al2 = 120.
+        al2 = -al1
         aw1 = -30.
-        aw2 = 25.
+        aw2 = -aw1
+
         strike = 0.
         dip = 70.
 
+        ref_north = 100.
+        ref_east = 200.
+        ref_depth = 50.
+
         source = OkadaSource(
-            lat=1., lon=-1., north_shift=100., east_shift=200., depth=50.,
+            lat=1., lon=-1., north_shift=ref_north, east_shift=ref_east,
+            depth=ref_depth,
             al1=al1, al2=al2, aw1=aw1, aw2=aw2, strike=strike, dip=dip)
 
         source_disc, _ = source.discretize(nlength, nwidth)
+
+        al1_patch = al1 / nlength
+        al2_patch = al2 / nlength
+        aw1_patch = aw1 / nwidth
+        aw2_patch = aw2 / nwidth
+
+        patch_length = num.sum(num.abs([al1_patch, al2_patch]))
+        patch_width = num.sum(num.abs([aw1_patch, aw2_patch]))
+
+        source_coords = num.zeros((nlength * nwidth, 3))
+        for iw in range(nwidth):
+            for il in range(nlength):
+                idx = iw * nlength + il
+                x = il * patch_length + num.abs(al1_patch) + al1
+                y = iw * patch_width + num.abs(aw1_patch) - aw2
+
+                source_coords[idx, 0] = \
+                    num.cos(strike * d2r) * x - \
+                    num.sin(strike * d2r) * num.cos(dip * d2r) * y
+                source_coords[idx, 1] = \
+                    num.sin(strike * d2r) * x + \
+                    num.cos(strike * d2r) * num.cos(dip * d2r) * y
+                source_coords[idx, 2] = \
+                    num.sin(dip * d2r) * y
+
+        source_coords[:, 0] += ref_north
+        source_coords[:, 1] += ref_east
+        source_coords[:, 2] += ref_depth
+
+        assert (source_coords == num.array([
+            [src.north_shift, src.east_shift, src.depth]
+            for src in source_disc])).all()
 
         if show_plot:
             import matplotlib.pyplot as plt
@@ -229,7 +274,7 @@ class OkadaTestCase(unittest.TestCase):
                 [src.north_shift for src in source_disc],
                 zs=[-src.depth for src in source_disc], s=20)
             ax.scatter(
-                [200.], [100.], zs=[-50.], s=200, c='red')
+                [ref_east], [ref_north], zs=[-ref_depth], s=200, c='red')
             plt.axis('equal')
             plt.show()
 
@@ -245,44 +290,27 @@ class OkadaTestCase(unittest.TestCase):
         dip = 90.
         length = 0.5
         width = 0.5
+        length_total = nlength * length
+        width_total = nwidth * width
 
-        al1 = -length / 2.
-        al2 = length / 2.
-        aw1 = -width / 2.
-        aw2 = width / 2.
+        al1 = -length_total / 2.
+        al2 = length_total / 2.
+        aw1 = -width_total / 2.
+        aw2 = width_total / 2.
         poisson = 0.25
         mu = 32.0e9
 
-        npoints = nlength * nwidth
-        source_coords = num.zeros((npoints, 3))
-
-        for il in range(nlength):
-            for iw in range(nwidth):
-                idx = il * nwidth + iw
-                source_coords[idx, 0] = \
-                    num.cos(strike * d2r) * (
-                        il * (num.abs(al1) + num.abs(al2)) + num.abs(al1)) - \
-                    num.sin(strike * d2r) * num.cos(dip * d2r) * (
-                        iw * (num.abs(aw1) + num.abs(aw2)) + num.abs(aw1)) + \
-                    ref_north
-                source_coords[idx, 1] = \
-                    num.sin(strike * d2r) * (
-                        il * (num.abs(al1) + num.abs(al2)) + num.abs(al1)) - \
-                    num.cos(strike * d2r) * num.cos(dip * d2r) * (
-                        iw * (num.abs(aw1) + num.abs(aw2)) + num.abs(aw1)) + \
-                    ref_east
-                source_coords[idx, 2] = \
-                    ref_depth + num.sin(dip * d2r) * iw * (
-                        num.abs(aw1) + num.abs(aw2)) + num.abs(aw1)
-
-        receiver_coords = source_coords.copy()
-
-        source_list = [OkadaSource(
+        source = OkadaSource(
             lat=0., lon=0.,
-            north_shift=coords[0], east_shift=coords[1],
-            depth=coords[2], al1=al1, al2=al2, aw1=aw1, aw2=aw2,
+            north_shift=ref_north, east_shift=ref_east,
+            depth=ref_depth, al1=al1, al2=al2, aw1=aw1, aw2=aw2,
             strike=strike, dip=dip, rake=0.,
-            shearmod=mu, poisson=poisson) for coords in source_coords]
+            shearmod=mu, poisson=poisson)
+
+        source_list, _ = source.discretize(nlength, nwidth)
+
+        receiver_coords = num.array([
+            src.source_patch()[:3] for src in source_list])
 
         pure_shear = False
         if pure_shear:
@@ -292,16 +320,21 @@ class OkadaTestCase(unittest.TestCase):
 
         gf = DislocationInverter.get_coef_mat(
             source_list, pure_shear=pure_shear)
+        gf2 = DislocationInverter.get_coef_mat_slow(
+            source_list, pure_shear=pure_shear)
+
         assert num.linalg.det(num.dot(gf.T, gf)) != 0.
+        assert num.linalg.det(num.dot(gf2.T, gf2)) != 0.
+        assert (gf == gf2).all()
 
         # Function to test the computed GF
         dstress = -1.5e6
         stress_comp = 1
 
-        stress = num.zeros((npoints * n_eq, 1))
-        for il in range(nlength):
-            for iw in range(nwidth):
-                idx = il * nwidth + iw
+        stress = num.zeros((nlength * nwidth * n_eq, 1))
+        for iw in range(nwidth):
+            for il in range(nlength):
+                idx = iw * nlength + il
 
                 if (il > 8 and il < 16) and (iw > 2 and iw < 12):
                     stress[idx * n_eq + stress_comp] = dstress
