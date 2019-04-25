@@ -385,7 +385,7 @@ class OkadaTestCase(unittest.TestCase):
         width_total = 60.
 
         nlength = 20
-        nwidth = 24
+        nwidth = 60
         length = length_total / nlength
         width = width_total / nwidth
 
@@ -415,7 +415,7 @@ class OkadaTestCase(unittest.TestCase):
                 if (source_coords[idx, 1] > min_x and
                         source_coords[idx, 1] < max_x):
                     if (il > 0) and (il < nlength - 1):
-                        stress[idx * 3 + 2, 0] = dstress
+                        stress[idx * 3 + 0, 0] = dstress
 
         source_coords[:, 2] = 10000.
         receiver_coords = source_coords.copy()
@@ -431,7 +431,7 @@ class OkadaTestCase(unittest.TestCase):
         disloc_est = DislocationInverter.get_disloc_lsq(stress, coef_mat=gf)
 
         stressdrop = num.zeros(3, )
-        stressdrop[2] = dstress
+        stressdrop[0] = dstress
         rec_grif = num.linspace(min_x, max_x, 100)
 
         griffith = GriffithCrack(
@@ -481,10 +481,10 @@ class OkadaTestCase(unittest.TestCase):
         from pyrocko.modelling import GriffithCrack
 
         length_total = 400.
-        width_total = 400.
+        width_total = length_total
 
-        nlength = 20
-        nwidth = 20
+        nlength = 39
+        nwidth = nlength
         length = length_total / nlength
         width = width_total / nwidth
 
@@ -498,23 +498,19 @@ class OkadaTestCase(unittest.TestCase):
         dstress = -0.5e6
         radius = 200.
 
-        npoints = nlength * nwidth
-
-        source_coords = num.zeros((npoints, 3))
-        stress = num.zeros((npoints * 3, 1))
+        source_coords = []
+        stress = []
         for il in range(nlength):
             for iw in range(nwidth):
-                idx = il * nwidth + iw
-                source_coords[idx, 0] = \
-                    il * length - (nlength - 1) / 2. * length
-                source_coords[idx, 1] = \
-                    iw * width - (nwidth - 1) / 2. * width
+                x = il * length - (nlength - 1) / 2. * length
+                y = iw * width - (nwidth - 1) / 2. * width
 
-                if num.linalg.norm([
-                        source_coords[idx, 1],
-                        source_coords[idx, 0]]) < radius:
+                if num.linalg.norm([y, x]) < radius:
+                    stress.extend([0, 0, dstress])
+                    source_coords.append([x, y, 0.])
 
-                    stress[idx * 3 + 2, 0] = dstress
+        stress = num.array(stress)
+        source_coords = num.array(source_coords)
 
         source_coords[:, 2] = 10000.
         receiver_coords = source_coords.copy()
@@ -541,11 +537,12 @@ class OkadaTestCase(unittest.TestCase):
         if show_plot:
             import matplotlib.pyplot as plt
 
-            line = int(nlength / 2)
-
             def add_subplot(fig, ntot, n, title, comp, typ='line'):
-                idx = line * nwidth
-                idx2 = (line + 1) * nwidth
+                idcs = num.arange(
+                    0, source_coords.shape[0], 1)[
+                        num.abs(source_coords[:, 0]) <= length * 0.49]
+                idx = idcs[0]
+                idx2 = idcs[-1]
                 ax = fig.add_subplot(ntot, 1, n)
                 if typ == 'line':
                     ax.plot(
@@ -566,7 +563,7 @@ class OkadaTestCase(unittest.TestCase):
                 ax.set_title(title)
 
             fig = plt.figure()
-            add_subplot(fig, 3, 1, '$u_{strike}$ along profile %i' % line, 0)
+            add_subplot(fig, 3, 1, '$u_{strike}$ along profile %i' % 1, 0)
             add_subplot(fig, 3, 2, '$u_{dip}$', 1)
             add_subplot(fig, 3, 3, '$u_{normal}$', 2)
 

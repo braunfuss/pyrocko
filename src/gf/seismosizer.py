@@ -2445,7 +2445,7 @@ class RectangularDynamicSource(RectangularSource):
 
         elif coef_mat is None and source_list is None:
             raise TypeError(
-                'Coefficient matrix or source list need to be defined.')
+                'Coefficient matrix or source list needs to be defined.')
 
         return disloc_est
 

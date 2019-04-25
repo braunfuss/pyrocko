@@ -46,7 +46,7 @@ class GriffithCrack(Object):
 
     def disloc_infinite2d(self, x_obs):
         '''
-        Calculation of dislocation at crack surface along x2 axis
+        Calculation of elliptical dislocation at crack surface along x2 axis
 
         Follows equations by Pollard and Segall (1987) to calculate
         displacements for an infinite 2D crack extended in x3 direction,
@@ -64,7 +64,7 @@ class GriffithCrack(Object):
         if type(x_obs) is not num.ndarray:
             x_obs = num.array(x_obs)
 
-        factor = num.array([2. / self.shear_mod])
+        factor = -num.array([2. / self.shear_mod])
         factor = num.append(
             factor, num.tile(
                 2. * (1. - self.poisson) / self.shear_mod, (1, 2)))
