@@ -26,6 +26,7 @@ def draw(
 
         return scat
 
+
 def setup_axes(axes=None, title='', xlabeling=False, ylabeling=False):
     if axes is not None:
         axes.set_title(title)

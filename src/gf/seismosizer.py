@@ -297,7 +297,7 @@ def points_on_rect_source(
 
         nl_patches = ds.nl + 1
         nw_patches = ds.nw + 1
-        
+
         npoints = nl_patches * nw_patches
         points = num.zeros(shape=(npoints, 3))
         ln_patches = num.array([il for il in range(nl_patches)])
@@ -321,7 +321,7 @@ def points_on_rect_source(
                 [x * 0.5 * ln, y * 0.5 * wd, 0.0])
 
     anch_x, anch_y = map_anchor[anchor]
-    
+
     points[:, 0] -= anch_x * 0.5 * ln
     points[:, 1] -= anch_y * 0.5 * wd
 
@@ -2102,7 +2102,7 @@ class RectangularSource(SourceWithDerivedMagnitude):
                 return latlon[:, ::-1]
             else:
                 return num.concatenate(
-                    (latlon,points[:, 2].reshape((len(points),1))),
+                    (latlon, points[:, 2].reshape((len(points), 1))),
                     axis=1)
 
     def points_on_source(self, cs='xyz', **kwargs):
@@ -2110,7 +2110,7 @@ class RectangularSource(SourceWithDerivedMagnitude):
         points = points_on_rect_source(
             self.strike, self.dip, self.length, self.width,
             self.anchor, **kwargs)
-        
+
         points[:, 0] += self.north_shift
         points[:, 1] += self.east_shift
         points[:, 2] += self.depth
@@ -2129,7 +2129,7 @@ class RectangularSource(SourceWithDerivedMagnitude):
                 return latlon[:, ::-1]
             else:
                 return num.concatenate(
-                    (latlon,points[:, 2].reshape((len(points),1))),
+                    (latlon, points[:, 2].reshape((len(points), 1))),
                     axis=1)
 
     def pyrocko_moment_tensor(self, store=None, target=None):
@@ -2189,7 +2189,7 @@ class RectangularDynamicSource(RectangularSource):
 
         vs_min = store.config.earthmodel_1d.min(get='vs')
 
-        delta = 1. / factor  * num.min([
+        delta = 1. / factor * num.min([
             num.min(store.config.deltat * vs_min),
             num.min(store.config.deltas)])
         nx = int(num.floor(self.length / delta)) + 1
@@ -2227,7 +2227,7 @@ class RectangularDynamicSource(RectangularSource):
         '''
 
         if points is None and store is not None:
-             _, _, _, points, _= self._discretize_points(store, cs='xyz')
+            _, _, _, points, _ = self._discretize_points(store, cs='xyz')
 
         if target is not None:
             interpolation = target.interpolation
@@ -2373,9 +2373,10 @@ class RectangularDynamicSource(RectangularSource):
         source_disc, source_points = src.discretize(nx_interp, ny_interp)
 
         times_interp = interpolator(
-            num.hstack((source_points[:, 0].reshape(-1, 1),
-                source_points[:, 1].reshape(-1, 1)))
-            ).reshape(ny_interp, nx_interp)
+            num.hstack((
+                source_points[:, 0].reshape(-1, 1),
+                source_points[:, 1].reshape(-1, 1)))).reshape(
+                    ny_interp, nx_interp)
 
         return src, source_disc, times_interp
 
@@ -2417,7 +2418,8 @@ class RectangularDynamicSource(RectangularSource):
 
         disloc_est = num.zeros_like(stress_field)
         indices_disl = num.array(
-            [num.arange(i * 3, i * 3 + 3, 1) for i in indices_source]).flatten()
+            [num.arange(i * 3, i * 3 + 3, 1) for i in indices_source]
+            ).flatten()
 
         if source_list is not None:
             if stress_field.shape != tuple((len(source_list) * 3, 1)):
