@@ -26,7 +26,7 @@ class GriffithCrack(Object):
         help='Poisson ratio',
         default=.25)
 
-    shear_mod = Float.T(
+    shearmod = Float.T(
         help='Shear modulus [Pa]',
         default=1.e9)
 
@@ -64,10 +64,10 @@ class GriffithCrack(Object):
         if type(x_obs) is not num.ndarray:
             x_obs = num.array(x_obs)
 
-        factor = -num.array([2. / self.shear_mod])
+        factor = -num.array([2. / self.shearmod])
         factor = num.append(
             factor, num.tile(
-                2. * (1. - self.poisson) / self.shear_mod, (1, 2)))
+                2. * (1. - self.poisson) / self.shearmod, (1, 2)))
 
         crack_el = (x_obs > -self.a) | (x_obs < self.a)
 
@@ -100,11 +100,10 @@ class GriffithCrack(Object):
         if type(x_obs) is not num.ndarray:
             x_obs = num.array(x_obs)
 
-        # factor = num.tile(24. / (7. * num.pi * self.shear_mod), (1, 3))
-        factor = num.array([4. / (self.shear_mod * num.pi)])
+        factor = num.array([4. / (self.shearmod * num.pi)])
         factor = num.append(
             factor, num.tile(
-                4. * (1. - self.poisson) / (self.shear_mod * num.pi), (1, 2)))
+                4. * (1. - self.poisson) / (self.shearmod * num.pi), (1, 2)))
 
         crack_el = (x_obs > -self.a) | (x_obs < self.a)
 

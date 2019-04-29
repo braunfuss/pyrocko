@@ -436,7 +436,7 @@ class OkadaTestCase(unittest.TestCase):
 
         griffith = GriffithCrack(
             width=num.sum(num.abs([min_x, max_x])),
-            poisson=poisson, shear_mod=mu, stressdrop=stressdrop)
+            poisson=poisson, shearmod=mu, stressdrop=stressdrop)
         disloc_grif = griffith.disloc_infinite2d(rec_grif)
 
         if show_plot:
@@ -531,7 +531,7 @@ class OkadaTestCase(unittest.TestCase):
 
         griffith = GriffithCrack(
             width=2 * radius,
-            poisson=poisson, shear_mod=mu, stressdrop=stressdrop)
+            poisson=poisson, shearmod=mu, stressdrop=stressdrop)
         disloc_grif = griffith.disloc_circular(rec_grif)
 
         if show_plot:

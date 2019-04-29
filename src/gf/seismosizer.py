@@ -2365,7 +2365,10 @@ class RectangularDynamicSource(RectangularSource):
             strike=self.strike, dip=self.dip, rake=self.rake,
             north_shift=self.north_shift, east_shift=self.east_shift,
             depth=self.depth,
-            al1=al1, al2=al2, aw1=aw1, aw2=aw2)
+            al1=al1, al2=al2, aw1=aw1, aw2=aw2,
+            poisson=kwargs.get('poisson', 0.25),
+            shearmod=kwargs.get('shearmod', 32e9),
+            opening=kwargs.get('opening', 0.))
 
         nx_interp = int(num.floor(nx / factor))
         ny_interp = int(num.floor(ny / factor))
@@ -2415,7 +2418,6 @@ class RectangularDynamicSource(RectangularSource):
 
         boolean = (times < t).flatten()
         indices_source = num.array(range(boolean.shape[0]))[boolean]
-
         disloc_est = num.zeros_like(stress_field)
         indices_disl = num.array(
             [num.arange(i * 3, i * 3 + 3, 1) for i in indices_source]
@@ -2436,8 +2438,7 @@ class RectangularDynamicSource(RectangularSource):
                 raise TypeError(
                     'coefficient matrix does not have expected shape. '
                     'Following shape is '
-                    'needed: (%i, %i)' % (
-                        stress_field.shape[0], stress_field.shape[0]))
+                    'needed: %i, %i' % stress_field.shape)
 
             disloc_est[indices_disl] = DislocationInverter.get_disloc_lsq(
                 stress_field[indices_disl],
