@@ -131,11 +131,11 @@ class AnalyticalRectangularSource(AnalyticalSource):
 
     @property
     def length(self):
-        return num.abs(self.al1) + num.abs(self.al2)
+        return num.sum(num.abs([self.al1, self.al2]))
 
     @property
     def width(self):
-        return num.abs(self.aw1) + num.abs(self.aw2)
+        return num.sum(num.abs([self.aw1, self.aw2]))
 
 
 class OkadaSource(AnalyticalRectangularSource):
@@ -309,7 +309,7 @@ class OkadaSource(AnalyticalRectangularSource):
         for ip, param in enumerate(self.parameters):
             self.__setattr__(param, parameter_arr[ip])
 
-    def discretize(self, nlength, nwidth):
+    def discretize(self, nlength, nwidth, *args, **kwargs):
         '''
         Discretize the given fault by nlength * nwidth fault patches
 

@@ -2370,8 +2370,8 @@ class RectangularDynamicSource(RectangularSource):
             shearmod=kwargs.get('shearmod', 32e9),
             opening=kwargs.get('opening', 0.))
 
-        nx_interp = int(num.floor(nx / factor))
-        ny_interp = int(num.floor(ny / factor))
+        nx_interp = kwargs.get('nlength', int(num.floor(nx / factor)))
+        ny_interp = kwargs.get('nwidth', int(num.floor(ny / factor)))
 
         source_disc, source_points = src.discretize(nx_interp, ny_interp)
 

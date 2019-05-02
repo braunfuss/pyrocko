@@ -5,9 +5,12 @@ km = 1000.
 def draw(
         dislocation,
         coordinates,
+        xlims,
+        ylims,
         axes=None,
         cmap='coolwarm',
         zero_center=False):
+
     if axes is not None:
         if zero_center:
             vmax = num.max(num.abs([
@@ -23,6 +26,9 @@ def draw(
             cmap=cmap,
             edgecolor='None',
             vmin=vmin, vmax=vmax)
+
+        axes.set_xlim([lim * 1. / km for lim in xlims])
+        axes.set_ylim([lim * 1. / km for lim in ylims])
 
         return scat
 
@@ -45,6 +51,8 @@ def plot(
         fontsize=10.,
         figsize=None,
         titles=None,
+        xlims=[None, None],
+        ylims=[None, None],
         cmap='coolwarm',
         zero_center=False):
 
@@ -90,9 +98,12 @@ def plot(
         scat = draw(
             num.squeeze(data[:, iax - 1]),
             coordinates,
+            xlims,
+            ylims,
             axes=axes,
             cmap=cmap,
             zero_center=zero_center)
+
         cbar = fig.colorbar(scat)
         cbar.set_label('[$m$]')
 
