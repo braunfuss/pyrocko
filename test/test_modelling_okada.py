@@ -381,11 +381,11 @@ class OkadaTestCase(unittest.TestCase):
     def test_okada_vs_griffith_inf2d(self):
         from pyrocko.modelling import GriffithCrack
 
-        length_total = 600.
-        width_total = 60.
+        length_total = 50000.
+        width_total = 10000.
 
         nlength = 20
-        nwidth = 60
+        nwidth = 100
         length = length_total / nlength
         width = width_total / nwidth
 
@@ -397,8 +397,9 @@ class OkadaTestCase(unittest.TestCase):
         mu = 32.0e9
 
         dstress = -0.5e6
-        min_x = -30.
-        max_x = 30.
+        stress_comp = 2
+        min_x = -width_total / 2.
+        max_x = width_total / 2.
 
         npoints = nlength * nwidth
 
@@ -415,7 +416,7 @@ class OkadaTestCase(unittest.TestCase):
                 if (source_coords[idx, 1] > min_x and
                         source_coords[idx, 1] < max_x):
                     if (il > 0) and (il < nlength - 1):
-                        stress[idx * 3 + 0, 0] = dstress
+                        stress[idx * 3 + stress_comp, 0] = dstress
 
         source_coords[:, 2] = 10000.
         receiver_coords = source_coords.copy()
@@ -431,13 +432,13 @@ class OkadaTestCase(unittest.TestCase):
         disloc_est = DislocationInverter.get_disloc_lsq(stress, coef_mat=gf)
 
         stressdrop = num.zeros(3, )
-        stressdrop[0] = dstress
+        stressdrop[stress_comp] = dstress
         rec_grif = num.linspace(min_x, max_x, 100)
 
         griffith = GriffithCrack(
             width=num.sum(num.abs([min_x, max_x])),
             poisson=poisson, shearmod=mu, stressdrop=stressdrop)
-        disloc_grif = griffith.disloc_infinite2d(rec_grif)
+        disloc_grif = griffith.disloc_infinite2d(x1_obs=0., x2_obs=rec_grif)
 
         if show_plot:
             import matplotlib.pyplot as plt
@@ -481,10 +482,10 @@ class OkadaTestCase(unittest.TestCase):
         from pyrocko.modelling import GriffithCrack
 
         length_total = 400.
-        width_total = length_total
+        width_total = 400.
 
-        nlength = 39
-        nwidth = nlength
+        nlength = 20
+        nwidth = 20
         length = length_total / nlength
         width = width_total / nwidth
 
@@ -498,19 +499,23 @@ class OkadaTestCase(unittest.TestCase):
         dstress = -0.5e6
         radius = 200.
 
-        source_coords = []
-        stress = []
+        npoints = nlength * nwidth
+
+        source_coords = num.zeros((npoints, 3))
+        stress = num.zeros((npoints * 3, 1))
         for il in range(nlength):
             for iw in range(nwidth):
-                x = il * length - (nlength - 1) / 2. * length
-                y = iw * width - (nwidth - 1) / 2. * width
+                idx = il * nwidth + iw
+                source_coords[idx, 0] = \
+                    il * length - (nlength - 1) / 2. * length
+                source_coords[idx, 1] = \
+                    iw * width - (nwidth - 1) / 2. * width
 
-                if num.linalg.norm([y, x]) < radius:
-                    stress.extend([0, 0, dstress])
-                    source_coords.append([x, y, 0.])
+                if num.linalg.norm([
+                        source_coords[idx, 1],
+                        source_coords[idx, 0]]) < radius:
 
-        stress = num.array(stress)
-        source_coords = num.array(source_coords)
+                    stress[idx * 3 + 2, 0] = dstress
 
         source_coords[:, 2] = 10000.
         receiver_coords = source_coords.copy()
@@ -532,17 +537,16 @@ class OkadaTestCase(unittest.TestCase):
         griffith = GriffithCrack(
             width=2 * radius,
             poisson=poisson, shearmod=mu, stressdrop=stressdrop)
-        disloc_grif = griffith.disloc_circular(rec_grif)
+        disloc_grif = griffith.disloc_infinite2d(x1_obs=0., x2_obs=rec_grif)
 
         if show_plot:
             import matplotlib.pyplot as plt
 
+            line = int(nlength / 2)
+
             def add_subplot(fig, ntot, n, title, comp, typ='line'):
-                idcs = num.arange(
-                    0, source_coords.shape[0], 1)[
-                        num.abs(source_coords[:, 0]) <= length * 0.49]
-                idx = idcs[0]
-                idx2 = idcs[-1]
+                idx = line * nwidth
+                idx2 = (line + 1) * nwidth
                 ax = fig.add_subplot(ntot, 1, n)
                 if typ == 'line':
                     ax.plot(
@@ -563,7 +567,7 @@ class OkadaTestCase(unittest.TestCase):
                 ax.set_title(title)
 
             fig = plt.figure()
-            add_subplot(fig, 3, 1, '$u_{strike}$ along profile %i' % 1, 0)
+            add_subplot(fig, 3, 1, '$u_{strike}$ along profile %i' % line, 0)
             add_subplot(fig, 3, 2, '$u_{dip}$', 1)
             add_subplot(fig, 3, 3, '$u_{normal}$', 2)
 
