@@ -2416,7 +2416,7 @@ class RectangularDynamicSource(RectangularSource):
         :rtype: :py:class:`numpy.ndarray`, ``(n_sources * 3, 1)``
         '''
 
-        boolean = (times < t).flatten()
+        boolean = (times <= t).flatten()
         indices_source = num.array(range(boolean.shape[0]))[boolean]
         disloc_est = num.zeros_like(stress_field)
         indices_disl = num.array(
@@ -2424,24 +2424,28 @@ class RectangularDynamicSource(RectangularSource):
             ).flatten()
 
         if source_list is not None:
-            if stress_field.shape != tuple((len(source_list) * 3, 1)):
+            if stress_field.shape == tuple((len(source_list) * 3, )):
+                stress_field.reshape(-1, 1)
+            elif stress_field.shape != tuple((len(source_list) * 3, 1)):
                 raise TypeError(
                     'stress does not have expected shape. Following shape is '
                     'needed: %i, %i' % stress_field.shape)
 
             disloc_est[indices_disl] = DislocationInverter.get_disloc_lsq(
-                stress_field[indices_disl],
+                stress_field=stress_field[indices_disl],
                 source_list=[source_list[i] for i in indices_source])
 
         elif coef_mat is not None:
-            if stress_field.shape != tuple((coef_mat.shape[0], 1)):
+            if stress_field.shape == tuple((coef_mat.shape[0], )):
+                stress_field.reshape(-1, 1)
+            elif stress_field.shape != tuple((coef_mat.shape[0], 1)):
                 raise TypeError(
                     'coefficient matrix does not have expected shape. '
                     'Following shape is '
                     'needed: %i, %i' % stress_field.shape)
 
             disloc_est[indices_disl] = DislocationInverter.get_disloc_lsq(
-                stress_field[indices_disl],
+                stress_field=stress_field[indices_disl],
                 coef_mat=coef_mat[indices_disl, :][:, indices_disl])
 
         elif coef_mat is None and source_list is None:

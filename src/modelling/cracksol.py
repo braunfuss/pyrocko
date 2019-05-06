@@ -44,6 +44,14 @@ class GriffithCrack(Object):
 
         return self.width / 2.
 
+    @property
+    def youngsmod(self):
+        '''
+        Shear (Youngs) modulus
+        '''
+
+        return 2. * self.shearmod * (1. + self.poisson)
+
     def _disloc_infinite2d_along_x1(self, x1_obs):
         factor1 = num.tile(
             (1. - self.poisson) / self.shearmod, (1, 3))
@@ -85,25 +93,27 @@ class GriffithCrack(Object):
                 self.stressdrop[0] * factor_in * num.sqrt(
                     self.a**2 - x2_obs[crack_el]**2)
 
-        elif self.stressdrop[1] != 0.:
-            # Mode II Shearing
-            factor = (1. - 2 * self.poisson) / (2. * self.shearmod)
+        # elif self.stressdrop[1] != 0.:
+        #     # Mode II Shearing
+        #     factor = (1. - 2 * self.poisson) / (2. * self.shearmod)
 
-            disl[crack_el, 1] = \
-                self.stressdrop[1] * factor * x2_obs[crack_el]
+        #     disl[crack_el, 1] = \
+        #         self.stressdrop[1] * factor * x2_obs[crack_el]
 
-            sign = num.sign(x2_obs)
+        #     sign = num.sign(x2_obs)
 
-            disl[~crack_el, 1] = \
-                self.stressdrop[1] * factor * self.a * sign[~crack_el] * (
-                    num.abs(x2_obs[~crack_el] / self.a) -
-                    num.sqrt(x2_obs[~crack_el]**2 / self.a**2 - 1.))
+        #     disl[~crack_el, 1] = \
+        #         self.stressdrop[1] * factor * self.a * sign[~crack_el] * (
+        #             num.abs(x2_obs[~crack_el] / self.a) -
+        #             num.sqrt(x2_obs[~crack_el]**2 / self.a**2 - 1.))
 
         elif self.stressdrop[2] != 0.:
             # Mode I Opening
+            factor = 2. * (1. - self.poisson) / self.shearmod
+
             disl[crack_el, 2] = \
-                2. * (1. - self.poisson) / self.shearmod * \
-                self.stressdrop[2] * num.sqrt(self.a**2 - x2_obs[crack_el]**2)
+                factor * self.stressdrop[2] * \
+                num.sqrt(self.a**2 - x2_obs[crack_el]**2)
 
         return disl
 
