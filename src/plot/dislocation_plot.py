@@ -27,8 +27,9 @@ def draw(
             edgecolor='None',
             vmin=vmin, vmax=vmax)
 
-        axes.set_xlim([lim * 1. / km for lim in xlims])
-        axes.set_ylim([lim * 1. / km for lim in ylims])
+        if xlims and ylims:
+            axes.set_xlim([lim * 1. / km for lim in xlims])
+            axes.set_ylim([lim * 1. / km for lim in ylims])
 
         return scat
 
@@ -51,8 +52,8 @@ def plot(
         fontsize=10.,
         figsize=None,
         titles=None,
-        xlims=[None, None],
-        ylims=[None, None],
+        xlims=None,
+        ylims=None,
         cmap='coolwarm',
         zero_center=False):
 
