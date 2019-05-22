@@ -2190,12 +2190,15 @@ class RectangularDynamicSource(RectangularSource):
         vs_min = store.config.earthmodel_1d.min(get='vs')
 
         delta = 1. / factor * num.min([
-            num.min(store.config.deltat * vs_min),
+            num.min(store.config.deltat * vs_min / 2.),
             num.min(store.config.deltas)])
         nx = int(num.floor(self.length / delta)) + 1
 
-        delta = self.length / nx
-        ny = int(num.floor(self.width / delta)) + 1
+        if self.length == self.width:
+            ny = nx
+        else:
+            delta = self.length / nx
+            ny = int(num.floor(self.width / delta)) + 1
 
         points_xy = num.zeros((nx * ny, 2))
         points_xy[:, 0] = num.tile(
@@ -2290,7 +2293,7 @@ class RectangularDynamicSource(RectangularSource):
         if times is None:
             times = num.zeros((ny, nx)) - 1.0
             times[0, 0] = 0.
-        elif times.shape != tuple(ny, nx):
+        elif times.shape != tuple((ny, nx)):
             times = num.zeros((ny, nx)) - 1.0
             times[0, 0] = 0.
             logger.warn(
