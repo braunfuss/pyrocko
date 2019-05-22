@@ -105,7 +105,8 @@ class GFSourceTypesTestCase(unittest.TestCase):
                 vr,
                 extent=[
                     num.min(x_val), num.max(x_val),
-                    num.max(y_val), num.min(y_val)])
+                    num.max(y_val), num.min(y_val)],
+                cmap='viridis')
             plt.contourf(x_val, y_val, times, level, cmap='gray', alpha=0.7)
             plt.colorbar(label='Rupture Propagation Time [s]')
             plt.show()
