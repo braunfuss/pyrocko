@@ -72,7 +72,7 @@ class GriffithCrack(Object):
         if type(x_obs) is not num.ndarray:
             x_obs = num.array(x_obs)
 
-        factor = -num.array([2. / self.shearmod])
+        factor = num.array([2. / self.shearmod])
         factor = num.append(
             factor, num.tile(
                 2. * (1. - self.poisson) / self.shearmod, (1, 2)))
@@ -81,6 +81,42 @@ class GriffithCrack(Object):
 
         disl = num.zeros((x_obs.shape[0], 3))
         disl[crack_el, :] = \
+            self.stressdrop * num.sqrt(
+            self.a**2 - num.tile(x_obs[crack_el, num.newaxis], (1, 3))**2) * \
+            factor
+
+        return disl
+
+    def disloc_circular(self, x_obs):
+        '''
+        Calculation of dislocation at crack surface along x2 axis
+
+        Follows equations by Pollard and Segall (1987) to calculate
+        displacements for a circulat crack extended in x2 and x3 direction and
+        opening in x1 direction.
+
+        :param x_obs: Observation point coordinates along axis through crack
+            centre. If x_obs < -self.a or x_obs > self.a, output dislocations
+            are zero
+        :type x_obs: :py:class:`numpy.ndarray`, ``(N,)``
+
+        :return: dislocations at each observation point in strike, dip and
+            tensile direction.
+        :rtype: :py:class:`numpy.ndarray`, ``(N, 3)``
+        '''
+
+        if type(x_obs) is not num.ndarray:
+            x_obs = num.array(x_obs)
+
+        factor = num.array([4. / (self.shearmod * num.pi)])
+        factor = num.append(
+            factor, num.tile(
+                4. * (1. - self.poisson) / (self.shearmod * num.pi), (1, 2)))
+
+        crack_el = (x_obs > -self.a) | (x_obs < self.a)
+
+        disl = num.zeros((x_obs.shape[0], 3))
+        disl[crack_el] = \
             self.stressdrop * num.sqrt(
             self.a**2 - num.tile(x_obs[crack_el, num.newaxis], (1, 3))**2) * \
             factor
@@ -180,43 +216,6 @@ class GriffithCrack(Object):
             return self._displ_infinite2d_along_x2(x2_obs)
         elif (x2_obs == 0.).all():
             return self._displ_infinite2d_along_x1(x1_obs)
-
-    def disloc_circular(self, x_obs):
-        '''
-        Calculation of dislocation at crack surface along x2 axis
-
-        Follows equations by Pollard and Segall (1987) to calculate
-        displacements for a circulat crack extended in x2 and x3 direction and
-        opening in x1 direction.
-
-        :param x_obs: Observation point coordinates along axis through crack
-            centre. If x_obs < -self.a or x_obs > self.a, output dislocations
-            are zero
-        :type x_obs: :py:class:`numpy.ndarray`, ``(N,)``
-
-        :return: dislocations at each observation point in strike, dip and
-            tensile direction.
-        :rtype: :py:class:`numpy.ndarray`, ``(N, 3)``
-        '''
-
-        if type(x_obs) is not num.ndarray:
-            x_obs = num.array(x_obs)
-
-        # factor = num.tile(24. / (7. * num.pi * self.shearmod), (1, 3))
-        factor = num.array([4. / (self.shearmod * num.pi)])
-        factor = num.append(
-            factor, num.tile(
-                4. * (1. - self.poisson) / (self.shearmod * num.pi), (1, 2)))
-
-        crack_el = (x_obs > -self.a) | (x_obs < self.a)
-
-        disl = num.zeros((x_obs.shape[0], 3))
-        disl[crack_el] = \
-            self.stressdrop * num.sqrt(
-            self.a**2 - num.tile(x_obs[crack_el, num.newaxis], (1, 3))**2) * \
-            factor
-
-        return disl
 
 
 __all__ = [
