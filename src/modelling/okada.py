@@ -425,6 +425,9 @@ class DislocationInverter(object):
                 num.cos(strike * d2r) * num.sin(dip * d2r),
                 -num.cos(dip * d2r)])
 
+        def ned2sdn_rotmat(strike, dip):
+            return mt.euler_to_matrix((dip + 180.) * d2r, strike * d2r, 0.).A
+
         unit_disl = 1.
         disl_cases = {
             'strikeslip': {
@@ -475,14 +478,28 @@ class DislocationInverter(object):
                 normal = num.tile(get_normal(
                     source_patches_list[isource].strike,
                     source_patches_list[isource].dip), (stress.shape[0], 1))
+                rotmat = ned2sdn_rotmat(
+                    source_patches_list[isource].strike,
+                    source_patches_list[isource].dip)
 
-                coefmat[::n_eq, isource * n_eq + idisl] = \
-                    num.sum(stress[:, :3] * normal, axis=1) / unit_disl
-                coefmat[1::n_eq, isource * n_eq + idisl] = \
-                    num.sum(stress[:, 3:6] * normal, axis=1) / unit_disl
+                coef_ned = num.zeros((stress.shape[0], 3))
+                coef_ned[:, 0] = num.sum(
+                    stress[:, :3] * normal, axis=1) / unit_disl
+                coef_ned[:, 1] = num.sum(
+                    stress[:, 3:6] * normal, axis=1) / unit_disl
+                coef_ned[:, 2] = num.sum(
+                    stress[:, 6:] * normal, axis=1) / unit_disl
+
+                coefmat[::n_eq, isource * n_eq + idisl] = num.dot(
+                    rotmat[0, :],
+                    coef_ned.T).T
+                coefmat[1::n_eq, isource * n_eq + idisl] = num.dot(
+                    rotmat[1, :],
+                    coef_ned.T).T
                 if n_eq == 3:
-                    coefmat[2::n_eq, isource * n_eq + idisl] = \
-                        num.sum(stress[:, 6:] * normal, axis=1) / unit_disl
+                    coefmat[2::n_eq, isource * n_eq + idisl] = num.dot(
+                        rotmat[2, :],
+                        coef_ned.T).T
 
         return coefmat
 
@@ -529,6 +546,9 @@ class DislocationInverter(object):
                 -num.sin(strike * d2r) * num.sin(dip * d2r),
                 num.cos(strike * d2r) * num.sin(dip * d2r),
                 -num.cos(dip * d2r)])
+
+        def ned2sdn_rotmat(strike, dip):
+            return mt.euler_to_matrix((dip + 180.) * d2r, strike * d2r, 0.).A
 
         unit_disl = 1.
         disl_cases = {
