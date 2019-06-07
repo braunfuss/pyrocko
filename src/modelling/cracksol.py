@@ -76,6 +76,7 @@ class GriffithCrack(Object):
         factor = num.append(
             factor, num.tile(
                 2. * (1. - self.poisson) / self.shearmod, (1, 2)))
+        factor[1] *= -1.
 
         crack_el = (x_obs > -self.a) | (x_obs < self.a)
 
@@ -112,6 +113,7 @@ class GriffithCrack(Object):
         factor = num.append(
             factor, num.tile(
                 4. * (1. - self.poisson) / (self.shearmod * num.pi), (1, 2)))
+        factor[1] *= -1.
 
         crack_el = (x_obs > -self.a) | (x_obs < self.a)
 

@@ -99,8 +99,8 @@ class OkadaTestCase(unittest.TestCase):
         strike = 45.
         dip = 89.
         rake = 90.
-        slip = 1.0
-        opening = 0.
+        slip = 0.0
+        opening = 1.
         poisson = 0.25
         mu = 32.0e9
         lamb = (2 * poisson * mu) / (1 - 2 * poisson)

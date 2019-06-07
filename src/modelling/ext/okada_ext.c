@@ -865,7 +865,7 @@ static okada_error_t dc3d_flexi(
     rot_vec31(r, rotmat, rrot);
 
     if (dip == 90.) {
-        dip -= 1E-3;
+        dip -= 1E-2;
     }
     iret = dc3d(alpha, rrot[0], rrot[1], rrot[2], ds, dip, al1, al2, aw1, aw2, disl1, disl2, disl3, uokada);
     
