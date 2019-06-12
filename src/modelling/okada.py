@@ -421,7 +421,7 @@ class DislocationInverter(object):
 
         def ned2sdn_rotmat(strike, dip):
             rotmat = mt.euler_to_matrix(
-                dip * d2r, strike * d2r, 0.).A
+                (dip + 180.) * d2r, strike * d2r, 0.).A
             return rotmat
 
         unit_disl = 1.
