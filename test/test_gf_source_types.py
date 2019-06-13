@@ -51,7 +51,7 @@ class GFSourceTypesTestCase(unittest.TestCase):
         plt.axis('equal')
         plt.show()
 
-    def test_rectangular_dynamic_source(self):
+    def test_stressdrop_source(self):
         store_id = 'crust2_dd'
 
         if not os.path.exists(store_id):
@@ -60,7 +60,7 @@ class GFSourceTypesTestCase(unittest.TestCase):
         engine = gf.LocalEngine(store_superdirs=['.'])
         store = engine.get_store(store_id)
 
-        rds = gf.RectangularDynamicSource(
+        rds = gf.StressDropSource(
             length=20000., width=10000., depth=2000.,
             anchor='top', gamma=0.8, dip=90., strike=0.)
 
@@ -105,8 +105,7 @@ class GFSourceTypesTestCase(unittest.TestCase):
                 vr,
                 extent=[
                     num.min(x_val), num.max(x_val),
-                    num.max(y_val), num.min(y_val)],
-                cmap='viridis')
+                    num.max(y_val), num.min(y_val)])
             plt.contourf(x_val, y_val, times, level, cmap='gray', alpha=0.7)
             plt.colorbar(label='Rupture Propagation Time [s]')
             plt.show()

@@ -2160,7 +2160,7 @@ class RectangularSource(SourceWithDerivedMagnitude):
         return super(RectangularSource, cls).from_pyrocko_event(ev, **d)
 
 
-class RectangularDynamicSource(RectangularSource):
+class StressDropSource(RectangularSource):
     '''
     Merged Eikonal and Okada Source for quasi dynamic rupture modelling
     '''
@@ -2456,7 +2456,6 @@ class RectangularDynamicSource(RectangularSource):
                 'Coefficient matrix or source list needs to be defined.')
 
         return disloc_est
-
 
 
 class DoubleDCSource(SourceWithMagnitude):
@@ -3917,7 +3916,7 @@ source_classes = [
     CLVDSource,
     MTSource,
     RectangularSource,
-    RectangularDynamicSource,
+    StressDropSource,
     DoubleDCSource,
     RingfaultSource,
     SFSource,

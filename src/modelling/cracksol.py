@@ -188,7 +188,6 @@ class GriffithCrack(Object):
 
         return displ
 
-
     def displ_infinite2d(self, x1_obs, x2_obs):
         '''
         Calculation of displacement at crack surface along different axis
