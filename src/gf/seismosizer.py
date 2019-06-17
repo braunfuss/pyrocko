@@ -2160,7 +2160,7 @@ class RectangularSource(SourceWithDerivedMagnitude):
         return super(RectangularSource, cls).from_pyrocko_event(ev, **d)
 
 
-class StressDropSource(RectangularSource):
+class PseudoDynamicRupture(RectangularSource):
     '''
     Merged Eikonal and Okada Source for quasi dynamic rupture modelling
     '''
@@ -2250,8 +2250,10 @@ class StressDropSource(RectangularSource):
     def discretize_time(
             self,
             store,
-            target=None,
             factor=2.,
+            target=None,
+            nucleation_x=0.,
+            nucleation_y=0.,
             times=None,
             *args,
             **kwargs):
@@ -2290,12 +2292,36 @@ class StressDropSource(RectangularSource):
         vr = self._discretize_vr(
             store=store, target=target, points=points).reshape(ny, nx)
 
+        if not isinstance(nucleation_x, num.ndarray):
+            nucleation_x = num.array([nucleation_x])
+        if not isinstance(nucleation_y, num.ndarray):
+            nucleation_y = num.array([nucleation_y])
+
+        if nucleation_x.shape != nucleation_y.shape:
+            logger.warn(
+                'Nucleation coordinates have different shape. Check!')
+
+        dist_points = num.array([
+            num.linalg.norm(points_xy - num.array([x, y]), axis=1)
+            for x, y in zip(nucleation_x, nucleation_y)]).T
+
+        min_row, min_col = num.where(
+            dist_points == num.min(dist_points, axis=0))
+
+        nucl_indices = num.unique(num.array([
+            num.where(
+                dist_points[:, icol] == num.min(dist_points[:, icol], axis=0)
+            )[0] for icol in range(nucleation_x.shape[0])]))
+
+        def initialize_times(nx, ny, zero_ind):
+            t = num.zeros(nx * ny) - 1.
+            t[zero_ind] = 0.
+            return t.reshape(ny, nx)
+
         if times is None:
-            times = num.zeros((ny, nx)) - 1.0
-            times[0, 0] = 0.
+            times = initialize_times(nx, ny, nucl_indices)
         elif times.shape != tuple((ny, nx)):
-            times = num.zeros((ny, nx)) - 1.0
-            times[0, 0] = 0.
+            times = initialize_times(nx, ny, nucl_indices)
             logger.warn(
                 'Given times are not in right shape. Therefore standard time '
                 'array is used.')
@@ -3916,7 +3942,7 @@ source_classes = [
     CLVDSource,
     MTSource,
     RectangularSource,
-    StressDropSource,
+    PseudoDynamicRupture,
     DoubleDCSource,
     RingfaultSource,
     SFSource,

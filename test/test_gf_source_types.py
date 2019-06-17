@@ -60,16 +60,24 @@ class GFSourceTypesTestCase(unittest.TestCase):
         engine = gf.LocalEngine(store_superdirs=['.'])
         store = engine.get_store(store_id)
 
-        rds = gf.StressDropSource(
+        pdr = gf.PseudoDynamicRupture(
             length=20000., width=10000., depth=2000.,
             anchor='top', gamma=0.8, dip=90., strike=0.)
 
-        points, _, vr, times = rds.discretize_time(store, factor=2.)
+        points, _, vr, times = pdr.discretize_time(
+            store,
+            factor=2.,
+            nucleation_x=0.,
+            nucleation_y=0.)
         assert times.shape == vr.shape
         assert points.shape[0] == times.shape[0] * times.shape[1]
 
-        _, source_disc, times_interp = rds.discretize_okada(
-            store=store, factor=10., interpolation='nearest_neighbor')
+        _, source_disc, times_interp = pdr.discretize_okada(
+            store=store,
+            factor=10.,
+            interpolation='nearest_neighbor',
+            nucleation_x=0.,
+            nucleation_y=0.)
         assert len(source_disc) == (
             times_interp.shape[0] * times_interp.shape[1])
 
@@ -78,7 +86,7 @@ class GFSourceTypesTestCase(unittest.TestCase):
 
         time = num.max(times_interp) * 0.5
 
-        disloc_est = rds.get_okada_slip(
+        disloc_est = pdr.get_okada_slip(
             stress_field=stress_field,
             times=times_interp,
             source_list=source_disc,
@@ -86,7 +94,7 @@ class GFSourceTypesTestCase(unittest.TestCase):
 
         coef_mat = DislocationInverter.get_coef_mat(source_disc)
 
-        disloc_est2 = rds.get_okada_slip(
+        disloc_est2 = pdr.get_okada_slip(
             stress_field=stress_field,
             times=times_interp,
             coef_mat=coef_mat,
