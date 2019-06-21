@@ -2264,12 +2264,18 @@ class PseudoDynamicRupture(RectangularSource):
         :param store: Greens function database (needs to cover whole region of
             of the source)
         :type store: :py:class:`pyrocko.gf.store.Store`
-        :param target: Target information
-        :type target: optional, :py:class:`pyrocko.gf.target.Target`
         :param factor: Measure, how fine the discretization is performed.
             factor==1 means, discretization spacing is defined by deltat or
             deltas from store
-        :type factor: float
+        :type factor: optional, float
+        :param target: Target information
+        :type target: optional, :py:class:`pyrocko.gf.target.Target`
+        :param nucleation_x: optional, float
+        :type nucleation_x: Relative along length nucleation point coordinate
+            ranging between -1. (left edge) and 1. (right edge)
+        :param nucleation_y: optional, float
+        :type nucleation_y: Relative down dip nucleation point coordinate
+            ranging between -1. (upper edge) and 1. (bottom edge)
         :param times: Array, containing zeros, where rupture is starting and
             otherwise -1, where time will be calculated. If not given, rupture
             starts and 0, 0. Times are given for discrete points with equal
@@ -2345,13 +2351,16 @@ class PseudoDynamicRupture(RectangularSource):
         Get rupture start time and OkadaSource elements for discrete points on
         source plane
 
+        :param store: Greens function database (needs to cover whole region of
+            of the source)
+        :type store: :py:class:`pyrocko.gf.store.Store`
         :param interpolation: Kind of interpolation used. Choice between
             'multilinear' and 'nearest_neighbor'
-        :type interpolation: str
+        :type interpolation: optional, str
         :param factor: Measure, how fine the discretization is performed.
             factor==1 means, discretization spacing is defined by deltat or
             deltas from store
-        :type factor: float
+        :type factor: optional, float
 
         :return: Source plane as a single and discretized list of OkadaSources
             and interpolated rupture propagation times for each point
@@ -2427,7 +2436,7 @@ class PseudoDynamicRupture(RectangularSource):
         shear_mod, poisson = get_lame(store.config, *cfg_args, **cfg_kwargs)
 
         for isrc in range(len(source_disc)):
-            source_disc[isrc].shear_mod = shear_mod[isrc]
+            source_disc[isrc].shearmod = shear_mod[isrc]
             source_disc[isrc].poisson = poisson[isrc]
 
         times_interp = interpolator(
@@ -2458,10 +2467,10 @@ class PseudoDynamicRupture(RectangularSource):
         :type times: :py:class:`num.ndarray`,
             ``(n_points_dip, n_points_strike)``
         :param source_list: List of all discretized OkadaSource patches
-        :type source_list: list of
+        :type source_list: optional, list of
             :py:class:`pyrocko.modelling.okada.OkadaSource`, ``(n_points)``
         :param coef_mat: coefficient matrix for all sources
-        :type coef_mat: :py:class:`numpy.ndarray`,
+        :type coef_mat: optional, :py:class:`numpy.ndarray`,
             ``(source_list.shape[0] * 3, source_list.shape[0] * 3)``
 
         :return: inverted displacements (u_strike, u_dip , u_tensile) for each
@@ -2474,23 +2483,15 @@ class PseudoDynamicRupture(RectangularSource):
         boolean = (times <= t).flatten()
         indices_source = num.array(range(boolean.shape[0]))[boolean]
         disloc_est = num.zeros_like(stress_field)
+
+        if indices_source.shape[0] == 0:
+            return disloc_est
+
         indices_disl = num.array(
             [num.arange(i * 3, i * 3 + 3, 1) for i in indices_source]
             ).flatten()
 
-        if source_list is not None:
-            if stress_field.shape == tuple((len(source_list) * 3, )):
-                stress_field.reshape(-1, 1)
-            elif stress_field.shape != tuple((len(source_list) * 3, 1)):
-                raise TypeError(
-                    'stress does not have expected shape. Following shape is '
-                    'needed: %i, %i' % stress_field.shape)
-
-            disloc_est[indices_disl] = DislocationInverter.get_disloc_lsq(
-                stress_field=stress_field[indices_disl],
-                source_list=[source_list[i] for i in indices_source])
-
-        elif coef_mat is not None:
+        if coef_mat is not None:
             if stress_field.shape == tuple((coef_mat.shape[0], )):
                 stress_field.reshape(-1, 1)
             elif stress_field.shape != tuple((coef_mat.shape[0], 1)):
@@ -2503,14 +2504,132 @@ class PseudoDynamicRupture(RectangularSource):
                 stress_field=stress_field[indices_disl],
                 coef_mat=coef_mat[indices_disl, :][:, indices_disl])
 
+        elif source_list is not None:
+            if stress_field.shape == tuple((len(source_list) * 3, )):
+                stress_field.reshape(-1, 1)
+            elif stress_field.shape != tuple((len(source_list) * 3, 1)):
+                raise TypeError(
+                    'stress does not have expected shape. Following shape is '
+                    'needed: %i, %i' % stress_field.shape)
+
+            disloc_est[indices_disl] = DislocationInverter.get_disloc_lsq(
+                stress_field=stress_field[indices_disl],
+                source_list=[source_list[i] for i in indices_source])
+
+
         elif coef_mat is None and source_list is None:
             raise TypeError(
                 'Coefficient matrix or source list needs to be defined.')
 
         return disloc_est
 
-    def get_delta_slip(self, store, *args, **kwargs):
-        pass
+    def get_delta_slip(self, store, times, *args, **kwargs):
+        '''
+        Get slip change inverted from OkadaSources depending on store deltat
+
+        The time intervall, within which the slip changes are computed is
+        determined by the sampling rate of the Greens function database.
+        Arguments and keyword arguments needed for self.get_okada_slip.
+
+        :param store: Greens function database (needs to cover whole region of
+            of the source)
+        :type store: :py:class:`pyrocko.gf.store.Store`
+        :param times: Rupture start times for each point
+        :type times: :py:class:`num.ndarray`,
+            ``(n_points_dip, n_points_strike)``
+
+        :return: inverted displacements (u_strike, u_dip , u_tensile) for each
+            source patch and time. order: [
+            patch1 du_Strike t1, patch1 du_Dip t1, patch1 du_Tensile t1,
+            patch2 du_Strike t1, ...], [
+            patch1 du_Strike t2, patch1 du_Dip t2, patch1 du_Tensile t2,
+            patch2 du_Strike t2, ...];
+            corner times, for which delta slip is computed
+        :rtype: :py:class:`numpy.ndarray`, ``(n_sources * 3, n_times)``
+                :py:class:`numpy.ndarray`, ``(n_times, 1)``
+        '''
+
+        dt = store.config.deltat
+        t_max = num.max(times)
+        calc_times = num.arange(0., t_max + dt, dt)
+
+        delta_disloc_est = num.zeros((
+            times.shape[0] * times.shape[1] * 3, calc_times.shape[0]))
+
+        for itime, t in enumerate(calc_times[1:]):
+            delta_disloc_est[:, itime + 1] = self.get_okada_slip(
+                times=times,
+                t=t,
+                *args, **kwargs).flatten() - num.sum(
+                    delta_disloc_est[:, :itime+1], axis=1)
+
+        return delta_disloc_est, calc_times
+
+    def get_moment_rate(self, source_list, *args, **kwargs):
+        '''
+        Get seismic moment rate for each boundary element individually
+
+        Arguments and keyword arguments needed for self.get_okada_slip.
+
+        :param source_list: List of all discretized OkadaSource patches
+        :type source_list: list of
+            :py:class:`pyrocko.modelling.okada.OkadaSource`, ``(n_points)``
+
+        :return: seismic moment rate for each
+            source patch and time. order: [
+            patch1 moment_rate t1,
+            patch2 moment_rate t1, ...], [
+            patch1 moment_rate t2,
+            patch2 moment_rate t2, ...];
+            corner times, for which moment rate is computed based on slip rate
+        :rtype: :py:class:`numpy.ndarray`, ``(n_sources, n_times)``
+                :py:class:`numpy.ndarray`, ``(n_times, 1)``
+        '''
+
+        ddisloc_est, calc_times = self.get_delta_slip(*args, **kwargs)
+        dt = calc_times[1] - calc_times[0]
+
+        slip_change = num.sqrt(num.array(
+            [[num.sum(
+                ddisloc_est[i * 3:i * 3 + 3, j]**2.)
+                for j in range(ddisloc_est.shape[1])]
+                for i in range(int(ddisloc_est.shape[0] / 3.))])) / dt
+
+        shear_mod = num.tile(
+            num.array(
+                [source.shearmod for source in source_list]).reshape(-1, 1),
+            (1, calc_times.shape[0]))
+
+        dA = num.tile(
+            num.array(
+                [source.length * source.width for source in source_list]
+                ).reshape(-1, 1),
+            (1, calc_times.shape[0]))
+
+        return shear_mod * slip_change * dA, calc_times
+
+    def get_source_moment_rate(self, *args, **kwargs):
+        '''
+        Get seismic source moment rate for the total source
+
+        Arguments and keyword arguments needed for self.get_okada_slip.
+
+        :param source_list: List of all discretized OkadaSource patches
+        :type source_list: list of
+            :py:class:`pyrocko.modelling.okada.OkadaSource`, ``(n_points)``
+
+        :return: seismic moment rate for each
+            time. order: [
+            moment_rate t1,
+            moment_rate t2, ...];
+            corner times, for which moment rate is computed based on slip rate
+        :rtype: :py:class:`numpy.ndarray`, ``(n_times, 1)``
+                :py:class:`numpy.ndarray`, ``(n_times, 1)``
+        '''
+
+        moment_rate, moment_times = self.get_moment_rate(*args, **kwargs)
+
+        return num.sum(moment_rate, axis=0), moment_times
 
 
 class DoubleDCSource(SourceWithMagnitude):
