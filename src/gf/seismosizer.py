@@ -2213,7 +2213,7 @@ class PseudoDynamicRupture(RectangularSource):
             points_y=points_xy[:, 1],
             **kwargs), points_xy
 
-    def _discretize_vr(self, store=None, target=None, points=None):
+    def _discretize_vr(self, store, target=None, points=None):
         '''
         Get rupture velocity for discrete points on source plane
 
@@ -2229,7 +2229,7 @@ class PseudoDynamicRupture(RectangularSource):
         :rtype: :py:class:`numpy.ndarray`, ``(points.shape[0], 1)``
         '''
 
-        if points is None and store is not None:
+        if points is None:
             _, _, _, points, _ = self._discretize_points(store, cs='xyz')
 
         if target is not None:
@@ -2335,6 +2335,7 @@ class PseudoDynamicRupture(RectangularSource):
 
     def discretize_okada(
             self,
+            store,
             interpolation='multilinear',
             factor=1.,
             *args,
@@ -2361,7 +2362,7 @@ class PseudoDynamicRupture(RectangularSource):
         '''
 
         _, points_xy, _, times = self.discretize_time(
-            factor=factor, *args, **kwargs)
+            store=store, factor=factor, *args, **kwargs)
 
         anch_x, anch_y = map_anchor[self.anchor]
         points_xy[:, 0] = (points_xy[:, 0] - anch_x) * self.length * 0.5
@@ -2389,20 +2390,45 @@ class PseudoDynamicRupture(RectangularSource):
         assert num.sum(num.abs([al1, al2])) == self.length
         assert num.sum(num.abs([aw1, aw2])) == self.width
 
+        cfg_args = [
+            self.lat,
+            self.lon,
+            num.array([
+                self.north_shift, self.east_shift, self.depth]).reshape(-1, 3)]
+        cfg_kwargs = {'interpolation': interpolation}
+
+        def get_lame(config, *args, **kwargs):
+            shear_mod = config.get_shear_moduli(*args, **kwargs)
+            lamb = config.get_vp(
+                *args, **kwargs)**2 * config.get_rho(
+                *args, **kwargs) - 2. * shear_mod
+            return shear_mod, lamb / (2. * (lamb + shear_mod))
+
+        shear_mod, poisson = get_lame(store.config, *cfg_args, **cfg_kwargs)
+
         src = OkadaSource(
             lat=self.lat, lon=self.lon,
             strike=self.strike, dip=self.dip, rake=self.rake,
             north_shift=self.north_shift, east_shift=self.east_shift,
             depth=self.depth,
             al1=al1, al2=al2, aw1=aw1, aw2=aw2,
-            poisson=kwargs.get('poisson', 0.25),
-            shearmod=kwargs.get('shearmod', 32e9),
+            poisson=poisson,
+            shearmod=shear_mod,
             opening=kwargs.get('opening', 0.))
 
         nx_interp = kwargs.get('nlength', int(num.floor(nx / factor)))
         ny_interp = kwargs.get('nwidth', int(num.floor(ny / factor)))
 
         source_disc, source_points = src.discretize(nx_interp, ny_interp)
+        cfg_args = [
+            self.lat,
+            self.lon,
+            num.array([source.source_patch()[:3] for source in source_disc])]
+        shear_mod, poisson = get_lame(store.config, *cfg_args, **cfg_kwargs)
+
+        for isrc in range(len(source_disc)):
+            source_disc[isrc].shear_mod = shear_mod[isrc]
+            source_disc[isrc].poisson = poisson[isrc]
 
         times_interp = interpolator(
             num.hstack((
@@ -2482,6 +2508,9 @@ class PseudoDynamicRupture(RectangularSource):
                 'Coefficient matrix or source list needs to be defined.')
 
         return disloc_est
+
+    def get_delta_slip(self, store, *args, **kwargs):
+        pass
 
 
 class DoubleDCSource(SourceWithMagnitude):
