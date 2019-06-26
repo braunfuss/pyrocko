@@ -716,14 +716,13 @@ static okada_error_t dc3d(
                 du[i+2] = (dua[i+1] + dub[i+1] - z*duc[i+1])*c0.sd + (dua[i+2] + dub[i+2] - z*duc[i+2])*c0.cd;
             }
             du[9] = du[9] + duc[0];
-            du[10] = du[10] + duc[0]*c0.cd - duc[1]*c0.sd;
-            du[11] = du[11] - duc[0]*c0.sd - duc[1]*c0.cd;
+            du[10] = du[10] + duc[1]*c0.cd - duc[2]*c0.sd;
+            du[11] = du[11] - duc[1]*c0.sd - duc[2]*c0.cd;
 
             for (i=0; i<12; i++) {
                 if (j == k) u[i] = u[i] + du[i];
                 if (j != k) u[i] = u[i] - du[i];
             }
-
         }
     }
 
