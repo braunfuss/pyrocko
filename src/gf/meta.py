@@ -19,7 +19,7 @@ from scipy.interpolate import interp1d
 from pyrocko.guts import (Object, SObject, String, StringChoice,
                           StringPattern, Unicode, Float, Bool, Int, TBase,
                           List, ValidationError, Timestamp, Tuple, Dict)
-from pyrocko.guts import dump, load  # noqa
+from pyrocko.guts import dump, load, load_all  # noqa
 from pyrocko.guts_array import literal, Array
 from pyrocko.model import Location, gnss
 
@@ -2593,6 +2593,7 @@ WaveformSelection
 nditer_outer
 dump
 load
+load_all
 discretized_source_classes
 config_type_classes
 UnavailableScheme

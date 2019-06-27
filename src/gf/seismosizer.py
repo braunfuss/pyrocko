@@ -282,11 +282,10 @@ def outline_rect_source(strike, dip, length, width, anchor):
 
 def points_on_rect_source(
         strike, dip, length, width, anchor,
-        discretized_basesource=None, points_x=None, points_y=None):
+        discretized_basesource, points_x=None, points_y=None):
 
     ln = length
     wd = width
-
     if isinstance(points_x, list) or isinstance(points_x, float):
         points_x = num.array([points_x])
     if isinstance(points_y, list) or isinstance(points_y, float):
@@ -297,7 +296,6 @@ def points_on_rect_source(
 
         nl_patches = ds.nl + 1
         nw_patches = ds.nw + 1
-
         npoints = nl_patches * nw_patches
         points = num.zeros(shape=(npoints, 3))
         ln_patches = num.array([il for il in range(nl_patches)])
@@ -314,12 +312,6 @@ def points_on_rect_source(
                     points_ln[il] * ln * 0.5,
                     points_wd[iw] * wd * 0.5, 0.0])
 
-    elif points_x.any() and points_y.any():
-        points = num.zeros(shape=((len(points_x), 3)))
-        for i, (x, y) in enumerate(zip(points_x, points_y)):
-            points[i, :] = num.array(
-                [x * 0.5 * ln, y * 0.5 * wd, 0.0])
-
     anch_x, anch_y = map_anchor[anchor]
 
     points[:, 0] -= anch_x * 0.5 * ln
@@ -334,7 +326,7 @@ def points_on_rect_source(
 def lists_to_c5(
         ref_lat, ref_lon,
         points=[], north_shifts=[], east_shifts=[], depths=[]):
-    
+
     if len(north_shifts) != 0:
         npoints = len(north_shifts)
     else:
@@ -356,7 +348,7 @@ def lists_to_c5(
         return num.concatenate((
             to_arr(ref_lat), to_arr(ref_lon),
             to_arr(points)), axis=1)
-    elif isinstance(ref_lat, float) and isinstance(ref_lon, float): 
+    elif isinstance(ref_lat, float) and isinstance(ref_lon, float):
         return num.concatenate((
             to_arr([ref_lat] * npoints), to_arr([ref_lon] * npoints),
             to_arr(points)), axis=1)
@@ -489,7 +481,7 @@ class Geometry(Object):
         for prop in ['dl', 'dw', 'nl', 'nw']:
             setattr(self.patches, prop, getattr(ds, prop))
 
- 
+
 class InvalidGridDef(Exception):
     pass
 
@@ -2063,8 +2055,8 @@ class RectangularSource(SourceWithDerivedMagnitude):
         geom.set_outline(self.lat, self.lon, self.outline(cs='xyz'), **kwargs)
 
         ds = self.discretize_basesource(*args)
-        vertices = self.points_on_source(
-            cs='xyz', discretized_basesource=ds)
+        vertices = self.points_on_source(ds,
+            cs='xyz')
 
         faces = []
         for iw in range(ds.nw):
@@ -2080,7 +2072,7 @@ class RectangularSource(SourceWithDerivedMagnitude):
 
         geom.set_patches(ds, vertices, faces, **kwargs)
 
-        return geom
+        return geom, ds
 
     def outline(self, cs='xyz'):
         points = outline_rect_source(self.strike, self.dip, self.length,
@@ -2105,11 +2097,11 @@ class RectangularSource(SourceWithDerivedMagnitude):
                     (latlon, points[:, 2].reshape((len(points), 1))),
                     axis=1)
 
-    def points_on_source(self, cs='xyz', **kwargs):
+    def points_on_source(self, discretized_basesource, cs='xyz', **kwargs):
 
         points = points_on_rect_source(
             self.strike, self.dip, self.length, self.width,
-            self.anchor, **kwargs)
+            self.anchor, discretized_basesource, **kwargs)
 
         points[:, 0] += self.north_shift
         points[:, 1] += self.east_shift
@@ -3758,7 +3750,6 @@ class LocalEngine(Engine):
         if target.tsnapshot is not None:
             n_f = store_.config.sample_rate
             itsnapshot = int(num.floor(target.tsnapshot * n_f))
-            # print target.tsnapshot, n_f, itsnapshot
         else:
             itsnapshot = 1
         tcounters.append(xtime())
