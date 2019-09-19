@@ -671,8 +671,9 @@ def add_radiobuttongroup(menu, menudef, obj, target, default=None):
         k.setCheckable(True)
         group.triggered.connect(target)
         menuitems.append((k, v))
-        if default is not None and name == default:
-            k.setChecked(True)
+        if default is not None:
+            if name.lower().replace(' ', '_') == default:
+                k.setChecked(True)
 
     if default is None:
         menuitems[0][0].setChecked(True)
@@ -801,7 +802,7 @@ def MakePileViewerMainClass(base):
             self.menu.addSeparator()
 
             menudef = [
-                ('Indivdual Scale',
+                ('Individual Scale',
                     lambda tr: tr.nslc_id),
                 ('Common Scale',
                     lambda tr: None),
@@ -814,10 +815,12 @@ def MakePileViewerMainClass(base):
             ]
 
             self.menuitems_scaling = add_radiobuttongroup(
-                self.menu, menudef, self, self.scalingmode_change)
+                self.menu, menudef, self, self.scalingmode_change,
+                default=self.config.trace_scale)
 
             self.scaling_key = self.menuitems_scaling[0][1]
             self.scaling_hooks = {}
+            self.scalingmode_change()
 
             self.menu.addSeparator()
 
@@ -3372,8 +3375,8 @@ def MakePileViewerMainClass(base):
 
         def apply_scaling_hooks(self, data_ranges):
             for k in sorted(self.scaling_hooks.keys()):
-                    hook = self.scaling_hooks[k]
-                    hook(data_ranges)
+                hook = self.scaling_hooks[k]
+                hook(data_ranges)
 
         def set_scaling_hook(self, k, hook):
             self.scaling_hooks[k] = hook

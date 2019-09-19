@@ -46,23 +46,23 @@ Download :download:`gf_forward_example2.py </../../examples/gf_forward_example2.
 Calculate spatial surface displacement and export Kite scenes
 -------------------------------------------------------------
 
-We repeat the above example but use `Kite <https://pyrocko.org/docs/kite>`_ for displaying the results. Kite needs to be installed separately. Kite can be used to do easy quadtree data sub-sampling and data error variance-covariance estimation of surface displacement data.
+We derive InSAR surface deformation targets from `Kite <https://pyrocko.org/docs/kite>`_ scenes. This way we can easily inspect the data and use Kite's quadtree data sub-sampling and data error variance-covariance estimation calculation.
 
-Download :download:`gf_forward_example2.py </../../examples/gf_forward_example2_kite.py>`
+Download :download:`gf_forward_example2_kite.py </../../examples/gf_forward_example2_kite.py>`
 
 .. literalinclude :: /../../examples/gf_forward_example2_kite.py
     :language: python
 
 
-Calculate forward model of thrust event and display wrapped phase
------------------------------------------------------------------
+Calculate forward model of thrust faulting and display wrapped phase
+--------------------------------------------------------------------
 
-In this example we compare the synthetic unwrapped and wrapped LOS displacements caused by a thrust rupture.
+In this example we compare the synthetic unwappred and wrapped LOS displacements caused by a thrust rupture.
 
 .. figure:: /static/gf_static_wrapper.png
     :align: center
     :width: 90%
-    :alt: Static displacement from a thrust fault calculated through Pyrocko
+    :alt: Static displacement from a thrust fault calculated through pyrocko
 
     Synthetic LOS displacements from a south-dipping thrust fault. LOS as for Sentinel-1 satellite (Look Angle: 36., Heading:-76). Positive motion toward the satellite. Left: unwrapped phase. Right: Wrapped phase.
 

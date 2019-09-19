@@ -1127,7 +1127,8 @@ class Map(Object):
 
         default_psxy_style = {
             'h': 0,
-            'W': '1.5p,black',
+            'W': '2p,black',
+            'A': '+p2p,black+e+a40',
             'G': 'black',
             'L': True,
             'S': 'e%dc/0.95/%d' % (scale, fontsize),
@@ -1137,7 +1138,8 @@ class Map(Object):
             for row in rows:
                 row.pop(-1)
 
-        default_psxy_style.update(psxy_style)
+        if psxy_style is not None:
+            default_psxy_style.update(psxy_style)
 
         self.gmt.psvelo(
             in_rows=rows,

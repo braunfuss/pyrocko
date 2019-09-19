@@ -144,7 +144,8 @@ class MarkerItemDelegate(qw.QStyledItemDelegate):
                 else:
                     pixmap = BeachballWidget(
                         moment_tensor=mt,
-                        color=qg.QColor(*tango_colors['scarletred3'])).to_qpixmap()
+                        color=qg.QColor(*tango_colors['scarletred3'])
+                    ).to_qpixmap()
                     self.bbcache.insert(key, pixmap)
                 a, b, c, d = option.rect.getRect()
                 painter.save()
@@ -157,17 +158,18 @@ class MarkerItemDelegate(qw.QStyledItemDelegate):
 
         if iactive is not None and \
                 self.parent().model().mapToSource(index).row() == iactive:
-                painter.save()
 
-                rect = option.rect
-                x1, y1, x2, y2 = rect.getCoords()
-                pen = painter.pen()
-                pen.setWidth(2)
-                pen.setColor(mcolor)
-                painter.setPen(pen)
-                painter.drawLine(qc.QLineF(x1, y1, x2, y1))
-                painter.drawLine(qc.QLineF(x1, y2, x2, y2))
-                painter.restore()
+            painter.save()
+
+            rect = option.rect
+            x1, y1, x2, y2 = rect.getCoords()
+            pen = painter.pen()
+            pen.setWidth(2)
+            pen.setColor(mcolor)
+            painter.setPen(pen)
+            painter.drawLine(qc.QLineF(x1, y1, x2, y1))
+            painter.drawLine(qc.QLineF(x1, y2, x2, y2))
+            painter.restore()
 
     def displayText(self, value, locale):
         if isDateTime(value):

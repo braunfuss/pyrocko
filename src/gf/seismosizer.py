@@ -1087,15 +1087,16 @@ class Source(Location, Cloneable):
 
     time = Timestamp.T(
         default=0.,
-        help='source origin time')
+        help='source origin time.')
 
     stf = STF.T(
         optional=True,
-        help='source time function')
+        help='source time function.')
 
     stf_mode = STFMode.T(
         default='post',
-        help='whether to apply source time function in pre or post-processing')
+        help='whether to apply source time function in pre or '
+             'post-processing.')
 
     def __init__(self, **kwargs):
         Location.__init__(self, **kwargs)
@@ -1347,23 +1348,11 @@ class DerivedMagnitudeError(ValidationError):
 
 class SourceWithDerivedMagnitude(Source):
 
-    magnitude = Float.T(
-        optional=True,
-        help='moment magnitude Mw as in [Hanks and Kanamori, 1979]')
-
     class __T(Source.T):
 
         def validate_extra(self, val):
             Source.T.validate_extra(self, val)
             val.check_conflicts()
-
-    def __init__(self, **kwargs):
-        if 'moment' in kwargs:
-            mom = kwargs.pop('moment')
-            if 'magnitude' not in kwargs:
-                kwargs['magnitude'] = float(pmt.moment_to_magnitude(mom))
-
-        Source.__init__(self, **kwargs)
 
     def check_conflicts(self):
         '''
@@ -1375,10 +1364,7 @@ class SourceWithDerivedMagnitude(Source):
         pass
 
     def get_magnitude(self, store=None, target=None):
-        if self.magnitude is None:
-            raise DerivedMagnitudeError('no magnitude set')
-
-        return self.magnitude
+        raise DerivedMagnitudeError('no magnitude set')
 
     def get_moment(self, store=None, target=None):
         return float(pmt.magnitude_to_moment(
@@ -1409,12 +1395,24 @@ class ExplosionSource(SourceWithDerivedMagnitude):
     An isotropic explosion point source.
     '''
 
+    magnitude = Float.T(
+        optional=True,
+        help='moment magnitude Mw as in [Hanks and Kanamori, 1979]')
+
     volume_change = Float.T(
         optional=True,
         help='volume change of the explosion/implosion or '
              'the contracting/extending magmatic source. [m^3]')
 
     discretized_source_class = meta.DiscretizedExplosionSource
+
+    def __init__(self, **kwargs):
+        if 'moment' in kwargs:
+            mom = kwargs.pop('moment')
+            if 'magnitude' not in kwargs:
+                kwargs['magnitude'] = float(pmt.moment_to_magnitude(mom))
+
+        SourceWithDerivedMagnitude.__init__(self, **kwargs)
 
     def base_key(self):
         return SourceWithDerivedMagnitude.base_key(self) + \
@@ -1453,8 +1451,8 @@ class ExplosionSource(SourceWithDerivedMagnitude):
         else:
             return 1.0 / self.get_moment_to_volume_change_ratio(store)
 
-    def get_moment_to_volume_change_ratio(self, store, target):
-        if store is None or target is None:
+    def get_moment_to_volume_change_ratio(self, store, target=None):
+        if store is None:
             raise DerivedMagnitudeError(
                 'need earth model to convert between volume change and '
                 'magnitude')
@@ -1462,11 +1460,12 @@ class ExplosionSource(SourceWithDerivedMagnitude):
         points = num.array(
             [[self.north_shift, self.east_shift, self.depth]], dtype=num.float)
 
+        interpolation = target.interpolation if target else 'multilinear'
         try:
             shear_moduli = store.config.get_shear_moduli(
                 self.lat, self.lon,
                 points=points,
-                interpolation=target.interpolation)[0]
+                interpolation=interpolation)[0]
         except meta.OutOfBounds:
             raise DerivedMagnitudeError(
                 'could not get shear modulus at source position')
@@ -1723,48 +1722,76 @@ class CLVDSource(SourceWithMagnitude):
             **kwargs)
 
 
-class VLVDSource(SourceWithMagnitude):
-    ''' Volume source, isometric expansion constrained by a CLVD
+class VLVDSource(SourceWithDerivedMagnitude):
+    '''
+    Volumetric linear vector dipole source.
 
-    This source can be used to constrain sill or dyke like volume dislocation
-    sources.
+    This source is a parameterization for a restricted moment tensor point
+    source, useful to represent dyke or sill like inflation or deflation
+    sources. The restriction is such that the moment tensor is rotational
+    symmetric. It can be represented by a superposition of a linear vector
+    dipole (here we use a CLVD for convenience) and an isotropic component. The
+    restricted moment tensor has 4 degrees of freedom: 2 independent
+    eigenvalues and 2 rotation angles orienting the the symmetry axis.
+
+    In this parameterization, the isotropic component is controlled by
+    ``volume_change``. To define the moment tensor, it must be converted to the
+    scalar moment of the the MT's isotropic component. For the conversion, the
+    shear modulus at the source's position must be known. This value is
+    extracted from the earth model defined in the GF store in use.
+
+    The CLVD part by controlled by its scalar moment :math:`M_0`:
+    ``clvd_moment``. The sign of ``clvd_moment`` is used to switch between a
+    positiv or negativ CLVD (the sign of the largest eigenvalue).
     '''
 
     discretized_source_class = meta.DiscretizedMTSource
 
     azimuth = Float.T(
         default=0.0,
-        help='azimuth direction of largest dipole, clockwise from north [deg]')
+        help='azimuth direction of symmetry axis, clockwise from north [deg].')
 
     dip = Float.T(
         default=90.,
-        help='dip direction of largest dipole, downward from horizontal [deg]')
+        help='dip direction of symmetry axis, downward from horizontal [deg].')
 
     volume_change = Float.T(
-        optional=True,
         default=0.,
-        help='volume change of the explosion/implosion or '
-             'the contracting/extending magmatic source. [m^3]')
+        help='volume change of the inflation/deflation [m^3].')
 
     clvd_moment = Float.T(
         default=0.,
-        help='Moment M0 for the CLVD part,'
-             ' a negative moment reverses the CLVD.')
+        help='scalar moment :math:`M_0` of the CLVD component [Nm]. The sign '
+             'controls the sign of the CLVD (the sign of its largest '
+             'eigenvalue).')
 
-    get_moment_to_volume_change_ratio = \
-        ExplosionSource.get_moment_to_volume_change_ratio
+    def get_moment_to_volume_change_ratio(self, store, target):
+        if store is None or target is None:
+            raise DerivedMagnitudeError(
+                'need earth model to convert between volume change and '
+                'magnitude')
+
+        points = num.array(
+            [[self.north_shift, self.east_shift, self.depth]], dtype=num.float)
+
+        try:
+            shear_moduli = store.config.get_shear_moduli(
+                self.lat, self.lon,
+                points=points,
+                interpolation=target.interpolation)[0]
+        except meta.OutOfBounds:
+            raise DerivedMagnitudeError(
+                'could not get shear modulus at source position')
+
+        return float(3. * shear_moduli)
 
     def base_key(self):
         return Source.base_key(self) + \
             (self.azimuth, self.dip, self.volume_change, self.clvd_moment)
 
-    @property
-    def magnitude(self):
-        return float(self.get_magnitude())
-
     def get_magnitude(self, store=None, target=None):
         mt = self.pyrocko_moment_tensor(store, target)
-        return float(mt.moment_to_magnitude(mt.moment))
+        return float(pmt.moment_to_magnitude(mt.moment))
 
     def get_m6(self, store, target):
         a = math.sqrt(4. / 3.) * self.clvd_moment
@@ -1776,13 +1803,8 @@ class VLVDSource(SourceWithMagnitude):
             0.)
         m_clvd = rotmat1.T * m_clvd * rotmat1
 
-        if store is None and target is None:
-            logger.warning('Store and target not given, assuming a '
-                           'shear modulus of 36 GPa.')
-            m_iso = self.volume_change * 36e9 * 3.
-        else:
-            m_iso = self.volume_change * \
-                self.get_moment_to_volume_change_ratio(store, target)
+        m_iso = self.volume_change * \
+            self.get_moment_to_volume_change_ratio(store, target)
 
         m_iso = pmt.symmat6(m_iso, m_iso, m_iso, 0., 0., 0.,) * math.sqrt(2./3)
 
@@ -1799,7 +1821,7 @@ class VLVDSource(SourceWithMagnitude):
 
     def discretize_basesource(self, store, target=None):
         times, amplitudes = self.effective_stf_pre().discretize_t(
-            store.config.deltat, 0.0)
+            store.config.deltat, self.time)
 
         m6 = self.get_m6(store, target)
         m6 *= amplitudes / self.get_factor()
@@ -1811,14 +1833,6 @@ class VLVDSource(SourceWithMagnitude):
     def pyrocko_moment_tensor(self, store=None, target=None):
         m6_astuple = self.get_m6_astuple(store, target)
         return pmt.MomentTensor(m=pmt.symmat6(*m6_astuple))
-
-    def pyrocko_event(self, store=None, target=None, **kwargs):
-        mt = self.pyrocko_moment_tensor(store, target)
-        return Source.pyrocko_event(
-            self, store, target,
-            moment_tensor=self.pyrocko_moment_tensor(store, target),
-            magnitude=float(mt.moment_magnitude()),
-            **kwargs)
 
 
 class MTSource(Source):
@@ -1934,6 +1948,10 @@ class RectangularSource(SourceWithDerivedMagnitude):
 
     discretized_source_class = meta.DiscretizedMTSource
 
+    magnitude = Float.T(
+        optional=True,
+        help='moment magnitude Mw as in [Hanks and Kanamori, 1979]')
+
     strike = Float.T(
         default=0.0,
         help='strike direction in [deg], measured clockwise from north')
@@ -1989,6 +2007,14 @@ class RectangularSource(SourceWithDerivedMagnitude):
         help='Sub-source decimation factor, a larger decimation will'
              ' make the result inaccurate but shorten the necessary'
              ' computation time (use for testing puposes only).')
+
+    def __init__(self, **kwargs):
+        if 'moment' in kwargs:
+            mom = kwargs.pop('moment')
+            if 'magnitude' not in kwargs:
+                kwargs['magnitude'] = float(pmt.moment_to_magnitude(mom))
+
+        SourceWithDerivedMagnitude.__init__(self, **kwargs)
 
     def base_key(self):
         return SourceWithDerivedMagnitude.base_key(self) + (
@@ -3523,9 +3549,16 @@ class LocalEngine(Engine):
 
     :param use_env: if ``True``, fill :py:attr:`store_superdirs` and
         :py:attr:`store_dirs` with paths set in environment variables
-        GF_STORE_SUPERDIRS AND GF_STORE_DIRS
+        GF_STORE_SUPERDIRS and GF_STORE_DIRS.
     :param use_config: if ``True``, fill :py:attr:`store_superdirs` and
         :py:attr:`store_dirs` with paths set in the user's config file.
+
+        The config file can be found at :file:`~/.pyrocko/config.pf`
+
+        .. code-block ::
+
+            gf_store_dirs: ['/home/pyrocko/gf_stores/ak135/']
+            gf_store_superdirs: ['/home/pyrocko/gf_stores/']
     '''
 
     store_superdirs = List.T(
@@ -4095,10 +4128,12 @@ class SourceGroup(Object):
                             dtype=num.float)
 
     def __iter__(self):
-        raise NotImplemented('this method should be implemented in subclass')
+        raise NotImplementedError(
+            'this method should be implemented in subclass')
 
     def __len__(self):
-        raise NotImplemented('this method should be implemented in subclass')
+        raise NotImplementedError(
+            'this method should be implemented in subclass')
 
 
 class SourceList(SourceGroup):

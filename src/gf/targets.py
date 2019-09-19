@@ -284,14 +284,18 @@ class SatelliteTarget(StaticTarget):
     post-processing is applied.
     '''
     theta = Array.T(
-        shape=(None,), dtype=num.float,
+        shape=(None,),
+        dtype=num.float,
+        serialize_as='base64-compat',
         help='Horizontal angle towards satellite\'s line of sight in radians.'
              '\n\n        .. important::\n\n'
              '            :math:`0` is **east** and'
              ' :math:`\\frac{\\pi}{2}` is **north**.\n\n')
 
     phi = Array.T(
-        shape=(None,), dtype=num.float,
+        shape=(None,),
+        dtype=num.float,
+        serialize_as='base64-compat',
         help='Theta is look vector elevation angle towards satellite from'
              ' horizon in radians. Matrix of theta towards satellite\'s'
              ' line of sight.'
@@ -300,7 +304,7 @@ class SatelliteTarget(StaticTarget):
              ' :math:`\\frac{\\pi}{2}` is **up**.\n\n')
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(SatelliteTarget, self).__init__(*args, **kwargs)
         self._los_factors = None
 
     def get_los_factors(self):
@@ -323,6 +327,7 @@ class SatelliteTarget(StaticTarget):
 class KiteSceneTarget(SatelliteTarget):
 
     shape = Tuple.T(
+        2, Int.T(),
         optional=False,
         help='Shape of the displacement vectors.')
 
@@ -343,7 +348,7 @@ class KiteSceneTarget(SatelliteTarget):
 
         self.scene = scene
 
-        super().__init__(
+        super(KiteSceneTarget, self).__init__(
             lats=lats, lons=lons,
             north_shifts=north_shifts, east_shifts=east_shifts,
             theta=scene.theta.flatten(),
