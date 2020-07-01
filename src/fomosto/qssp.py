@@ -52,7 +52,7 @@ def have_backend():
 qssp_components = {
     1: 'ae an az gr sd te tn ue un uz ve vn vz'.split(),
     2: 'ar at ap gr sd tt tp ur ut up vr vt vp'.split(),
-    3: '_disp_e _disp_n _disp_z'.split(),
+    3: '_rota_e _rota_n _rota_z'.split(),
     4: '_gravitation_e _gravitation_n _gravitation_z '
        '_acce_e _acce_n _acce_z'.split()
 }
@@ -454,7 +454,7 @@ class QSSPConfigFull(QSSPConfig):
 # disp | velo | acce | strain | strain_rate | stress | stress_rate | rotation | rot_rate | gravitation | gravity
 #---------------------------------------------------------------------------------------------------------------
 # 1      1      1      1        1             1        1             1          1          1             1
-  1      0      1      0        0             0        0             0          0          1             0
+  0      0      0      0        0             0        0             1          0          0             0
   '%(output_filename)s'
   %(output_time_window)e
   %(sfilter)s
@@ -777,13 +777,13 @@ class QSSPGFBuilder(gf.builder.Builder):
         if baseconf.qssp_version == '2017':
             self.gfmapping = [
                 (MomentTensor(m=symmat6(1, 0, 0, 1, 0, 0)),
-                 {'_disp_n': (0, -1), '_disp_e': (3, -1), '_disp_z': (5, -1)}),
+                 {'_rota_n': (0, -1), '_rota_e': (3, -1), '_rota_z': (5, -1)}),
                 (MomentTensor(m=symmat6(0, 0, 0, 0, 1, 1)),
-                 {'_disp_n': (1, -1), '_disp_e': (4, -1), '_disp_z': (6, -1)}),
+                 {'_rota_n': (1, -1), '_rota_e': (4, -1), '_rota_z': (6, -1)}),
                 (MomentTensor(m=symmat6(0, 0, 1, 0, 0, 0)),
-                 {'_disp_n': (2, -1), '_disp_z': (7, -1)}),
+                 {'_rota_n': (2, -1), '_rota_z': (7, -1)}),
                 (MomentTensor(m=symmat6(0, 1, 0, 0, 0, 0)),
-                 {'_disp_n': (8, -1), '_disp_z': (9, -1)}),
+                 {'_rota_n': (8, -1), '_rota_z': (9, -1)}),
             ]
         elif baseconf.qssp_version == 'ppeg2017':
             self.gfmapping = [
